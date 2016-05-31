@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Ghpr.Core
 {
-    public class Class1
+    public static class Reporter
     {
+
     }
 }

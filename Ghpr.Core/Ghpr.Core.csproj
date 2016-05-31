@@ -40,25 +40,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Reporter.cs" />
+    <Compile Include="EmbeddedResources\ResourceExtractor.cs" />
+    <Compile Include="EmbeddedResources\Resources.cs" />
+    <Compile Include="Enums\Resource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="App.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>App.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EmbeddedResources\Css\github.css" />
-    <Content Include="EmbeddedResources\Css\primer.css" />
-    <Content Include="EmbeddedResources\Octicons\octicons.css" />
-    <Content Include="EmbeddedResources\Octicons\octicons.svg" />
-    <Content Include="EmbeddedResources\Scripts\jquery-1.11.0.min.js" />
-    <Content Include="EmbeddedResources\Scripts\tablesort.min.js" />
+    <EmbeddedResource Include="EmbeddedResources\Css\github.css" />
+    <EmbeddedResource Include="EmbeddedResources\Css\primer.css" />
+    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.css" />
+    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.svg" />
+    <EmbeddedResource Include="EmbeddedResources\Scripts\jquery-1.11.0.min.js" />
+    <EmbeddedResource Include="EmbeddedResources\Scripts\tablesort.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="EmbeddedResources\Octicons\octicons.eot" />
-    <None Include="EmbeddedResources\Octicons\octicons.ttf" />
-    <None Include="EmbeddedResources\Octicons\octicons.woff" />
+    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.eot" />
+    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.ttf" />
+    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="App.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>App.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
