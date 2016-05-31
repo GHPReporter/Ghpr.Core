@@ -8,18 +8,19 @@ namespace Ghpr.Core.EmbeddedResources
 {
     public class ResourceExtractor
     {
-        public string DestinationPathFull { get; private set; }
-        public string DestinationPathRelative { get; private set; }
-        public bool ReplaceExisting { get; private set; }
-        public Resource[] CurrentResources { get; private set; }
-
-        public ResourceExtractor(string destPathFull, string destPathRelative = "", bool replaceExisting = false, Resource[] resources = null)
+        public ResourceExtractor(string destPathFull, string destPathRelative = "", bool replaceExisting = false,
+            Resource[] resources = null)
         {
             DestinationPathFull = destPathFull;
             DestinationPathRelative = destPathRelative;
             ReplaceExisting = replaceExisting;
             CurrentResources = resources;
         }
+
+        public string DestinationPathFull { get; }
+        public string DestinationPathRelative { get; }
+        public bool ReplaceExisting { get; private set; }
+        public Resource[] CurrentResources { get; private set; }
 
         public void Extract(Resource resource, string destinationPath = "", bool replaceExisting = false)
         {
@@ -29,7 +30,6 @@ namespace Ghpr.Core.EmbeddedResources
             }
 
             ExtractResources(GetNames(resource), destinationPath, replaceExisting);
-
         }
 
         public void Extract(Resource[] resources, string destinationPath = "", bool replaceExisting = false)
@@ -53,7 +53,9 @@ namespace Ghpr.Core.EmbeddedResources
 
             if (File.Exists(destinationFullPath) && !replaceExisting) return;
 
-            foreach (var resourceName in arrResources.Where(resourceName => resourceName.ToUpper().EndsWith(embeddedFileName.ToUpper())))
+            foreach (
+                var resourceName in
+                    arrResources.Where(resourceName => resourceName.ToUpper().EndsWith(embeddedFileName.ToUpper())))
             {
                 using (var resourceToSave = currentAssembly.GetManifestResourceStream(resourceName))
                 {
@@ -66,7 +68,8 @@ namespace Ghpr.Core.EmbeddedResources
             }
         }
 
-        private void ExtractResources(IEnumerable<string> embeddedFileNames, string destinationPath, bool replaceExisting)
+        private void ExtractResources(IEnumerable<string> embeddedFileNames, string destinationPath,
+            bool replaceExisting)
         {
             foreach (var embeddedFileName in embeddedFileNames)
             {
@@ -79,23 +82,48 @@ namespace Ghpr.Core.EmbeddedResources
             switch (resource)
             {
                 case Resource.JQuery:
-                    return new List<string> { "jquery-1.11.0.min.js" };
+                    return new List<string>
+                    {
+                        "jquery-1.11.0.min.js"
+                    };
 
                 case Resource.Octicons:
                     return new List<string>
-                        {
-                            "octicons.css",
-                            "octicons.eot",
-                            "octicons.svg",
-                            "octicons.ttf",
-                            "octicons.woff"
-                        };
+                    {
+                        "octicons.css",
+                        "octicons.eot",
+                        "octicons.svg",
+                        "octicons.ttf",
+                        "octicons.woff"
+                    };
                 case Resource.Primer:
-                    return new List<string> { "primer.css" };
+                    return new List<string>
+                    {
+                        "primer.css"
+                    };
                 case Resource.Github:
-                    return new List<string> { "github.css" };
+                    return new List<string>
+                    {
+                        "github.css"
+                    };
                 case Resource.Tablesort:
-                    return new List<string> { "tablesort.min.js" };
+                    return new List<string>
+                    {
+                        "tablesort.min.js"
+                    };
+                case Resource.All:
+                    return new List<string>
+                    {
+                        "tablesort.min.js",
+                        "jquery-1.11.0.min.js",
+                        "octicons.css",
+                        "octicons.eot",
+                        "octicons.svg",
+                        "octicons.ttf",
+                        "octicons.woff",
+                        "primer.css",
+                        "github.css"
+                    };
                 default:
                     throw new ArgumentOutOfRangeException(nameof(resource), resource, null);
             }
@@ -107,16 +135,16 @@ namespace Ghpr.Core.EmbeddedResources
             {
                 return GetNames(resource).Select(name => Path.Combine(
                     DestinationPathRelative.Equals("")
-                    ? DestinationPathFull
-                    : DestinationPathRelative, name)).ToList();
+                        ? DestinationPathFull
+                        : DestinationPathRelative, name)).ToList();
             }
 
             return GetNames(resource)
                 .Where(n => n.ToLower().EndsWith(resourceExtension.ToLower()))
                 .Select(name => Path.Combine(
                     DestinationPathRelative.Equals("")
-                    ? DestinationPathFull
-                    : DestinationPathRelative, name)).ToList();
+                        ? DestinationPathFull
+                        : DestinationPathRelative, name)).ToList();
         }
 
         public List<string> GetResoucresPaths(Resource[] resources, string resourceExtension = "")

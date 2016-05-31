@@ -6,6 +6,7 @@
         Octicons,
         Primer,
         Tablesort,
-        Github
+        Github,
+        All
     }
 }
