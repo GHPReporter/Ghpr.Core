@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8CDE51DF-B9D2-4945-A992-35E33DECEF36}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{1A5B591A-494C-4AF2-8193-1A60AD108F21}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ghpr.Core</RootNamespace>
-    <AssemblyName>Ghpr.Core</AssemblyName>
+    <RootNamespace>Ghpr.Console</RootNamespace>
+    <AssemblyName>Ghpr.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,7 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,39 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Reporter.cs" />
-    <Compile Include="EmbeddedResources\ResourceExtractor.cs" />
-    <Compile Include="Enums\Resource.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Utils\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="EmbeddedResources\Css\github.css" />
-    <EmbeddedResource Include="EmbeddedResources\Css\primer.css" />
-    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.css" />
-    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.svg" />
-    <EmbeddedResource Include="EmbeddedResources\Scripts\jquery-1.11.0.min.js" />
-    <EmbeddedResource Include="EmbeddedResources\Scripts\tablesort.min.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.eot" />
-    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.ttf" />
-    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.woff" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ghpr.Core\Ghpr.Core.csproj">
+      <Project>{8cde51df-b9d2-4945-a992-35e33decef36}</Project>
+      <Name>Ghpr.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
