@@ -9,11 +9,10 @@ namespace Ghpr.Core
         public static string OutputPath => Properties.Settings.Default.outputPath;
         public const string Src = "src";
 
-        public static void ExtractReportFiles()
+        public static void ExtractReportBase()
         {
             var re = new ResourceExtractor(Path.Combine(OutputPath, Src));
             re.Extract(Resource.All);
         }
-
     }
 }
