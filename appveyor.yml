@@ -1,0 +1,5 @@
+  before_build:
+    - nuget restore Ghpr.Core/Ghpr.Core.sln
+
+  build_script: 
+    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
