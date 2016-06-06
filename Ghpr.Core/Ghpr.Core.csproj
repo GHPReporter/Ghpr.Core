@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,6 +42,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\HtmlBuilder.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Attributes.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Buttons\Buttons.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\SimpleText.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Styles\CssClass.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\ATag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\BTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\CommonTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\DivTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\FooterTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\H1Tag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\H2Tag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\LabelTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\LinkTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\ListTags.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\LiTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\NavTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\PTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\ScriptTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\SpanTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TableTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TBodyTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TdTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\THeadTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\ThTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TitleTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TrTag.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\UlTag.cs" />
+    <Compile Include="Html\HtmlPage.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -52,6 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="EmbeddedResources\Html\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Utils\" />
   </ItemGroup>
