@@ -6,11 +6,11 @@ namespace Ghpr.Core.Extensions.HtmlTextWriterExtensions.ReportSections
 {
     public static class MainResults
     {
-        public static HtmlTextWriter GhprMainResults(this HtmlTextWriter writer)
+        public static HtmlTextWriter GhprMainResults(this HtmlTextWriter writer, string id)
         {
             return writer
                 .Class("columns")
-                    .Id(Ids.MainResults.Id)
+                    .Id(id)
                     .Div(() => writer
                         .Class("one-third column")
                         .Div(() => writer

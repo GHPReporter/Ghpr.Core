@@ -2,6 +2,7 @@
 using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Extensions.HtmlTextWriterExtensions.ReportSections;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.HtmlPages
 {
@@ -17,7 +18,7 @@ namespace Ghpr.Core.HtmlPages
 
             PageBodyCode = HtmlBuilder.Build(wr => wr
                 .GhprSectionTitle("Test run report")
-                .GhprMainResults()
+                .GhprMainResults(Ids.MainResults.Id)
                 );
 
         }
