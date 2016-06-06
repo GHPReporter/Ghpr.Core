@@ -10,6 +10,7 @@ namespace Ghpr.Console
             while (!res.Equals("y"))
             {
                 Reporter.ExtractReportBase();
+                
                 System.Console.WriteLine("Exit? (y/n)");
                 res = System.Console.ReadLine() ?? "n";
             }

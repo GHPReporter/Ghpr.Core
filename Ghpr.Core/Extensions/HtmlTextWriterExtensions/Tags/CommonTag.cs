@@ -116,7 +116,9 @@ namespace Ghpr.Core.Extensions.HtmlTextWriterExtensions.Tags
 
         public static HtmlTextWriter Tag(this HtmlTextWriter writer, HtmlTextWriterTag tag)
         {
-            return writer.OpenTag(tag).CloseTag();
+            writer.RenderBeginTag(tag);
+            writer.RenderEndTag();
+            return writer;
         }
 
         public static HtmlTextWriter CloseTag(this HtmlTextWriter writer)

@@ -30,7 +30,7 @@ namespace Ghpr.Core.HtmlPages
                     .Stylesheets(PageStylePaths)
                 )
                 .Tag(HtmlTextWriterTag.Body, () => wr
-                    .Class("border-bottom p-3 mb-3 bg-gray")
+                    .Class("border-bottom p-3 mb-3")
                     .Div(() => wr
                         .Container(() => wr
                             .TextAlign("center")
