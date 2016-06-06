@@ -70,7 +70,9 @@
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TitleTag.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TrTag.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\UlTag.cs" />
-    <Compile Include="Html\HtmlPage.cs" />
+    <Compile Include="HtmlPages\HtmlPageBase.cs" />
+    <Compile Include="HtmlPages\ReportMainPage.cs" />
+    <Compile Include="Interfaces\IHtmlPage.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -83,7 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EmbeddedResources\Html\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>

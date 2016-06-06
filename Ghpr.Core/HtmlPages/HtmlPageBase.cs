@@ -5,28 +5,14 @@ using Ghpr.Core.Extensions;
 using Ghpr.Core.Extensions.HtmlTextWriterExtensions;
 using Ghpr.Core.Extensions.HtmlTextWriterExtensions.Styles;
 using Ghpr.Core.Extensions.HtmlTextWriterExtensions.Tags;
+using Ghpr.Core.Interfaces;
 
-namespace Ghpr.Core.Html
+namespace Ghpr.Core.HtmlPages
 {
-    public class HtmlPage
+    public class HtmlPageBase : IHtmlPage
     {
-        public string FullPage { get; private set; }
-
-        public string PageTitle;
-        public string PageBodyCode = "";
-        public string PageScriptString = "";
-        public string PageFooterCode = "";
-        public List<string> PageStylePaths = new List<string>();
-        public List<string> ScriptFilePaths = new List<string>();
-
-        public HtmlPage(string pageTitle)
-        {
-            PageTitle = pageTitle;
-        }
-
-        private void GeneratePageString()
-        {
-            FullPage = HtmlBuilder.Build(wr => wr
+        public string FullPage =>  
+            HtmlBuilder.Build(wr => wr
                 .WriteString("<!DOCTYPE html>")
                 .NewLine()
                 .Tag(HtmlTextWriterTag.Head, () => wr
@@ -42,7 +28,6 @@ namespace Ghpr.Core.Html
                     .Type(@"text/css")
                     .Tag(HtmlTextWriterTag.Style)
                     .Stylesheets(PageStylePaths)
-
                 )
                 .Tag(HtmlTextWriterTag.Body, () => wr
                     .Class("border-bottom p-3 mb-3 bg-gray")
@@ -63,11 +48,26 @@ namespace Ghpr.Core.Html
                 .NewLine()
                 .WriteString("</html>")
                 .NewLine());
+
+        public string PageTitle { get; set; }
+        public string PageBodyCode { get; set; }
+        public string PageScriptString { get; set; }
+        public string PageFooterCode { get; set; }
+        public List<string> PageStylePaths { get; set; }
+        public List<string> ScriptFilePaths { get; set; }
+
+        public HtmlPageBase(string pageTitle, string pageBody = "", string pageScript = "", string pageFooter = "")
+        {
+            PageTitle = pageTitle;
+            PageBodyCode = pageBody;
+            PageScriptString = pageScript;
+            PageFooterCode = pageFooter;
+            PageStylePaths = new List<string>();
+            ScriptFilePaths = new List<string>();
         }
 
         public void SavePage(string path, string name = "")
         {
-            GeneratePageString();
             Directory.CreateDirectory(path);
             File.WriteAllText(Path.Combine(path, name.Equals("") ? "index.html" : name), FullPage);
         }
