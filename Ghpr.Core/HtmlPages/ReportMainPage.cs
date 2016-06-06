@@ -1,7 +1,7 @@
 ﻿using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
-using Ghpr.Core.Extensions.HtmlTextWriterExtensions.Tags;
+using Ghpr.Core.Extensions.HtmlTextWriterExtensions.ReportSections;
 
 namespace Ghpr.Core.HtmlPages
 {
@@ -16,7 +16,9 @@ namespace Ghpr.Core.HtmlPages
             ScriptFilePaths = re.GetResoucrePaths(Resource.All, ".js");
 
             PageBodyCode = HtmlBuilder.Build(wr => wr
-                .H1("Test page :)"));
+                .GhprSectionTitle("Test run report")
+                .GhprMainResults()
+                );
 
         }
     }

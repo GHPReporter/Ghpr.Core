@@ -12,6 +12,12 @@ namespace Ghpr.Core.Extensions.HtmlTextWriterExtensions.Tags
                 .Tag(HtmlTextWriterTag.Div, someAction);
         }
 
+        public static HtmlTextWriter Div(this HtmlTextWriter writer)
+        {
+            return writer
+                .Tag(HtmlTextWriterTag.Div);
+        }
+
         public static HtmlTextWriter TogglableDiv(this HtmlTextWriter writer, string id, bool isDisplayed, Action someAction)
         {
             return writer

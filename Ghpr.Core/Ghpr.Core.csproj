@@ -45,6 +45,8 @@
     <Compile Include="Extensions\HtmlBuilder.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Attributes.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Buttons\Buttons.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\ReportSections\MainResults.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\ReportSections\ReportSectionTitle.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\SimpleText.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Styles\CssClass.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\ATag.cs" />
@@ -82,10 +84,11 @@
     <Compile Include="EmbeddedResources\ResourceExtractor.cs" />
     <Compile Include="Enums\Resource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Ids.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Common\" />
     <Folder Include="EmbeddedResources\Html\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EmbeddedResources\Css\github.css" />
