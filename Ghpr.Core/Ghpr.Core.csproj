@@ -74,7 +74,10 @@
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\UlTag.cs" />
     <Compile Include="HtmlPages\HtmlPageBase.cs" />
     <Compile Include="HtmlPages\ReportMainPage.cs" />
+    <Compile Include="Interfaces\ITestEvent.cs" />
+    <Compile Include="Interfaces\ITestRun.cs" />
     <Compile Include="Interfaces\IHtmlPage.cs" />
+    <Compile Include="Interfaces\ITestScreenshot.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -84,6 +87,8 @@
     <Compile Include="EmbeddedResources\ResourceExtractor.cs" />
     <Compile Include="Enums\Resource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Colors.cs" />
+    <Compile Include="Utils\GuidConverter.cs" />
     <Compile Include="Utils\Ids.cs" />
   </ItemGroup>
   <ItemGroup>
