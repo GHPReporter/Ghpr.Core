@@ -47,7 +47,7 @@ namespace Ghpr.Core.Extensions.HtmlTextWriterExtensions.ReportSections
                             .Id(Ids.MainResults.PieChart)
                             .Div()
                         )
-                    ); ;
+                    );
         }
     }
 }
