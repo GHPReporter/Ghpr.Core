@@ -16,5 +16,7 @@ namespace Ghpr.Core.Interfaces
         Guid Guid { get; set; }
         List<ITestScreenshot> Screenshots { get; set; }
         List<ITestEvent> Events { get; set; }
+
+        string TestRunColor { get; }
     }
 }
