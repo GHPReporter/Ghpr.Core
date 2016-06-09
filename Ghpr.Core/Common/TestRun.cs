@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ghpr.Core.Enums;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
 
@@ -23,34 +24,57 @@ namespace Ghpr.Core.Common
         {
             get
             {
-                switch (Result)
+                switch (TestRunResult)
                 {
-                    case "Ignored":
-                        return Colors.TestIgnored;
-                    case "Skipped:Ignored":
+                    case TestRunResult.Ignored:
                         return Colors.TestIgnored;
 
-                    case "Passed":
-                        return Colors.TestPassed;
-                    case "Success":
+                    case TestRunResult.Passed:
                         return Colors.TestPassed;
 
-                    case "Failed:Error":
-                        return Colors.TestBroken;
-                    case "Error":
+                    case TestRunResult.Broken:
                         return Colors.TestBroken;
 
-                    case "Inconclusive":
+                    case TestRunResult.Inconclusive:
                         return Colors.TestInconclusive;
 
-                    case "Failure":
+                    case TestRunResult.Failed:
                         return Colors.TestFailed;
-                    case "Failed":
-                        return Colors.TestFailed;
+
+                    case TestRunResult.Unknown:
+                        return Colors.TestUnknown;
 
                     default:
                         return Colors.TestUnknown;
                 }
+            }
+        }
+
+        public TestRunResult TestRunResult
+        {
+            get
+            {
+                if (Result.Contains("Passed"))
+                {
+                    return TestRunResult.Passed;
+                }
+                if (Result.Contains("Failed") || Result.Contains("Failure"))
+                {
+                    return TestRunResult.Failed;
+                }
+                if (Result.Contains("Error"))
+                {
+                    return TestRunResult.Broken;
+                }
+                if (Result.Contains("Inconclusive"))
+                {
+                    return TestRunResult.Inconclusive;
+                }
+                if (Result.Contains("Ignored") || Result.Contains("Skipped"))
+                {
+                    return TestRunResult.Ignored;
+                }
+                return TestRunResult.Unknown;
             }
         }
     }
