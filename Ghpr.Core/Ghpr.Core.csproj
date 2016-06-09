@@ -33,7 +33,9 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\TestRun.cs" />
+    <Compile Include="Common\TestEvent.cs" />
+    <Compile Include="Common\TestScreenshot.cs" />
+    <Compile Include="Enums\TestRunResult.cs" />
     <Compile Include="Extensions\HtmlBuilder.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Attributes.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Buttons\Buttons.cs" />
@@ -90,9 +96,9 @@
     <Compile Include="Utils\Colors.cs" />
     <Compile Include="Utils\GuidConverter.cs" />
     <Compile Include="Utils\Ids.cs" />
+    <Compile Include="Utils\Taker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\" />
     <Folder Include="EmbeddedResources\Html\" />
   </ItemGroup>
   <ItemGroup>
