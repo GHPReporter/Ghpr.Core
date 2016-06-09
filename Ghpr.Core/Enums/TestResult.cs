@@ -1,6 +1,6 @@
 ﻿namespace Ghpr.Core.Enums
 {
-    public enum TestRunResult
+    public enum TestResult
     {
         Passed,
         Failed,

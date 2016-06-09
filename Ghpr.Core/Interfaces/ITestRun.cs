@@ -19,6 +19,6 @@ namespace Ghpr.Core.Interfaces
         List<ITestEvent> Events { get; set; }
 
         string TestRunColor { get; }
-        TestRunResult TestRunResult { get; }
+        TestResult TestResult { get; }
     }
 }
