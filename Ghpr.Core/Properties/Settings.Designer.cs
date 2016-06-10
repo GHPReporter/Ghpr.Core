@@ -31,5 +31,14 @@ namespace Ghpr.Core.Properties {
                 return ((string)(this["outputPath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool continuousGeneration {
+            get {
+                return ((bool)(this["continuousGeneration"]));
+            }
+        }
     }
 }
