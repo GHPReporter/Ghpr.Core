@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Run.cs" />
     <Compile Include="Common\TestRun.cs" />
     <Compile Include="Common\TestEvent.cs" />
     <Compile Include="Common\TestScreenshot.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\UlTag.cs" />
     <Compile Include="HtmlPages\HtmlPageBase.cs" />
     <Compile Include="HtmlPages\ReportMainPage.cs" />
+    <Compile Include="Interfaces\IRun.cs" />
     <Compile Include="Interfaces\ITestEvent.cs" />
     <Compile Include="Interfaces\ITestRun.cs" />
     <Compile Include="Interfaces\IHtmlPage.cs" />
