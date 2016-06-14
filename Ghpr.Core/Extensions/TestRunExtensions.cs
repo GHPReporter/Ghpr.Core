@@ -1,7 +1,13 @@
-﻿namespace Ghpr.Core.Extensions
+﻿using System;
+using Ghpr.Core.Common;
+
+namespace Ghpr.Core.Extensions
 {
-    public class TestRunExtensions
+    public static class TestRunExtensions
     {
-        
+        public static void Finished(this TestRun testRun)
+        {
+            testRun.DateTimeFinish = DateTime.Now;
+        }
     }
 }

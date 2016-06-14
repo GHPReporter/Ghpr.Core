@@ -53,7 +53,7 @@
     <Compile Include="Common\TestEvent.cs" />
     <Compile Include="Common\TestScreenshot.cs" />
     <Compile Include="Enums\TestResult.cs" />
-    <Compile Include="Extensions\HtmlBuilder.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions\HtmlBuilder.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Attributes.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Buttons\Buttons.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\ReportSections\MainResults.cs" />
@@ -83,6 +83,7 @@
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TitleTag.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TrTag.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\UlTag.cs" />
+    <Compile Include="Extensions\TestRunExtensions.cs" />
     <Compile Include="HtmlPages\HtmlPageBase.cs" />
     <Compile Include="HtmlPages\ReportMainPage.cs" />
     <Compile Include="Interfaces\IRun.cs" />
