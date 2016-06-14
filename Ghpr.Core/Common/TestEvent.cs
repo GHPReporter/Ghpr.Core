@@ -1,12 +1,17 @@
 ﻿using System;
 using Ghpr.Core.Interfaces;
+using Newtonsoft.Json;
 
 namespace Ghpr.Core.Common
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class TestEvent : ITestEvent
     {
+        [JsonProperty]
         public string Name { get; set; }
+        [JsonProperty]
         public DateTime Started { get; set; }
+        [JsonProperty]
         public DateTime Finished { get; set; }
 
         public double Duration => (Finished - Started).TotalSeconds;

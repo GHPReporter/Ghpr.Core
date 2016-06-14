@@ -3,22 +3,35 @@ using System.Collections.Generic;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
+using Newtonsoft.Json;
 
 namespace Ghpr.Core.Common
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class TestRun : ITestRun
     {
+        [JsonProperty]
         public string Name { get; set; }
+        [JsonProperty]
         public string FullName { get; set; }
+        [JsonProperty]
         public double TestDuration { get; set; }
+        [JsonProperty]
         public DateTime DateTimeStart { get; set; }
+        [JsonProperty]
         public DateTime DateTimeFinish { get; set; }
+        [JsonProperty]
         public string TestStackTrace { get; set; }
+        [JsonProperty]
         public string TestMessage { get; set; }
+        [JsonProperty]
         public string Result { get; set; }
+        [JsonProperty]
         public Guid Guid { get; set; }
-        public List<ITestScreenshot> Screenshots { get; set; }
-        public List<ITestEvent> Events { get; set; }
+        [JsonProperty]
+        public List<TestScreenshot> Screenshots { get; set; }
+        [JsonProperty]
+        public List<TestEvent> Events { get; set; }
 
         public string TestRunColor
         {

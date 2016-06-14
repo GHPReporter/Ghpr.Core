@@ -5,7 +5,6 @@ namespace Ghpr.Core.Interfaces
     public interface IHtmlPage
     {
         string FullPage { get; }
-
         string PageTitle { get; set; }
         string PageBodyCode { get; set; }
         string PageScriptString { get; set; }

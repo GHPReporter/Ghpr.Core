@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ghpr.Core.Interfaces;
+using Newtonsoft.Json;
 
 namespace Ghpr.Core.Common
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Run : IRun
     {
-        public List<ITestRun> TestRuns { get; set; }
+        [JsonProperty]
+        public List<TestRun> TestRuns { get; set; }
+        [JsonProperty]
         public Guid Guid { get; }
 
         public Run(Guid runGuid)
         {
             Guid = runGuid;
         }
-
-        
-
     }
 }

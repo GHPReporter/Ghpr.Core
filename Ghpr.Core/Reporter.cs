@@ -10,7 +10,7 @@ namespace Ghpr.Core
         public static string OutputPath => Properties.Settings.Default.outputPath;
         public const string Src = "src";
 
-        public static void ExtractReportBase()
+        private static void ExtractReportBase()
         {
             var re = new ResourceExtractor(Path.Combine(OutputPath, Src));
 
@@ -18,6 +18,23 @@ namespace Ghpr.Core
             repornMainPage.SavePage(OutputPath, "index.html");
 
             re.Extract(Resource.All);
+        }
+
+        public static void RunStarted()
+        {
+            ExtractReportBase();
+        }
+
+        public static void RunFinished()
+        {
+        }
+
+        public static void TestStarted()
+        {
+        }
+
+        public static void TestFinished()
+        {
         }
     }
 }
