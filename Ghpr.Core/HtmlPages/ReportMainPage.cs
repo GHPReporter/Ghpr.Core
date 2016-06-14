@@ -1,6 +1,6 @@
 ﻿using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Enums;
-using Ghpr.Core.Extensions;
+using Ghpr.Core.Extensions.HtmlTextWriterExtensions;
 using Ghpr.Core.Extensions.HtmlTextWriterExtensions.ReportSections;
 using Ghpr.Core.Utils;
 

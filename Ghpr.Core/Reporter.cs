@@ -1,16 +1,29 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Enums;
 using Ghpr.Core.HtmlPages;
+using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core
 {
-    public static class Reporter
+    public class Reporter
     {
+        private static IRun _currentRun;
+        private static List<ITestRun> _currentTests;
+
+        public Reporter()
+        {
+            _currentRun = new Run(Guid.NewGuid());
+            _currentTests = new List<ITestRun>();
+        }
+
         public static string OutputPath => Properties.Settings.Default.outputPath;
         public const string Src = "src";
 
-        private static void ExtractReportBase()
+        private void ExtractReportBase()
         {
             var re = new ResourceExtractor(Path.Combine(OutputPath, Src));
 
@@ -19,21 +32,23 @@ namespace Ghpr.Core
 
             re.Extract(Resource.All);
         }
-
-        public static void RunStarted()
+        
+        public void RunStarted()
         {
             ExtractReportBase();
         }
 
-        public static void RunFinished()
+        public void RunFinished()
         {
+
         }
 
-        public static void TestStarted()
+        public void TestStarted(ITestRun testRun)
         {
+            
         }
 
-        public static void TestFinished()
+        public void TestFinished(ITestRun testRun)
         {
         }
     }

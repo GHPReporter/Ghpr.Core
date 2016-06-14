@@ -2,7 +2,7 @@
 using System.IO;
 using System.Web.UI;
 
-namespace Ghpr.Core.Extensions
+namespace Ghpr.Core.Extensions.HtmlTextWriterExtensions
 {
     public static class HtmlBuilder
     {
