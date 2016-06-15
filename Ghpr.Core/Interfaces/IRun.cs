@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ghpr.Core.Common;
 
 namespace Ghpr.Core.Interfaces
 {
     public interface IRun
     {
-        List<TestRun> TestRuns { get; set; }
+        List<string> TestRunFiles { get; set; }
         Guid Guid { get; }
     }
 }

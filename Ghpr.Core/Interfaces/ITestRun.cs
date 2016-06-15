@@ -11,7 +11,7 @@ namespace Ghpr.Core.Interfaces
         string FullName { get; set; }
         double TestDuration { get; }
         DateTime DateTimeStart { get; }
-        DateTime DateTimeFinish { get; }
+        DateTime DateTimeFinish { get; set; }
         string TestStackTrace { get; set; }
         string TestMessage { get; set; }
         string Result { get; set; }

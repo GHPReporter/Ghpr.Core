@@ -9,7 +9,7 @@ namespace Ghpr.Core.Common
     public class Run : IRun
     {
         [JsonProperty]
-        public List<TestRun> TestRuns { get; set; }
+        public List<string> TestRunFiles { get; set; }
         [JsonProperty]
         public Guid Guid { get; }
 
