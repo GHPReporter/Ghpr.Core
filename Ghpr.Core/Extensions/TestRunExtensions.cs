@@ -7,9 +7,9 @@ namespace Ghpr.Core.Extensions
 {
     public static class TestRunExtensions
     {
-        public static ITestRun SetFinishDateTime(this ITestRun testRun, DateTime finishDateTime)
+        public static ITestRun SetFinishDateTime(this ITestRun testRun, DateTime finishDateTime = default(DateTime))
         {
-            testRun.DateTimeFinish = finishDateTime;
+            testRun.DateTimeFinish = finishDateTime.Equals(default(DateTime)) ? DateTime.Now : finishDateTime;
             return testRun;
         }
 

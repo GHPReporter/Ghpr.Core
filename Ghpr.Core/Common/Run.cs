@@ -8,9 +8,10 @@ namespace Ghpr.Core.Common
     [JsonObject(MemberSerialization.OptIn)]
     public class Run : IRun
     {
-        [JsonProperty]
+        [JsonProperty(PropertyName = "testRunFiles")]
         public List<string> TestRunFiles { get; set; }
-        [JsonProperty]
+
+        [JsonProperty(PropertyName = "guid")]
         public Guid Guid { get; }
 
         public Run(Guid runGuid)

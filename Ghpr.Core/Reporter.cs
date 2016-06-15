@@ -22,17 +22,17 @@ namespace Ghpr.Core
             _currentTests = null;
         }
 
-        public static string OutputPath => Properties.Settings.Default.outputPath;
-        public const string Src = "src";
-        public const string Tests = "Tests";
-        public const string Runs = "Runs";
+        public static string OutputFolder => Properties.Settings.Default.outputPath;
+        public const string SrcFolder = "src";
+        public const string TestsFolder = "Tests";
+        public const string RunsFolder = "Runs";
 
         private static void ExtractReportBase()
         {
-            var re = new ResourceExtractor(Path.Combine(OutputPath, Src));
+            var re = new ResourceExtractor(Path.Combine(OutputFolder, SrcFolder));
 
-            var repornMainPage = new ReportMainPage(Src);
-            repornMainPage.SavePage(OutputPath, "index.html");
+            var repornMainPage = new ReportMainPage(SrcFolder);
+            repornMainPage.SavePage(OutputFolder, "index.html");
 
             re.Extract(Resource.All);
         }
@@ -40,13 +40,16 @@ namespace Ghpr.Core
         public void RunStarted()
         {
             _currentTests = new List<ITestRun>();
-            _currentRun = new Run(Guid.NewGuid());
+            _currentRun = new Run(Guid.NewGuid())
+            {
+                TestRunFiles = new List<string>()
+            };
             ExtractReportBase();
         }
 
         public void RunFinished()
         {
-            _currentRun.Save(Path.Combine(OutputPath, "Runs"));
+            _currentRun.Save(Path.Combine(OutputFolder, RunsFolder));
         }
 
         public void TestStarted(string testGuid)
@@ -58,11 +61,12 @@ namespace Ghpr.Core
         public void TestFinished(string testGuid)
         {
             var finishDateTime = DateTime.Now;
+            var path = Path.Combine(OutputFolder, TestsFolder, testGuid);
+            var name = finishDateTime.GetTestName();
             _currentTests.First(t => t.Guid.Equals(Guid.Parse(testGuid)))
                 .SetFinishDateTime(finishDateTime)
-                .Save(Path.Combine(OutputPath, "Tests", testGuid));
-
-            _currentRun.TestRunFiles.Add(Path.Combine("Tests"));
+                .Save(path, name);
+            _currentRun.TestRunFiles.Add($"{testGuid}\\{name}");
         }
     }
 }
