@@ -3,3 +3,18 @@
 
   build_script: 
     - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
+
+  after_build:
+    - nuget pack "Ghpr.Core/Ghpr.Core.csproj" -Prop Configuration=Release
+
+  artifacts:
+    - path: '*.nupkg'
+      name: nupkg
+
+  deploy:
+    provider: NuGet
+    server: 
+    api_key:
+      secure: 9yi/3AxzA2lFr7VXTxf8Zk4OYX40IAUF3k7XKusuZss=
+    skip_symbols: false
+    artifact: nupkg

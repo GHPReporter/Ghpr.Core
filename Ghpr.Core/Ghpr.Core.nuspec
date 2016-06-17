@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/GHPReporter/Ghpr.Core/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/GHPReporter/Ghpr.Core</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Easy-to-use test run reporter</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright Evgeniy Kosjakov [42_@mail.ru] 2016</copyright>
+    <tags></tags>
+  </metadata>
+</package>
