@@ -15,6 +15,6 @@
     provider: NuGet
     server: 
     api_key:
-      secure: 9yi/3AxzA2lFr7VXTxf8Zk4OYX40IAUF3k7XKusuZss=
+      secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
     artifact: nupkg
