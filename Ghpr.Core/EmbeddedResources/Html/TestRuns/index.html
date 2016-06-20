@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8"/>
+    <title>
+        GHP Report Main Page
+    </title>
+    <script src="src\tablesort.min.js"></script>
+    <script src="src\jquery-1.11.0.min.js"></script>
+    <style type="text/css"></style>
+    <link rel="stylesheet" type="text/css" href="src\octicons.css"/>
+    <link rel="stylesheet" type="text/css" href="src\primer.css"/>
+    <link rel="stylesheet" type="text/css" href="src\github.css"/>
+</head>
+<body>
+<div class="border-bottom p-3 mb-3">
+    <div class="container">
+        <div style="text-align: center;">
+            <h1>
+                GHP Report Main Page
+            </h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="border-bottom p-3 mb-3">
+        <h1>
+            Test run report
+        </h1>
+    </div>
+    <div class="columns" id="Ids-MainResults">
+        <div class="one-third column">
+            <div>
+                <h2 class="border-bottom p-3 mb-3">
+                    Time:
+                </h2>
+                <div class="border border-0 p-3 mb-3">
+                    <ul>
+                        <li id="startDateTime">Start datetime: </li>
+                        <li id="finishDateTime">Finish datetime: </li>
+                        <li id="duration">Duration: </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <h2 class="border-bottom p-3 mb-3">
+                    Summary:
+                </h2>
+                <div class="border border-0 p-3 mb-3">
+                    <ul>
+                        <li id="total">Total: </li>
+                        <li id="passed">Success: </li>
+                        <li id="broken">Errors: </li>
+                        <li id="failed">Failures: </li>
+                        <li id="inconclusive">Inconclusive: </li>
+                        <li id="ignored">Ignored: </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="two-thirds column">
+            <div id="summary-pie">
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<footer>
+    <div class="border border-0 p-3 mb-3" style="text-align: center;">
+        <div style="position: relative;">
+            Copyright 2015-2016 © GhprWeb
+        </div>
+    </div>
+</footer>
+</html>

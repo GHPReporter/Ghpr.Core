@@ -12,7 +12,7 @@ namespace Ghpr.Core.Utils
         public static string GetScreenName(DateTime now, ImageFormat format = null)
         {
             format = format ?? ImageFormat.Png;
-            return $"screenshot_{now.ToString("yyyyMMdd_HHmmssfff")}.{format.ToString().ToLower()}";
+            return $"img_{now.ToString("yyyyMMdd_HHmmssfff")}.{format.ToString().ToLower()}";
         }
 
         public static string GetPath()
@@ -41,7 +41,7 @@ namespace Ghpr.Core.Utils
                                      bmpScreenCapture.Size,
                                      CopyPixelOperation.SourceCopy);
 
-                    var file = (screenPath.Equals("") ? GetPath() : screenPath) + screenName;
+                    var file = Path.Combine(screenPath.Equals("") ? GetPath() : screenPath, screenName);
                     bmpScreenCapture.Save(file, format);
                     var fileInfo = new FileInfo(file);
                     fileInfo.Refresh();

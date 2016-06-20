@@ -26,18 +26,27 @@ namespace Ghpr.Core.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\_GhprReport")]
-        public string outputPath {
+        public string OutputPath {
             get {
-                return ((string)(this["outputPath"]));
+                return ((string)(this["OutputPath"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool continuousGeneration {
+        public bool ContinuousGeneration {
             get {
-                return ((bool)(this["continuousGeneration"]));
+                return ((bool)(this["ContinuousGeneration"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TakeScreenshotAfterFail {
+            get {
+                return ((bool)(this["TakeScreenshotAfterFail"]));
             }
         }
     }

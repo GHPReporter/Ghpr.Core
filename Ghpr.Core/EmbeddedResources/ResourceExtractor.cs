@@ -8,7 +8,7 @@ namespace Ghpr.Core.EmbeddedResources
 {
     public class ResourceExtractor
     {
-        public ResourceExtractor(string destPathFull, string destPathRelative = "", bool replaceExisting = false,
+        public ResourceExtractor(string destPathFull = "", string destPathRelative = "", bool replaceExisting = false,
             Resource[] resources = null)
         {
             DestinationPathFull = destPathFull;
@@ -47,7 +47,7 @@ namespace Ghpr.Core.EmbeddedResources
         private void ExtractResource(string embeddedFileName, string destinationPath, bool replaceExisting)
         {
             var currentAssembly = GetType().Assembly;
-            var arrResources = GetType().Assembly.GetManifestResourceNames();
+            var arrResources = currentAssembly.GetManifestResourceNames();
             Directory.CreateDirectory(destinationPath);
             var destinationFullPath = Path.Combine(destinationPath, embeddedFileName);
 
@@ -123,6 +123,21 @@ namespace Ghpr.Core.EmbeddedResources
                         "octicons.woff",
                         "primer.css",
                         "github.css"
+                    };
+                case Resource.TestPage:
+                    return new List<string>
+                    {
+                        "Test.index.html"
+                    };
+                case Resource.TestRunPage:
+                    return new List<string>
+                    {
+                        "TestRun.index.html"
+                    };
+                case Resource.TestRunsPage:
+                    return new List<string>
+                    {
+                        "TestRuns.index.html"
                     };
                 default:
                     throw new ArgumentOutOfRangeException(nameof(resource), resource, null);

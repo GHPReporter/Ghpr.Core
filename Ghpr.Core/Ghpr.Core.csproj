@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Run.cs" />
+    <Compile Include="Common\RunSummary.cs" />
     <Compile Include="Common\TestRun.cs" />
     <Compile Include="Common\TestEvent.cs" />
     <Compile Include="Common\TestScreenshot.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TitleTag.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TrTag.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\UlTag.cs" />
+    <Compile Include="Extensions\TestRunListExtensions.cs" />
     <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
     <Compile Include="HtmlPages\HtmlPageBase.cs" />
@@ -107,9 +109,7 @@
     <Compile Include="Utils\Ids.cs" />
     <Compile Include="Utils\Taker.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EmbeddedResources\Html\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="EmbeddedResources\Css\github.css" />
     <EmbeddedResource Include="EmbeddedResources\Css\primer.css" />
@@ -131,6 +131,11 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedResources\Html\TestRuns\index.html" />
+    <EmbeddedResource Include="EmbeddedResources\Html\TestRun\index.html" />
+    <EmbeddedResource Include="EmbeddedResources\Html\Test\index.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

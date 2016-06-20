@@ -8,9 +8,10 @@ namespace Ghpr.Core.Common
     [JsonObject(MemberSerialization.OptIn)]
     public class TestScreenshot : ITestScreenshot
     {
-        [JsonProperty]
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
-        [JsonProperty]
+
+        [JsonProperty(PropertyName = "date")]
         public DateTime Date { get; set; }
 
         public TestScreenshot()

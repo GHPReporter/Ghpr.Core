@@ -1,72 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
-using Ghpr.Core.HtmlPages;
 using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core
 {
-    public class Reporter
+    public static class Reporter
     {
         private static IRun _currentRun;
         private static List<ITestRun> _currentTests;
+        private static readonly ResourceExtractor Extractor;
 
-        public Reporter()
+        static Reporter()
         {
             _currentRun = null;
             _currentTests = null;
+            Extractor = new ResourceExtractor();
         }
 
-        public static string OutputFolder => Properties.Settings.Default.outputPath;
+        public static string OutputPath => Properties.Settings.Default.OutputPath;
+        public static bool ContinuousGeneration => Properties.Settings.Default.ContinuousGeneration;
+        public static bool TakeScreenshotAfterFail => Properties.Settings.Default.TakeScreenshotAfterFail;
         public const string SrcFolder = "src";
         public const string TestsFolder = "Tests";
         public const string RunsFolder = "Runs";
 
-        private static void ExtractReportBase()
+        private static void CleanUp()
         {
-            var re = new ResourceExtractor(Path.Combine(OutputFolder, SrcFolder));
-
-            var repornMainPage = new ReportMainPage(SrcFolder);
-            repornMainPage.SavePage(OutputFolder, "index.html");
-
-            re.Extract(Resource.All);
-        }
-        
-        public void RunStarted()
-        {
-            _currentTests = new List<ITestRun>();
             _currentRun = new Run(Guid.NewGuid())
             {
                 TestRunFiles = new List<string>()
             };
-            ExtractReportBase();
+        }
+        
+        public static void RunStarted()
+        {
+            CleanUp();
+            Extractor.Extract(Resource.TestRunsPage, OutputPath);
+            Extractor.Extract(Resource.All, Path.Combine(OutputPath, SrcFolder));
         }
 
-        public void RunFinished()
+        public static void RunFinished()
         {
-            _currentRun.Save(Path.Combine(OutputFolder, RunsFolder));
+            Extractor.Extract(Resource.TestRunPage, Path.Combine(OutputPath, RunsFolder));
+            _currentRun.Save(Path.Combine(OutputPath, RunsFolder));
         }
 
-        public void TestStarted(string testGuid)
+        public static void TestStarted(string testGuid, string name = "", string fullName = "")
         {
-            var testRun = new TestRun(testGuid);
+            Extractor.Extract(Resource.TestPage, Path.Combine(OutputPath, TestsFolder));
+            var testRun = new TestRun(testGuid, name, fullName);
             _currentTests.Add(testRun);
         }
 
-        public void TestFinished(string testGuid)
+        public static void TestStarted(ITestRun testRun)
         {
+            _currentTests.Add(testRun);
+        }
+
+        public static void TestFinished(ITestRun testRun)
+        {
+            var testGuid = testRun.Guid.ToString();
             var finishDateTime = DateTime.Now;
-            var path = Path.Combine(OutputFolder, TestsFolder, testGuid);
-            var name = finishDateTime.GetTestName();
-            _currentTests.First(t => t.Guid.Equals(Guid.Parse(testGuid)))
+            var path = Path.Combine(OutputPath, TestsFolder, testGuid);
+            var fileName = finishDateTime.GetTestName();
+            _currentTests.GetTest(testRun)
                 .SetFinishDateTime(finishDateTime)
-                .Save(path, name);
-            _currentRun.TestRunFiles.Add($"{testGuid}\\{name}");
+                .UpdateWith(testRun)
+                .TakeScreenshot(path, TakeScreenshotAfterFail)
+                .Save(path, fileName);
+            _currentTests = _currentTests.RemoveTest(testRun);
+            _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
         }
     }
 }

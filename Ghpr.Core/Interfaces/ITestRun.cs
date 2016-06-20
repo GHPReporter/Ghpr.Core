@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
 
 namespace Ghpr.Core.Interfaces
@@ -21,5 +20,6 @@ namespace Ghpr.Core.Interfaces
 
         string TestRunColor { get; }
         TestResult TestResult { get; }
+        bool FailedOrBroken { get; }
     }
 }

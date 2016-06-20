@@ -2,10 +2,13 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Ghpr.Core.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="outputPath" Type="System.String" Scope="Application">
+    <Setting Name="OutputPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\_GhprReport</Value>
     </Setting>
-    <Setting Name="continuousGeneration" Type="System.Boolean" Scope="Application">
+    <Setting Name="ContinuousGeneration" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TakeScreenshotAfterFail" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

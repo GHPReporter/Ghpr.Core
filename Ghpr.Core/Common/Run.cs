@@ -14,6 +14,9 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "guid")]
         public Guid Guid { get; }
 
+        [JsonProperty(PropertyName = "summary")]
+        public RunSummary Summary { get; set; }
+
         public Run(Guid runGuid)
         {
             Guid = runGuid;

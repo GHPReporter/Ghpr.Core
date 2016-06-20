@@ -7,11 +7,13 @@ namespace Ghpr.Core.Common
     [JsonObject(MemberSerialization.OptIn)]
     public class TestEvent : ITestEvent
     {
-        [JsonProperty]
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
-        [JsonProperty]
+
+        [JsonProperty(PropertyName = "start")]
         public DateTime Started { get; set; }
-        [JsonProperty]
+
+        [JsonProperty(PropertyName = "finish")]
         public DateTime Finished { get; set; }
 
         public double Duration => (Finished - Started).TotalSeconds;

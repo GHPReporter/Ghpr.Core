@@ -10,9 +10,9 @@ namespace Ghpr.Core.Common
     [JsonObject(MemberSerialization.OptIn)]
     public class TestRun : ITestRun
     {
-        public TestRun(string guid, string name = "", string fullName = "")
+        public TestRun(string guid = "", string name = "", string fullName = "")
         {
-            Guid = Guid.Parse(guid);
+            Guid = guid.Equals("") ? Guid.Empty : Guid.Parse(guid);
             DateTimeStart = DateTime.Now;
             Name = name;
             FullName = fullName;
@@ -84,6 +84,8 @@ namespace Ghpr.Core.Common
                 }
             }
         }
+
+        public bool FailedOrBroken => TestResult.Equals(TestResult.Broken) || TestResult.Equals(TestResult.Failed);
 
         public TestResult TestResult
         {

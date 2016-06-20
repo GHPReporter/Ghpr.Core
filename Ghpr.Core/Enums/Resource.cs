@@ -7,6 +7,9 @@
         Primer,
         Tablesort,
         Github,
+        TestPage,
+        TestRunPage,
+        TestRunsPage,
         All
     }
 }

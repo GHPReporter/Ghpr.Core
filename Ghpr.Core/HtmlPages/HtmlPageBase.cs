@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Web.UI;
-using Ghpr.Core.Extensions;
 using Ghpr.Core.Extensions.HtmlTextWriterExtensions;
 using Ghpr.Core.Extensions.HtmlTextWriterExtensions.Styles;
 using Ghpr.Core.Extensions.HtmlTextWriterExtensions.Tags;
