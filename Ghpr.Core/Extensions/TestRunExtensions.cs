@@ -31,6 +31,10 @@ namespace Ghpr.Core.Extensions
 
         public static ITestRun UpdateWith(this ITestRun targetTestRun, ITestRun testRunResult)
         {
+            if (testRunResult.Guid.Equals(Guid.Empty))
+            {
+                testRunResult.Guid = GuidConverter.ToMd5HashGuid(testRunResult.FullName);
+            }
             targetTestRun.Guid = testRunResult.Guid.Equals(Guid.Empty) ? targetTestRun.Guid : testRunResult.Guid;
             targetTestRun.Name = testRunResult.Name.Equals("") ? targetTestRun.Name : testRunResult.Name;
             targetTestRun.FullName = testRunResult.FullName.Equals("") ? targetTestRun.FullName : testRunResult.FullName;
