@@ -13,14 +13,8 @@ namespace Ghpr.Core
     {
         private static IRun _currentRun;
         private static List<ITestRun> _currentTests;
-        private static readonly ResourceExtractor Extractor;
-
-        static Reporter()
-        {
-            _currentRun = null;
-            _currentTests = null;
-            Extractor = new ResourceExtractor();
-        }
+        private static readonly ResourceExtractor Extractor = new ResourceExtractor();
+        
 
         public static string OutputPath => Properties.Settings.Default.OutputPath;
         public static bool ContinuousGeneration => Properties.Settings.Default.ContinuousGeneration;
@@ -48,6 +42,7 @@ namespace Ghpr.Core
         {
             Extractor.Extract(Resource.TestRunPage, Path.Combine(OutputPath, RunsFolder));
             _currentRun.Save(Path.Combine(OutputPath, RunsFolder));
+            CleanUp();
         }
 
         public static void TestStarted(string testGuid, string name = "", string fullName = "")
