@@ -107,6 +107,7 @@
     <Compile Include="Utils\Colors.cs" />
     <Compile Include="Utils\GuidConverter.cs" />
     <Compile Include="Utils\Ids.cs" />
+    <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\Taker.cs" />
   </ItemGroup>
   <ItemGroup />

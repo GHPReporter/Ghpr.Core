@@ -6,6 +6,7 @@ using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.Core
 {
@@ -32,36 +33,64 @@ namespace Ghpr.Core
         
         public void RunStarted()
         {
-            CleanUp();
-            Extractor.Extract(Resource.TestRunsPage, OutputPath);
-            Extractor.Extract(Resource.All, Path.Combine(OutputPath, SrcFolder));
+            try
+            {
+                CleanUp();
+                Extractor.Extract(Resource.TestRunsPage, OutputPath);
+                Extractor.Extract(Resource.All, Path.Combine(OutputPath, SrcFolder));
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex, "Exception in RunStarted");
+            }
         }
 
         public void RunFinished()
         {
-            Extractor.Extract(Resource.TestRunPage, Path.Combine(OutputPath, RunsFolder));
-            _currentRun.Save(Path.Combine(OutputPath, RunsFolder));
-            CleanUp();
+            try
+            {
+                Extractor.Extract(Resource.TestRunPage, Path.Combine(OutputPath, RunsFolder));
+                _currentRun.Save(Path.Combine(OutputPath, RunsFolder));
+                CleanUp();
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex, "Exception in RunFinished");
+            }
         }
         
         public void TestStarted(ITestRun testRun)
         {
-            _currentTests.Add(testRun);
+            try
+            {
+                _currentTests.Add(testRun);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex, "Exception in TestStarted");
+            }
         }
 
         public void TestFinished(ITestRun testRun)
         {
-            var testGuid = testRun.Guid.ToString();
-            var finishDateTime = DateTime.Now;
-            var path = Path.Combine(OutputPath, TestsFolder, testGuid);
-            var fileName = finishDateTime.GetTestName();
-            _currentTests.GetTest(testRun)
-                .SetFinishDateTime(finishDateTime)
-                .UpdateWith(testRun)
-                .TakeScreenshot(path, TakeScreenshotAfterFail)
-                .Save(path, fileName);
-            _currentTests = _currentTests.RemoveTest(testRun);
-            _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
+            try
+            {
+                var testGuid = testRun.Guid.ToString();
+                var finishDateTime = DateTime.Now;
+                var path = Path.Combine(OutputPath, TestsFolder, testGuid);
+                var fileName = finishDateTime.GetTestName();
+                _currentTests.GetTest(testRun)
+                    .SetFinishDateTime(finishDateTime)
+                    .UpdateWith(testRun)
+                    .TakeScreenshot(path, TakeScreenshotAfterFail)
+                    .Save(path, fileName);
+                _currentTests = _currentTests.RemoveTest(testRun);
+                _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex, "Exception in TestFinished");
+            }
         }
     }
 }
