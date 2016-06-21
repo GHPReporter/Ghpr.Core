@@ -14,6 +14,7 @@ namespace Ghpr.Core.Common
         {
             Guid = guid.Equals("") ? Guid.Empty : Guid.Parse(guid);
             DateTimeStart = DateTime.Now;
+            DateTimeFinish = default(DateTime);
             Name = name;
             FullName = fullName;
             TestStackTrace = "";

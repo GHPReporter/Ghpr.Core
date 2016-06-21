@@ -6,6 +6,7 @@
         Octicons,
         Primer,
         Tablesort,
+        GhprController,
         Github,
         TestPage,
         TestRunPage,

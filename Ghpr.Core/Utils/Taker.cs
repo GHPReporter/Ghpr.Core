@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace Ghpr.Core.Utils
@@ -14,17 +13,13 @@ namespace Ghpr.Core.Utils
             format = format ?? ImageFormat.Png;
             return $"img_{now.ToString("yyyyMMdd_HHmmssfff")}.{format.ToString().ToLower()}";
         }
-
-        public static string GetPath()
-        {
-            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            var uri = new UriBuilder(codeBase);
-            var path = Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path));
-            return path + @"\_Screenshots";
-        }
-
+        
         public static string TakeScreenshot(string screenPath, DateTime creationTime = default(DateTime))
         {
+            if (!Directory.Exists(screenPath))
+            {
+                Directory.CreateDirectory(screenPath);
+            }
             var format = ImageFormat.Png;
             var now = DateTime.Now;
             creationTime = creationTime.Equals(default(DateTime)) ? now : creationTime;
@@ -41,7 +36,7 @@ namespace Ghpr.Core.Utils
                                      bmpScreenCapture.Size,
                                      CopyPixelOperation.SourceCopy);
 
-                    var file = Path.Combine(screenPath.Equals("") ? GetPath() : screenPath, screenName);
+                    var file = Path.Combine(screenPath, screenName);
                     bmpScreenCapture.Save(file, format);
                     var fileInfo = new FileInfo(file);
                     fileInfo.Refresh();

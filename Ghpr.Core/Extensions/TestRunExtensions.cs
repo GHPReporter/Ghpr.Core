@@ -11,12 +11,6 @@ namespace Ghpr.Core.Extensions
 {
     public static class TestRunExtensions
     {
-        public static ITestRun SetFinishDateTime(this ITestRun testRun, DateTime finishDateTime = default(DateTime))
-        {
-            testRun.DateTimeFinish = finishDateTime.Equals(default(DateTime)) ? DateTime.Now : finishDateTime;
-            return testRun;
-        }
-
         public static ITestRun TakeScreenshot(this ITestRun testRun, string testPath, bool takeScreenshot)
         {
             if (takeScreenshot && testRun.FailedOrBroken)
@@ -29,21 +23,31 @@ namespace Ghpr.Core.Extensions
             return testRun;
         }
 
-        public static ITestRun UpdateWith(this ITestRun targetTestRun, ITestRun testRunResult)
+        public static ITestRun UpdateWith(this ITestRun startTestRun, ITestRun finishTestRun)
         {
-            if (testRunResult.Guid.Equals(Guid.Empty))
+            if (finishTestRun.Guid.Equals(Guid.Empty))
             {
-                testRunResult.Guid = GuidConverter.ToMd5HashGuid(testRunResult.FullName);
+                finishTestRun.Guid = GuidConverter.ToMd5HashGuid(finishTestRun.FullName);
             }
-            targetTestRun.Guid = testRunResult.Guid.Equals(Guid.Empty) ? targetTestRun.Guid : testRunResult.Guid;
-            targetTestRun.Name = testRunResult.Name.Equals("") ? targetTestRun.Name : testRunResult.Name;
-            targetTestRun.FullName = testRunResult.FullName.Equals("") ? targetTestRun.FullName : testRunResult.FullName;
-            targetTestRun.Events.AddRange(testRunResult.Events);
-            targetTestRun.Screenshots.AddRange(testRunResult.Screenshots);
-            targetTestRun.TestStackTrace = testRunResult.TestStackTrace;
-            targetTestRun.TestMessage = testRunResult.TestMessage;
-            targetTestRun.Result = testRunResult.Result;
-            return testRunResult;
+            startTestRun.Guid = finishTestRun.Guid.Equals(Guid.Empty) ? startTestRun.Guid : finishTestRun.Guid;
+            startTestRun.Name = finishTestRun.Name.Equals("") ? startTestRun.Name : finishTestRun.Name;
+            startTestRun.FullName = finishTestRun.FullName.Equals("") ? startTestRun.FullName : finishTestRun.FullName;
+            if (finishTestRun.Events.Any())
+            {
+                startTestRun.Events.AddRange(finishTestRun.Events);
+            }
+            if (finishTestRun.Screenshots.Any())
+            {
+                startTestRun.Screenshots.AddRange(finishTestRun.Screenshots);
+            }
+            startTestRun.TestStackTrace = finishTestRun.TestStackTrace;
+            startTestRun.TestMessage = finishTestRun.TestMessage;
+            startTestRun.Result = finishTestRun.Result;
+            if (startTestRun.DateTimeFinish.Equals(default(DateTime)))
+            {
+                startTestRun.DateTimeFinish = DateTime.Now;
+            }
+            return startTestRun;
         }
 
         public static string GetFileName(this ITestRun testRun)
@@ -68,19 +72,13 @@ namespace Ghpr.Core.Extensions
                 serializer.Serialize(file, testRun);
             }
         }
-
-        public static ITestRun GetTest(this List<ITestRun> testRuns, string guid, string name = "", string fullName = "")
-        {
-            return testRuns.FirstOrDefault(t => t.Guid.Equals(Guid.Parse(guid)) && !t.Guid.Equals(Guid.Empty))
-                ?? testRuns.FirstOrDefault(t => t.FullName.Equals(fullName))
-                ?? testRuns.FirstOrDefault(t => t.Name.Equals(name));
-        }
-
+        
         public static ITestRun GetTest(this List<ITestRun> testRuns, ITestRun testRun)
         {
             return testRuns.FirstOrDefault(t => t.Guid.Equals(testRun.Guid) && !t.Guid.Equals(Guid.Empty))
                 ?? testRuns.FirstOrDefault(t => t.FullName.Equals(testRun.FullName))
-                ?? testRuns.FirstOrDefault(t => t.Name.Equals(testRun.Name));
+                ?? testRuns.FirstOrDefault(t => t.Name.Equals(testRun.Name)) 
+                ?? new TestRun();
         }
     }
 }

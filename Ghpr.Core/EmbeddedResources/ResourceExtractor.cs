@@ -46,6 +46,10 @@ namespace Ghpr.Core.EmbeddedResources
 
         private void ExtractResource(string embeddedFileName, string destinationPath, bool replaceExisting)
         {
+            if (embeddedFileName.Contains("index.html"))
+            {
+                embeddedFileName = "index.html";
+            }
             var currentAssembly = GetType().Assembly;
             var arrResources = currentAssembly.GetManifestResourceNames();
             Directory.CreateDirectory(destinationPath);
@@ -116,6 +120,7 @@ namespace Ghpr.Core.EmbeddedResources
                     {
                         "tablesort.min.js",
                         "jquery-1.11.0.min.js",
+                        "ghpr.controller.js",
                         "octicons.css",
                         "octicons.eot",
                         "octicons.svg",
@@ -138,6 +143,11 @@ namespace Ghpr.Core.EmbeddedResources
                     return new List<string>
                     {
                         "TestRuns.index.html"
+                    };
+                case Resource.GhprController:
+                    return new List<string>
+                    {
+                        "ghpr.controller.js"
                     };
                 default:
                     throw new ArgumentOutOfRangeException(nameof(resource), resource, null);

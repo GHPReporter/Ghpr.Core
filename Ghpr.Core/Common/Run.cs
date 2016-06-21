@@ -14,12 +14,22 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "guid")]
         public Guid Guid { get; }
 
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
+
         [JsonProperty(PropertyName = "summary")]
-        public RunSummary Summary { get; set; }
+        public IRunSummary RunSummary { get; set; }
+
+        [JsonProperty(PropertyName = "start")]
+        public DateTime Start { get; set; }
+
+        [JsonProperty(PropertyName = "finish")]
+        public DateTime Finish { get; set; }
 
         public Run(Guid runGuid)
         {
             Guid = runGuid;
+            Name = "";
         }
     }
 }

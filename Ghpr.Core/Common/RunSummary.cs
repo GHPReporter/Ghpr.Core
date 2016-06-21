@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Ghpr.Core.Interfaces;
+using Newtonsoft.Json;
 
 namespace Ghpr.Core.Common
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class RunSummary
+    public class RunSummary : IRunSummary
     {
         [JsonProperty(PropertyName = "total")]
         public int Total { get; set; }
@@ -23,5 +24,18 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "ignored")]
         public int Ignored { get; set; }
 
+        [JsonProperty(PropertyName = "unknown")]
+        public int Unknown { get; set; }
+
+        public RunSummary(int total = 0, int success = 0, int errors = 0, int failures = 0, int inconclusive = 0, int ignored = 0, int unknown = 0)
+        {
+            Total = total;
+            Success = success;
+            Errors = errors;
+            Failures = failures;
+            Inconclusive = inconclusive;
+            Ignored = ignored;
+            Unknown = unknown;
+        }
     }
 }

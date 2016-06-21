@@ -7,5 +7,9 @@ namespace Ghpr.Core.Interfaces
     {
         List<string> TestRunFiles { get; set; }
         Guid Guid { get; }
+        string Name { get; set; }
+        IRunSummary RunSummary { get; set; }
+        DateTime Start { get; set; }
+        DateTime Finish { get; set; }
     }
 }
