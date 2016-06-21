@@ -9,13 +9,12 @@ using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core
 {
-    public static class Reporter
+    public class Reporter
     {
         private static IRun _currentRun;
         private static List<ITestRun> _currentTests;
         private static readonly ResourceExtractor Extractor = new ResourceExtractor();
         
-
         public static string OutputPath => Properties.Settings.Default.OutputPath;
         public static bool ContinuousGeneration => Properties.Settings.Default.ContinuousGeneration;
         public static bool TakeScreenshotAfterFail => Properties.Settings.Default.TakeScreenshotAfterFail;
@@ -31,33 +30,26 @@ namespace Ghpr.Core
             };
         }
         
-        public static void RunStarted()
+        public void RunStarted()
         {
             CleanUp();
             Extractor.Extract(Resource.TestRunsPage, OutputPath);
             Extractor.Extract(Resource.All, Path.Combine(OutputPath, SrcFolder));
         }
 
-        public static void RunFinished()
+        public void RunFinished()
         {
             Extractor.Extract(Resource.TestRunPage, Path.Combine(OutputPath, RunsFolder));
             _currentRun.Save(Path.Combine(OutputPath, RunsFolder));
             CleanUp();
         }
-
-        public static void TestStarted(string testGuid, string name = "", string fullName = "")
-        {
-            Extractor.Extract(Resource.TestPage, Path.Combine(OutputPath, TestsFolder));
-            var testRun = new TestRun(testGuid, name, fullName);
-            _currentTests.Add(testRun);
-        }
-
-        public static void TestStarted(ITestRun testRun)
+        
+        public void TestStarted(ITestRun testRun)
         {
             _currentTests.Add(testRun);
         }
 
-        public static void TestFinished(ITestRun testRun)
+        public void TestFinished(ITestRun testRun)
         {
             var testGuid = testRun.Guid.ToString();
             var finishDateTime = DateTime.Now;
