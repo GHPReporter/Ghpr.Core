@@ -20,6 +20,8 @@ namespace Ghpr.Core.Common
             TestStackTrace = "";
             TestMessage = "";
             Result = "";
+            Output = "";
+            RunGuid = Guid.Empty;
             Screenshots = new List<ITestScreenshot>();
             Events = new List<ITestEvent>();
         }
@@ -29,13 +31,14 @@ namespace Ghpr.Core.Common
 
         [JsonProperty(PropertyName = "fullName")]
         public string FullName { get; set; }
-        
-        public double TestDuration => (DateTimeFinish - DateTimeStart).TotalSeconds;
 
-        [JsonProperty(PropertyName = "dateTimeStart")]
+        [JsonProperty(PropertyName = "duration")]
+        public double TestDuration { get; set; }
+
+        [JsonProperty(PropertyName = "start")]
         public DateTime DateTimeStart { get; set; }
 
-        [JsonProperty(PropertyName = "dateTimeFinish")]
+        [JsonProperty(PropertyName = "finish")]
         public DateTime DateTimeFinish { get; set; }
 
         [JsonProperty(PropertyName = "testStackTrace")]

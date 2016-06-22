@@ -8,8 +8,8 @@ namespace Ghpr.Core.Interfaces
     {
         string Name { get; set; }
         string FullName { get; set; }
-        double TestDuration { get; }
-        DateTime DateTimeStart { get; }
+        double TestDuration { get; set; }
+        DateTime DateTimeStart { get; set; }
         DateTime DateTimeFinish { get; set; }
         string TestStackTrace { get; set; }
         string TestMessage { get; set; }

@@ -23,31 +23,15 @@ namespace Ghpr.Core.Extensions
             return testRun;
         }
 
-        public static ITestRun UpdateWith(this ITestRun startTestRun, ITestRun finishTestRun)
+        public static ITestRun Update(this ITestRun target, ITestRun run)
         {
-            if (finishTestRun.TestGuid.Equals(Guid.Empty))
+            if (target.TestGuid.Equals(Guid.Empty))
             {
-                finishTestRun.TestGuid = GuidConverter.ToMd5HashGuid(finishTestRun.FullName);
+                target.TestGuid = GuidConverter.ToMd5HashGuid(target.FullName);
             }
-            startTestRun.TestGuid = finishTestRun.TestGuid.Equals(Guid.Empty) ? startTestRun.TestGuid : finishTestRun.TestGuid;
-            startTestRun.Name = finishTestRun.Name.Equals("") ? startTestRun.Name : finishTestRun.Name;
-            startTestRun.FullName = finishTestRun.FullName.Equals("") ? startTestRun.FullName : finishTestRun.FullName;
-            if (finishTestRun.Events.Any())
-            {
-                startTestRun.Events.AddRange(finishTestRun.Events);
-            }
-            if (finishTestRun.Screenshots.Any())
-            {
-                startTestRun.Screenshots.AddRange(finishTestRun.Screenshots);
-            }
-            startTestRun.TestStackTrace = finishTestRun.TestStackTrace;
-            startTestRun.TestMessage = finishTestRun.TestMessage;
-            startTestRun.Result = finishTestRun.Result;
-            if (startTestRun.DateTimeFinish.Equals(default(DateTime)))
-            {
-                startTestRun.DateTimeFinish = DateTime.Now;
-            }
-            return startTestRun;
+            target.Screenshots.AddRange(run.Screenshots);
+            target.Events.AddRange(run.Events);
+            return target;
         }
 
         public static string GetFileName(this ITestRun testRun)

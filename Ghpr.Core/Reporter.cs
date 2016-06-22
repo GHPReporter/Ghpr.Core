@@ -12,7 +12,7 @@ namespace Ghpr.Core
     public class Reporter
     {
         private IRun _currentRun;
-        private List<ITestRun> _currentTests;
+        private List<ITestRun> _currentRunningTests;
 
         private static readonly ResourceExtractor Extractor = new ResourceExtractor(OutputPath);
         
@@ -29,7 +29,7 @@ namespace Ghpr.Core
                 TestRunFiles = new List<string>(),
                 RunSummary = new RunSummary()
             };
-            _currentTests = new List<ITestRun>();
+            _currentRunningTests = new List<ITestRun>();
         }
         
         public void RunStarted()
@@ -64,7 +64,7 @@ namespace Ghpr.Core
         {
             try
             {
-                _currentTests.Add(testRun);
+                _currentRunningTests.Add(testRun);
             }
             catch (Exception ex)
             {
@@ -78,19 +78,19 @@ namespace Ghpr.Core
             try
             {
                 var finishDateTime = DateTime.Now;
-                var test = _currentTests.GetTest(testRun);
-                var updatedTest = test.UpdateWith(testRun);
-                var testGuid = updatedTest.TestGuid.ToString();
+                var currentTest = _currentRunningTests.GetTest(testRun);
+                var finalTest = testRun.Update(currentTest);
+                var testGuid = finalTest.TestGuid.ToString();
 
-                _currentRun.RunSummary = _currentRun.RunSummary.Update(updatedTest);
+                _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
 
                 var path = Path.Combine(OutputPath, TestsFolder, testGuid);
                 var fileName = finishDateTime.GetTestName();
-                updatedTest.RunGuid = _currentRun.Guid;
-                updatedTest
+                finalTest.RunGuid = _currentRun.Guid;
+                finalTest
                     .TakeScreenshot(path, TakeScreenshotAfterFail)
                     .Save(path, fileName);
-                _currentTests.Remove(test);
+                _currentRunningTests.Remove(currentTest);
                 _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
                 Extractor.ExtractTestPage(path);
             }
