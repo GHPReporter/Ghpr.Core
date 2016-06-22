@@ -15,14 +15,13 @@ namespace Ghpr.Core
         private IRun _currentRun;
         private List<ITestRun> _currentTests;
 
-        private static readonly ResourceExtractor Extractor = new ResourceExtractor();
+        private static readonly ResourceExtractor Extractor = new ResourceExtractor(OutputPath);
         
         public static string OutputPath => Properties.Settings.Default.OutputPath;
         public static bool ContinuousGeneration => Properties.Settings.Default.ContinuousGeneration;
         public static bool TakeScreenshotAfterFail => Properties.Settings.Default.TakeScreenshotAfterFail;
-        public const string SrcFolder = "src";
-        public const string TestsFolder = "Tests";
-        public const string RunsFolder = "Runs";
+        public const string TestsFolder = "tests";
+        public const string RunsFolder = "runs";
 
         private void CleanUp()
         {
@@ -39,8 +38,7 @@ namespace Ghpr.Core
             try
             {
                 CleanUp();
-                Extractor.Extract(Resource.TestRunsPage, OutputPath);
-                Extractor.Extract(Resource.All, Path.Combine(OutputPath, SrcFolder));
+                Extractor.ExtractReportBase();
                 _currentRun.Start = DateTime.Now;
             }
             catch (Exception ex)
@@ -53,7 +51,6 @@ namespace Ghpr.Core
         {
             try
             {
-                Extractor.Extract(Resource.TestRunPage, Path.Combine(OutputPath, RunsFolder));
                 _currentRun.Finish = DateTime.Now;
                 _currentRun.Save(Path.Combine(OutputPath, RunsFolder));
                 CleanUp();
@@ -95,7 +92,7 @@ namespace Ghpr.Core
                     .Save(path, fileName);
                 _currentTests = _currentTests.RemoveTest(test);
                 _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
-                Extractor.Extract(Resource.TestPage, path);
+                Extractor.ExtractTestPage(path);
             }
             catch (Exception ex)
             {

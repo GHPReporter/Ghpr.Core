@@ -3,183 +3,110 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Enums;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.EmbeddedResources
 {
     public class ResourceExtractor
     {
-        public ResourceExtractor(string destPathFull = "", string destPathRelative = "", bool replaceExisting = false,
-            Resource[] resources = null)
+        private static readonly IEmbeddedResource[] All = {
+            new EmbeddedResource("jquery-1.11.0.min.js", ResourceType.JQuery, "src\\js"),
+            new EmbeddedResource("ghpr.controller.js", ResourceType.GhprController, "src\\js"),
+            new EmbeddedResource("tablesort.min.js", ResourceType.Tablesort, "src\\js"),
+            new EmbeddedResource("octicons.css", ResourceType.Octicons, "src\\octicons"),
+            new EmbeddedResource("octicons.eot", ResourceType.Octicons, "src\\octicons"),
+            new EmbeddedResource("octicons.svg", ResourceType.Octicons, "src\\octicons"),
+            new EmbeddedResource("octicons.ttf", ResourceType.Octicons, "src\\octicons"),
+            new EmbeddedResource("octicons.woff", ResourceType.Octicons, "src\\octicons"),
+            new EmbeddedResource("github.css", ResourceType.Github, "src\\style"),
+            new EmbeddedResource("primer.css", ResourceType.Primer, "src\\style"),
+            new EmbeddedResource("index.html", ResourceType.TestPage, "", "test.index.html"),
+            new EmbeddedResource("index.html", ResourceType.TestRunPage, "runs", "runs.index.html"),
+            new EmbeddedResource("index.html", ResourceType.TestRunsPage, "", "Report.index.html")
+        };
+
+        public ResourceExtractor(string outputPath = "", bool replaceExisting = false)
         {
-            DestinationPathFull = destPathFull;
-            DestinationPathRelative = destPathRelative;
+            OutputPath = outputPath;
             ReplaceExisting = replaceExisting;
-            CurrentResources = resources;
         }
 
-        public string DestinationPathFull { get; }
-        public string DestinationPathRelative { get; }
+        public string OutputPath { get; }
         public bool ReplaceExisting { get; private set; }
-        public Resource[] CurrentResources { get; private set; }
-
-        public void Extract(Resource resource, string destinationPath = "", bool replaceExisting = false)
+        
+        private bool ExtractResource(string searchQuery, string outputPath, string relativePath, string fileName, bool replaceExisting)
         {
-            if (destinationPath.Equals(""))
+            try
             {
-                destinationPath = DestinationPathFull;
-            }
+                var currentAssembly = GetType().Assembly;
+                var arrResources = currentAssembly.GetManifestResourceNames();
 
-            ExtractResources(GetNames(resource), destinationPath, replaceExisting);
-        }
+                var destinationPath = relativePath.Equals("") ? outputPath : Path.Combine(outputPath, relativePath);
+                Directory.CreateDirectory(destinationPath);
 
-        public void Extract(Resource[] resources, string destinationPath = "", bool replaceExisting = false)
-        {
-            if (destinationPath.Equals(""))
-            {
-                destinationPath = DestinationPathFull;
-            }
-            foreach (var resource in resources)
-            {
-                ExtractResources(GetNames(resource), destinationPath, replaceExisting);
-            }
-        }
+                var destinationFullPath = relativePath.Equals("") ? Path.Combine(outputPath, fileName) : Path.Combine(outputPath, relativePath, fileName);
 
-        private void ExtractResource(string embeddedFileName, string destinationPath, bool replaceExisting)
-        {
-            if (embeddedFileName.Contains("index.html"))
-            {
-                embeddedFileName = "index.html";
-            }
-            var currentAssembly = GetType().Assembly;
-            var arrResources = currentAssembly.GetManifestResourceNames();
-            Directory.CreateDirectory(destinationPath);
-            var destinationFullPath = Path.Combine(destinationPath, embeddedFileName);
+                if (File.Exists(destinationFullPath) && !replaceExisting) return true;
 
-            if (File.Exists(destinationFullPath) && !replaceExisting) return;
-
-            foreach (
-                var resourceName in
-                    arrResources.Where(resourceName => resourceName.ToUpper().EndsWith(embeddedFileName.ToUpper())))
-            {
-                using (var resourceToSave = currentAssembly.GetManifestResourceStream(resourceName))
+                foreach (
+                    var resourceName in
+                        arrResources.Where(resourceName => resourceName.ToUpper().Contains(searchQuery.ToUpper())))
                 {
-                    using (var output = File.Create(destinationFullPath))
+                    using (var resourceToSave = currentAssembly.GetManifestResourceStream(resourceName))
                     {
-                        resourceToSave?.CopyTo(output);
+                        using (var output = File.Create(destinationFullPath))
+                        {
+                            resourceToSave?.CopyTo(output);
+                        }
+                        resourceToSave?.Close();
                     }
-                    resourceToSave?.Close();
                 }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex, "Exception while extracting resource file!");
+                return false;
             }
         }
 
-        private void ExtractResources(IEnumerable<string> embeddedFileNames, string destinationPath,
-            bool replaceExisting)
+        private void ExtractResources(ResourceType type, string outputPath, bool replaceExisting)
         {
-            foreach (var embeddedFileName in embeddedFileNames)
+            var ress = All.Where(r => r.Type == type);
+            foreach (var res in ress)
             {
-                ExtractResource(embeddedFileName, destinationPath, replaceExisting);
+                ExtractResource(res.SearchQuery, outputPath, res.RelativePath, res.FileName, replaceExisting);
             }
         }
 
-        public static List<string> GetNames(Resource resource)
+        private void ExtractResources(IEnumerable<ResourceType> types, string outputPath, bool replaceExisting)
         {
-            switch (resource)
+            foreach (var type in types)
             {
-                case Resource.JQuery:
-                    return new List<string>
-                    {
-                        "jquery-1.11.0.min.js"
-                    };
-
-                case Resource.Octicons:
-                    return new List<string>
-                    {
-                        "octicons.css",
-                        "octicons.eot",
-                        "octicons.svg",
-                        "octicons.ttf",
-                        "octicons.woff"
-                    };
-                case Resource.Primer:
-                    return new List<string>
-                    {
-                        "primer.css"
-                    };
-                case Resource.Github:
-                    return new List<string>
-                    {
-                        "github.css"
-                    };
-                case Resource.Tablesort:
-                    return new List<string>
-                    {
-                        "tablesort.min.js"
-                    };
-                case Resource.All:
-                    return new List<string>
-                    {
-                        "tablesort.min.js",
-                        "jquery-1.11.0.min.js",
-                        "ghpr.controller.js",
-                        "octicons.css",
-                        "octicons.eot",
-                        "octicons.svg",
-                        "octicons.ttf",
-                        "octicons.woff",
-                        "primer.css",
-                        "github.css"
-                    };
-                case Resource.TestPage:
-                    return new List<string>
-                    {
-                        "Test.index.html"
-                    };
-                case Resource.TestRunPage:
-                    return new List<string>
-                    {
-                        "TestRun.index.html"
-                    };
-                case Resource.TestRunsPage:
-                    return new List<string>
-                    {
-                        "TestRuns.index.html"
-                    };
-                case Resource.GhprController:
-                    return new List<string>
-                    {
-                        "ghpr.controller.js"
-                    };
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(resource), resource, null);
+                ExtractResources(type, outputPath, replaceExisting);
             }
         }
 
-        public List<string> GetResoucrePaths(Resource resource, string resourceExtension = "")
+        public void ExtractReportBase()
         {
-            if (resourceExtension.Equals(""))
+            var types = new[]
             {
-                return GetNames(resource).Select(name => Path.Combine(
-                    DestinationPathRelative.Equals("")
-                        ? DestinationPathFull
-                        : DestinationPathRelative, name)).ToList();
-            }
-
-            return GetNames(resource)
-                .Where(n => n.ToLower().EndsWith(resourceExtension.ToLower()))
-                .Select(name => Path.Combine(
-                    DestinationPathRelative.Equals("")
-                        ? DestinationPathFull
-                        : DestinationPathRelative, name)).ToList();
+                ResourceType.GhprController,
+                ResourceType.JQuery,
+                ResourceType.Tablesort,
+                ResourceType.Octicons,
+                ResourceType.Github,
+                ResourceType.Primer,
+                ResourceType.TestRunsPage,
+                ResourceType.TestRunPage
+            };
+            ExtractResources(types, OutputPath, ReplaceExisting);
         }
 
-        public List<string> GetResoucresPaths(Resource[] resources, string resourceExtension = "")
+        public void ExtractTestPage(string testPath)
         {
-            var paths = new List<string>();
-            foreach (var resource in resources)
-            {
-                paths.AddRange(GetResoucrePaths(resource, resourceExtension));
-            }
-            return paths;
+            ExtractResources(ResourceType.TestPage, testPath, ReplaceExisting);
         }
     }
 }

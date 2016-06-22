@@ -1,6 +1,6 @@
 ﻿namespace Ghpr.Core.Enums
 {
-    public enum Resource
+    public enum ResourceType
     {
         JQuery,
         Octicons,
@@ -10,7 +10,6 @@
         Github,
         TestPage,
         TestRunPage,
-        TestRunsPage,
-        All
+        TestRunsPage
     }
 }

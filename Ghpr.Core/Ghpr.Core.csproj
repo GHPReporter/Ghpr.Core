@@ -53,44 +53,14 @@
     <Compile Include="Common\TestRun.cs" />
     <Compile Include="Common\TestEvent.cs" />
     <Compile Include="Common\TestScreenshot.cs" />
+    <Compile Include="EmbeddedResources\EmbeddedResource.cs" />
     <Compile Include="Enums\TestResult.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\HtmlBuilder.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Attributes.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Buttons\Buttons.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\ReportSections\MainResults.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\ReportSections\ReportSectionTitle.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\SimpleText.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Styles\CssClass.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\ATag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\BTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\CommonTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\DivTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\FooterTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\H1Tag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\H2Tag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\LabelTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\LinkTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\ListTags.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\LiTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\NavTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\PTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\ScriptTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\SpanTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TableTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TBodyTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TdTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\THeadTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\ThTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TitleTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\TrTag.cs" />
-    <Compile Include="Extensions\HtmlTextWriterExtensions\Tags\UlTag.cs" />
     <Compile Include="Extensions\RunSummaryExtensions.cs" />
     <Compile Include="Extensions\TestRunListExtensions.cs" />
     <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
-    <Compile Include="HtmlPages\HtmlPageBase.cs" />
-    <Compile Include="HtmlPages\ReportMainPage.cs" />
+    <Compile Include="Interfaces\IEmbeddedResource.cs" />
     <Compile Include="Interfaces\IRun.cs" />
     <Compile Include="Interfaces\IRunSummary.cs" />
     <Compile Include="Interfaces\ITestEvent.cs" />
@@ -104,7 +74,7 @@
     </Compile>
     <Compile Include="Reporter.cs" />
     <Compile Include="EmbeddedResources\ResourceExtractor.cs" />
-    <Compile Include="Enums\Resource.cs" />
+    <Compile Include="Enums\ResourceType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Colors.cs" />
     <Compile Include="Utils\GuidConverter.cs" />
@@ -113,20 +83,20 @@
     <Compile Include="Utils\Taker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EmbeddedResources\Scripts\ghpr.controller.js" />
+    <EmbeddedResource Include="EmbeddedResources\Report\src\js\ghpr.controller.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EmbeddedResources\Css\github.css" />
-    <EmbeddedResource Include="EmbeddedResources\Css\primer.css" />
-    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.css" />
-    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.svg" />
-    <EmbeddedResource Include="EmbeddedResources\Scripts\jquery-1.11.0.min.js" />
-    <EmbeddedResource Include="EmbeddedResources\Scripts\tablesort.min.js" />
+    <EmbeddedResource Include="EmbeddedResources\Report\src\style\github.css" />
+    <EmbeddedResource Include="EmbeddedResources\Report\src\style\primer.css" />
+    <EmbeddedResource Include="EmbeddedResources\Report\src\octicons\octicons.css" />
+    <EmbeddedResource Include="EmbeddedResources\Report\src\octicons\octicons.svg" />
+    <EmbeddedResource Include="EmbeddedResources\Report\src\js\jquery-1.11.0.min.js" />
+    <EmbeddedResource Include="EmbeddedResources\Report\src\js\tablesort.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.eot" />
-    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.ttf" />
-    <EmbeddedResource Include="EmbeddedResources\Octicons\octicons.woff" />
+    <EmbeddedResource Include="EmbeddedResources\Report\src\octicons\octicons.eot" />
+    <EmbeddedResource Include="EmbeddedResources\Report\src\octicons\octicons.ttf" />
+    <EmbeddedResource Include="EmbeddedResources\Report\src\octicons\octicons.woff" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -138,10 +108,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EmbeddedResources\Html\TestRuns\index.html" />
-    <EmbeddedResource Include="EmbeddedResources\Html\TestRun\index.html" />
-    <EmbeddedResource Include="EmbeddedResources\Html\Test\index.html" />
+    <EmbeddedResource Include="EmbeddedResources\Report\runs\index.html" />
+    <EmbeddedResource Include="EmbeddedResources\Report\tests\test\index.html" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedResources\Report\index.html" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

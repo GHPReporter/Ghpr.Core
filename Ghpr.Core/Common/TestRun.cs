@@ -96,13 +96,13 @@ namespace Ghpr.Core.Common
                 {
                     return TestResult.Passed;
                 }
-                if (Result.Contains("Failed") || Result.Contains("Failure"))
-                {
-                    return TestResult.Failed;
-                }
                 if (Result.Contains("Error"))
                 {
                     return TestResult.Broken;
+                }
+                if (Result.Contains("Failed") || Result.Contains("Failure"))
+                {
+                    return TestResult.Failed;
                 }
                 if (Result.Contains("Inconclusive"))
                 {
