@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
-using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
@@ -81,16 +80,17 @@ namespace Ghpr.Core
                 var finishDateTime = DateTime.Now;
                 var test = _currentTests.GetTest(testRun);
                 var updatedTest = test.UpdateWith(testRun);
-                var testGuid = updatedTest.Guid.ToString();
+                var testGuid = updatedTest.TestGuid.ToString();
 
                 _currentRun.RunSummary = _currentRun.RunSummary.Update(updatedTest);
 
                 var path = Path.Combine(OutputPath, TestsFolder, testGuid);
                 var fileName = finishDateTime.GetTestName();
+                updatedTest.RunGuid = _currentRun.Guid;
                 updatedTest
                     .TakeScreenshot(path, TakeScreenshotAfterFail)
                     .Save(path, fileName);
-                _currentTests = _currentTests.RemoveTest(test);
+                _currentTests.Remove(test);
                 _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
                 Extractor.ExtractTestPage(path);
             }

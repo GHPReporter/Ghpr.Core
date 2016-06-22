@@ -14,7 +14,9 @@ namespace Ghpr.Core.Interfaces
         string TestStackTrace { get; set; }
         string TestMessage { get; set; }
         string Result { get; set; }
-        Guid Guid { get; set; }
+        string Output { get; set; }
+        Guid TestGuid { get; set; }
+        Guid RunGuid { get; set; }
         List<ITestScreenshot> Screenshots { get; set; }
         List<ITestEvent> Events { get; set; }
 

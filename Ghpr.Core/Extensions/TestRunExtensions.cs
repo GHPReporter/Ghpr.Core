@@ -25,11 +25,11 @@ namespace Ghpr.Core.Extensions
 
         public static ITestRun UpdateWith(this ITestRun startTestRun, ITestRun finishTestRun)
         {
-            if (finishTestRun.Guid.Equals(Guid.Empty))
+            if (finishTestRun.TestGuid.Equals(Guid.Empty))
             {
-                finishTestRun.Guid = GuidConverter.ToMd5HashGuid(finishTestRun.FullName);
+                finishTestRun.TestGuid = GuidConverter.ToMd5HashGuid(finishTestRun.FullName);
             }
-            startTestRun.Guid = finishTestRun.Guid.Equals(Guid.Empty) ? startTestRun.Guid : finishTestRun.Guid;
+            startTestRun.TestGuid = finishTestRun.TestGuid.Equals(Guid.Empty) ? startTestRun.TestGuid : finishTestRun.TestGuid;
             startTestRun.Name = finishTestRun.Name.Equals("") ? startTestRun.Name : finishTestRun.Name;
             startTestRun.FullName = finishTestRun.FullName.Equals("") ? startTestRun.FullName : finishTestRun.FullName;
             if (finishTestRun.Events.Any())
@@ -75,7 +75,7 @@ namespace Ghpr.Core.Extensions
         
         public static ITestRun GetTest(this List<ITestRun> testRuns, ITestRun testRun)
         {
-            return testRuns.FirstOrDefault(t => t.Guid.Equals(testRun.Guid) && !t.Guid.Equals(Guid.Empty))
+            return testRuns.FirstOrDefault(t => t.TestGuid.Equals(testRun.TestGuid) && !t.TestGuid.Equals(Guid.Empty))
                 ?? testRuns.FirstOrDefault(t => t.FullName.Equals(testRun.FullName))
                 ?? testRuns.FirstOrDefault(t => t.Name.Equals(testRun.Name)) 
                 ?? new TestRun();

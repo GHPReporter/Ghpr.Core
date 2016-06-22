@@ -12,7 +12,7 @@ namespace Ghpr.Core.Common
     {
         public TestRun(string guid = "", string name = "", string fullName = "")
         {
-            Guid = guid.Equals("") ? Guid.Empty : Guid.Parse(guid);
+            TestGuid = guid.Equals("") ? Guid.Empty : Guid.Parse(guid);
             DateTimeStart = DateTime.Now;
             DateTimeFinish = default(DateTime);
             Name = name;
@@ -47,8 +47,14 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "result")]
         public string Result { get; set; }
 
-        [JsonProperty(PropertyName = "guid")]
-        public Guid Guid { get; set; }
+        [JsonProperty(PropertyName = "output")]
+        public string Output { get; set; }
+
+        [JsonProperty(PropertyName = "test-guid")]
+        public Guid TestGuid { get; set; }
+
+        [JsonProperty(PropertyName = "run-guid")]
+        public Guid RunGuid { get; set; }
 
         [JsonProperty(PropertyName = "screenshots")]
         public List<ITestScreenshot> Screenshots { get; set; }

@@ -57,7 +57,6 @@
     <Compile Include="Enums\TestResult.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\RunSummaryExtensions.cs" />
-    <Compile Include="Extensions\TestRunListExtensions.cs" />
     <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
