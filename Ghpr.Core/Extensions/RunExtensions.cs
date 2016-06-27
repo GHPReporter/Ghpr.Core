@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Newtonsoft.Json;
 
@@ -10,18 +12,18 @@ namespace Ghpr.Core.Extensions
         {
             if (run.Name.Equals(""))
             {
-                run.Name = $"Run {run.Start.ToString("s")} - {run.Finish.ToString("s")}";
+                run.Name = $"Run {run.RunInfo.Start.ToString("s")} - {run.RunInfo.Finish.ToString("s")}";
             }
             if (fileName.Equals(""))
             {
-                fileName = $"run_{run.Guid.ToString().ToLower()}.json";
+                fileName = $"run_{run.RunInfo.Guid.ToString().ToLower()}.json";
             }
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-            var fullPath = Path.Combine(path, fileName);
-            using (var file = File.CreateText(fullPath))
+            var fullRunPath = Path.Combine(path, fileName);
+            using (var file = File.CreateText(fullRunPath))
             {
                 var serializer = new JsonSerializer();
                 serializer.Serialize(file, run);

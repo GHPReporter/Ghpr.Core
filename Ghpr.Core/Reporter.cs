@@ -4,6 +4,7 @@ using System.IO;
 using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Extensions;
+using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
 
@@ -38,7 +39,7 @@ namespace Ghpr.Core
             {
                 CleanUp();
                 Extractor.ExtractReportBase();
-                _currentRun.Start = DateTime.Now;
+                _currentRun.RunInfo.Start = DateTime.Now;
             }
             catch (Exception ex)
             {
@@ -50,8 +51,10 @@ namespace Ghpr.Core
         {
             try
             {
-                _currentRun.Finish = DateTime.Now;
-                _currentRun.Save(Path.Combine(OutputPath, RunsFolder));
+                _currentRun.RunInfo.Finish = DateTime.Now;
+                var runsPath = Path.Combine(OutputPath, RunsFolder);
+                _currentRun.Save(runsPath);
+                RunsHelper.SaveCurrentRunInfo(runsPath, _currentRun.RunInfo);
                 CleanUp();
             }
             catch (Exception ex)
@@ -86,7 +89,7 @@ namespace Ghpr.Core
 
                 var path = Path.Combine(OutputPath, TestsFolder, testGuid);
                 var fileName = finishDateTime.GetTestName();
-                finalTest.RunGuid = _currentRun.Guid;
+                finalTest.RunGuid = _currentRun.RunInfo.Guid;
                 finalTest
                     .TakeScreenshot(path, TakeScreenshotAfterFail)
                     .Save(path, fileName);

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Run.cs" />
+    <Compile Include="Common\RunInfo.cs" />
     <Compile Include="Common\RunSummary.cs" />
     <Compile Include="Common\TestRun.cs" />
     <Compile Include="Common\TestEvent.cs" />
@@ -59,12 +60,14 @@
     <Compile Include="Extensions\RunSummaryExtensions.cs" />
     <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
+    <Compile Include="Helpers\RunsHelper.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
     <Compile Include="Interfaces\IRun.cs" />
+    <Compile Include="Interfaces\IRunInfo.cs" />
+    <Compile Include="Interfaces\IRuns.cs" />
     <Compile Include="Interfaces\IRunSummary.cs" />
     <Compile Include="Interfaces\ITestEvent.cs" />
     <Compile Include="Interfaces\ITestRun.cs" />
-    <Compile Include="Interfaces\IHtmlPage.cs" />
     <Compile Include="Interfaces\ITestScreenshot.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

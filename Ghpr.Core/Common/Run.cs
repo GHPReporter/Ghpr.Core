@@ -10,9 +10,9 @@ namespace Ghpr.Core.Common
     {
         [JsonProperty(PropertyName = "testRunFiles")]
         public List<string> TestRunFiles { get; set; }
-
-        [JsonProperty(PropertyName = "guid")]
-        public Guid Guid { get; }
+        
+        [JsonProperty(PropertyName = "runInfo")]
+        public IRunInfo RunInfo { get; set; }
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
@@ -20,15 +20,12 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "summary")]
         public IRunSummary RunSummary { get; set; }
 
-        [JsonProperty(PropertyName = "start")]
-        public DateTime Start { get; set; }
-
-        [JsonProperty(PropertyName = "finish")]
-        public DateTime Finish { get; set; }
-
         public Run(Guid runGuid)
         {
-            Guid = runGuid;
+            RunInfo = new RunInfo
+            {
+                Guid = runGuid
+            };
             Name = "";
         }
     }
