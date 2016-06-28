@@ -9,13 +9,11 @@ namespace Ghpr.Core.Interfaces
         string Name { get; set; }
         string FullName { get; set; }
         double TestDuration { get; set; }
-        DateTime DateTimeStart { get; set; }
-        DateTime DateTimeFinish { get; set; }
         string TestStackTrace { get; set; }
         string TestMessage { get; set; }
         string Result { get; set; }
         string Output { get; set; }
-        Guid TestGuid { get; set; }
+        IItemInfo TestInfo { get; set; }
         Guid RunGuid { get; set; }
         List<ITestScreenshot> Screenshots { get; set; }
         List<ITestEvent> Events { get; set; }

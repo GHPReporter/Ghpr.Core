@@ -12,7 +12,7 @@ namespace Ghpr.Core.Extensions
         {
             if (run.Name.Equals(""))
             {
-                run.Name = $"Run {run.RunInfo.Start.ToString("s")} - {run.RunInfo.Finish.ToString("s")}";
+                run.Name = $"Run {run.RunInfo.Start.ToString("yy-MM-dd hh:mm:ss")} - {run.RunInfo.Finish.ToString("yy-MM-dd hh:mm:ss")}";
             }
             if (fileName.Equals(""))
             {

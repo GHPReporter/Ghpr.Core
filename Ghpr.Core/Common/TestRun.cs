@@ -12,9 +12,12 @@ namespace Ghpr.Core.Common
     {
         public TestRun(string guid = "", string name = "", string fullName = "")
         {
-            TestGuid = guid.Equals("") ? Guid.Empty : Guid.Parse(guid);
-            DateTimeStart = DateTime.Now;
-            DateTimeFinish = default(DateTime);
+            TestInfo = new ItemInfo
+            {
+                Guid = guid.Equals("") ? Guid.Empty : Guid.Parse(guid),
+                Start = DateTime.Now,
+                Finish = default(DateTime)
+            };
             Name = name;
             FullName = fullName;
             TestStackTrace = "";
@@ -34,13 +37,7 @@ namespace Ghpr.Core.Common
 
         [JsonProperty(PropertyName = "duration")]
         public double TestDuration { get; set; }
-
-        [JsonProperty(PropertyName = "start")]
-        public DateTime DateTimeStart { get; set; }
-
-        [JsonProperty(PropertyName = "finish")]
-        public DateTime DateTimeFinish { get; set; }
-
+        
         [JsonProperty(PropertyName = "testStackTrace")]
         public string TestStackTrace { get; set; }
 
@@ -53,8 +50,8 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "output")]
         public string Output { get; set; }
 
-        [JsonProperty(PropertyName = "test-guid")]
-        public Guid TestGuid { get; set; }
+        [JsonProperty(PropertyName = "testInfo")]
+        public IItemInfo TestInfo { get; set; }
 
         [JsonProperty(PropertyName = "run-guid")]
         public Guid RunGuid { get; set; }

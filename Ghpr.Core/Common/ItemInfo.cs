@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Ghpr.Core.Common
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class RunInfo : IRunInfo
+    public class ItemInfo : IItemInfo
     {
         [JsonProperty(PropertyName = "guid")]
         public Guid Guid { get; set; }
@@ -16,14 +16,14 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "finish")]
         public DateTime Finish { get; set; }
 
-        public RunInfo(IRunInfo ri)
+        public ItemInfo(IItemInfo ii)
         {
-            Guid = ri.Guid;
-            Start = ri.Start;
-            Finish = ri.Finish;
+            Guid = ii.Guid;
+            Start = ii.Start;
+            Finish = ii.Finish;
         }
 
-        public RunInfo()
+        public ItemInfo()
         {
         }
     }

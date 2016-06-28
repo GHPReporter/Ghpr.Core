@@ -4,6 +4,6 @@ namespace Ghpr.Core.Interfaces
 {
     public interface IRuns
     {
-        List<IRunInfo> RunsInfo { get; set; }
+        List<IItemInfo> RunsInfo { get; set; }
     }
 }

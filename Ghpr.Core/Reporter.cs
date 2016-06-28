@@ -83,7 +83,7 @@ namespace Ghpr.Core
                 var finishDateTime = DateTime.Now;
                 var currentTest = _currentRunningTests.GetTest(testRun);
                 var finalTest = testRun.Update(currentTest);
-                var testGuid = finalTest.TestGuid.ToString();
+                var testGuid = finalTest.TestInfo.Guid.ToString();
 
                 _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
 
@@ -96,6 +96,7 @@ namespace Ghpr.Core
                 _currentRunningTests.Remove(currentTest);
                 _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
                 Extractor.ExtractTestPage(path);
+                TestRunsHelper.SaveCurrentTestInfo(path, finalTest.TestInfo);
             }
             catch (Exception ex)
             {

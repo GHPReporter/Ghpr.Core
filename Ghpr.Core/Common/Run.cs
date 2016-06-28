@@ -12,7 +12,7 @@ namespace Ghpr.Core.Common
         public List<string> TestRunFiles { get; set; }
         
         [JsonProperty(PropertyName = "runInfo")]
-        public IRunInfo RunInfo { get; set; }
+        public IItemInfo RunInfo { get; set; }
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace Ghpr.Core.Common
 
         public Run(Guid runGuid)
         {
-            RunInfo = new RunInfo
+            RunInfo = new ItemInfo
             {
                 Guid = runGuid
             };

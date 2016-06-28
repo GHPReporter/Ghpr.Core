@@ -4,6 +4,7 @@
     {
         JQuery,
         Octicons,
+        Plotly,
         Primer,
         Tablesort,
         GhprController,

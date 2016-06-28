@@ -2,7 +2,7 @@
 
 namespace Ghpr.Core.Interfaces
 {
-    public interface IRunInfo
+    public interface IItemInfo
     {
         Guid Guid { get; set; }
         DateTime Start { get; set; }

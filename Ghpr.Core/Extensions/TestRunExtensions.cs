@@ -25,9 +25,9 @@ namespace Ghpr.Core.Extensions
 
         public static ITestRun Update(this ITestRun target, ITestRun run)
         {
-            if (target.TestGuid.Equals(Guid.Empty))
+            if (target.TestInfo.Guid.Equals(Guid.Empty))
             {
-                target.TestGuid = GuidConverter.ToMd5HashGuid(target.FullName);
+                target.TestInfo.Guid = GuidConverter.ToMd5HashGuid(target.FullName);
             }
             target.Screenshots.AddRange(run.Screenshots);
             target.Events.AddRange(run.Events);
@@ -36,7 +36,7 @@ namespace Ghpr.Core.Extensions
 
         public static string GetFileName(this ITestRun testRun)
         {
-            return testRun.DateTimeFinish.GetTestName();
+            return testRun.TestInfo.Finish.GetTestName();
         }
         
         public static void Save(this ITestRun testRun, string path, string name = "")
@@ -59,7 +59,7 @@ namespace Ghpr.Core.Extensions
         
         public static ITestRun GetTest(this List<ITestRun> testRuns, ITestRun testRun)
         {
-            return testRuns.FirstOrDefault(t => t.TestGuid.Equals(testRun.TestGuid) && !t.TestGuid.Equals(Guid.Empty))
+            return testRuns.FirstOrDefault(t => t.TestInfo.Guid.Equals(testRun.TestInfo.Guid) && !t.TestInfo.Guid.Equals(Guid.Empty))
                 ?? testRuns.FirstOrDefault(t => t.FullName.Equals(testRun.FullName))
                 ?? testRuns.FirstOrDefault(t => t.Name.Equals(testRun.Name)) 
                 ?? new TestRun();
