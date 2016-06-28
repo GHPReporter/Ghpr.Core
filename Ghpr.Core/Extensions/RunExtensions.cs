@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Ghpr.Core.Common;
+﻿using System.IO;
 using Ghpr.Core.Interfaces;
 using Newtonsoft.Json;
 

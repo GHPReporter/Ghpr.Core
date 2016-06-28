@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Interfaces;
-using Ghpr.Core.Utils;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Common
@@ -53,7 +52,7 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "testInfo")]
         public IItemInfo TestInfo { get; set; }
 
-        [JsonProperty(PropertyName = "run-guid")]
+        [JsonProperty(PropertyName = "runGuid")]
         public Guid RunGuid { get; set; }
 
         [JsonProperty(PropertyName = "screenshots")]
@@ -61,37 +60,7 @@ namespace Ghpr.Core.Common
 
         [JsonProperty(PropertyName = "events")]
         public List<ITestEvent> Events { get; set; }
-
-        public string TestRunColor
-        {
-            get
-            {
-                switch (TestResult)
-                {
-                    case TestResult.Ignored:
-                        return Colors.TestIgnored;
-
-                    case TestResult.Passed:
-                        return Colors.TestPassed;
-
-                    case TestResult.Broken:
-                        return Colors.TestBroken;
-
-                    case TestResult.Inconclusive:
-                        return Colors.TestInconclusive;
-
-                    case TestResult.Failed:
-                        return Colors.TestFailed;
-
-                    case TestResult.Unknown:
-                        return Colors.TestUnknown;
-
-                    default:
-                        return Colors.TestUnknown;
-                }
-            }
-        }
-
+        
         public bool FailedOrBroken => TestResult.Equals(TestResult.Broken) || TestResult.Equals(TestResult.Failed);
 
         public TestResult TestResult

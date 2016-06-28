@@ -17,8 +17,7 @@ namespace Ghpr.Core.Interfaces
         Guid RunGuid { get; set; }
         List<ITestScreenshot> Screenshots { get; set; }
         List<ITestEvent> Events { get; set; }
-
-        string TestRunColor { get; }
+        
         TestResult TestResult { get; }
         bool FailedOrBroken { get; }
     }
