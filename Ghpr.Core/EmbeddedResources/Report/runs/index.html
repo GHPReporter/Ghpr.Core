@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8" />
-    <title>
-        GHP Report Run Page
-    </title>
+    <title>GHP Report Run Page</title>
     <script src="./../src/js/tablesort.min.js"></script>
     <script src="./../src/js/jquery-1.11.0.min.js"></script>
     <script src="./../src/js/ghpr.controller.js"></script>
@@ -14,39 +12,36 @@
     <link rel="stylesheet" type="text/css" href="./../src/style/primer.css" />
     <link rel="stylesheet" type="text/css" href="./../src/style/github.css" />
 </head>
-<body>
-    <script type="text/javascript">
-    RunPageUpdater.initialize();
-    </script>
-    <div class="border-bottom p-3 mb-3">
-        <div class="container">
+<body onload="RunPageUpdater.initializePage();">
+
+    <div class="container">
+        <div class="border-bottom p-3 mb-3">
             <div style="text-align: center;">
-                <h1>
-                    GHP Report Run Page
+                <h1 id="run-name">
+                    Test run report
                 </h1>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="btn-group clearfix">
-            <button class="btn" type="button" onclick="RunPageUpdater.loadPrev();">
-                <span class="octicon octicon-arrow-left"></span>
-                Prev
-            </button>
-            <button class="btn" type="button" onclick="RunPageUpdater.loadNext();">
-                Next
-                <span class="octicon octicon-arrow-right"></span>
-            </button>
-            <button class="btn" type="button" onclick="RunPageUpdater.loadLatest();">
-                Latest
-            </button>
+        <div class="tabnav">
+            <div class="btn-group right">
+                <button id="btn-prev" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadPrev();">
+                    <span class="octicon octicon-arrow-left"></span>
+                    Prev
+                </button>
+                <button id="btn-next" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadNext();">
+                    Next
+                    <span class="octicon octicon-arrow-right"></span>
+                </button>
+                <button class="btn btn-sm" type="button" onclick="RunPageUpdater.loadLatest();">
+                    Latest
+                </button>
+            </div>
+            <nav class="tabnav-tabs">
+                <a id="tab-run-main-stats" onclick="RunPageUpdater.showTab('run-main-stats', this);" class="tabnav-tab selected">Main statistics</a>
+                <a id="tab-run-test-list" onclick="RunPageUpdater.showTab('run-test-list', this);" class="tabnav-tab">Test list</a>
+            </nav>
         </div>
-        <div class="border-bottom p-3 mb-3">
-            <h1 id="run-name">
-                Test run report
-            </h1>
-        </div>
-        <div class="columns" id="Ids-MainResults">
+        <div class="columns border" id="run-main-stats" style="margin-top: -16px">
             <div class="one-third column">
                 <div>
                     <h2 class="border-bottom p-3 mb-3">
@@ -83,13 +78,21 @@
                 </div>
             </div>
         </div>
+        <div class="columns border" id="run-test-list" style="margin-top: -16px; display: none">
+            <div class="colunm">
+                <h2>
+                    Test list:
+                </h2>
+                <ul id="all-tests"></ul>
+            </div>
+        </div>
     </div>
 </body>
 </html>
 <footer>
     <div class="border border-0 p-3 mb-3" style="text-align: center;">
         <div style="position: relative;">
-            Copyright 2015-2016 © GhprWeb
+            Copyright 2015-2016 © GhpReporter
         </div>
     </div>
 </footer>

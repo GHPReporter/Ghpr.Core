@@ -2,68 +2,68 @@
 <html lang="en">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8" />
-    <title>
-        GHP Report Main Page
-    </title>
-    <script src="src/js/tablesort.min.js"></script>
-    <script src="src/js/jquery-1.11.0.min.js"></script>
-    <script src="src/js/ghpr.controller.js"></script>
-    <script src="src/js/plotly.min.js"></script>
+    <title>GHP Report Run Page</title>
+    <script src="./src/js/tablesort.min.js"></script>
+    <script src="./src/js/jquery-1.11.0.min.js"></script>
+    <script src="./src/js/ghpr.controller.js"></script>
+    <script src="./src/js/plotly.min.js"></script>
     <style type="text/css"></style>
-    <link rel="stylesheet" type="text/css" href="src/octicons/octicons.css" />
-    <link rel="stylesheet" type="text/css" href="src/style/primer.css" />
-    <link rel="stylesheet" type="text/css" href="src/style/github.css" />
+    <link rel="stylesheet" type="text/css" href="./src/octicons/octicons.css" />
+    <link rel="stylesheet" type="text/css" href="./src/style/primer.css" />
+    <link rel="stylesheet" type="text/css" href="./src/style/github.css" />
 </head>
-<body>
-    <div class="border-bottom p-3 mb-3">
-        <div class="container">
+<body onload="ReportPageUpdater.updatePage();">
+    <div class="container">
+        <div class="border-bottom p-3 mb-3">
             <div style="text-align: center;">
-                <h1>
-                    GHP Report Main Page
+                <h1 id="run-name">
+                    GHP Report
                 </h1>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="border-bottom p-3 mb-3">
-            <h1>
-                Test run report
-            </h1>
+        <div class="tabnav">
+            <nav class="tabnav-tabs">
+                <a id="tab-runs-stats" onclick="ReportPageUpdater.showTab('runs-stats', this);" class="tabnav-tab selected">Main statistics</a>
+                <a id="tab-runs-list" onclick="ReportPageUpdater.showTab('runs-list', this);" class="tabnav-tab">Runs list</a>
+            </nav>
         </div>
-        <div class="columns" id="Ids-MainResults">
+        <div class="columns border" id="runs-stats" style="margin-top: -16px">
             <div class="one-third column">
                 <div>
                     <h2 class="border-bottom p-3 mb-3">
-                        Time:
+                        Runs information:
                     </h2>
                     <div class="border border-0 p-3 mb-3">
                         <ul>
-                            <li id="startDateTime">Start datetime: </li>
-                            <li id="finishDateTime">Finish datetime: </li>
-                            <li id="duration">Duration: </li>
+                            <li id="total">Total runs: </li>
                         </ul>
                     </div>
                 </div>
                 <div>
                     <h2 class="border-bottom p-3 mb-3">
-                        Summary:
+                        Latest run:
                     </h2>
                     <div class="border border-0 p-3 mb-3">
                         <ul>
-                            <li id="total">Total: </li>
-                            <li id="passed">Success: </li>
-                            <li id="broken">Errors: </li>
-                            <li id="failed">Failures: </li>
-                            <li id="inconclusive">Inconclusive: </li>
-                            <li id="ignored">Ignored: </li>
+                            <li id="start">Start: </li>
+                            <li id="finish">Finish: </li>
+                            <li id="duration">Duration: </li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="two-thirds column">
-                <div id="summary-pie">
+                <div id="runs-bars">
 
                 </div>
+            </div>
+        </div>
+        <div class="columns border" id="runs-list" style="margin-top: -16px; display: none">
+            <div class="colunm">
+                <h2 class="border-bottom p-3 mb-3">
+                    All runs:
+                </h2>
+                <ul id="all-runs"></ul>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
 <footer>
     <div class="border border-0 p-3 mb-3" style="text-align: center;">
         <div style="position: relative;">
-            Copyright 2015-2016 © GhprWeb
+            Copyright 2015-2016 © GhpReporter
         </div>
     </div>
 </footer>
