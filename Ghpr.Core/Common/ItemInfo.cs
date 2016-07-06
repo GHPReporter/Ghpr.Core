@@ -16,11 +16,15 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "finish")]
         public DateTime Finish { get; set; }
 
+        [JsonProperty(PropertyName = "fileName")]
+        public string FileName { get; set; }
+
         public ItemInfo(IItemInfo ii)
         {
             Guid = ii.Guid;
             Start = ii.Start;
             Finish = ii.Finish;
+            FileName = ii.FileName;
         }
 
         public ItemInfo()

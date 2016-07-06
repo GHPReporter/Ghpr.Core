@@ -89,7 +89,16 @@ namespace Ghpr.Core
 
                 var path = Path.Combine(OutputPath, TestsFolder, testGuid);
                 var fileName = finishDateTime.GetTestName();
+                finalTest.TestInfo.FileName = fileName;
                 finalTest.RunGuid = _currentRun.RunInfo.Guid;
+                if (finalTest.TestInfo.Start.Equals(default(DateTime)))
+                {
+                    finalTest.TestInfo.Start = finishDateTime;
+                }
+                if (finalTest.TestInfo.Finish.Equals(default(DateTime)))
+                {
+                    finalTest.TestInfo.Finish = finishDateTime;
+                }
                 finalTest
                     .TakeScreenshot(path, TakeScreenshotAfterFail)
                     .Save(path, fileName);

@@ -7,5 +7,6 @@ namespace Ghpr.Core.Interfaces
         Guid Guid { get; set; }
         DateTime Start { get; set; }
         DateTime Finish { get; set; }
+        string FileName { get; set; }
     }
 }
