@@ -22,7 +22,7 @@ namespace Ghpr.Core.EmbeddedResources
             new EmbeddedResource("octicons.woff", ResourceType.Octicons, "src\\octicons"),
             new EmbeddedResource("github.css", ResourceType.Github, "src\\style"),
             new EmbeddedResource("primer.css", ResourceType.Primer, "src\\style"),
-            new EmbeddedResource("index.html", ResourceType.TestPage, "", "test.index.html"),
+            new EmbeddedResource("index.html", ResourceType.TestPage, "", "tests.index.html"),
             new EmbeddedResource("index.html", ResourceType.TestRunPage, "runs", "runs.index.html"),
             new EmbeddedResource("index.html", ResourceType.TestRunsPage, "", "Report.index.html")
         };

@@ -87,7 +87,8 @@ namespace Ghpr.Core
 
                 _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
 
-                var path = Path.Combine(OutputPath, TestsFolder, testGuid);
+                var testsPath = Path.Combine(OutputPath, TestsFolder);
+                var testPath = Path.Combine(testsPath, testGuid);
                 var fileName = finishDateTime.GetTestName();
                 finalTest.TestInfo.FileName = fileName;
                 finalTest.RunGuid = _currentRun.RunInfo.Guid;
@@ -100,12 +101,12 @@ namespace Ghpr.Core
                     finalTest.TestInfo.Finish = finishDateTime;
                 }
                 finalTest
-                    .TakeScreenshot(path, TakeScreenshotAfterFail)
-                    .Save(path, fileName);
+                    .TakeScreenshot(testPath, TakeScreenshotAfterFail)
+                    .Save(testPath, fileName);
                 _currentRunningTests.Remove(currentTest);
                 _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
-                Extractor.ExtractTestPage(path);
-                TestRunsHelper.SaveCurrentTestInfo(path, finalTest.TestInfo);
+                Extractor.ExtractTestPage(testsPath);
+                TestRunsHelper.SaveCurrentTestInfo(testPath, finalTest.TestInfo);
             }
             catch (Exception ex)
             {

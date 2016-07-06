@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8" />
-    <title>GHP Report Run Page</title>
+    <title>GHP Report Test Page</title>
     <script src="./../src/js/tablesort.min.js"></script>
     <script src="./../src/js/jquery-1.11.0.min.js"></script>
     <script src="./../src/js/ghpr.controller.js"></script>
@@ -12,12 +12,12 @@
     <link rel="stylesheet" type="text/css" href="./../src/style/primer.css" />
     <link rel="stylesheet" type="text/css" href="./../src/style/github.css" />
 </head>
-<body onload="RunPageUpdater.initializePage();">
+<body onload="TestPageUpdater.initializePage();">
     <div class="container">
         <div class="border-bottom p-3 mb-3">
             <div style="text-align: center;">
                 <h1 id="page-title">
-                    Test run report
+                    Test Page
                 </h1>
             </div>
         </div>
@@ -27,72 +27,77 @@
                     <span class="octicon octicon-sign-in"></span>
                     Back
                 </a>
-                <button id="btn-prev" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadPrev();">
+                <button id="btn-prev" class="btn btn-sm" type="button" onclick="TestPageUpdater.loadPrev();">
                     <span class="octicon octicon-arrow-left"></span>
                     Prev
                 </button>
-                <button id="btn-next" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadNext();">
+                <button id="btn-next" class="btn btn-sm" type="button" onclick="TestPageUpdater.loadNext();">
                     Next
                     <span class="octicon octicon-arrow-right"></span>
                 </button>
-                <button class="btn btn-sm" type="button" onclick="RunPageUpdater.loadLatest();">
+                <button class="btn btn-sm" type="button" onclick="TestPageUpdater.loadLatest();">
                     Latest
                 </button>
             </div>
             <nav class="tabnav-tabs">
-                <a id="tab-run-main-stats" onclick="RunPageUpdater.showTab('run-main-stats', this);" class="tabnav-tab selected">
+                <a id="tab-test-history" onclick="TestPageUpdater.showTab('test-history', this);" class="tabnav-tab selected">
                     <span class="octicon octicon-graph"></span>
-                    Main statistics
+                    Test history
                 </a>
-                <a id="tab-run-test-list" onclick="RunPageUpdater.showTab('run-test-list', this);" class="tabnav-tab">
-                    <span class="octicon octicon-list-unordered"></span>
-                    Test list
+                <a id="tab-test-output" onclick="TestPageUpdater.showTab('test-output', this);" class="tabnav-tab">
+                    <span class="octicon octicon-file-text"></span>
+                    Test output
+                </a>
+                <a id="tab-test-failure" onclick="TestPageUpdater.showTab('test-failure', this);" class="tabnav-tab">
+                    <span class="octicon octicon-stop"></span>
+                    Test failure
                 </a>
             </nav>
         </div>
-        <div class="columns border" id="run-main-stats" style="margin-top: -16px">
+        <div class="columns border" id="test-history" style="margin-top: -16px">
             <div class="one-third column">
                 <div>
                     <h2 class="border-bottom p-3 mb-3">
-                        Time:
+                        Main information:
                     </h2>
                     <div class="border border-0 p-3 mb-3">
-                        <ul>
+                        <ul style="word-wrap: break-word;">
+                            <li id="name">Test name: </li>
+                            <li id="full-name">Test full name: </li>
+                            <li id="result">Test result: </li>
                             <li id="start">Start datetime: </li>
                             <li id="finish">Finish datetime: </li>
                             <li id="duration">Duration: </li>
-                        </ul>
-                    </div>
-                </div>
-                <div>
-                    <h2 class="border-bottom p-3 mb-3">
-                        Summary:
-                    </h2>
-                    <div class="border border-0 p-3 mb-3">
-                        <ul>
-                            <li id="total">Total: </li>
-                            <li id="passed">Success: </li>
-                            <li id="broken">Errors: </li>
-                            <li id="failed">Failures: </li>
-                            <li id="inconclusive">Inconclusive: </li>
-                            <li id="ignored">Ignored: </li>
-                            <li id="unknown">Unknown: </li>
+                            <li style="white-space: pre-wrap" id="message">Message: </li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="two-thirds column">
-                <div id="summary-pie">
+                <div id="test-history-chart">
 
                 </div>
             </div>
         </div>
-        <div class="columns border" id="run-test-list" style="margin-top: -16px; display: none">
-            <div class="colunm">
+        <div class="columns border" id="test-output" style="margin-top: -16px; display: none">
+            <div class="column">
                 <h2 class="border-bottom p-3 mb-3">
-                    Test list:
+                    Test output:
                 </h2>
-                <ul id="all-tests"></ul>
+                <ul>
+                    <li id="test-output-string" style="white-space: pre-wrap;"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="columns border" id="test-failure" style="margin-top: -16px; display: none">
+            <div class="column">
+                <h2 class="border-bottom p-3 mb-3">
+                    Test failure:
+                </h2>
+                <ul>
+                    <li id="test-message" style="white-space: pre-wrap"></li>
+                    <li id="test-stack-trace" style="white-space: pre-wrap"></li>
+                </ul>
             </div>
         </div>
     </div>

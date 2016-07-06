@@ -45,7 +45,7 @@ class PathsHelper {
             case PageType.TestRunPage:
                 return `./../tests/${testGuid}/tests.json`;
             case PageType.TestPage:
-                return `./tests.json`;
+                return `./${testGuid}/tests.json`;
             default:
                 return "";
         }
@@ -53,30 +53,14 @@ class PathsHelper {
     static getTestPath(testGuid, testFileName, pt) {
         switch (pt) {
             case PageType.TestRunsPage:
-                return `./tests/${testGuid}/${testFileName}.json`;
+                return `./tests/${testGuid}/${testFileName}`;
             case PageType.TestRunPage:
-                return `./../tests/${testGuid}/${testFileName}.json`;
+                return `./../tests/${testGuid}/${testFileName}`;
             case PageType.TestPage:
-                return `./${testFileName}.json`;
+                return `./${testGuid}/${testFileName}`;
             default:
                 return "";
         }
-    }
-}
-class TabsHelper {
-    static showTab(idToShow, caller, pageTabsIds) {
-        if (pageTabsIds.indexOf(idToShow) <= -1) {
-            return;
-        }
-        const tabs = document.getElementsByClassName("tabnav-tab");
-        for (let i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove("selected");
-        }
-        caller.className += " selected";
-        pageTabsIds.forEach((id) => {
-            document.getElementById(id).style.display = "none";
-        });
-        document.getElementById(idToShow).style.display = "";
     }
 }
 class UrlHelper {
@@ -100,6 +84,9 @@ class UrlHelper {
                     params.push(p);
                 }
             }
+            else {
+                params.push(p);
+            }
             window.history.pushState("", "", `?${params.join("&")}`);
         }
     }
@@ -114,227 +101,31 @@ class UrlHelper {
             if (paramToGet != undefined) {
                 return paramToGet.split("=")[1];
             }
-            else
-                return "";
-        }
-    }
-}
-class DateFormatter {
-    static format(date) {
-        const year = `${date.getFullYear()}`;
-        const month = this.correct(`${date.getMonth() + 1}`);
-        const day = this.correct(`${date.getDate()}`);
-        const hour = this.correct(`${date.getHours()}`);
-        const minute = this.correct(`${date.getMinutes()}`);
-        const second = this.correct(`${date.getSeconds()}`);
-        return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
-    }
-    static diff(start, finish) {
-        const timeDifference = (finish.getTime() - start.getTime());
-        const dDate = new Date(timeDifference);
-        const dHours = dDate.getUTCHours();
-        const dMins = dDate.getUTCMinutes();
-        const dSecs = dDate.getUTCSeconds();
-        const dMilliSecs = dDate.getUTCMilliseconds();
-        const readableDifference = dHours + ":" + dMins + ":" + dSecs + "." + dMilliSecs;
-        return readableDifference;
-    }
-    static correct(s) {
-        if (s.length === 1) {
-            return `0${s}`;
-        }
-        else
-            return s;
-    }
-}
-class Color {
-}
-Color.passed = "#8bc34a";
-Color.broken = "#ffc107";
-Color.failed = "#ef5350";
-Color.ignored = "#81d4fa";
-Color.inconclusive = "#D6FAF7";
-Color.unknown = "#bdbdbd";
-class RunPageUpdater {
-    static updateTime(run) {
-        document.getElementById("start").innerHTML = `Start datetime: ${DateFormatter.format(run.runInfo.start)}`;
-        document.getElementById("finish").innerHTML = `Finish datetime: ${DateFormatter.format(run.runInfo.finish)}`;
-        document.getElementById("duration").innerHTML = `Duration: ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
-    }
-    static updateName(run) {
-        document.getElementById("run-name").innerHTML = run.name;
-    }
-    static updateSummary(run) {
-        const s = run.summary;
-        document.getElementById("total").innerHTML = `Total: ${s.total}`;
-        document.getElementById("passed").innerHTML = `Success: ${s.success}`;
-        document.getElementById("broken").innerHTML = `Errors: ${s.errors}`;
-        document.getElementById("failed").innerHTML = `Failures: ${s.failures}`;
-        document.getElementById("inconclusive").innerHTML = `Inconclusive: ${s.inconclusive}`;
-        document.getElementById("ignored").innerHTML = `Ignored: ${s.ignored}`;
-        document.getElementById("unknown").innerHTML = `Unknown: ${s.unknown}`;
-        const pieDiv = document.getElementById("summary-pie");
-        Plotly.newPlot(pieDiv, [
-            {
-                values: [s.success, s.errors, s.failures, s.inconclusive, s.ignored, s.unknown],
-                labels: ["Passed", "Broken", "Failed", "Inconclusive", "Ignored", "Unknown"],
-                marker: {
-                    colors: [
-                        Color.passed, Color.broken, Color.failed, Color.inconclusive, Color.ignored, Color.unknown],
-                    line: {
-                        color: "white",
-                        width: 2
-                    }
-                },
-                outsidetextfont: {
-                    family: "Helvetica, arial, sans-serif"
-                },
-                textfont: {
-                    family: "Helvetica, arial, sans-serif"
-                },
-                textinfo: "label+percent",
-                type: "pie",
-                hole: 0.35
-            }
-        ], {
-            margin: { t: 0 }
-        });
-    }
-    static setTestsList(tests) {
-        let list = "";
-        const c = tests.length;
-        for (let i = 0; i < c; i++) {
-            const r = tests[i];
-            list += `<li id=$run-${r.testInfo.guid}>Test #${c - i - 1}: <a href="./runs/?runGuid=${r.testInfo.guid}">${r.name}</a></li>`;
-        }
-        document.getElementById("all-tests").innerHTML = list;
-    }
-    static updateRunPage(runGuid) {
-        let run;
-        var loader = new JsonLoader(PageType.TestRunPage);
-        loader.loadRunJson(runGuid, (response) => {
-            run = JSON.parse(response, loader.reviveRun);
-            UrlHelper.insertParam("runGuid", run.runInfo.guid);
-            this.updateTime(run);
-            this.updateSummary(run);
-            this.updateName(run);
-            this.updateTestsList(run);
-        });
-        return run;
-    }
-    static updateTestsList(run) {
-        const paths = new Array();
-        const testStrings = new Array();
-        const tests = new Array();
-        var loader = new JsonLoader(PageType.TestRunPage);
-        const files = run.testRunFiles;
-        for (let i = 0; i < files.length; i++) {
-            paths[i] = `./../tests/${files[i]}`;
-        }
-        loader.loadJsons(paths, 0, testStrings, (responses) => {
-            for (let i = 0; i < responses.length; i++) {
-                tests[i] = JSON.parse(responses[i], loader.reviveRun);
-            }
-            this.setTestsList(tests);
-        });
-    }
-    static loadRun(index = undefined) {
-        let runInfos;
-        var loader = new JsonLoader(PageType.TestRunPage);
-        loader.loadRunsJson((response) => {
-            runInfos = JSON.parse(response, loader.reviveRun);
-            this.runsCount = runInfos.length;
-            if (index === undefined || index.toString() === "NaN") {
-                index = this.runsCount - 1;
-                this.currentRun = index;
-            }
-            if (index === 0) {
-                this.disableBtn("btn-prev");
-            }
-            if (index === runInfos.length - 1) {
-                this.disableBtn("btn-next");
-            }
-            this.updateRunPage(runInfos[index].guid);
-        });
-    }
-    static tryLoadRunByGuid() {
-        const guid = UrlHelper.getParam("runGuid");
-        if (guid === "") {
-            this.loadRun();
-            return;
-        }
-        let runInfos;
-        var loader = new JsonLoader(PageType.TestRunPage);
-        loader.loadRunsJson((response) => {
-            runInfos = JSON.parse(response, loader.reviveRun);
-            this.runsCount = runInfos.length;
-            const runInfo = runInfos.find((r) => r.guid === guid);
-            if (runInfo != undefined) {
-                this.enableBtns();
-                const index = runInfos.indexOf(runInfo);
-                if (index === 0) {
-                    this.disableBtn("btn-prev");
-                }
-                if (index === runInfos.length - 1) {
-                    this.disableBtn("btn-next");
-                }
-                this.loadRun(index);
-            }
             else {
-                this.loadRun();
+                return "";
             }
+        }
+    }
+}
+class TabsHelper {
+    static showTab(idToShow, caller, pageTabsIds) {
+        if (pageTabsIds.indexOf(idToShow) <= -1) {
+            return;
+        }
+        UrlHelper.insertParam("currentTab", idToShow);
+        const tabs = document.getElementsByClassName("tabnav-tab");
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove("selected");
+        }
+        caller.className += " selected";
+        pageTabsIds.forEach((id) => {
+            document.getElementById(id).style.display = "none";
         });
+        document.getElementById(idToShow).style.display = "";
     }
-    static enableBtns() {
-        document.getElementById("btn-prev").removeAttribute("disabled");
-        document.getElementById("btn-next").removeAttribute("disabled");
-    }
-    static disableBtn(id) {
-        document.getElementById(id).setAttribute("disabled", "true");
-    }
-    static loadPrev() {
-        if (this.currentRun === 0) {
-            this.disableBtn("btn-prev");
-            return;
-        }
-        else {
-            this.enableBtns();
-            this.currentRun -= 1;
-            if (this.currentRun === 0) {
-                this.disableBtn("btn-prev");
-            }
-            this.loadRun(this.currentRun);
-        }
-    }
-    static loadNext() {
-        if (this.currentRun === this.runsCount - 1) {
-            this.disableBtn("btn-next");
-            return;
-        }
-        else {
-            this.enableBtns();
-            this.currentRun += 1;
-            if (this.currentRun === this.runsCount - 1) {
-                this.disableBtn("btn-next");
-            }
-            this.loadRun(this.currentRun);
-        }
-    }
-    static loadLatest() {
-        this.disableBtn("btn-next");
-        this.loadRun();
-    }
-    static initializePage() {
-        this.tryLoadRunByGuid();
-        this.showTab("run-main-stats", document.getElementById("tab-run-main-stats"));
-    }
-    static showTab(idToShow, caller) {
-        TabsHelper.showTab(idToShow, caller, this.runPageTabsIds);
-    }
-    }
-    RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list"];
-    class JsonLoader {
-        constructor(pt) {
+}
+class JsonLoader {
+    constructor(pt) {
         this.pageType = pt;
     }
     loadRunJson(runGuid, callback) {
@@ -400,29 +191,248 @@ class RunPageUpdater {
         };
         req.send(null);
     }
-    reviveRun(key, value) {
+    static reviveRun(key, value) {
         if (key === "start" || key === "finish")
             return new Date(value);
         return value;
     }
 }
+class DateFormatter {
+    static format(date) {
+        if (date < new Date(2000, 1)) {
+            return "-";
+        }
+        const year = `${date.getFullYear()}`;
+        const month = DateFormatter.correctString(`${date.getMonth() + 1}`);
+        const day = DateFormatter.correctString(`${date.getDate()}`);
+        const hour = DateFormatter.correctString(`${date.getHours()}`);
+        const minute = DateFormatter.correctString(`${date.getMinutes()}`);
+        const second = DateFormatter.correctString(`${date.getSeconds()}`);
+        return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+    }
+    static diff(start, finish) {
+        const timeDifference = (finish.getTime() - start.getTime());
+        const dDate = new Date(timeDifference);
+        const dHours = dDate.getUTCHours();
+        const dMins = dDate.getUTCMinutes();
+        const dSecs = dDate.getUTCSeconds();
+        const dMilliSecs = dDate.getUTCMilliseconds();
+        const readableDifference = dHours + ":" + dMins + ":" + dSecs + "." + dMilliSecs;
+        return readableDifference;
+    }
+    static correctString(s) {
+        if (s.length === 1) {
+            return `0${s}`;
+        }
+        else
+            return s;
+    }
+}
+class Color {
+}
+Color.passed = "#8bc34a";
+Color.broken = "#ffc107";
+Color.failed = "#ef5350";
+Color.ignored = "#81d4fa";
+Color.inconclusive = "#D6FAF7";
+Color.unknown = "#bdbdbd";
+class RunPageUpdater {
+    static updateTime(run) {
+        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
+        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
+        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
+    }
+    static updateTitle(run) {
+        document.getElementById("page-title").innerHTML = run.name;
+    }
+    static updateSummary(run) {
+        const s = run.summary;
+        document.getElementById("total").innerHTML = `<b>Total:</b> ${s.total}`;
+        document.getElementById("passed").innerHTML = `<b>Success:</b> ${s.success}`;
+        document.getElementById("broken").innerHTML = `<b>Errors:</b> ${s.errors}`;
+        document.getElementById("failed").innerHTML = `<b>Failures:</b> ${s.failures}`;
+        document.getElementById("inconclusive").innerHTML = `<b>Inconclusive:</b> ${s.inconclusive}`;
+        document.getElementById("ignored").innerHTML = `<b>Ignored:</b> ${s.ignored}`;
+        document.getElementById("unknown").innerHTML = `<b>Unknown:</b> ${s.unknown}`;
+        const pieDiv = document.getElementById("summary-pie");
+        Plotly.newPlot(pieDiv, [
+            {
+                values: [s.success, s.errors, s.failures, s.inconclusive, s.ignored, s.unknown],
+                labels: ["Passed", "Broken", "Failed", "Inconclusive", "Ignored", "Unknown"],
+                marker: {
+                    colors: [
+                        Color.passed, Color.broken, Color.failed, Color.inconclusive, Color.ignored, Color.unknown],
+                    line: {
+                        color: "white",
+                        width: 2
+                    }
+                },
+                outsidetextfont: {
+                    family: "Helvetica, arial, sans-serif"
+                },
+                textfont: {
+                    family: "Helvetica, arial, sans-serif"
+                },
+                textinfo: "label+percent",
+                type: "pie",
+                hole: 0.35
+            }
+        ], {
+            margin: { t: 0 }
+        });
+    }
+    static setTestsList(tests) {
+        let list = "";
+        const c = tests.length;
+        for (let i = 0; i < c; i++) {
+            const t = tests[i];
+            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFile=${t.testInfo.fileName}">${t.name}</a></li>`;
+        }
+        document.getElementById("all-tests").innerHTML = list;
+    }
+    static updateRunPage(runGuid) {
+        let run;
+        this.loader.loadRunJson(runGuid, (response) => {
+            run = JSON.parse(response, JsonLoader.reviveRun);
+            UrlHelper.insertParam("runGuid", run.runInfo.guid);
+            this.updateTime(run);
+            this.updateSummary(run);
+            RunPageUpdater.updateTitle(run);
+            this.updateTestsList(run);
+        });
+        return run;
+    }
+    static updateTestsList(run) {
+        const paths = new Array();
+        const testStrings = new Array();
+        const tests = new Array();
+        document.getElementById("btn-back").setAttribute("href", `./../index.html`);
+        const files = run.testRunFiles;
+        for (let i = 0; i < files.length; i++) {
+            paths[i] = `./../tests/${files[i]}`;
+        }
+        this.loader.loadJsons(paths, 0, testStrings, (responses) => {
+            for (let i = 0; i < responses.length; i++) {
+                tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
+            }
+            this.setTestsList(tests);
+        });
+    }
+    static loadRun(index) {
+        let runInfos;
+        this.loader.loadRunsJson((response) => {
+            runInfos = JSON.parse(response, JsonLoader.reviveRun);
+            runInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
+            this.runsCount = runInfos.length;
+            if (index === undefined || index.toString() === "NaN") {
+                index = this.runsCount - 1;
+            }
+            if (index === 0) {
+                this.disableBtn("btn-prev");
+            }
+            if (index === runInfos.length - 1) {
+                this.disableBtn("btn-next");
+            }
+            this.currentRun = index;
+            this.updateRunPage(runInfos[index].guid);
+        });
+    }
+    static tryLoadRunByGuid() {
+        const guid = UrlHelper.getParam("runGuid");
+        if (guid === "") {
+            this.loadRun(undefined);
+            return;
+        }
+        let runInfos;
+        this.loader.loadRunsJson((response) => {
+            runInfos = JSON.parse(response, JsonLoader.reviveRun);
+            runInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
+            this.runsCount = runInfos.length;
+            const runInfo = runInfos.find((r) => r.guid === guid);
+            if (runInfo != undefined) {
+                this.enableBtns();
+                const index = runInfos.indexOf(runInfo);
+                if (index === 0) {
+                    this.disableBtn("btn-prev");
+                }
+                if (index === runInfos.length - 1) {
+                    this.disableBtn("btn-next");
+                }
+                this.loadRun(index);
+            }
+            else {
+                this.loadRun(undefined);
+            }
+        });
+    }
+    static enableBtns() {
+        document.getElementById("btn-prev").removeAttribute("disabled");
+        document.getElementById("btn-next").removeAttribute("disabled");
+    }
+    static disableBtn(id) {
+        document.getElementById(id).setAttribute("disabled", "true");
+    }
+    static loadPrev() {
+        if (this.currentRun === 0) {
+            this.disableBtn("btn-prev");
+            return;
+        }
+        else {
+            this.enableBtns();
+            this.currentRun -= 1;
+            if (this.currentRun === 0) {
+                this.disableBtn("btn-prev");
+            }
+            this.loadRun(this.currentRun);
+        }
+    }
+    static loadNext() {
+        if (this.currentRun === this.runsCount - 1) {
+            this.disableBtn("btn-next");
+            return;
+        }
+        else {
+            this.enableBtns();
+            this.currentRun += 1;
+            if (this.currentRun === this.runsCount - 1) {
+                this.disableBtn("btn-next");
+            }
+            this.loadRun(this.currentRun);
+        }
+    }
+    static loadLatest() {
+        this.disableBtn("btn-next");
+        this.loadRun(undefined);
+    }
+    static initializePage() {
+        this.tryLoadRunByGuid();
+        const tabFromUrl = UrlHelper.getParam("currentTab");
+        const tab = tabFromUrl === "" ? "run-main-stats" : tabFromUrl;
+        this.showTab(tab, document.getElementById(`tab-${tab}`));
+    }
+    static showTab(idToShow, caller) {
+        TabsHelper.showTab(idToShow, caller, this.runPageTabsIds);
+    }
+}
+RunPageUpdater.loader = new JsonLoader(PageType.TestRunPage);
+RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list"];
 class ReportPageUpdater {
     static updateFields(run) {
-        document.getElementById("start").innerHTML = `Start datetime: ${DateFormatter.format(run.runInfo.start)}`;
-        document.getElementById("finish").innerHTML = `Finish datetime: ${DateFormatter.format(run.runInfo.finish)}`;
-        document.getElementById("duration").innerHTML = `Duration: ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
+        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
+        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
+        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
     }
     static updateRunsList(runs) {
         let list = "";
         const c = runs.length;
         for (let i = 0; i < c; i++) {
             const r = runs[i];
-            list += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
+            list += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
         }
         document.getElementById("all-runs").innerHTML = list;
     }
     static updatePlotlyBars(runs) {
-        document.getElementById("total").innerHTML = `Total: ${runs.length}`;
+        document.getElementById("total").innerHTML = `<b>Total:</b> ${runs.length}`;
         let plotlyData = new Array();
         const passedY = new Array();
         const failedY = new Array();
@@ -469,28 +479,32 @@ class ReportPageUpdater {
         ];
         const pieDiv = document.getElementById("runs-bars");
         Plotly.newPlot(pieDiv, plotlyData, {
-            barmode: "stack",
-            bargap: 0.01,
+            title: "Runs statistics",
             xaxis: {
                 tickvals: tickvals,
-                ticktext: ticktext
-            }
+                ticktext: ticktext,
+                title: "Runs"
+            },
+            yaxis: {
+                title: "Tests number"
+            },
+            barmode: "stack",
+            bargap: 0.01
         });
     }
-    static updatePage(index = undefined) {
+    static updatePage(index) {
         let runInfos;
         const paths = new Array();
         const r = new Array();
         const runs = new Array();
-        var loader = new JsonLoader(PageType.TestRunsPage);
-        loader.loadRunsJson((response) => {
-            runInfos = JSON.parse(response, loader.reviveRun);
+        this.loader.loadRunsJson((response) => {
+            runInfos = JSON.parse(response, JsonLoader.reviveRun);
             for (let i = 0; i < runInfos.length; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
             }
-            loader.loadJsons(paths, 0, r, (responses) => {
+            this.loader.loadJsons(paths, 0, r, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
-                    runs[i] = JSON.parse(responses[i], loader.reviveRun);
+                    runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }
                 this.updateFields(runs[runs.length - 1]);
                 this.updatePlotlyBars(runs);
@@ -498,11 +512,285 @@ class ReportPageUpdater {
             });
         });
     }
+    static initializePage() {
+        this.updatePage(undefined);
+        this.showTab("runs-stats", document.getElementById("tab-runs-stats"));
+    }
     static showTab(idToShow, caller) {
         TabsHelper.showTab(idToShow, caller, this.reportPageTabsIds);
     }
+}
+ReportPageUpdater.loader = new JsonLoader(PageType.TestRunsPage);
+ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
+class TestRunHelper {
+    static getColor(t) {
+        const result = this.getResult(t);
+        switch (result) {
+            case TestResult.Passed:
+                return Color.passed;
+            case TestResult.Failed:
+                return Color.failed;
+            case TestResult.Broken:
+                return Color.broken;
+            case TestResult.Ignored:
+                return Color.ignored;
+            case TestResult.Inconclusive:
+                return Color.inconclusive;
+            default:
+                return Color.unknown;
+        }
     }
-    ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
-    function loadRun1(guid) {
+    static getResult(t) {
+        if (t.result.indexOf("Passed") > -1) {
+            return TestResult.Passed;
+        }
+        if (t.result.indexOf("Error") > -1) {
+            return TestResult.Broken;
+        }
+        if (t.result.indexOf("Failed") > -1 || t.result.indexOf("Failure") > -1) {
+            return TestResult.Failed;
+        }
+        if (t.result.indexOf("Inconclusive") > -1) {
+            return TestResult.Inconclusive;
+        }
+        if (t.result.indexOf("Ignored") > -1 || t.result.indexOf("Skipped") > -1) {
+            return TestResult.Ignored;
+        }
+        return TestResult.Unknown;
     }
-        //# sourceMappingURL=ghpr.controller.js.map
+    static getColoredResult(t) {
+        return `<span class="p-1" style= "background-color: ${this.getColor(t)};" > ${t.result} </span>`;
+    }
+    static getOutput(t) {
+        return t.output === "" ? "-" : t.output;
+    }
+    static getMessage(t) {
+        return t.testMessage === "" ? "-" : t.testMessage;
+    }
+    static getStackTrace(t) {
+        return t.testStackTrace === "" ? "-" : t.testStackTrace;
+    }
+}
+class TestPageUpdater {
+    static updateMainInformation(t) {
+        document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
+        document.getElementById("name").innerHTML = `<b>Test name:</b> ${t.name}`;
+        document.getElementById("full-name").innerHTML = `<b>Full name:</b> ${t.fullName}`;
+        document.getElementById("result").innerHTML = `<b>Result:</b> ${TestRunHelper.getColoredResult(t)}`;
+        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(t.testInfo.start)}`;
+        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(t.testInfo.finish)}`;
+        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${t.duration.toString()}`;
+        document.getElementById("message").innerHTML = `<b>Message:</b> ${TestRunHelper.getMessage(t)}`;
+    }
+    static updateOutput(t) {
+        document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br> ${TestRunHelper.getOutput(t)}`;
+    }
+    static updateFailure(t) {
+        document.getElementById("test-message").innerHTML = `<b>Message:</b><br> ${TestRunHelper.getMessage(t)}`;
+        document.getElementById("test-stack-trace").innerHTML = `<b>Stack trace:</b><br> ${TestRunHelper.getStackTrace(t)}`;
+    }
+    static setTestHistory(tests) {
+        const historyDiv = document.getElementById("test-history-chart");
+        let plotlyData = new Array();
+        const dataX = new Array();
+        const dataY = new Array();
+        const tickvals = new Array();
+        const ticktext = new Array();
+        const colors = new Array();
+        const c = tests.length;
+        for (let i = 0; i < c; i++) {
+            const t = tests[i];
+            dataX[i] = t.testInfo.finish;
+            colors[i] = TestRunHelper.getColor(t);
+            const j = c - i - 1;
+            dataY[i] = t.duration;
+            tickvals[i] = j;
+            ticktext[i] = `test ${j}`;
+        }
+        const historyTrace = {
+            x: dataX,
+            y: dataY,
+            name: "Test history",
+            hoverinfo: "x",
+            type: "scatter",
+            showlegend: false,
+            marker: {
+                color: colors,
+                size: 25,
+                line: { color: Color.unknown, width: 4 }
+            },
+            mode: "lines+markers",
+            line: { shape: "spline", color: Color.unknown, width: 8 },
+            textfont: { family: "Helvetica, arial, sans-serif" }
+        };
+        const index = this.currentTest;
+        const currentTest = {
+            x: [dataX[index]],
+            y: [dataY[index]],
+            name: "Current test",
+            type: "scatter",
+            mode: "markers",
+            hoverinfo: "name",
+            showlegend: false,
+            marker: {
+                color: [TestRunHelper.getColor(tests[index])],
+                size: 40,
+                line: { color: Color.unknown, width: 8 }
+            }
+        };
+        plotlyData = [historyTrace, currentTest];
+        const layout = {
+            title: "Test history",
+            xaxis: {
+                title: "Finish datetime"
+            },
+            yaxis: {
+                title: "Test duration (sec.)"
+            }
+        };
+        Plotly.newPlot(historyDiv, plotlyData, layout);
+    }
+    static updateTestPage(testGuid, fileName) {
+        let test;
+        this.loader.loadTestJson(testGuid, fileName, (response) => {
+            test = JSON.parse(response, JsonLoader.reviveRun);
+            UrlHelper.insertParam("testGuid", test.testInfo.guid);
+            UrlHelper.insertParam("testFile", test.testInfo.fileName);
+            this.updateMainInformation(test);
+            this.updateOutput(test);
+            this.updateFailure(test);
+            document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${test.runGuid}`);
+            this.updateTestHistory();
+        });
+        return test;
+    }
+    static updateTestHistory() {
+        const paths = new Array();
+        const testStrings = new Array();
+        const tests = new Array();
+        const guid = UrlHelper.getParam("testGuid");
+        let testInfos;
+        this.loader.loadTestsJson(guid, (response) => {
+            testInfos = JSON.parse(response, JsonLoader.reviveRun);
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
+            for (let i = 0; i < testInfos.length; i++) {
+                paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
+            }
+            this.loader.loadJsons(paths, 0, testStrings, (responses) => {
+                for (let i = 0; i < responses.length; i++) {
+                    tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
+                }
+                this.setTestHistory(tests);
+            });
+        });
+    }
+    static loadTest(index) {
+        const guid = UrlHelper.getParam("testGuid");
+        let testInfos;
+        this.loader.loadTestsJson(guid, (response) => {
+            testInfos = JSON.parse(response, JsonLoader.reviveRun);
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
+            this.testVersionsCount = testInfos.length;
+            if (index === undefined || index.toString() === "NaN") {
+                index = this.testVersionsCount - 1;
+            }
+            if (index === 0) {
+                this.disableBtn("btn-prev");
+            }
+            if (index === testInfos.length - 1) {
+                this.disableBtn("btn-next");
+            }
+            this.currentTest = index;
+            this.updateTestPage(testInfos[index].guid, testInfos[index].fileName);
+        });
+    }
+    static tryLoadTestByGuid() {
+        const guid = UrlHelper.getParam("testGuid");
+        const fileName = UrlHelper.getParam("testFile");
+        let testInfos;
+        this.loader.loadTestsJson(guid, (response) => {
+            testInfos = JSON.parse(response, JsonLoader.reviveRun);
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
+            this.testVersionsCount = testInfos.length;
+            const testInfo = testInfos.find((t) => t.fileName === fileName);
+            if (testInfo != undefined) {
+                this.enableBtns();
+                const index = testInfos.indexOf(testInfo);
+                if (index === 0) {
+                    this.disableBtn("btn-prev");
+                }
+                if (index === testInfos.length - 1) {
+                    this.disableBtn("btn-next");
+                }
+                this.loadTest(index);
+            }
+            else {
+                this.loadTest(undefined);
+            }
+        });
+    }
+    static enableBtns() {
+        document.getElementById("btn-prev").removeAttribute("disabled");
+        document.getElementById("btn-next").removeAttribute("disabled");
+    }
+    static disableBtn(id) {
+        document.getElementById(id).setAttribute("disabled", "true");
+    }
+    static loadPrev() {
+        if (this.currentTest === 0) {
+            this.disableBtn("btn-prev");
+            return;
+        }
+        else {
+            this.enableBtns();
+            this.currentTest -= 1;
+            if (this.currentTest === 0) {
+                this.disableBtn("btn-prev");
+            }
+            this.loadTest(this.currentTest);
+        }
+    }
+    static loadNext() {
+        if (this.currentTest === this.testVersionsCount - 1) {
+            this.disableBtn("btn-next");
+            return;
+        }
+        else {
+            this.enableBtns();
+            this.currentTest += 1;
+            if (this.currentTest === this.testVersionsCount - 1) {
+                this.disableBtn("btn-next");
+            }
+            this.loadTest(this.currentTest);
+        }
+    }
+    static loadLatest() {
+        this.disableBtn("btn-next");
+        this.loadTest(undefined);
+    }
+    static initializePage() {
+        this.tryLoadTestByGuid();
+        const tabFromUrl = UrlHelper.getParam("currentTab");
+        const tab = tabFromUrl === "" ? "test-history" : tabFromUrl;
+        this.showTab(tab === "" ? "test-history" : tab, document.getElementById(`tab-${tab}`));
+    }
+    static showTab(idToShow, caller) {
+        TabsHelper.showTab(idToShow, caller, this.runPageTabsIds);
+    }
+}
+TestPageUpdater.loader = new JsonLoader(PageType.TestPage);
+TestPageUpdater.runPageTabsIds = ["test-history", "test-output", "test-failure"];
+class Sorter {
+    static itemInfoSorterByFinishDateFunc(a, b) {
+        if (a.finish > b.finish) {
+            return 1;
+        }
+        if (a.finish < b.finish) {
+            return -1;
+        }
+        return 0;
+    }
+}
+function loadRun1(guid) {
+}
+//# sourceMappingURL=ghpr.controller.js.map
