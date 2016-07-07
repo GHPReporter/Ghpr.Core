@@ -18,8 +18,9 @@ namespace Ghpr.Core
         private static readonly ResourceExtractor Extractor = new ResourceExtractor(OutputPath);
         
         public static string OutputPath => Properties.Settings.Default.OutputPath;
-        public static bool ContinuousGeneration => Properties.Settings.Default.ContinuousGeneration;
         public static bool TakeScreenshotAfterFail => Properties.Settings.Default.TakeScreenshotAfterFail;
+        public static string Sprint => Properties.Settings.Default.Sprint;
+        public static string RunName => Properties.Settings.Default.RunName;
         public const string TestsFolder = "tests";
         public const string RunsFolder = "runs";
 
@@ -38,6 +39,8 @@ namespace Ghpr.Core
             try
             {
                 CleanUp();
+                _currentRun.Name = RunName;
+                _currentRun.Sprint = Sprint;
                 Extractor.ExtractReportBase();
                 _currentRun.RunInfo.Start = DateTime.Now;
             }
