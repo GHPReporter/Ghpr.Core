@@ -38,7 +38,11 @@ class TestPageUpdater {
         let screenshots = ""; 
         for (let i = 0; i < t.screenshots.length; i++) {
             const s = t.screenshots[i];
-            screenshots += `<img src="./img/${s.name}" alt="${s.name}"></img>`;
+            const src = `./${t.testInfo.guid}/img/${s.name}`;
+            screenshots += `<li><b>Screenshot ${DateFormatter.format(s.date)}:</b><a href="${src}"><img src="${src}" alt="${src}" style="width: 100%;"></img></a></li>`;
+        }
+        if (screenshots === "") {
+            screenshots = "-";
         }
         document.getElementById("screenshots").innerHTML = screenshots;
     }

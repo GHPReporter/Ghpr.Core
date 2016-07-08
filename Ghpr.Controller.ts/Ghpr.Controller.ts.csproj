@@ -23,11 +23,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
-    <Content Include="report\index.html" />
+    <Content Include="report\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="report\runs\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\js\ghpr.controller.js" />
+    <Content Include="report\src\js\ghpr.controller.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="report\src\js\jquery-1.11.0.min.js" />
     <Content Include="report\src\js\plotly.min.js" />
     <Content Include="report\src\js\tablesort.min.js" />
@@ -35,7 +39,9 @@
     <Content Include="report\src\octicons\octicons.svg" />
     <Content Include="report\src\style\github.css" />
     <Content Include="report\src\style\primer.css" />
-    <Content Include="report\tests\index.html" />
+    <Content Include="report\tests\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
