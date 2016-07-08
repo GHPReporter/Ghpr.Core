@@ -88,19 +88,15 @@
     <Compile Include="Utils\Taker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EmbeddedResources\Report\src\style\github.css" />
-    <EmbeddedResource Include="EmbeddedResources\Report\src\style\primer.css" />
-    <EmbeddedResource Include="EmbeddedResources\Report\src\octicons\octicons.css" />
-    <EmbeddedResource Include="EmbeddedResources\Report\src\octicons\octicons.svg" />
-    <EmbeddedResource Include="EmbeddedResources\Report\src\js\jquery-1.11.0.min.js" />
-    <EmbeddedResource Include="EmbeddedResources\Report\src\js\tablesort.min.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="EmbeddedResources\Report\src\octicons\octicons.eot" />
-    <EmbeddedResource Include="EmbeddedResources\Report\src\octicons\octicons.ttf" />
-    <EmbeddedResource Include="EmbeddedResources\Report\src\octicons\octicons.woff" />
-  </ItemGroup>
-  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octicons.eot">
+      <Link>EmbeddedResources\Report\src\octicons\octicons.eot</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octicons.ttf">
+      <Link>EmbeddedResources\Report\src\octicons\octicons.ttf</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octicons.woff">
+      <Link>EmbeddedResources\Report\src\octicons\octicons.woff</Link>
+    </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Ghpr.Core.nuspec" />
     <None Include="packages.config" />
@@ -109,9 +105,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="EmbeddedResources\Report\src\js\plotly.min.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\index.html">
@@ -131,6 +124,33 @@
   <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\runs\index.html">
       <Link>EmbeddedResources\Report\runs\index.html</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\js\jquery-1.11.0.min.js">
+      <Link>EmbeddedResources\Report\src\js\jquery-1.11.0.min.js</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\js\plotly.min.js">
+      <Link>EmbeddedResources\Report\src\js\plotly.min.js</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\js\tablesort.min.js">
+      <Link>EmbeddedResources\Report\src\js\tablesort.min.js</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octicons.css">
+      <Link>EmbeddedResources\Report\src\octicons\octicons.css</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octicons.svg">
+      <Link>EmbeddedResources\Report\src\octicons\octicons.svg</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\github.css">
+      <Link>EmbeddedResources\Report\src\style\github.css</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\primer.css">
+      <Link>EmbeddedResources\Report\src\style\primer.css</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
