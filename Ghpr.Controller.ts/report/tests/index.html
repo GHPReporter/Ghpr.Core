@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8" />
+    <title>GHP Report Test Page</title>
+    <script src="./../src/js/tablesort.min.js"></script>
+    <script src="./../src/js/jquery-1.11.0.min.js"></script>
+    <script src="./../src/js/ghpr.controller.js"></script>
+    <script src="./../src/js/plotly.min.js"></script>
+    <style type="text/css"></style>
+    <link rel="stylesheet" type="text/css" href="./../src/octicons/octicons.css" />
+    <link rel="stylesheet" type="text/css" href="./../src/style/primer.css" />
+    <link rel="stylesheet" type="text/css" href="./../src/style/github.css" />
+</head>
+<body onload="TestPageUpdater.initializePage();">
+    <div class="container">
+        <div class="border-bottom p-3 mb-3">
+            <div style="text-align: center;">
+                <h1 id="page-title">
+                    Test Page
+                </h1>
+            </div>
+        </div>
+        <div class="tabnav">
+            <div class="btn-group right">
+                <a id="btn-back" class="btn btn-sm" type="button" href="">
+                    <span class="octicon octicon-sign-in"></span>
+                    Back
+                </a>
+                <button id="btn-prev" class="btn btn-sm" type="button" onclick="TestPageUpdater.loadPrev();">
+                    <span class="octicon octicon-arrow-left"></span>
+                    Prev
+                </button>
+                <button id="btn-next" class="btn btn-sm" type="button" onclick="TestPageUpdater.loadNext();">
+                    Next
+                    <span class="octicon octicon-arrow-right"></span>
+                </button>
+                <button class="btn btn-sm" type="button" onclick="TestPageUpdater.loadLatest();">
+                    Latest
+                </button>
+            </div>
+            <nav class="tabnav-tabs">
+                <a id="tab-test-history" onclick="TestPageUpdater.showTab('test-history', this);" class="tabnav-tab selected">
+                    <span class="octicon octicon-graph"></span>
+                    Test history
+                </a>
+                <a id="tab-test-output" onclick="TestPageUpdater.showTab('test-output', this);" class="tabnav-tab">
+                    <span class="octicon octicon-file-text"></span>
+                    Output
+                </a>
+                <a id="tab-test-failure" onclick="TestPageUpdater.showTab('test-failure', this);" class="tabnav-tab">
+                    <span class="octicon octicon-stop"></span>
+                    Failure
+                </a>
+                <a id="tab-test-screenshots" onclick="TestPageUpdater.showTab('test-screenshots', this);" class="tabnav-tab">
+                    <span class="octicon octicon-device-desktop"></span>
+                    Screenshots
+                </a>
+            </nav>
+        </div>
+        <div class="columns border" id="test-history" style="margin-top: -16px">
+            <div class="one-third column">
+                <div>
+                    <h2 class="border-bottom p-3 mb-3">
+                        Main information:
+                    </h2>
+                    <div class="border border-0 p-3 mb-3">
+                        <ul style="word-wrap: break-word;">
+                            <li id="name">Test name: </li>
+                            <li id="full-name">Test full name: </li>
+                            <li id="result">Test result: </li>
+                            <li id="priority">Priority: </li>
+                            <li id="test-type">Test type: </li>
+                            <li id="start">Start datetime: </li>
+                            <li id="finish">Finish datetime: </li>
+                            <li id="duration">Duration: </li>
+                            <li id="categories">Test categories: </li>
+                            <li style="white-space: pre-wrap" id="message">Message: </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="two-thirds column">
+                <div id="test-history-chart">
+
+                </div>
+            </div>
+        </div>
+        <div class="columns border" id="test-output" style="margin-top: -16px; display: none">
+            <div class="column">
+                <h2 class="border-bottom p-3 mb-3">
+                    Test output:
+                </h2>
+                <ul>
+                    <li id="test-output-string" style="white-space: pre-wrap;"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="columns border" id="test-failure" style="margin-top: -16px; display: none">
+            <div class="column">
+                <h2 class="border-bottom p-3 mb-3">
+                    Test failure:
+                </h2>
+                <ul>
+                    <li id="test-message" style="white-space: pre-wrap"></li>
+                    <li id="test-stack-trace" style="white-space: pre-wrap"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="columns border" id="test-screenshots" style="margin-top: -16px; display: none">
+            <div class="column">
+                <h2 class="border-bottom p-3 mb-3">
+                    Test screenshots:
+                </h2>
+                <ul>
+                    <li id="screenshots"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<footer>
+    <div class="border border-0 p-3 mb-3" style="text-align: center;">
+        <div style="position: relative;">
+            Copyright 2015-2016 © GhpReporter
+        </div>
+    </div>
+</footer>
