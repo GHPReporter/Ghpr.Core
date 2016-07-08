@@ -34,6 +34,15 @@ class TestPageUpdater {
         document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br> ${TestRunHelper.getOutput(t)}`;
     }
 
+    private static updateScreenshots(t: ITestRun): void {
+        let screenshots = ""; 
+        for (let i = 0; i < t.screenshots.length; i++) {
+            const s = t.screenshots[i];
+            screenshots += `<img src="./img/${s.name}" alt="${s.name}"></img>`;
+        }
+        document.getElementById("screenshots").innerHTML = screenshots;
+    }
+
     private static updateFailure(t: ITestRun): void {
         document.getElementById("test-message").innerHTML = `<b>Message:</b><br> ${TestRunHelper.getMessage(t)}`;
         document.getElementById("test-stack-trace").innerHTML = `<b>Stack trace:</b><br> ${TestRunHelper.getStackTrace(t)}`;
@@ -105,18 +114,19 @@ class TestPageUpdater {
     }
 
     private static updateTestPage(testGuid: string, fileName: string): ITestRun {
-        let test: ITestRun;
+        let t: ITestRun;
         this.loader.loadTestJson(testGuid, fileName, (response: string) => {
-            test = JSON.parse(response, JsonLoader.reviveRun);
-            UrlHelper.insertParam("testGuid", test.testInfo.guid);
-            UrlHelper.insertParam("testFile", test.testInfo.fileName);
-            this.updateMainInformation(test);
-            this.updateOutput(test);
-            this.updateFailure(test);
-            document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${test.runGuid}`);
+            t = JSON.parse(response, JsonLoader.reviveRun);
+            UrlHelper.insertParam("testGuid", t.testInfo.guid);
+            UrlHelper.insertParam("testFile", t.testInfo.fileName);
+            this.updateMainInformation(t);
+            this.updateOutput(t);
+            this.updateFailure(t);
+            this.updateScreenshots(t);
+            document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
         });
-        return test;
+        return t;
     }
 
     static updateTestHistory(): void {
