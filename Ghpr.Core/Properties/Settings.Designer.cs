@@ -35,18 +35,27 @@ namespace Ghpr.Core.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ContinuousGeneration {
+        public bool TakeScreenshotAfterFail {
             get {
-                return ((bool)(this["ContinuousGeneration"]));
+                return ((bool)(this["TakeScreenshotAfterFail"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool TakeScreenshotAfterFail {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RunName {
             get {
-                return ((bool)(this["TakeScreenshotAfterFail"]));
+                return ((string)(this["RunName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Sprint {
+            get {
+                return ((string)(this["Sprint"]));
             }
         }
     }

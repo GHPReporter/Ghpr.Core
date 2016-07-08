@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8" />
+    <title>GHP Report Run Page</title>
+    <script src="./../src/js/tablesort.min.js"></script>
+    <script src="./../src/js/jquery-1.11.0.min.js"></script>
+    <script src="./../src/js/ghpr.controller.js"></script>
+    <script src="./../src/js/plotly.min.js"></script>
+    <style type="text/css"></style>
+    <link rel="stylesheet" type="text/css" href="./../src/octicons/octicons.css" />
+    <link rel="stylesheet" type="text/css" href="./../src/style/primer.css" />
+    <link rel="stylesheet" type="text/css" href="./../src/style/github.css" />
+</head>
+<body onload="RunPageUpdater.initializePage();">
+    <div class="container">
+        <div class="border-bottom p-3 mb-3">
+            <div style="text-align: center;">
+                <h1 id="page-title">
+                    Test run report
+                </h1>
+            </div>
+        </div>
+        <div class="tabnav">
+            <div class="btn-group right">
+                <a id="btn-back" class="btn btn-sm" type="button" href="">
+                    <span class="octicon octicon-sign-in"></span>
+                    Back
+                </a>
+                <button id="btn-prev" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadPrev();">
+                    <span class="octicon octicon-arrow-left"></span>
+                    Prev
+                </button>
+                <button id="btn-next" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadNext();">
+                    Next
+                    <span class="octicon octicon-arrow-right"></span>
+                </button>
+                <button class="btn btn-sm" type="button" onclick="RunPageUpdater.loadLatest();">
+                    Latest
+                </button>
+            </div>
+            <nav class="tabnav-tabs">
+                <a id="tab-run-main-stats" onclick="RunPageUpdater.showTab('run-main-stats', this);" class="tabnav-tab selected">
+                    <span class="octicon octicon-graph"></span>
+                    Main statistics
+                </a>
+                <a id="tab-run-test-list" onclick="RunPageUpdater.showTab('run-test-list', this);" class="tabnav-tab">
+                    <span class="octicon octicon-list-unordered"></span>
+                    Test list
+                </a>
+            </nav>
+        </div>
+        <div class="columns border" id="run-main-stats" style="margin-top: -16px">
+            <div class="one-third column">
+                <div>
+                    <h2 class="border-bottom p-3 mb-3">
+                        Run information:
+                    </h2>
+                    <div class="border border-0 p-3 mb-3">
+                        <ul>
+                            <li id="name">Name: </li>
+                            <li id="sprint">Sprint: </li>
+                            <li id="start">Start datetime: </li>
+                            <li id="finish">Finish datetime: </li>
+                            <li id="duration">Duration: </li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="border-bottom p-3 mb-3">
+                        Summary:
+                    </h2>
+                    <div class="border border-0 p-3 mb-3">
+                        <ul>
+                            <li id="total">Total: </li>
+                            <li id="passed">Success: </li>
+                            <li id="broken">Errors: </li>
+                            <li id="failed">Failures: </li>
+                            <li id="inconclusive">Inconclusive: </li>
+                            <li id="ignored">Ignored: </li>
+                            <li id="unknown">Unknown: </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="two-thirds column">
+                <div id="summary-pie">
+
+                </div>
+            </div>
+        </div>
+        <div class="columns border" id="run-test-list" style="margin-top: -16px; display: none">
+            <div class="colunm">
+                <h2 class="border-bottom p-3 mb-3">
+                    Test list:
+                </h2>
+                <ul id="all-tests"></ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<footer>
+    <div class="border border-0 p-3 mb-3" style="text-align: center;">
+        <div style="position: relative;">
+            Copyright 2015-2016 © GhpReporter
+        </div>
+    </div>
+</footer>

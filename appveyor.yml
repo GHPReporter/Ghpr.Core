@@ -1,3 +1,8 @@
+-
+  branches:
+    only:
+    - nuget  
+  
   before_build:
     - nuget restore Ghpr.Core/Ghpr.Core.sln
 
@@ -18,3 +23,14 @@
       secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
     artifact: nupkg
+    
+-
+  branches:
+    except:
+    - nuget 
+    
+  before_build:
+    - nuget restore Ghpr.Core/Ghpr.Core.sln
+
+  build_script: 
+    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild

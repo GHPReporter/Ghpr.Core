@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web.UI.WebControls;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
@@ -56,13 +57,13 @@ namespace Ghpr.Core.Extensions
                 serializer.Serialize(file, testRun);
             }
         }
-        
+
         public static ITestRun GetTest(this List<ITestRun> testRuns, ITestRun testRun)
         {
-            return testRuns.FirstOrDefault(t => t.TestInfo.Guid.Equals(testRun.TestInfo.Guid) && !t.TestInfo.Guid.Equals(Guid.Empty))
-                ?? testRuns.FirstOrDefault(t => t.FullName.Equals(testRun.FullName))
-                ?? testRuns.FirstOrDefault(t => t.Name.Equals(testRun.Name)) 
-                ?? new TestRun();
+            var tr = testRuns.FirstOrDefault(t => t.TestInfo.Guid.Equals(testRun.TestInfo.Guid) && !t.TestInfo.Guid.Equals(Guid.Empty))
+                          ?? testRuns.FirstOrDefault(t => t.FullName.Equals(testRun.FullName))
+                          ?? new TestRun();
+            return tr;
         }
     }
 }

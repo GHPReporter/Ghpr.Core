@@ -18,8 +18,9 @@ namespace Ghpr.Core
         private static readonly ResourceExtractor Extractor = new ResourceExtractor(OutputPath);
         
         public static string OutputPath => Properties.Settings.Default.OutputPath;
-        public static bool ContinuousGeneration => Properties.Settings.Default.ContinuousGeneration;
         public static bool TakeScreenshotAfterFail => Properties.Settings.Default.TakeScreenshotAfterFail;
+        public static string Sprint => Properties.Settings.Default.Sprint;
+        public static string RunName => Properties.Settings.Default.RunName;
         public const string TestsFolder = "tests";
         public const string RunsFolder = "runs";
 
@@ -38,6 +39,8 @@ namespace Ghpr.Core
             try
             {
                 CleanUp();
+                _currentRun.Name = RunName;
+                _currentRun.Sprint = Sprint;
                 Extractor.ExtractReportBase();
                 _currentRun.RunInfo.Start = DateTime.Now;
             }
@@ -87,16 +90,26 @@ namespace Ghpr.Core
 
                 _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
 
-                var path = Path.Combine(OutputPath, TestsFolder, testGuid);
+                var testsPath = Path.Combine(OutputPath, TestsFolder);
+                var testPath = Path.Combine(testsPath, testGuid);
                 var fileName = finishDateTime.GetTestName();
+                finalTest.TestInfo.FileName = fileName;
                 finalTest.RunGuid = _currentRun.RunInfo.Guid;
+                if (finalTest.TestInfo.Start.Equals(default(DateTime)))
+                {
+                    finalTest.TestInfo.Start = finishDateTime;
+                }
+                if (finalTest.TestInfo.Finish.Equals(default(DateTime)))
+                {
+                    finalTest.TestInfo.Finish = finishDateTime;
+                }
                 finalTest
-                    .TakeScreenshot(path, TakeScreenshotAfterFail)
-                    .Save(path, fileName);
+                    .TakeScreenshot(testPath, TakeScreenshotAfterFail)
+                    .Save(testPath, fileName);
                 _currentRunningTests.Remove(currentTest);
                 _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
-                Extractor.ExtractTestPage(path);
-                TestRunsHelper.SaveCurrentTestInfo(path, finalTest.TestInfo);
+                Extractor.ExtractTestPage(testsPath);
+                TestRunsHelper.SaveCurrentTestInfo(testPath, finalTest.TestInfo);
             }
             catch (Exception ex)
             {

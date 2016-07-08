@@ -10,9 +10,12 @@ namespace Ghpr.Core.Common
     {
         [JsonProperty(PropertyName = "testRunFiles")]
         public List<string> TestRunFiles { get; set; }
-        
+
         [JsonProperty(PropertyName = "runInfo")]
         public IItemInfo RunInfo { get; set; }
+
+        [JsonProperty(PropertyName = "sprint")]
+        public string Sprint { get; set; }
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
@@ -27,6 +30,7 @@ namespace Ghpr.Core.Common
                 Guid = runGuid
             };
             Name = "";
+            Sprint = "";
         }
     }
 }

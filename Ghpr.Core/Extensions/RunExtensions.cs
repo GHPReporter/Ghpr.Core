@@ -16,6 +16,7 @@ namespace Ghpr.Core.Extensions
             {
                 fileName = $"run_{run.RunInfo.Guid.ToString().ToLower()}.json";
             }
+            run.RunInfo.FileName = fileName;
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

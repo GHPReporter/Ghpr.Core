@@ -23,6 +23,9 @@ namespace Ghpr.Core.Common
             TestMessage = "";
             Result = "";
             Output = "";
+            Priority = "";
+            TestType = "";
+            Categories = new string[] {};
             RunGuid = Guid.Empty;
             Screenshots = new List<ITestScreenshot>();
             Events = new List<ITestEvent>();
@@ -46,8 +49,17 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "result")]
         public string Result { get; set; }
 
+        [JsonProperty(PropertyName = "testType")]
+        public string TestType { get; set; }
+
         [JsonProperty(PropertyName = "output")]
         public string Output { get; set; }
+
+        [JsonProperty(PropertyName = "priority")]
+        public string Priority { get; set; }
+
+        [JsonProperty(PropertyName = "categories")]
+        public string[] Categories { get; set; }
 
         [JsonProperty(PropertyName = "testInfo")]
         public IItemInfo TestInfo { get; set; }

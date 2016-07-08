@@ -12,7 +12,10 @@ namespace Ghpr.Core.Interfaces
         string TestStackTrace { get; set; }
         string TestMessage { get; set; }
         string Result { get; set; }
+        string TestType { get; set; }
         string Output { get; set; }
+        string Priority { get; set; }
+        string[] Categories { get; set; }
         IItemInfo TestInfo { get; set; }
         Guid RunGuid { get; set; }
         List<ITestScreenshot> Screenshots { get; set; }

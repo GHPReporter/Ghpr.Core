@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{DCA2417E-5063-4831-9FA0-751F6438A700}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="index.html" />
+    <Content Include="report\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\runs\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\js\ghpr.controller.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\js\jquery-1.11.0.min.js" />
+    <Content Include="report\src\js\plotly.min.js" />
+    <Content Include="report\src\js\tablesort.min.js" />
+    <Content Include="report\src\octicons\octicons.css" />
+    <Content Include="report\src\octicons\octicons.svg" />
+    <Content Include="report\src\style\github.css" />
+    <Content Include="report\src\style\primer.css" />
+    <Content Include="report\tests\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="controller\common\Color.ts" />
+    <TypeScriptCompile Include="controller\common\Controller.ts" />
+    <TypeScriptCompile Include="controller\common\DateFormatter.ts" />
+    <TypeScriptCompile Include="controller\common\JsonLoader.ts" />
+    <TypeScriptCompile Include="controller\common\PathsHelper.ts" />
+    <TypeScriptCompile Include="controller\common\PlotlyJs.ts" />
+    <TypeScriptCompile Include="controller\common\ReportPageUpdater.ts" />
+    <TypeScriptCompile Include="controller\common\RunPageUpdater.ts" />
+    <TypeScriptCompile Include="controller\common\Sorter.ts" />
+    <TypeScriptCompile Include="controller\common\TabsHelper.ts" />
+    <TypeScriptCompile Include="controller\common\TestPageUpdater.ts" />
+    <TypeScriptCompile Include="controller\common\TestRunHelper.ts" />
+    <TypeScriptCompile Include="controller\common\UrlHelper.ts" />
+    <TypeScriptCompile Include="controller\enums\PageType.ts" />
+    <TypeScriptCompile Include="controller\enums\TestResult.ts" />
+    <TypeScriptCompile Include="controller\interfaces\IRun.ts" />
+    <TypeScriptCompile Include="controller\interfaces\IItemInfo.ts" />
+    <TypeScriptCompile Include="controller\interfaces\IRunSummary.ts" />
+    <TypeScriptCompile Include="controller\interfaces\ITestEvent.ts" />
+    <TypeScriptCompile Include="controller\interfaces\ITestRun.ts" />
+    <TypeScriptCompile Include="controller\interfaces\ITestScreenshot.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="report\src\octicons\octicons.eot" />
+    <Content Include="report\src\octicons\octicons.ttf" />
+    <Content Include="report\src\octicons\octicons.woff" />
+    <Content Include="tsconfig.json" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>Ghpr.Controller.ts</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>63671</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:63671/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>

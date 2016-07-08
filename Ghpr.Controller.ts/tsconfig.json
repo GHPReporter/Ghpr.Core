@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "outFile": "./report/src/js/ghpr.controller.js",
+    "target": "es6"
+  },
+  "files": [
+        "controller/interfaces/IRunSummary.ts",
+        "controller/interfaces/IItemInfo.ts",
+        "controller/interfaces/IRun.ts",
+        "controller/interfaces/ITestEvent.ts",
+        "controller/interfaces/ITestScreenshot.ts",
+        "controller/interfaces/ITestRun.ts",
+        "controller/enums/TestResult.ts",
+        "controller/enums/PageType.ts",
+        "controller/common/PathsHelper.ts",
+        "controller/common/TabsHelper.ts",
+        "controller/common/JsonLoader.ts",
+        "controller/common/DateFormatter.ts",
+        "controller/common/RunPageUpdater.ts",
+        "controller/common/ReportPageUpdater.ts",
+        "controller/common/TestPageUpdater.ts",
+        "controller/common/Sorter.ts",
+        "controller/common/Controller.ts",
+        "controller/common/UrlHelper.ts"
+  ]
+}
