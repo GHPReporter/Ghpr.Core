@@ -237,7 +237,9 @@ Color.ignored = "#81d4fa";
 Color.inconclusive = "#D6FAF7";
 Color.unknown = "#bdbdbd";
 class RunPageUpdater {
-    static updateTime(run) {
+    static updateRunInformation(run) {
+        document.getElementById("name").innerHTML = `<b>Run name:</b> ${run.name}`;
+        document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
@@ -295,7 +297,7 @@ class RunPageUpdater {
         this.loader.loadRunJson(runGuid, (response) => {
             run = JSON.parse(response, JsonLoader.reviveRun);
             UrlHelper.insertParam("runGuid", run.runInfo.guid);
-            this.updateTime(run);
+            RunPageUpdater.updateRunInformation(run);
             this.updateSummary(run);
             RunPageUpdater.updateTitle(run);
             this.updateTestsList(run);
@@ -570,6 +572,9 @@ class TestRunHelper {
     static getStackTrace(t) {
         return t.testStackTrace === "" ? "-" : t.testStackTrace;
     }
+    static getCategories(t) {
+        return t.categories.length <= 0 ? "-" : t.categories.join(", ");
+    }
 }
 class TestPageUpdater {
     static updateMainInformation(t) {
@@ -577,9 +582,12 @@ class TestPageUpdater {
         document.getElementById("name").innerHTML = `<b>Test name:</b> ${t.name}`;
         document.getElementById("full-name").innerHTML = `<b>Full name:</b> ${t.fullName}`;
         document.getElementById("result").innerHTML = `<b>Result:</b> ${TestRunHelper.getColoredResult(t)}`;
+        document.getElementById("priority").innerHTML = `<b>Priority:</b> ${t.priority}`;
+        document.getElementById("test-type").innerHTML = `<b>Test type:</b> ${t.testType}`;
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(t.testInfo.start)}`;
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(t.testInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${t.duration.toString()}`;
+        document.getElementById("categories").innerHTML = `<b>Categories:</b> ${TestRunHelper.getCategories(t)}`;
         document.getElementById("message").innerHTML = `<b>Message:</b> ${TestRunHelper.getMessage(t)}`;
     }
     static updateOutput(t) {
