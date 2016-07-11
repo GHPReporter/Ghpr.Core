@@ -7,6 +7,11 @@
 Easy-to-use reporter
 
 # Usage
-##NUnit 3
+
+###NUnit 3.x
 
 See [Ghpr.NUnit repository](https://github.com/GHPReporter/Ghpr.NUnit#usage)
+
+# Demo Report
+
+You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
