@@ -15,3 +15,7 @@ See [Ghpr.NUnit repository](https://github.com/GHPReporter/Ghpr.NUnit#usage)
 # Demo Report
 
 You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
+
+# Contributing
+
+Anyone contributing is welcome. Write [issues](https://github.com/GHPReporter/Ghpr.Core/issues), create [pull requests](https://github.com/GHPReporter/Ghpr.Core/pulls).
