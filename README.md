@@ -3,3 +3,10 @@
 [![NuGet Version](https://img.shields.io/nuget/v/Ghpr.Core.svg)](https://www.nuget.org/packages/Ghpr.Core)
 
 # Ghpr.Core
+
+Easy-to-use reporter
+
+# Usage
+##NUnit 3
+
+See [Ghpr.NUnit repository](https://github.com/GHPReporter/Ghpr.NUnit#usage)
