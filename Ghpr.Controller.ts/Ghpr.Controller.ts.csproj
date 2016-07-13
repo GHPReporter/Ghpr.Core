@@ -29,6 +29,7 @@
     <Content Include="report\runs\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="report\src\favicon.ico" />
     <Content Include="report\src\js\ghpr.controller.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

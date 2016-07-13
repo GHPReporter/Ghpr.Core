@@ -153,6 +153,11 @@
       <Link>EmbeddedResources\Report\src\style\primer.css</Link>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\favicon.ico">
+      <Link>EmbeddedResources\Report\src\favicon.ico</Link>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
