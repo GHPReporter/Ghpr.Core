@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/GHPReporter/GHPReporter.github.io/blob/master/img/logo.png?raw=true" alt="Project icon">
+  <img src="https://github.com/GHPReporter/GHPReporter.github.io/blob/master/img/logo-small.png?raw=true" alt="Project icon">
   <br><br>
   <b>Some Links:</b><br>
   <a href="https://ghpreporter.github.io/">Site</a> |
