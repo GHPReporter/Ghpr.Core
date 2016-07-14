@@ -13,6 +13,14 @@ var PageType;
     PageType[PageType["TestRunPage"] = 1] = "TestRunPage";
     PageType[PageType["TestPage"] = 2] = "TestPage";
 })(PageType || (PageType = {}));
+class Color {
+}
+Color.passed = "#8bc34a";
+Color.broken = "#ffc107";
+Color.failed = "#ef5350";
+Color.ignored = "#81d4fa";
+Color.inconclusive = "#D6FAF7";
+Color.unknown = "#bdbdbd";
 class PathsHelper {
     static getRunPath(pt, guid) {
         switch (pt) {
@@ -124,6 +132,39 @@ class TabsHelper {
         document.getElementById(idToShow).style.display = "";
     }
 }
+class ProgressBar {
+    constructor(total) {
+        this.barId = "progress-bar";
+        this.barDivId = "progress-bar-div";
+        this.barTextId = "progress-bar-line";
+        this.total = total;
+        this.current = 0;
+    }
+    show() {
+        document.getElementById(this.barId).innerHTML = `<div id="${this.barDivId}"><div id="${this.barTextId}"></div></div>`;
+        document.getElementById(this.barId).style.position = "relative";
+        document.getElementById(this.barId).style.width = "100%";
+        document.getElementById(this.barId).style.height = "20px";
+        document.getElementById(this.barId).style.backgroundColor = Color.unknown;
+        document.getElementById(this.barDivId).style.position = "absolute";
+        document.getElementById(this.barDivId).style.width = "10%";
+        document.getElementById(this.barDivId).style.height = "100%";
+        document.getElementById(this.barDivId).style.backgroundColor = Color.passed;
+        document.getElementById(this.barTextId).style.textAlign = "center";
+        document.getElementById(this.barTextId).style.lineHeight = "20px";
+        document.getElementById(this.barTextId).style.color = "white";
+    }
+    onLoaded(count = 1) {
+        this.current += count;
+        const percentage = 100 * this.current / this.total;
+        const pString = percentage.toString() + "%";
+        document.getElementById(this.barDivId).style.width = pString;
+        document.getElementById(this.barTextId).innerHTML = pString;
+    }
+    hide() {
+        document.getElementById(this.barId).setAttribute("disabled", "true");
+    }
+}
 class JsonLoader {
     constructor(pt) {
         this.pageType = pt;
@@ -228,14 +269,6 @@ class DateFormatter {
             return s;
     }
 }
-class Color {
-}
-Color.passed = "#8bc34a";
-Color.broken = "#ffc107";
-Color.failed = "#ef5350";
-Color.ignored = "#81d4fa";
-Color.inconclusive = "#D6FAF7";
-Color.unknown = "#bdbdbd";
 class RunPageUpdater {
     static updateRunInformation(run) {
         document.getElementById("name").innerHTML = `<b>Run name:</b> ${run.name}`;
