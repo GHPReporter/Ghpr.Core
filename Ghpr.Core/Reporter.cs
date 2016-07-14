@@ -21,6 +21,8 @@ namespace Ghpr.Core
         public static bool TakeScreenshotAfterFail => Properties.Settings.Default.TakeScreenshotAfterFail;
         public static string Sprint => Properties.Settings.Default.Sprint;
         public static string RunName => Properties.Settings.Default.RunName;
+        public static bool RealTime => Properties.Settings.Default.RealTime;
+
         public const string TestsFolder = "tests";
         public const string RunsFolder = "runs";
 
@@ -58,7 +60,6 @@ namespace Ghpr.Core
                 var runsPath = Path.Combine(OutputPath, RunsFolder);
                 _currentRun.Save(runsPath);
                 RunsHelper.SaveCurrentRunInfo(runsPath, _currentRun.RunInfo);
-                CleanUp();
             }
             catch (Exception ex)
             {
@@ -110,6 +111,11 @@ namespace Ghpr.Core
                 _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
                 Extractor.ExtractTestPage(testsPath);
                 TestRunsHelper.SaveCurrentTestInfo(testPath, finalTest.TestInfo);
+
+                if (RealTime)
+                {
+                    RunFinished();
+                }
             }
             catch (Exception ex)
             {
