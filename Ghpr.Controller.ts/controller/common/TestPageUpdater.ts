@@ -147,7 +147,7 @@ class TestPageUpdater {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
 
-            this.loader.loadJsons(paths, 0, testStrings, (responses: Array<string>) => {
+            this.loader.loadAllJsons(paths, 0, testStrings, (responses: Array<string>) => {
                 for (let i = 0; i < responses.length; i++) {
                     tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }

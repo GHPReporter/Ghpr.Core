@@ -76,6 +76,12 @@ class RunPageUpdater {
         }
         document.getElementById("all-tests").innerHTML = list;
     }
+
+    private static addTest(t: ITestRun, c: number, i: number): void {
+        //console.log(`adding ${i} of ${c}`);
+        document.getElementById("all-tests").innerHTML += 
+            `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFile=${t.testInfo.fileName}">${t.name}</a></li>`;;
+    }
     
     private static updateRunPage(runGuid: string): IRun {
         let run: IRun;
@@ -92,6 +98,24 @@ class RunPageUpdater {
 
     static updateTestsList(run: IRun): void {
         const paths: Array<string> = new Array();
+        var test: ITestRun;
+
+        document.getElementById("btn-back").setAttribute("href", `./../index.html`);
+
+        const files = run.testRunFiles;
+        for (let i = 0; i < files.length; i++) {
+            paths[i] = `./../tests/${files[i]}`;
+        }
+        var index = 0;
+        this.loader.loadJsons(paths, 0, (response: string, c: number, i: number) => {
+            test = JSON.parse(response, JsonLoader.reviveRun);
+            this.addTest(test, c, i);
+            index++;
+        });
+    }
+
+    static updateTestsList2(run: IRun): void {
+        const paths: Array<string> = new Array();
         const testStrings: Array<string> = new Array();
         const tests: Array<ITestRun> = new Array();
 
@@ -101,7 +125,7 @@ class RunPageUpdater {
         for (let i = 0; i < files.length; i++) {
             paths[i] = `./../tests/${files[i]}`;
         }
-        this.loader.loadJsons(paths, 0, testStrings, (responses: Array<string>) => {
+        this.loader.loadAllJsons(paths, 0, testStrings, (responses: Array<string>) => {
             for (let i = 0; i < responses.length; i++) {
                 tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
             }

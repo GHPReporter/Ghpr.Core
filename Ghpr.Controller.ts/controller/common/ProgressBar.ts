@@ -15,6 +15,8 @@ class ProgressBar {
     }
 
     show(): void {
+        console.log(`showing...`);
+        document.getElementById(this.barId).style.display = "";
         document.getElementById(this.barId).innerHTML = `<div id="${this.barDivId}"><div id="${this.barTextId}"></div></div>`;
         document.getElementById(this.barId).style.position = "relative";
         document.getElementById(this.barId).style.width = "100%";
@@ -27,9 +29,10 @@ class ProgressBar {
         document.getElementById(this.barTextId).style.textAlign = "center";
         document.getElementById(this.barTextId).style.lineHeight = "20px";
         document.getElementById(this.barTextId).style.color = "white";
+        console.log(`done.`);
     }
 
-    onLoaded(count: number = 1): void {
+    onLoaded(count: number): void {
         this.current += count;
         const percentage = 100 * this.current / this.total;
         const pString = percentage.toString() + "%";
@@ -38,7 +41,10 @@ class ProgressBar {
     }
 
     hide(): void {
-        document.getElementById(this.barId).setAttribute("disabled", "true");
+        console.log(`hiding...`);
+        document.getElementById(this.barId).innerHTML = "";
+        document.getElementById(this.barId).style.display = "none";
+        console.log(`done.`);
     }
 
 }

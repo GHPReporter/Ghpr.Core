@@ -108,7 +108,7 @@ class ReportPageUpdater {
             for (let i = 0; i < runInfos.length; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
             }
-            this.loader.loadJsons(paths, 0, r, (responses: Array<string>) => {
+            this.loader.loadAllJsons(paths, 0, r, (responses: Array<string>) => {
                 for (let i = 0; i < responses.length; i++) {
                     runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }

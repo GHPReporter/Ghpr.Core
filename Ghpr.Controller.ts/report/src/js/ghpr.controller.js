@@ -1,3 +1,11 @@
+class Color {
+}
+Color.passed = "#8bc34a";
+Color.broken = "#ffc107";
+Color.failed = "#ef5350";
+Color.ignored = "#81d4fa";
+Color.inconclusive = "#D6FAF7";
+Color.unknown = "#bdbdbd";
 var TestResult;
 (function (TestResult) {
     TestResult[TestResult["Passed"] = 0] = "Passed";
@@ -13,14 +21,6 @@ var PageType;
     PageType[PageType["TestRunPage"] = 1] = "TestRunPage";
     PageType[PageType["TestPage"] = 2] = "TestPage";
 })(PageType || (PageType = {}));
-class Color {
-}
-Color.passed = "#8bc34a";
-Color.broken = "#ffc107";
-Color.failed = "#ef5350";
-Color.ignored = "#81d4fa";
-Color.inconclusive = "#D6FAF7";
-Color.unknown = "#bdbdbd";
 class PathsHelper {
     static getRunPath(pt, guid) {
         switch (pt) {
@@ -141,6 +141,8 @@ class ProgressBar {
         this.current = 0;
     }
     show() {
+        console.log(`showing...`);
+        document.getElementById(this.barId).style.display = "";
         document.getElementById(this.barId).innerHTML = `<div id="${this.barDivId}"><div id="${this.barTextId}"></div></div>`;
         document.getElementById(this.barId).style.position = "relative";
         document.getElementById(this.barId).style.width = "100%";
@@ -153,8 +155,9 @@ class ProgressBar {
         document.getElementById(this.barTextId).style.textAlign = "center";
         document.getElementById(this.barTextId).style.lineHeight = "20px";
         document.getElementById(this.barTextId).style.color = "white";
+        console.log(`done.`);
     }
-    onLoaded(count = 1) {
+    onLoaded(count) {
         this.current += count;
         const percentage = 100 * this.current / this.total;
         const pString = percentage.toString() + "%";
@@ -162,7 +165,10 @@ class ProgressBar {
         document.getElementById(this.barTextId).innerHTML = pString;
     }
     hide() {
-        document.getElementById(this.barId).setAttribute("disabled", "true");
+        console.log(`hiding...`);
+        document.getElementById(this.barId).innerHTML = "";
+        document.getElementById(this.barId).style.display = "none";
+        console.log(`done.`);
     }
 }
 class JsonLoader {
@@ -205,9 +211,9 @@ class JsonLoader {
         };
         req.send(null);
     }
-    loadJsons(paths, ind, resps, callback) {
+    loadAllJsons(paths, ind, resps, callback, loadAll = true) {
         const count = paths.length;
-        if (ind >= count) {
+        if (loadAll && ind >= count) {
             callback(resps);
             return;
         }
@@ -223,7 +229,39 @@ class JsonLoader {
                 else {
                     resps[ind] = req.responseText;
                     ind++;
-                    this.loadJsons(paths, ind, resps, callback);
+                    this.loadAllJsons(paths, ind, resps, callback, loadAll);
+                }
+        };
+        req.timeout = 2000;
+        req.ontimeout = () => {
+            console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
+        };
+        req.send(null);
+    }
+    loadJsons(paths, ind, callback) {
+        const count = paths.length;
+        const pb = new ProgressBar(paths.length);
+        if (ind === 0) {
+            pb.show();
+        }
+        if (ind >= count) {
+            pb.hide();
+            return;
+        }
+        const req = new XMLHttpRequest();
+        req.overrideMimeType("application/json");
+        req.open("get", paths[ind], true);
+        req.onreadystatechange = () => {
+            if (req.readyState === 4)
+                if (req.status !== 200) {
+                    console
+                        .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
+                }
+                else {
+                    callback(req.responseText, count, ind);
+                    pb.onLoaded(ind);
+                    ind++;
+                    this.loadJsons(paths, ind, callback);
                 }
         };
         req.timeout = 2000;
@@ -325,6 +363,11 @@ class RunPageUpdater {
         }
         document.getElementById("all-tests").innerHTML = list;
     }
+    static addTest(t, c, i) {
+        document.getElementById("all-tests").innerHTML +=
+            `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFile=${t.testInfo.fileName}">${t.name}</a></li>`;
+        ;
+    }
     static updateRunPage(runGuid) {
         let run;
         this.loader.loadRunJson(runGuid, (response) => {
@@ -339,6 +382,21 @@ class RunPageUpdater {
     }
     static updateTestsList(run) {
         const paths = new Array();
+        var test;
+        document.getElementById("btn-back").setAttribute("href", `./../index.html`);
+        const files = run.testRunFiles;
+        for (let i = 0; i < files.length; i++) {
+            paths[i] = `./../tests/${files[i]}`;
+        }
+        var index = 0;
+        this.loader.loadJsons(paths, 0, (response, c, i) => {
+            test = JSON.parse(response, JsonLoader.reviveRun);
+            this.addTest(test, c, i);
+            index++;
+        });
+    }
+    static updateTestsList2(run) {
+        const paths = new Array();
         const testStrings = new Array();
         const tests = new Array();
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
@@ -346,7 +404,7 @@ class RunPageUpdater {
         for (let i = 0; i < files.length; i++) {
             paths[i] = `./../tests/${files[i]}`;
         }
-        this.loader.loadJsons(paths, 0, testStrings, (responses) => {
+        this.loader.loadAllJsons(paths, 0, testStrings, (responses) => {
             for (let i = 0; i < responses.length; i++) {
                 tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
             }
@@ -537,7 +595,7 @@ class ReportPageUpdater {
             for (let i = 0; i < runInfos.length; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
             }
-            this.loader.loadJsons(paths, 0, r, (responses) => {
+            this.loader.loadAllJsons(paths, 0, r, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
                     runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }
@@ -730,7 +788,7 @@ class TestPageUpdater {
             for (let i = 0; i < testInfos.length; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
-            this.loader.loadJsons(paths, 0, testStrings, (responses) => {
+            this.loader.loadAllJsons(paths, 0, testStrings, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
                     tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }
