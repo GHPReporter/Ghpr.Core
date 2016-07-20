@@ -57,6 +57,9 @@ class TestRunHelper {
     }
 
     static getCategories(t: ITestRun): string {
+        if (t.categories === undefined) {
+            return "-";
+        }
         return t.categories.length <= 0 ? "-" : t.categories.join(", ");
     }
 }

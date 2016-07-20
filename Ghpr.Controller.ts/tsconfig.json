@@ -17,6 +17,7 @@
         "controller/interfaces/ITestRun.ts",
         "controller/enums/TestResult.ts",
         "controller/enums/PageType.ts",
+        "controller/common/UrlHelper.ts",
         "controller/common/PathsHelper.ts",
         "controller/common/ProgressBar.ts",
         "controller/common/TabsHelper.ts",
@@ -26,7 +27,6 @@
         "controller/common/ReportPageUpdater.ts",
         "controller/common/TestPageUpdater.ts",
         "controller/common/Sorter.ts",
-        "controller/common/Controller.ts",
-        "controller/common/UrlHelper.ts"
+        "controller/common/Controller.ts"
   ]
 }

@@ -21,6 +21,50 @@ var PageType;
     PageType[PageType["TestRunPage"] = 1] = "TestRunPage";
     PageType[PageType["TestPage"] = 2] = "TestPage";
 })(PageType || (PageType = {}));
+class UrlHelper {
+    static insertParam(key, value) {
+        const paramsPart = document.location.search.substr(1);
+        window.history.pushState("", "", "");
+        const p = `${key}=${value}`;
+        if (paramsPart === "") {
+            window.history.pushState("", "", `?${p}`);
+        }
+        else {
+            let params = paramsPart.split("&");
+            const paramToChange = params.find((par) => par.split("=")[0] === key);
+            if (paramToChange != undefined) {
+                if (params.length === 1) {
+                    params = [p];
+                }
+                else {
+                    const index = params.indexOf(paramToChange);
+                    params.splice(index, 1);
+                    params.push(p);
+                }
+            }
+            else {
+                params.push(p);
+            }
+            window.history.pushState("", "", `?${params.join("&")}`);
+        }
+    }
+    static getParam(key) {
+        const paramsPart = document.location.search.substr(1);
+        if (paramsPart === "") {
+            return "";
+        }
+        else {
+            const params = paramsPart.split("&");
+            const paramToGet = params.find((par) => par.split("=")[0] === key);
+            if (paramToGet != undefined) {
+                return paramToGet.split("=")[1];
+            }
+            else {
+                return "";
+            }
+        }
+    }
+}
 class PathsHelper {
     static getRunPath(pt, guid) {
         switch (pt) {
@@ -71,50 +115,6 @@ class PathsHelper {
         }
     }
 }
-class UrlHelper {
-    static insertParam(key, value) {
-        const paramsPart = document.location.search.substr(1);
-        window.history.pushState("", "", "");
-        const p = `${key}=${value}`;
-        if (paramsPart === "") {
-            window.history.pushState("", "", `?${p}`);
-        }
-        else {
-            let params = paramsPart.split("&");
-            const paramToChange = params.find((par) => par.split("=")[0] === key);
-            if (paramToChange != undefined) {
-                if (params.length === 1) {
-                    params = [p];
-                }
-                else {
-                    const index = params.indexOf(paramToChange);
-                    params.splice(index, 1);
-                    params.push(p);
-                }
-            }
-            else {
-                params.push(p);
-            }
-            window.history.pushState("", "", `?${params.join("&")}`);
-        }
-    }
-    static getParam(key) {
-        const paramsPart = document.location.search.substr(1);
-        if (paramsPart === "") {
-            return "";
-        }
-        else {
-            const params = paramsPart.split("&");
-            const paramToGet = params.find((par) => par.split("=")[0] === key);
-            if (paramToGet != undefined) {
-                return paramToGet.split("=")[1];
-            }
-            else {
-                return "";
-            }
-        }
-    }
-}
 class TabsHelper {
     static showTab(idToShow, caller, pageTabsIds) {
         if (pageTabsIds.indexOf(idToShow) <= -1) {
@@ -141,7 +141,6 @@ class ProgressBar {
         this.current = 0;
     }
     show() {
-        console.log(`showing...`);
         document.getElementById(this.barId).style.display = "";
         document.getElementById(this.barId).innerHTML = `<div id="${this.barDivId}"><div id="${this.barTextId}"></div></div>`;
         document.getElementById(this.barId).style.position = "relative";
@@ -155,20 +154,17 @@ class ProgressBar {
         document.getElementById(this.barTextId).style.textAlign = "center";
         document.getElementById(this.barTextId).style.lineHeight = "20px";
         document.getElementById(this.barTextId).style.color = "white";
-        console.log(`done.`);
     }
     onLoaded(count) {
         this.current += count;
         const percentage = 100 * this.current / this.total;
-        const pString = percentage.toString() + "%";
+        const pString = percentage.toString().split(".")[0] + "%";
         document.getElementById(this.barDivId).style.width = pString;
         document.getElementById(this.barTextId).innerHTML = pString;
     }
     hide() {
-        console.log(`hiding...`);
         document.getElementById(this.barId).innerHTML = "";
         document.getElementById(this.barId).style.display = "none";
-        console.log(`done.`);
     }
 }
 class JsonLoader {
@@ -664,6 +660,9 @@ class TestRunHelper {
         return t.testStackTrace === "" ? "-" : t.testStackTrace;
     }
     static getCategories(t) {
+        if (t.categories === undefined) {
+            return "-";
+        }
         return t.categories.length <= 0 ? "-" : t.categories.join(", ");
     }
 }
