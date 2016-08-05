@@ -22,6 +22,10 @@ Easy-to-use reporter
 
 See [Ghpr.NUnit repository](https://github.com/GHPReporter/Ghpr.NUnit#usage)
 
+# Demo Report
+
+You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
+
 # Local report
 
 ####Firefox
@@ -29,11 +33,6 @@ See [Ghpr.NUnit repository](https://github.com/GHPReporter/Ghpr.NUnit#usage)
  - Go to `about:config`
  - Find `security.fileuri.strict_origin_policy` parameter
  - Set it to `false`
-
-
-# Demo Report
-
-You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
 
 # Contributing
 
