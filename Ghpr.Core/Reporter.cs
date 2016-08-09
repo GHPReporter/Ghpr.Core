@@ -14,6 +14,7 @@ namespace Ghpr.Core
     {
         private IRun _currentRun;
         private List<ITestRun> _currentRunningTests;
+        private Guid _currentRunGuid;
 
         private static readonly ResourceExtractor Extractor = new ResourceExtractor(OutputPath);
         
@@ -30,7 +31,8 @@ namespace Ghpr.Core
         {
             ActionHelper.SafeAction(() =>
             {
-                _currentRun = new Run(Guid.NewGuid())
+                _currentRunGuid = Guid.NewGuid();
+                _currentRun = new Run(_currentRunGuid)
                 {
                     TestRunFiles = new List<string>(),
                     RunSummary = new RunSummary()
@@ -98,7 +100,7 @@ namespace Ghpr.Core
                 UpdateCurrentRunSummary(finalTest);
 
                 finalTest.TestInfo.FileName = fileName;
-                finalTest.RunGuid = _currentRun.RunInfo.Guid;
+                finalTest.RunGuid = _currentRunGuid;
                 finalTest.TestInfo.Start = finalTest.TestInfo.Start.Equals(default(DateTime)) ? finishDateTime : finalTest.TestInfo.Start;
                 finalTest.TestInfo.Finish = finalTest.TestInfo.Finish.Equals(default(DateTime)) ? finishDateTime : finalTest.TestInfo.Finish;
                 finalTest
