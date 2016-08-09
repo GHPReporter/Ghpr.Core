@@ -9,7 +9,7 @@ namespace Ghpr.Core.Helpers
 {
     public static class ItemInfoHelper
     {
-        public static void SaveItemInfo(string path, string filename, IItemInfo itemInfo)
+        public static void SaveItemInfo(string path, string filename, IItemInfo itemInfo, bool removeExisting = true)
         {
             if (!Directory.Exists(path))
             {
@@ -35,6 +35,10 @@ namespace Ghpr.Core.Helpers
                 {
                     var serializer = new JsonSerializer();
                     items = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
+                    if (removeExisting && items.Any(i => i.Guid.Equals(itemInfo.Guid)))
+                    {
+                        items.Remove(items.First(i => i.Guid.Equals(itemInfo.Guid)));
+                    }
                     items.Add(new ItemInfo(itemInfo));
                 }
                 using (var file = File.CreateText(fullRunsPath))

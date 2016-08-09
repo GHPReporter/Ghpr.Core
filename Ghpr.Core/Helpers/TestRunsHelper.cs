@@ -6,7 +6,7 @@ namespace Ghpr.Core.Helpers
     {
         public static void SaveCurrentTestInfo(string path, IItemInfo testInfo)
         {
-            ItemInfoHelper.SaveItemInfo(path, "tests.json", testInfo);
+            ItemInfoHelper.SaveItemInfo(path, "tests.json", testInfo, false);
         }
     }
 }
