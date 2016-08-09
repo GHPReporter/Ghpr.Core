@@ -21,106 +21,100 @@ namespace Ghpr.Core
         public static bool TakeScreenshotAfterFail => Properties.Settings.Default.TakeScreenshotAfterFail;
         public static string Sprint => Properties.Settings.Default.Sprint;
         public static string RunName => Properties.Settings.Default.RunName;
-        public static bool RealTime => Properties.Settings.Default.RealTime;
+        public static bool RealTimeGeneration => Properties.Settings.Default.RealTime;
 
-        public const string TestsFolder = "tests";
-        public const string RunsFolder = "runs";
+        public const string TestsFolderName = "tests";
+        public const string RunsFolderName = "runs";
 
-        private void CleanUp()
+        private void SetUp()
         {
-            _currentRun = new Run(Guid.NewGuid())
+            ActionHelper.SafeAction(() =>
             {
-                TestRunFiles = new List<string>(),
-                RunSummary = new RunSummary()
-            };
-            _currentRunningTests = new List<ITestRun>();
-        }
-        
-        public void RunStarted()
-        {
-            try
-            {
-                CleanUp();
+                _currentRun = new Run(Guid.NewGuid())
+                {
+                    TestRunFiles = new List<string>(),
+                    RunSummary = new RunSummary()
+                };
+                _currentRunningTests = new List<ITestRun>();
+
                 _currentRun.Name = RunName;
                 _currentRun.Sprint = Sprint;
                 Extractor.ExtractReportBase();
                 _currentRun.RunInfo.Start = DateTime.Now;
-            }
-            catch (Exception ex)
+            });
+        }
+
+        private void UpdateCurrentRunSummary(ITestRun finalTest)
+        {
+            ActionHelper.SafeAction(() =>
             {
-                Log.Exception(ex, "Exception in RunStarted");
-            }
+                _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
+            });
+        }
+
+        private void GenerateReport()
+        {
+            ActionHelper.SafeAction(() =>
+            {
+                _currentRun.RunInfo.Finish = DateTime.Now;
+                var runsPath = Path.Combine(OutputPath, RunsFolderName);
+                _currentRun.Save(runsPath);
+                RunsHelper.SaveCurrentRunInfo(runsPath, _currentRun.RunInfo);
+            });
+        }
+
+        public void RunStarted()
+        {
+            SetUp();
         }
 
         public void RunFinished()
         {
-            try
-            {
-                _currentRun.RunInfo.Finish = DateTime.Now;
-                var runsPath = Path.Combine(OutputPath, RunsFolder);
-                _currentRun.Save(runsPath);
-                RunsHelper.SaveCurrentRunInfo(runsPath, _currentRun.RunInfo);
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex, "Exception in RunFinished");
-            }
+            GenerateReport();
         }
         
         public void TestStarted(ITestRun testRun)
         {
-            try
+            ActionHelper.SafeAction(() =>
             {
                 _currentRunningTests.Add(testRun);
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex, "Exception in TestStarted");
-            }
+            });
         }
 
         public void TestFinished(ITestRun testRun)
         {
-            _currentRun.RunSummary.Total++;
-            try
+            ActionHelper.SafeAction(() =>
             {
+                _currentRun.RunSummary.Total++;
+
                 var finishDateTime = DateTime.Now;
                 var currentTest = _currentRunningTests.GetTest(testRun);
                 var finalTest = testRun.Update(currentTest);
                 var testGuid = finalTest.TestInfo.Guid.ToString();
-
-                _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
-
-                var testsPath = Path.Combine(OutputPath, TestsFolder);
+                var testsPath = Path.Combine(OutputPath, TestsFolderName);
                 var testPath = Path.Combine(testsPath, testGuid);
                 var fileName = finishDateTime.GetTestName();
+
+                UpdateCurrentRunSummary(finalTest);
+
                 finalTest.TestInfo.FileName = fileName;
                 finalTest.RunGuid = _currentRun.RunInfo.Guid;
-                if (finalTest.TestInfo.Start.Equals(default(DateTime)))
-                {
-                    finalTest.TestInfo.Start = finishDateTime;
-                }
-                if (finalTest.TestInfo.Finish.Equals(default(DateTime)))
-                {
-                    finalTest.TestInfo.Finish = finishDateTime;
-                }
+                finalTest.TestInfo.Start = finalTest.TestInfo.Start.Equals(default(DateTime)) ? finishDateTime : finalTest.TestInfo.Start;
+                finalTest.TestInfo.Finish = finalTest.TestInfo.Finish.Equals(default(DateTime)) ? finishDateTime : finalTest.TestInfo.Finish;
                 finalTest
                     .TakeScreenshot(testPath, TakeScreenshotAfterFail)
                     .Save(testPath, fileName);
                 _currentRunningTests.Remove(currentTest);
                 _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
                 Extractor.ExtractTestPage(testsPath);
+
                 TestRunsHelper.SaveCurrentTestInfo(testPath, finalTest.TestInfo);
 
-                if (RealTime)
+                if (RealTimeGeneration)
                 {
-                    RunFinished();
+                    GenerateReport();
                 }
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex, $"Exception in TestFinished {testRun.FullName}");
-            }
+            });
         }
     }
 }
