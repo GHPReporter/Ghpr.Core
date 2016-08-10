@@ -360,8 +360,19 @@ class RunPageUpdater {
         document.getElementById("all-tests").innerHTML = list;
     }
     static addTest(t, c, i) {
+        const arr = t.fullName.split(".");
+        const len1 = arr.length;
+        for (let j = arr.length - 1; j >= 0; j -= 1) {
+            if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(arr[j])) {
+                arr.splice(j, 1);
+            }
+        }
+        const len2 = arr.length;
+        if (len1 === len2) {
+            arr.splice(len2 - 1, 1);
+        }
         document.getElementById("all-tests").innerHTML +=
-            `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFile=${t.testInfo.fileName}">${t.name}</a></li>`;
+            `<li id=$test-${t.testInfo.guid}><a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFile=${t.testInfo.fileName}">${t.name}</a></li>`;
         ;
     }
     static updateRunPage(runGuid) {
