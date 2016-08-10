@@ -1,12 +1,12 @@
 ﻿///<reference path="./../interfaces/IItemInfo.ts"/>
 ///<reference path="./../interfaces/IRun.ts"/>
-///<reference path="./../interfaces/ITestRun.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./JsonLoader.ts"/>
 ///<reference path="./UrlHelper.ts"/>
 ///<reference path="./DateFormatter.ts"/>
 ///<reference path="./Color.ts"/>
 ///<reference path="./PlotlyJs.ts"/>
+///<reference path="./TestRunHelper.ts"/>
 ///<reference path="./TabsHelper.ts"/>
 
 class RunPageUpdater {
@@ -82,7 +82,9 @@ class RunPageUpdater {
         //Test #${c - i - 1}:
         const ti = t.testInfo;
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
-        const testLi = `<li id=test-${ti.guid}><a href="${testHref}">${t.name}</a></li>`;
+        const testLi = `<li id=test-${ti.guid} style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
+            <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
+            <a href="${testHref}"> ${t.name}</a></li>`;
         const arr = t.fullName.split(".");
         const len1 = arr.length;
         for (let j = arr.length - 1; j >= 0; j -= 1) {

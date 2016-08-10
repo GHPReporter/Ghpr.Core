@@ -303,6 +303,61 @@ class DateFormatter {
             return s;
     }
 }
+class TestRunHelper {
+    static getColor(t) {
+        const result = this.getResult(t);
+        switch (result) {
+            case TestResult.Passed:
+                return Color.passed;
+            case TestResult.Failed:
+                return Color.failed;
+            case TestResult.Broken:
+                return Color.broken;
+            case TestResult.Ignored:
+                return Color.ignored;
+            case TestResult.Inconclusive:
+                return Color.inconclusive;
+            default:
+                return Color.unknown;
+        }
+    }
+    static getResult(t) {
+        if (t.result.indexOf("Passed") > -1) {
+            return TestResult.Passed;
+        }
+        if (t.result.indexOf("Error") > -1) {
+            return TestResult.Broken;
+        }
+        if (t.result.indexOf("Failed") > -1 || t.result.indexOf("Failure") > -1) {
+            return TestResult.Failed;
+        }
+        if (t.result.indexOf("Inconclusive") > -1) {
+            return TestResult.Inconclusive;
+        }
+        if (t.result.indexOf("Ignored") > -1 || t.result.indexOf("Skipped") > -1) {
+            return TestResult.Ignored;
+        }
+        return TestResult.Unknown;
+    }
+    static getColoredResult(t) {
+        return `<span class="p-1" style= "background-color: ${this.getColor(t)};" > ${t.result} </span>`;
+    }
+    static getOutput(t) {
+        return t.output === "" ? "-" : t.output;
+    }
+    static getMessage(t) {
+        return t.testMessage === "" ? "-" : t.testMessage;
+    }
+    static getStackTrace(t) {
+        return t.testStackTrace === "" ? "-" : t.testStackTrace;
+    }
+    static getCategories(t) {
+        if (t.categories === undefined) {
+            return "-";
+        }
+        return t.categories.length <= 0 ? "-" : t.categories.join(", ");
+    }
+}
 class RunPageUpdater {
     static updateRunInformation(run) {
         document.getElementById("name").innerHTML = `<b>Run name:</b> ${run.name}`;
@@ -362,7 +417,9 @@ class RunPageUpdater {
     static addTest(t, c, i) {
         const ti = t.testInfo;
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
-        const testLi = `<li id=test-${ti.guid}><a href="${testHref}">${t.name}</a></li>`;
+        const testLi = `<li id=test-${ti.guid} style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
+            <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
+            <a href="${testHref}"> ${t.name}</a></li>`;
         const arr = t.fullName.split(".");
         const len1 = arr.length;
         for (let j = arr.length - 1; j >= 0; j -= 1) {
@@ -644,61 +701,6 @@ class ReportPageUpdater {
 }
 ReportPageUpdater.loader = new JsonLoader(PageType.TestRunsPage);
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
-class TestRunHelper {
-    static getColor(t) {
-        const result = this.getResult(t);
-        switch (result) {
-            case TestResult.Passed:
-                return Color.passed;
-            case TestResult.Failed:
-                return Color.failed;
-            case TestResult.Broken:
-                return Color.broken;
-            case TestResult.Ignored:
-                return Color.ignored;
-            case TestResult.Inconclusive:
-                return Color.inconclusive;
-            default:
-                return Color.unknown;
-        }
-    }
-    static getResult(t) {
-        if (t.result.indexOf("Passed") > -1) {
-            return TestResult.Passed;
-        }
-        if (t.result.indexOf("Error") > -1) {
-            return TestResult.Broken;
-        }
-        if (t.result.indexOf("Failed") > -1 || t.result.indexOf("Failure") > -1) {
-            return TestResult.Failed;
-        }
-        if (t.result.indexOf("Inconclusive") > -1) {
-            return TestResult.Inconclusive;
-        }
-        if (t.result.indexOf("Ignored") > -1 || t.result.indexOf("Skipped") > -1) {
-            return TestResult.Ignored;
-        }
-        return TestResult.Unknown;
-    }
-    static getColoredResult(t) {
-        return `<span class="p-1" style= "background-color: ${this.getColor(t)};" > ${t.result} </span>`;
-    }
-    static getOutput(t) {
-        return t.output === "" ? "-" : t.output;
-    }
-    static getMessage(t) {
-        return t.testMessage === "" ? "-" : t.testMessage;
-    }
-    static getStackTrace(t) {
-        return t.testStackTrace === "" ? "-" : t.testStackTrace;
-    }
-    static getCategories(t) {
-        if (t.categories === undefined) {
-            return "-";
-        }
-        return t.categories.length <= 0 ? "-" : t.categories.join(", ");
-    }
-}
 class TestPageUpdater {
     static updateMainInformation(t) {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
