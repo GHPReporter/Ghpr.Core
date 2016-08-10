@@ -360,6 +360,9 @@ class RunPageUpdater {
         document.getElementById("all-tests").innerHTML = list;
     }
     static addTest(t, c, i) {
+        const ti = t.testInfo;
+        const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
+        const testLi = `<li id=test-${ti.guid}><a href="${testHref}">${t.name}</a></li>`;
         const arr = t.fullName.split(".");
         const len1 = arr.length;
         for (let j = arr.length - 1; j >= 0; j -= 1) {
@@ -367,13 +370,32 @@ class RunPageUpdater {
                 arr.splice(j, 1);
             }
         }
-        const len2 = arr.length;
+        let len2 = arr.length;
         if (len1 === len2) {
             arr.splice(len2 - 1, 1);
+            len2 = arr.length;
         }
-        document.getElementById("all-tests").innerHTML +=
-            `<li id=$test-${t.testInfo.guid}><a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFile=${t.testInfo.fileName}">${t.name}</a></li>`;
-        ;
+        const ids = new Array();
+        for (let j = 0; j < len2; j++) {
+            ids[j] = `id-${arr.slice(0, j + 1).join(".")}`;
+        }
+        for (let j = 0; j <= len2; j++) {
+            const el = document.getElementById(ids[j]);
+            if (el === null || el === undefined) {
+                const li = `<li id=${ids[j]}>${arr[j]}<ul></ul></li>`;
+                if (j === 0) {
+                    document.getElementById("all-tests").innerHTML += li;
+                }
+                else {
+                    if (j !== len2) {
+                        document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += li;
+                    }
+                    else {
+                        document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += testLi;
+                    }
+                }
+            }
+        }
     }
     static updateRunPage(runGuid) {
         let run;
