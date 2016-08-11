@@ -503,6 +503,7 @@ class RunPageUpdater {
         const paths = new Array();
         var test;
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
+        document.getElementById("all-tests").innerHTML = "";
         const files = run.testRunFiles;
         for (let i = 0; i < files.length; i++) {
             paths[i] = `./../tests/${files[i]}`;
