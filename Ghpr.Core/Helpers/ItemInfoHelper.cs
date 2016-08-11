@@ -2,14 +2,13 @@
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
-using Ghpr.Core.Interfaces;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Helpers
 {
     public static class ItemInfoHelper
     {
-        public static void SaveItemInfo(string path, string filename, IItemInfo itemInfo, bool removeExisting = true)
+        public static void SaveItemInfo(string path, string filename, ItemInfo itemInfo, bool removeExisting = true)
         {
             var serializer = new JsonSerializer();
             if (!Directory.Exists(path))
@@ -19,7 +18,7 @@ namespace Ghpr.Core.Helpers
             var fullRunsPath = Path.Combine(path, filename);
             if (!File.Exists(fullRunsPath))
             {
-                var items = new List<IItemInfo>
+                var items = new List<ItemInfo>
                 {
                     itemInfo
                 };
@@ -38,7 +37,7 @@ namespace Ghpr.Core.Helpers
                     {
                         items.Remove(items.First(i => i.Guid.Equals(itemInfo.Guid)));
                     }
-                    items.Add(new ItemInfo(itemInfo));
+                    items.Add(itemInfo);
                 }
                 using (var file = File.CreateText(fullRunsPath))
                 {

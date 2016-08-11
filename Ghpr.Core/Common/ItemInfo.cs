@@ -1,11 +1,10 @@
 ﻿using System;
-using Ghpr.Core.Interfaces;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Common
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class ItemInfo : IItemInfo
+    public class ItemInfo
     {
         [JsonProperty(PropertyName = "guid")]
         public Guid Guid { get; set; }
@@ -18,15 +17,7 @@ namespace Ghpr.Core.Common
 
         [JsonProperty(PropertyName = "fileName")]
         public string FileName { get; set; }
-
-        public ItemInfo(IItemInfo ii)
-        {
-            Guid = ii.Guid;
-            Start = ii.Start;
-            Finish = ii.Finish;
-            FileName = ii.FileName;
-        }
-
+        
         public ItemInfo()
         {
         }

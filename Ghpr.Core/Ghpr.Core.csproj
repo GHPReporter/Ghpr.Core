@@ -66,7 +66,6 @@
     <Compile Include="Helpers\RunsHelper.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
     <Compile Include="Interfaces\IRun.cs" />
-    <Compile Include="Interfaces\IItemInfo.cs" />
     <Compile Include="Interfaces\IRuns.cs" />
     <Compile Include="Interfaces\IRunSummary.cs" />
     <Compile Include="Interfaces\ITestEvent.cs" />
