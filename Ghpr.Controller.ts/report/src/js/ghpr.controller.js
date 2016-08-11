@@ -304,8 +304,7 @@ class DateFormatter {
     }
 }
 class TestRunHelper {
-    static getColor(t) {
-        const result = this.getResult(t);
+    static getColorByResult(result) {
         switch (result) {
             case TestResult.Passed:
                 return Color.passed;
@@ -317,9 +316,15 @@ class TestRunHelper {
                 return Color.ignored;
             case TestResult.Inconclusive:
                 return Color.inconclusive;
-            default:
+            case TestResult.Unknown:
                 return Color.unknown;
+            default:
+                return "white";
         }
+    }
+    static getColor(t) {
+        const result = this.getResult(t);
+        return this.getColorByResult(result);
     }
     static getResult(t) {
         if (t.result.indexOf("Passed") > -1) {
@@ -454,15 +459,43 @@ class RunPageUpdater {
             }
         }
     }
+    static updateTestFilterButtons() {
+        const btns = document.getElementById("test-result-filter-buttons").getElementsByTagName("button");
+        for (let i = 0; i < btns.length; i++) {
+            const btn = btns[i];
+            const id = btn.getAttribute("id");
+            btn.style.backgroundImage = "none";
+            btn.style.backgroundColor = TestRunHelper.getColorByResult(Number(id));
+            btn.onclick = () => {
+                if (!btn.classList.contains("disabled")) {
+                    btn.classList.add("disabled");
+                    const tests = document.getElementsByClassName(id);
+                    for (let j = 0; j < tests.length; j++) {
+                        const t = tests[j];
+                        t.style.display = "none";
+                    }
+                }
+                else {
+                    btn.classList.remove("disabled");
+                    const tests = document.getElementsByClassName(id);
+                    for (let j = 0; j < tests.length; j++) {
+                        const t = tests[j];
+                        t.style.display = "";
+                    }
+                }
+            };
+        }
+    }
     static updateRunPage(runGuid) {
         let run;
         this.loader.loadRunJson(runGuid, (response) => {
             run = JSON.parse(response, JsonLoader.reviveRun);
             UrlHelper.insertParam("runGuid", run.runInfo.guid);
-            RunPageUpdater.updateRunInformation(run);
+            this.updateRunInformation(run);
             this.updateSummary(run);
-            RunPageUpdater.updateTitle(run);
+            this.updateTitle(run);
             this.updateTestsList(run);
+            this.updateTestFilterButtons();
         });
         return run;
     }
@@ -479,22 +512,6 @@ class RunPageUpdater {
             test = JSON.parse(response, JsonLoader.reviveRun);
             this.addTest(test, c, i);
             index++;
-        });
-    }
-    static updateTestsList2(run) {
-        const paths = new Array();
-        const testStrings = new Array();
-        const tests = new Array();
-        document.getElementById("btn-back").setAttribute("href", `./../index.html`);
-        const files = run.testRunFiles;
-        for (let i = 0; i < files.length; i++) {
-            paths[i] = `./../tests/${files[i]}`;
-        }
-        this.loader.loadAllJsons(paths, 0, testStrings, (responses) => {
-            for (let i = 0; i < responses.length; i++) {
-                tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
-            }
-            this.setTestsList(tests);
         });
     }
     static loadRun(index) {

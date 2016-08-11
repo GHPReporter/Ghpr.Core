@@ -117,16 +117,44 @@ class RunPageUpdater {
             }
         }
     }
+
+    private static updateTestFilterButtons(): void {
+        const btns = document.getElementById("test-result-filter-buttons").getElementsByTagName("button");
+        for (let i = 0; i < btns.length; i++) {
+            const btn = btns[i];
+            const id = btn.getAttribute("id");
+            btn.style.backgroundImage = "none";
+            btn.style.backgroundColor = TestRunHelper.getColorByResult(Number(id));
+            btn.onclick = () => {
+                if (!btn.classList.contains("disabled")) {
+                    btn.classList.add("disabled");
+                    const tests = document.getElementsByClassName(id);
+                    for (let j = 0; j < tests.length; j++) {
+                        const t = tests[j] as HTMLElement;
+                        t.style.display = "none";
+                    }
+                } else {
+                    btn.classList.remove("disabled");
+                    const tests = document.getElementsByClassName(id);
+                    for (let j = 0; j < tests.length; j++) {
+                        const t = tests[j] as HTMLElement;
+                        t.style.display = "";
+                    }
+                }
+            };
+        }
+    }
     
     private static updateRunPage(runGuid: string): IRun {
         let run: IRun;
         this.loader.loadRunJson(runGuid, (response: string) => {
             run = JSON.parse(response, JsonLoader.reviveRun);
             UrlHelper.insertParam("runGuid", run.runInfo.guid);
-            RunPageUpdater.updateRunInformation(run);
+            this.updateRunInformation(run);
             this.updateSummary(run);
-            RunPageUpdater.updateTitle(run);
+            this.updateTitle(run);
             this.updateTestsList(run);
+            this.updateTestFilterButtons();
         });
         return run;
     }
@@ -148,26 +176,7 @@ class RunPageUpdater {
             index++;
         });
     }
-
-    static updateTestsList2(run: IRun): void {
-        const paths: Array<string> = new Array();
-        const testStrings: Array<string> = new Array();
-        const tests: Array<ITestRun> = new Array();
-
-        document.getElementById("btn-back").setAttribute("href", `./../index.html`);
-
-        const files = run.testRunFiles;
-        for (let i = 0; i < files.length; i++) {
-            paths[i] = `./../tests/${files[i]}`;
-        }
-        this.loader.loadAllJsons(paths, 0, testStrings, (responses: Array<string>) => {
-            for (let i = 0; i < responses.length; i++) {
-                tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
-            }
-            this.setTestsList(tests);
-        });
-    }
-
+    
     private static loadRun(index: number): void {
         let runInfos: Array<IItemInfo>;
         this.loader.loadRunsJson((response: string) => {
