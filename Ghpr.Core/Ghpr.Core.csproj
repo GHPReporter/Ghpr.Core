@@ -82,6 +82,7 @@
     <Compile Include="EmbeddedResources\ResourceExtractor.cs" />
     <Compile Include="Enums\ResourceType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ActionHelper.cs" />
     <Compile Include="Utils\GuidConverter.cs" />
     <Compile Include="Utils\Ids.cs" />
     <Compile Include="Utils\Log.cs" />
@@ -151,6 +152,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\primer.css">
       <Link>EmbeddedResources\Report\src\style\primer.css</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\favicon.ico">
+      <Link>EmbeddedResources\Report\src\favicon.ico</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -11,6 +11,7 @@
         Github,
         TestPage,
         TestRunPage,
-        TestRunsPage
+        TestRunsPage,
+        Favicon
     }
 }

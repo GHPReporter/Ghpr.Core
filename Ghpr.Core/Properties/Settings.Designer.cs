@@ -58,5 +58,14 @@ namespace Ghpr.Core.Properties {
                 return ((string)(this["Sprint"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RealTime {
+            get {
+                return ((bool)(this["RealTime"]));
+            }
+        }
     }
 }

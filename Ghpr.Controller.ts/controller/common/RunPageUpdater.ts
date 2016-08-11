@@ -1,12 +1,12 @@
 ﻿///<reference path="./../interfaces/IItemInfo.ts"/>
 ///<reference path="./../interfaces/IRun.ts"/>
-///<reference path="./../interfaces/ITestRun.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./JsonLoader.ts"/>
 ///<reference path="./UrlHelper.ts"/>
 ///<reference path="./DateFormatter.ts"/>
 ///<reference path="./Color.ts"/>
 ///<reference path="./PlotlyJs.ts"/>
+///<reference path="./TestRunHelper.ts"/>
 ///<reference path="./TabsHelper.ts"/>
 
 class RunPageUpdater {
@@ -76,39 +76,108 @@ class RunPageUpdater {
         }
         document.getElementById("all-tests").innerHTML = list;
     }
+
+    private static addTest(t: ITestRun, c: number, i: number): void {
+        //console.log(`adding ${i} of ${c}`);
+        //Test #${c - i - 1}:
+        const ti = t.testInfo;
+        const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
+        const testLi = `<li id=test-${ti.guid} style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
+            <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
+            <a href="${testHref}"> ${t.name}</a></li>`;
+        const arr = t.fullName.split(".");
+        const len1 = arr.length;
+        for (let j = arr.length - 1; j >= 0; j -= 1) {
+            if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(arr[j])) {
+                arr.splice(j, 1);
+            }
+        }
+        let len2 = arr.length;
+        if (len1 === len2) {
+            arr.splice(len2 - 1, 1);
+            len2 = arr.length;
+        }
+        const ids: string[] = new Array();
+        for (let j = 0; j < len2; j++) {
+            ids[j] = `id-${arr.slice(0, j + 1).join(".")}`;
+        }
+        for (let j = 0; j <= len2; j++) {
+            const el = document.getElementById(ids[j]);
+            if (el === null || el === undefined) {
+                const li = `<li id=${ids[j]}>${arr[j]}<ul></ul></li>`;
+                if (j === 0) {
+                    document.getElementById("all-tests").innerHTML += li;
+                } else {
+                    if (j !== len2) {
+                        document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += li;
+                    } else {
+                        document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += testLi;
+                    }
+                }
+            }
+        }
+    }
+
+    private static updateTestFilterButtons(): void {
+        const btns = document.getElementById("test-result-filter-buttons").getElementsByTagName("button");
+        for (let i = 0; i < btns.length; i++) {
+            const btn = btns[i];
+            const id = btn.getAttribute("id");
+            btn.style.backgroundImage = "none";
+            btn.style.backgroundColor = TestRunHelper.getColorByResult(Number(id));
+            btn.onclick = () => {
+                if (!btn.classList.contains("disabled")) {
+                    btn.classList.add("disabled");
+                    const tests = document.getElementsByClassName(id);
+                    for (let j = 0; j < tests.length; j++) {
+                        const t = tests[j] as HTMLElement;
+                        t.style.display = "none";
+                    }
+                } else {
+                    btn.classList.remove("disabled");
+                    const tests = document.getElementsByClassName(id);
+                    for (let j = 0; j < tests.length; j++) {
+                        const t = tests[j] as HTMLElement;
+                        t.style.display = "";
+                    }
+                }
+            };
+        }
+    }
     
     private static updateRunPage(runGuid: string): IRun {
         let run: IRun;
         this.loader.loadRunJson(runGuid, (response: string) => {
             run = JSON.parse(response, JsonLoader.reviveRun);
             UrlHelper.insertParam("runGuid", run.runInfo.guid);
-            RunPageUpdater.updateRunInformation(run);
+            this.updateRunInformation(run);
             this.updateSummary(run);
-            RunPageUpdater.updateTitle(run);
+            this.updateTitle(run);
             this.updateTestsList(run);
+            this.updateTestFilterButtons();
         });
         return run;
     }
 
     static updateTestsList(run: IRun): void {
         const paths: Array<string> = new Array();
-        const testStrings: Array<string> = new Array();
-        const tests: Array<ITestRun> = new Array();
+        var test: ITestRun;
 
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
+        document.getElementById("all-tests").innerHTML = "";
 
         const files = run.testRunFiles;
         for (let i = 0; i < files.length; i++) {
             paths[i] = `./../tests/${files[i]}`;
         }
-        this.loader.loadJsons(paths, 0, testStrings, (responses: Array<string>) => {
-            for (let i = 0; i < responses.length; i++) {
-                tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
-            }
-            this.setTestsList(tests);
+        var index = 0;
+        this.loader.loadJsons(paths, 0, (response: string, c: number, i: number) => {
+            test = JSON.parse(response, JsonLoader.reviveRun);
+            this.addTest(test, c, i);
+            index++;
         });
     }
-
+    
     private static loadRun(index: number): void {
         let runInfos: Array<IItemInfo>;
         this.loader.loadRunsJson((response: string) => {

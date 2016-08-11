@@ -24,7 +24,8 @@ namespace Ghpr.Core.EmbeddedResources
             new EmbeddedResource("primer.css", ResourceType.Primer, "src\\style"),
             new EmbeddedResource("index.html", ResourceType.TestPage, "", "tests.index.html"),
             new EmbeddedResource("index.html", ResourceType.TestRunPage, "runs", "runs.index.html"),
-            new EmbeddedResource("index.html", ResourceType.TestRunsPage, "", "Report.index.html")
+            new EmbeddedResource("index.html", ResourceType.TestRunsPage, "", "Report.index.html"),
+            new EmbeddedResource("favicon.ico", ResourceType.Favicon, "src")
         };
 
         public ResourceExtractor(string outputPath = "", bool replaceExisting = false)
@@ -101,7 +102,8 @@ namespace Ghpr.Core.EmbeddedResources
                 ResourceType.Github,
                 ResourceType.Primer,
                 ResourceType.TestRunsPage,
-                ResourceType.TestRunPage
+                ResourceType.TestRunPage,
+                ResourceType.Favicon
             };
             ExtractResources(types, OutputPath, ReplaceExisting);
         }

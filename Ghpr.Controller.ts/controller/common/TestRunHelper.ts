@@ -3,8 +3,7 @@
 ///<reference path="./Color.ts"/>
 
 class TestRunHelper {
-    static getColor(t: ITestRun): string {
-        const result = this.getResult(t);
+    static getColorByResult(result: TestResult): string {
         switch (result) {
             case TestResult.Passed:
                 return Color.passed;
@@ -16,9 +15,16 @@ class TestRunHelper {
                 return Color.ignored;
             case TestResult.Inconclusive:
                 return Color.inconclusive;
-            default:
+            case TestResult.Unknown:
                 return Color.unknown;
+            default:
+                return "white";
         }
+    }
+
+    static getColor(t: ITestRun): string {
+        const result = this.getResult(t);
+        return this.getColorByResult(result);
     }
 
     static getResult(t: ITestRun): TestResult {
@@ -57,6 +63,9 @@ class TestRunHelper {
     }
 
     static getCategories(t: ITestRun): string {
+        if (t.categories === undefined) {
+            return "-";
+        }
         return t.categories.length <= 0 ? "-" : t.categories.join(", ");
     }
 }

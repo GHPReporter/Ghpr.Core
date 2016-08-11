@@ -1,3 +1,11 @@
+class Color {
+}
+Color.passed = "#8bc34a";
+Color.broken = "#ffc107";
+Color.failed = "#ef5350";
+Color.ignored = "#81d4fa";
+Color.inconclusive = "#D6FAF7";
+Color.unknown = "#bdbdbd";
 var TestResult;
 (function (TestResult) {
     TestResult[TestResult["Passed"] = 0] = "Passed";
@@ -13,6 +21,50 @@ var PageType;
     PageType[PageType["TestRunPage"] = 1] = "TestRunPage";
     PageType[PageType["TestPage"] = 2] = "TestPage";
 })(PageType || (PageType = {}));
+class UrlHelper {
+    static insertParam(key, value) {
+        const paramsPart = document.location.search.substr(1);
+        window.history.pushState("", "", "");
+        const p = `${key}=${value}`;
+        if (paramsPart === "") {
+            window.history.pushState("", "", `?${p}`);
+        }
+        else {
+            let params = paramsPart.split("&");
+            const paramToChange = params.find((par) => par.split("=")[0] === key);
+            if (paramToChange != undefined) {
+                if (params.length === 1) {
+                    params = [p];
+                }
+                else {
+                    const index = params.indexOf(paramToChange);
+                    params.splice(index, 1);
+                    params.push(p);
+                }
+            }
+            else {
+                params.push(p);
+            }
+            window.history.pushState("", "", `?${params.join("&")}`);
+        }
+    }
+    static getParam(key) {
+        const paramsPart = document.location.search.substr(1);
+        if (paramsPart === "") {
+            return "";
+        }
+        else {
+            const params = paramsPart.split("&");
+            const paramToGet = params.find((par) => par.split("=")[0] === key);
+            if (paramToGet != undefined) {
+                return paramToGet.split("=")[1];
+            }
+            else {
+                return "";
+            }
+        }
+    }
+}
 class PathsHelper {
     static getRunPath(pt, guid) {
         switch (pt) {
@@ -63,50 +115,6 @@ class PathsHelper {
         }
     }
 }
-class UrlHelper {
-    static insertParam(key, value) {
-        const paramsPart = document.location.search.substr(1);
-        window.history.pushState("", "", "");
-        const p = `${key}=${value}`;
-        if (paramsPart === "") {
-            window.history.pushState("", "", `?${p}`);
-        }
-        else {
-            let params = paramsPart.split("&");
-            const paramToChange = params.find((par) => par.split("=")[0] === key);
-            if (paramToChange != undefined) {
-                if (params.length === 1) {
-                    params = [p];
-                }
-                else {
-                    const index = params.indexOf(paramToChange);
-                    params.splice(index, 1);
-                    params.push(p);
-                }
-            }
-            else {
-                params.push(p);
-            }
-            window.history.pushState("", "", `?${params.join("&")}`);
-        }
-    }
-    static getParam(key) {
-        const paramsPart = document.location.search.substr(1);
-        if (paramsPart === "") {
-            return "";
-        }
-        else {
-            const params = paramsPart.split("&");
-            const paramToGet = params.find((par) => par.split("=")[0] === key);
-            if (paramToGet != undefined) {
-                return paramToGet.split("=")[1];
-            }
-            else {
-                return "";
-            }
-        }
-    }
-}
 class TabsHelper {
     static showTab(idToShow, caller, pageTabsIds) {
         if (pageTabsIds.indexOf(idToShow) <= -1) {
@@ -122,6 +130,41 @@ class TabsHelper {
             document.getElementById(id).style.display = "none";
         });
         document.getElementById(idToShow).style.display = "";
+    }
+}
+class ProgressBar {
+    constructor(total) {
+        this.barId = "progress-bar";
+        this.barDivId = "progress-bar-div";
+        this.barTextId = "progress-bar-line";
+        this.total = total;
+        this.current = 0;
+    }
+    show() {
+        document.getElementById(this.barId).style.display = "";
+        document.getElementById(this.barId).innerHTML = `<div id="${this.barDivId}"><div id="${this.barTextId}"></div></div>`;
+        document.getElementById(this.barId).style.position = "relative";
+        document.getElementById(this.barId).style.width = "100%";
+        document.getElementById(this.barId).style.height = "20px";
+        document.getElementById(this.barId).style.backgroundColor = Color.unknown;
+        document.getElementById(this.barDivId).style.position = "absolute";
+        document.getElementById(this.barDivId).style.width = "10%";
+        document.getElementById(this.barDivId).style.height = "100%";
+        document.getElementById(this.barDivId).style.backgroundColor = Color.passed;
+        document.getElementById(this.barTextId).style.textAlign = "center";
+        document.getElementById(this.barTextId).style.lineHeight = "20px";
+        document.getElementById(this.barTextId).style.color = "white";
+    }
+    onLoaded(count) {
+        this.current += count;
+        const percentage = 100 * this.current / this.total;
+        const pString = percentage.toString().split(".")[0] + "%";
+        document.getElementById(this.barDivId).style.width = pString;
+        document.getElementById(this.barTextId).innerHTML = pString;
+    }
+    hide() {
+        document.getElementById(this.barId).innerHTML = "";
+        document.getElementById(this.barId).style.display = "none";
     }
 }
 class JsonLoader {
@@ -164,9 +207,9 @@ class JsonLoader {
         };
         req.send(null);
     }
-    loadJsons(paths, ind, resps, callback) {
+    loadAllJsons(paths, ind, resps, callback, loadAll = true) {
         const count = paths.length;
-        if (ind >= count) {
+        if (loadAll && ind >= count) {
             callback(resps);
             return;
         }
@@ -182,7 +225,39 @@ class JsonLoader {
                 else {
                     resps[ind] = req.responseText;
                     ind++;
-                    this.loadJsons(paths, ind, resps, callback);
+                    this.loadAllJsons(paths, ind, resps, callback, loadAll);
+                }
+        };
+        req.timeout = 2000;
+        req.ontimeout = () => {
+            console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
+        };
+        req.send(null);
+    }
+    loadJsons(paths, ind, callback) {
+        const count = paths.length;
+        const pb = new ProgressBar(paths.length);
+        if (ind === 0) {
+            pb.show();
+        }
+        if (ind >= count) {
+            pb.hide();
+            return;
+        }
+        const req = new XMLHttpRequest();
+        req.overrideMimeType("application/json");
+        req.open("get", paths[ind], true);
+        req.onreadystatechange = () => {
+            if (req.readyState === 4)
+                if (req.status !== 200) {
+                    console
+                        .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
+                }
+                else {
+                    callback(req.responseText, count, ind);
+                    pb.onLoaded(ind);
+                    ind++;
+                    this.loadJsons(paths, ind, callback);
                 }
         };
         req.timeout = 2000;
@@ -228,14 +303,66 @@ class DateFormatter {
             return s;
     }
 }
-class Color {
+class TestRunHelper {
+    static getColorByResult(result) {
+        switch (result) {
+            case TestResult.Passed:
+                return Color.passed;
+            case TestResult.Failed:
+                return Color.failed;
+            case TestResult.Broken:
+                return Color.broken;
+            case TestResult.Ignored:
+                return Color.ignored;
+            case TestResult.Inconclusive:
+                return Color.inconclusive;
+            case TestResult.Unknown:
+                return Color.unknown;
+            default:
+                return "white";
+        }
+    }
+    static getColor(t) {
+        const result = this.getResult(t);
+        return this.getColorByResult(result);
+    }
+    static getResult(t) {
+        if (t.result.indexOf("Passed") > -1) {
+            return TestResult.Passed;
+        }
+        if (t.result.indexOf("Error") > -1) {
+            return TestResult.Broken;
+        }
+        if (t.result.indexOf("Failed") > -1 || t.result.indexOf("Failure") > -1) {
+            return TestResult.Failed;
+        }
+        if (t.result.indexOf("Inconclusive") > -1) {
+            return TestResult.Inconclusive;
+        }
+        if (t.result.indexOf("Ignored") > -1 || t.result.indexOf("Skipped") > -1) {
+            return TestResult.Ignored;
+        }
+        return TestResult.Unknown;
+    }
+    static getColoredResult(t) {
+        return `<span class="p-1" style= "background-color: ${this.getColor(t)};" > ${t.result} </span>`;
+    }
+    static getOutput(t) {
+        return t.output === "" ? "-" : t.output;
+    }
+    static getMessage(t) {
+        return t.testMessage === "" ? "-" : t.testMessage;
+    }
+    static getStackTrace(t) {
+        return t.testStackTrace === "" ? "-" : t.testStackTrace;
+    }
+    static getCategories(t) {
+        if (t.categories === undefined) {
+            return "-";
+        }
+        return t.categories.length <= 0 ? "-" : t.categories.join(", ");
+    }
 }
-Color.passed = "#8bc34a";
-Color.broken = "#ffc107";
-Color.failed = "#ef5350";
-Color.ignored = "#81d4fa";
-Color.inconclusive = "#D6FAF7";
-Color.unknown = "#bdbdbd";
 class RunPageUpdater {
     static updateRunInformation(run) {
         document.getElementById("name").innerHTML = `<b>Run name:</b> ${run.name}`;
@@ -292,32 +419,100 @@ class RunPageUpdater {
         }
         document.getElementById("all-tests").innerHTML = list;
     }
+    static addTest(t, c, i) {
+        const ti = t.testInfo;
+        const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
+        const testLi = `<li id=test-${ti.guid} style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
+            <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
+            <a href="${testHref}"> ${t.name}</a></li>`;
+        const arr = t.fullName.split(".");
+        const len1 = arr.length;
+        for (let j = arr.length - 1; j >= 0; j -= 1) {
+            if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(arr[j])) {
+                arr.splice(j, 1);
+            }
+        }
+        let len2 = arr.length;
+        if (len1 === len2) {
+            arr.splice(len2 - 1, 1);
+            len2 = arr.length;
+        }
+        const ids = new Array();
+        for (let j = 0; j < len2; j++) {
+            ids[j] = `id-${arr.slice(0, j + 1).join(".")}`;
+        }
+        for (let j = 0; j <= len2; j++) {
+            const el = document.getElementById(ids[j]);
+            if (el === null || el === undefined) {
+                const li = `<li id=${ids[j]}>${arr[j]}<ul></ul></li>`;
+                if (j === 0) {
+                    document.getElementById("all-tests").innerHTML += li;
+                }
+                else {
+                    if (j !== len2) {
+                        document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += li;
+                    }
+                    else {
+                        document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += testLi;
+                    }
+                }
+            }
+        }
+    }
+    static updateTestFilterButtons() {
+        const btns = document.getElementById("test-result-filter-buttons").getElementsByTagName("button");
+        for (let i = 0; i < btns.length; i++) {
+            const btn = btns[i];
+            const id = btn.getAttribute("id");
+            btn.style.backgroundImage = "none";
+            btn.style.backgroundColor = TestRunHelper.getColorByResult(Number(id));
+            btn.onclick = () => {
+                if (!btn.classList.contains("disabled")) {
+                    btn.classList.add("disabled");
+                    const tests = document.getElementsByClassName(id);
+                    for (let j = 0; j < tests.length; j++) {
+                        const t = tests[j];
+                        t.style.display = "none";
+                    }
+                }
+                else {
+                    btn.classList.remove("disabled");
+                    const tests = document.getElementsByClassName(id);
+                    for (let j = 0; j < tests.length; j++) {
+                        const t = tests[j];
+                        t.style.display = "";
+                    }
+                }
+            };
+        }
+    }
     static updateRunPage(runGuid) {
         let run;
         this.loader.loadRunJson(runGuid, (response) => {
             run = JSON.parse(response, JsonLoader.reviveRun);
             UrlHelper.insertParam("runGuid", run.runInfo.guid);
-            RunPageUpdater.updateRunInformation(run);
+            this.updateRunInformation(run);
             this.updateSummary(run);
-            RunPageUpdater.updateTitle(run);
+            this.updateTitle(run);
             this.updateTestsList(run);
+            this.updateTestFilterButtons();
         });
         return run;
     }
     static updateTestsList(run) {
         const paths = new Array();
-        const testStrings = new Array();
-        const tests = new Array();
+        var test;
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
+        document.getElementById("all-tests").innerHTML = "";
         const files = run.testRunFiles;
         for (let i = 0; i < files.length; i++) {
             paths[i] = `./../tests/${files[i]}`;
         }
-        this.loader.loadJsons(paths, 0, testStrings, (responses) => {
-            for (let i = 0; i < responses.length; i++) {
-                tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
-            }
-            this.setTestsList(tests);
+        var index = 0;
+        this.loader.loadJsons(paths, 0, (response, c, i) => {
+            test = JSON.parse(response, JsonLoader.reviveRun);
+            this.addTest(test, c, i);
+            index++;
         });
     }
     static loadRun(index) {
@@ -504,7 +699,7 @@ class ReportPageUpdater {
             for (let i = 0; i < runInfos.length; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
             }
-            this.loader.loadJsons(paths, 0, r, (responses) => {
+            this.loader.loadAllJsons(paths, 0, r, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
                     runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }
@@ -524,58 +719,6 @@ class ReportPageUpdater {
 }
 ReportPageUpdater.loader = new JsonLoader(PageType.TestRunsPage);
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
-class TestRunHelper {
-    static getColor(t) {
-        const result = this.getResult(t);
-        switch (result) {
-            case TestResult.Passed:
-                return Color.passed;
-            case TestResult.Failed:
-                return Color.failed;
-            case TestResult.Broken:
-                return Color.broken;
-            case TestResult.Ignored:
-                return Color.ignored;
-            case TestResult.Inconclusive:
-                return Color.inconclusive;
-            default:
-                return Color.unknown;
-        }
-    }
-    static getResult(t) {
-        if (t.result.indexOf("Passed") > -1) {
-            return TestResult.Passed;
-        }
-        if (t.result.indexOf("Error") > -1) {
-            return TestResult.Broken;
-        }
-        if (t.result.indexOf("Failed") > -1 || t.result.indexOf("Failure") > -1) {
-            return TestResult.Failed;
-        }
-        if (t.result.indexOf("Inconclusive") > -1) {
-            return TestResult.Inconclusive;
-        }
-        if (t.result.indexOf("Ignored") > -1 || t.result.indexOf("Skipped") > -1) {
-            return TestResult.Ignored;
-        }
-        return TestResult.Unknown;
-    }
-    static getColoredResult(t) {
-        return `<span class="p-1" style= "background-color: ${this.getColor(t)};" > ${t.result} </span>`;
-    }
-    static getOutput(t) {
-        return t.output === "" ? "-" : t.output;
-    }
-    static getMessage(t) {
-        return t.testMessage === "" ? "-" : t.testMessage;
-    }
-    static getStackTrace(t) {
-        return t.testStackTrace === "" ? "-" : t.testStackTrace;
-    }
-    static getCategories(t) {
-        return t.categories.length <= 0 ? "-" : t.categories.join(", ");
-    }
-}
 class TestPageUpdater {
     static updateMainInformation(t) {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
@@ -697,7 +840,7 @@ class TestPageUpdater {
             for (let i = 0; i < testInfos.length; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
-            this.loader.loadJsons(paths, 0, testStrings, (responses) => {
+            this.loader.loadAllJsons(paths, 0, testStrings, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
                     tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }
