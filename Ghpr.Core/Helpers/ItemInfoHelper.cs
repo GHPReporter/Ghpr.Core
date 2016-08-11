@@ -11,6 +11,7 @@ namespace Ghpr.Core.Helpers
     {
         public static void SaveItemInfo(string path, string filename, IItemInfo itemInfo, bool removeExisting = true)
         {
+            var serializer = new JsonSerializer();
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -24,7 +25,6 @@ namespace Ghpr.Core.Helpers
                 };
                 using (var file = File.CreateText(fullRunsPath))
                 {
-                    var serializer = new JsonSerializer();
                     serializer.Serialize(file, items);
                 }
             }
@@ -33,7 +33,6 @@ namespace Ghpr.Core.Helpers
                 List<ItemInfo> items;
                 using (var file = File.OpenText(fullRunsPath))
                 {
-                    var serializer = new JsonSerializer();
                     items = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
                     if (removeExisting && items.Any(i => i.Guid.Equals(itemInfo.Guid)))
                     {
@@ -43,7 +42,6 @@ namespace Ghpr.Core.Helpers
                 }
                 using (var file = File.CreateText(fullRunsPath))
                 {
-                    var serializer = new JsonSerializer();
                     items = items.OrderByDescending(x => x.Start).ToList();
                     serializer.Serialize(file, items);
                 }
