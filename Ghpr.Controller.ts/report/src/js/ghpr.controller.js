@@ -464,12 +464,12 @@ class RunPageUpdater {
         for (let i = 0; i < btns.length; i++) {
             const btn = btns[i];
             const id = btn.getAttribute("id");
+            const tests = document.getElementsByClassName(id);
             btn.style.backgroundImage = "none";
             btn.style.backgroundColor = TestRunHelper.getColorByResult(Number(id));
             btn.onclick = () => {
                 if (!btn.classList.contains("disabled")) {
                     btn.classList.add("disabled");
-                    const tests = document.getElementsByClassName(id);
                     for (let j = 0; j < tests.length; j++) {
                         const t = tests[j];
                         t.style.display = "none";
@@ -477,7 +477,6 @@ class RunPageUpdater {
                 }
                 else {
                     btn.classList.remove("disabled");
-                    const tests = document.getElementsByClassName(id);
                     for (let j = 0; j < tests.length; j++) {
                         const t = tests[j];
                         t.style.display = "";
