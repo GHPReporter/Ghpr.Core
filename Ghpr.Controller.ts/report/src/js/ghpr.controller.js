@@ -444,7 +444,7 @@ class RunPageUpdater {
         for (let j = 0; j <= len2; j++) {
             const el = document.getElementById(ids[j]);
             if (el === null || el === undefined) {
-                const li = `<li id=${ids[j]}>${arr[j]}<ul></ul></li>`;
+                const li = `<li id=${ids[j]} class="test-suite"><a>${arr[j]}</a><ul></ul></li>`;
                 if (j === 0) {
                     document.getElementById("all-tests").innerHTML += li;
                 }
@@ -457,6 +457,21 @@ class RunPageUpdater {
                     }
                 }
             }
+        }
+    }
+    static makeCollapsible() {
+        const targets = document.getElementsByClassName("test-suite");
+        for (let i = 0; i < targets.length; i++) {
+            const t = targets[i];
+            t.getElementsByTagName("a")[0].onclick = () => {
+                const e = t.getElementsByTagName("ul")[0];
+                if (e.style.display === "") {
+                    e.style.display = "none";
+                }
+                else {
+                    e.style.display = "";
+                }
+            };
         }
     }
     static updateTestFilterButtons() {
@@ -511,6 +526,8 @@ class RunPageUpdater {
         this.loader.loadJsons(paths, 0, (response, c, i) => {
             test = JSON.parse(response, JsonLoader.reviveRun);
             this.addTest(test, c, i);
+            if (i === c - 1)
+                RunPageUpdater.makeCollapsible();
             index++;
         });
     }
