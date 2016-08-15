@@ -2,11 +2,9 @@
 {
     public enum ResourceType
     {
-        JQuery,
         Octicons,
         Plotly,
         Primer,
-        Tablesort,
         GhprController,
         Github,
         TestPage,

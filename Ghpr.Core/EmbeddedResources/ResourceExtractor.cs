@@ -11,9 +11,7 @@ namespace Ghpr.Core.EmbeddedResources
     public class ResourceExtractor
     {
         private static readonly IEmbeddedResource[] All = {
-            new EmbeddedResource("jquery-1.11.0.min.js", ResourceType.JQuery, "src\\js"),
             new EmbeddedResource("ghpr.controller.js", ResourceType.GhprController, "src\\js"),
-            new EmbeddedResource("tablesort.min.js", ResourceType.Tablesort, "src\\js"),
             new EmbeddedResource("plotly.min.js", ResourceType.Plotly, "src\\js"),
             new EmbeddedResource("octicons.css", ResourceType.Octicons, "src\\octicons"),
             new EmbeddedResource("octicons.eot", ResourceType.Octicons, "src\\octicons"),
@@ -22,7 +20,7 @@ namespace Ghpr.Core.EmbeddedResources
             new EmbeddedResource("octicons.woff", ResourceType.Octicons, "src\\octicons"),
             new EmbeddedResource("github.css", ResourceType.Github, "src\\style"),
             new EmbeddedResource("primer.css", ResourceType.Primer, "src\\style"),
-            new EmbeddedResource("index.html", ResourceType.TestPage, "", "tests.index.html"),
+            new EmbeddedResource("index.html", ResourceType.TestPage, "tests", "tests.index.html"),
             new EmbeddedResource("index.html", ResourceType.TestRunPage, "runs", "runs.index.html"),
             new EmbeddedResource("index.html", ResourceType.TestRunsPage, "", "Report.index.html"),
             new EmbeddedResource("favicon.ico", ResourceType.Favicon, "src")
@@ -35,9 +33,9 @@ namespace Ghpr.Core.EmbeddedResources
         }
 
         public string OutputPath { get; }
-        public bool ReplaceExisting { get; private set; }
+        public bool ReplaceExisting { get; }
         
-        private bool ExtractResource(string searchQuery, string outputPath, string relativePath, string fileName, bool replaceExisting)
+        private void ExtractResource(string searchQuery, string outputPath, string relativePath, string fileName, bool replaceExisting)
         {
             try
             {
@@ -49,7 +47,7 @@ namespace Ghpr.Core.EmbeddedResources
 
                 var destinationFullPath = relativePath.Equals("") ? Path.Combine(outputPath, fileName) : Path.Combine(outputPath, relativePath, fileName);
 
-                if (File.Exists(destinationFullPath) && !replaceExisting) return true;
+                if (File.Exists(destinationFullPath) && !replaceExisting) return;
 
                 foreach (
                     var resourceName in
@@ -64,12 +62,10 @@ namespace Ghpr.Core.EmbeddedResources
                         resourceToSave?.Close();
                     }
                 }
-                return true;
             }
             catch (Exception ex)
             {
                 Log.Exception(ex, "Exception while extracting resource file!");
-                return false;
             }
         }
 
@@ -95,14 +91,13 @@ namespace Ghpr.Core.EmbeddedResources
             var types = new[]
             {
                 ResourceType.GhprController,
-                ResourceType.JQuery,
-                ResourceType.Tablesort,
                 ResourceType.Plotly,
                 ResourceType.Octicons,
                 ResourceType.Github,
                 ResourceType.Primer,
                 ResourceType.TestRunsPage,
                 ResourceType.TestRunPage,
+                ResourceType.TestPage,
                 ResourceType.Favicon
             };
             ExtractResources(types, OutputPath, ReplaceExisting);
