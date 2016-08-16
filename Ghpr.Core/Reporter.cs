@@ -27,7 +27,8 @@ namespace Ghpr.Core
         public static string RunName => Properties.Settings.Default.RunName;
         public static bool RealTimeGeneration => Properties.Settings.Default.RealTime;
         public static string TestsPath => Path.Combine(OutputPath, TestsFolderName);
-        
+        public static string RunsPath => Path.Combine(OutputPath, RunsFolderName);
+
         private void SetUp()
         {
             ActionHelper.SafeAction(() =>
@@ -60,9 +61,8 @@ namespace Ghpr.Core
             ActionHelper.SafeAction(() =>
             {
                 _currentRun.RunInfo.Finish = DateTime.Now;
-                var runsPath = Path.Combine(OutputPath, RunsFolderName);
-                _currentRun.Save(runsPath);
-                RunsHelper.SaveCurrentRunInfo(runsPath, _currentRun.RunInfo);
+                _currentRun.Save(RunsPath);
+                RunsHelper.SaveCurrentRunInfo(RunsPath, _currentRun.RunInfo);
             });
         }
 
