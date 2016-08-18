@@ -29,7 +29,7 @@ namespace Ghpr.Core
         public static string TestsPath => Path.Combine(OutputPath, TestsFolderName);
         public static string RunsPath => Path.Combine(OutputPath, RunsFolderName);
 
-        private void SetUp()
+        private void InitializeRun()
         {
             ActionHelper.SafeAction(() =>
             {
@@ -68,7 +68,7 @@ namespace Ghpr.Core
 
         public void RunStarted()
         {
-            SetUp();
+            InitializeRun();
         }
 
         public void RunFinished()
