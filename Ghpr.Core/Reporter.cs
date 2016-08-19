@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Extensions;
@@ -29,11 +30,11 @@ namespace Ghpr.Core
         public static string TestsPath => Path.Combine(OutputPath, TestsFolderName);
         public static string RunsPath => Path.Combine(OutputPath, RunsFolderName);
 
-        private void InitializeRun()
+        public void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
             ActionHelper.SafeAction(() =>
             {
-                _currentRunGuid = Guid.NewGuid();
+                _currentRunGuid = runGuid.Equals("") ? Guid.NewGuid() : Guid.Parse(runGuid);
                 _currentRun = new Run(_currentRunGuid)
                 {
                     TestRunFiles = new List<string>(),
@@ -44,23 +45,15 @@ namespace Ghpr.Core
                 _currentRun.Name = RunName;
                 _currentRun.Sprint = Sprint;
                 Extractor.ExtractReportBase();
-                _currentRun.RunInfo.Start = DateTime.Now;
+                _currentRun.RunInfo.Start = startDateTime;
             });
         }
 
-        private void UpdateCurrentRunSummary(ITestRun finalTest)
+        private void GenerateReport(DateTime finishDateTime)
         {
             ActionHelper.SafeAction(() =>
             {
-                _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
-            });
-        }
-
-        private void GenerateReport()
-        {
-            ActionHelper.SafeAction(() =>
-            {
-                _currentRun.RunInfo.Finish = DateTime.Now;
+                _currentRun.RunInfo.Finish = finishDateTime;
                 _currentRun.Save(RunsPath);
                 RunsHelper.SaveCurrentRunInfo(RunsPath, _currentRun.RunInfo);
             });
@@ -68,12 +61,12 @@ namespace Ghpr.Core
 
         public void RunStarted()
         {
-            InitializeRun();
+            InitializeRun(DateTime.Now);
         }
 
         public void RunFinished()
         {
-            GenerateReport();
+            GenerateReport(DateTime.Now);
         }
         
         public void TestStarted(ITestRun testRun)
@@ -81,6 +74,33 @@ namespace Ghpr.Core
             ActionHelper.SafeAction(() =>
             {
                 _currentTestRuns.Add(testRun);
+            });
+        }
+
+        public void AddCompleteTestRun(ITestRun testRun)
+        {
+            ActionHelper.SafeAction(() =>
+            {
+                _currentRun.RunSummary.Total++;
+
+                var finishDateTime = testRun.TestInfo.Finish;
+                var testGuid = testRun.TestInfo.Guid.ToString();
+                var testPath = Path.Combine(TestsPath, testGuid);
+                var fileName = finishDateTime.GetTestName();
+
+                _currentRun.RunSummary = _currentRun.RunSummary.Update(testRun);
+
+                testRun.TestInfo.FileName = fileName;
+                testRun.RunGuid = _currentRunGuid;
+                testRun.TestInfo.Start = testRun.TestInfo.Start.Equals(default(DateTime)) ? finishDateTime : testRun.TestInfo.Start;
+                testRun.TestInfo.Finish = testRun.TestInfo.Finish.Equals(default(DateTime)) ? finishDateTime : testRun.TestInfo.Finish;
+                testRun
+                    .TakeScreenshot(testPath, TakeScreenshotAfterFail)
+                    .Save(testPath, fileName);
+                _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
+
+                TestRunsHelper.SaveCurrentTestInfo(testPath, testRun.TestInfo);
+                
             });
         }
 
@@ -96,8 +116,8 @@ namespace Ghpr.Core
                 var testGuid = finalTest.TestInfo.Guid.ToString();
                 var testPath = Path.Combine(TestsPath, testGuid);
                 var fileName = finishDateTime.GetTestName();
-
-                UpdateCurrentRunSummary(finalTest);
+                
+                _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
 
                 finalTest.TestInfo.FileName = fileName;
                 finalTest.RunGuid = _currentRunGuid;
@@ -113,9 +133,33 @@ namespace Ghpr.Core
 
                 if (RealTimeGeneration)
                 {
-                    GenerateReport();
+                    GenerateReport(DateTime.Now);
                 }
             });
+        }
+
+        public void GenerateFullReport(List<ITestRun> testRuns, string runGuid = "")
+        {
+            var runStart = testRuns.OrderBy(t => t.TestInfo.Start).First().TestInfo.Start;
+            var runFinish = testRuns.OrderByDescending(t => t.TestInfo.Finish).First().TestInfo.Finish;
+            GenerateFullReport(testRuns, runStart, runFinish, runGuid);
+        }
+
+        public void GenerateFullReport(List<ITestRun> testRuns, DateTime start, DateTime finish, string runGuid = "")
+        {
+            var runStart = testRuns.OrderBy(t => t.TestInfo.Start).First().TestInfo.Start;
+            var runFinish = testRuns.OrderByDescending(t => t.TestInfo.Finish).First().TestInfo.Finish;
+
+            if (!testRuns.Any())
+            {
+                throw new Exception("Emplty test runs list!");
+            }
+            InitializeRun(runStart, runGuid);
+            foreach (var testRun in testRuns)
+            {
+                AddCompleteTestRun(testRun);
+            }
+            GenerateReport(runFinish);
         }
     }
 }
