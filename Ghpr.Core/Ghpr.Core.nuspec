@@ -8,10 +8,11 @@
     <owners>$author$</owners>
     <licenseUrl>https://github.com/GHPReporter/Ghpr.Core/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/GHPReporter/Ghpr.Core</projectUrl>
+    <iconUrl>https://github.com/GHPReporter/GHPReporter.github.io/blob/master/img/logo-small.png?raw=true</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Easy-to-use test run reporter</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright Evgeniy Kosjakov © 2016</copyright>
-    <tags></tags>
+    <tags>.NET package HTML report reporting tool</tags>
   </metadata>
 </package>

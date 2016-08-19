@@ -62,7 +62,7 @@ namespace Ghpr.Core.Common
         public string[] Categories { get; set; }
 
         [JsonProperty(PropertyName = "testInfo")]
-        public IItemInfo TestInfo { get; set; }
+        public ItemInfo TestInfo { get; set; }
 
         [JsonProperty(PropertyName = "runGuid")]
         public Guid RunGuid { get; set; }

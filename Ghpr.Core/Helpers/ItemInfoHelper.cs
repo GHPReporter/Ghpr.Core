@@ -2,15 +2,15 @@
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
-using Ghpr.Core.Interfaces;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Helpers
 {
     public static class ItemInfoHelper
     {
-        public static void SaveItemInfo(string path, string filename, IItemInfo itemInfo, bool removeExisting = true)
+        public static void SaveItemInfo(string path, string filename, ItemInfo itemInfo, bool removeExisting = true)
         {
+            var serializer = new JsonSerializer();
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -18,13 +18,12 @@ namespace Ghpr.Core.Helpers
             var fullRunsPath = Path.Combine(path, filename);
             if (!File.Exists(fullRunsPath))
             {
-                var items = new List<IItemInfo>
+                var items = new List<ItemInfo>
                 {
                     itemInfo
                 };
                 using (var file = File.CreateText(fullRunsPath))
                 {
-                    var serializer = new JsonSerializer();
                     serializer.Serialize(file, items);
                 }
             }
@@ -33,17 +32,15 @@ namespace Ghpr.Core.Helpers
                 List<ItemInfo> items;
                 using (var file = File.OpenText(fullRunsPath))
                 {
-                    var serializer = new JsonSerializer();
                     items = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
                     if (removeExisting && items.Any(i => i.Guid.Equals(itemInfo.Guid)))
                     {
                         items.Remove(items.First(i => i.Guid.Equals(itemInfo.Guid)));
                     }
-                    items.Add(new ItemInfo(itemInfo));
+                    items.Add(itemInfo);
                 }
                 using (var file = File.CreateText(fullRunsPath))
                 {
-                    var serializer = new JsonSerializer();
                     items = items.OrderByDescending(x => x.Start).ToList();
                     serializer.Serialize(file, items);
                 }

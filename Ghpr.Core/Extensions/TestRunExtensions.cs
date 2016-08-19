@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web.UI.WebControls;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
@@ -12,15 +11,16 @@ namespace Ghpr.Core.Extensions
 {
     public static class TestRunExtensions
     {
-        public static ITestRun TakeScreenshot(this ITestRun testRun, string testPath, bool takeScreenshot)
+        public static ITestRun TakeScreenshot(this ITestRun testRun, string testPath, bool takeScreenshotAfterFail)
         {
-            if (takeScreenshot && testRun.FailedOrBroken)
+            if (!takeScreenshotAfterFail || !testRun.FailedOrBroken)
             {
-                var date = DateTime.Now;
-                var s = new TestScreenshot(date);
-                Taker.TakeScreenshot(Path.Combine(testPath, "img"), date);
-                testRun.Screenshots.Add(s);
+                return testRun;
             }
+            var date = DateTime.Now;
+            var s = new TestScreenshot(date);
+            Taker.TakeScreenshot(Path.Combine(testPath, "img"), date);
+            testRun.Screenshots.Add(s);
             return testRun;
         }
 

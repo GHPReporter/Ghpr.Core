@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
 
 namespace Ghpr.Core.Interfaces
@@ -16,7 +17,7 @@ namespace Ghpr.Core.Interfaces
         string Output { get; set; }
         string Priority { get; set; }
         string[] Categories { get; set; }
-        IItemInfo TestInfo { get; set; }
+        ItemInfo TestInfo { get; set; }
         Guid RunGuid { get; set; }
         List<ITestScreenshot> Screenshots { get; set; }
         List<ITestEvent> Events { get; set; }
