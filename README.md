@@ -19,9 +19,13 @@ Easy-to-use reporter
 
 # Usage
 
-###NUnit 3.x
+###NUnit 3
 
 See [Ghpr.NUnit repository](https://github.com/GHPReporter/Ghpr.NUnit#usage)
+
+###MSTest
+
+See [Ghpr.MSTest repository](https://github.com/GHPReporter/Ghpr.MSTest#usage)
 
 # Demo Report
 
