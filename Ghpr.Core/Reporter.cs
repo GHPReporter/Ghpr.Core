@@ -140,6 +140,10 @@ namespace Ghpr.Core
 
         public void GenerateFullReport(List<ITestRun> testRuns, string runGuid = "")
         {
+            if (!testRuns.Any())
+            {
+                throw new Exception("Emplty test runs list!");
+            }
             var runStart = testRuns.OrderBy(t => t.TestInfo.Start).First().TestInfo.Start;
             var runFinish = testRuns.OrderByDescending(t => t.TestInfo.Finish).First().TestInfo.Finish;
             GenerateFullReport(testRuns, runStart, runFinish, runGuid);
@@ -147,19 +151,17 @@ namespace Ghpr.Core
 
         public void GenerateFullReport(List<ITestRun> testRuns, DateTime start, DateTime finish, string runGuid = "")
         {
-            var runStart = testRuns.OrderBy(t => t.TestInfo.Start).First().TestInfo.Start;
-            var runFinish = testRuns.OrderByDescending(t => t.TestInfo.Finish).First().TestInfo.Finish;
-
             if (!testRuns.Any())
             {
                 throw new Exception("Emplty test runs list!");
             }
-            InitializeRun(runStart, runGuid);
+
+            InitializeRun(start, runGuid);
             foreach (var testRun in testRuns)
             {
                 AddCompleteTestRun(testRun);
             }
-            GenerateReport(runFinish);
+            GenerateReport(finish);
         }
     }
 }
