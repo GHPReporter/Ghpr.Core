@@ -880,6 +880,10 @@ class TestPageUpdater {
             if (index === testInfos.length - 1) {
                 this.disableBtn("btn-next");
             }
+            if (index > testInfos.length - 1) {
+                this.disableBtn("btn-next");
+                index = testInfos.length - 1;
+            }
             this.currentTest = index;
             this.updateTestPage(testInfos[index].guid, testInfos[index].fileName);
         });
