@@ -123,6 +123,9 @@ namespace Ghpr.Core
                 finalTest.RunGuid = _currentRunGuid;
                 finalTest.TestInfo.Start = finalTest.TestInfo.Start.Equals(default(DateTime)) ? finishDateTime : finalTest.TestInfo.Start;
                 finalTest.TestInfo.Finish = finalTest.TestInfo.Finish.Equals(default(DateTime)) ? finishDateTime : finalTest.TestInfo.Finish;
+                finalTest.TestDuration = finalTest.TestDuration.Equals(0.0) 
+                    ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds 
+                    : finalTest.TestDuration;
                 finalTest
                     .TakeScreenshot(testPath, TakeScreenshotAfterFail)
                     .Save(testPath, fileName);
