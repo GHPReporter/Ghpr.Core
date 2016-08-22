@@ -94,9 +94,10 @@ namespace Ghpr.Core
                 testRun.RunGuid = _currentRunGuid;
                 testRun.TestInfo.Start = testRun.TestInfo.Start.Equals(default(DateTime)) ? finishDateTime : testRun.TestInfo.Start;
                 testRun.TestInfo.Finish = testRun.TestInfo.Finish.Equals(default(DateTime)) ? finishDateTime : testRun.TestInfo.Finish;
-                testRun
-                    .TakeScreenshot(testPath, TakeScreenshotAfterFail)
-                    .Save(testPath, fileName);
+                testRun.TestDuration = testRun.TestDuration.Equals(0.0)
+                    ? (testRun.TestInfo.Finish - testRun.TestInfo.Start).TotalSeconds
+                    : testRun.TestDuration;
+                testRun.Save(testPath, fileName);
                 _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
 
                 TestRunsHelper.SaveCurrentTestInfo(testPath, testRun.TestInfo);
