@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
+using Ghpr.Core.Comparers;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Helpers
@@ -35,9 +36,16 @@ namespace Ghpr.Core.Helpers
                     items = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
                     if (removeExisting && items.Any(i => i.Guid.Equals(itemInfo.Guid)))
                     {
-                        items.Remove(items.First(i => i.Guid.Equals(itemInfo.Guid)));
+                        var existingItems = items.Where(i => i.Guid.Equals(itemInfo.Guid));
+                        foreach (var item in existingItems)
+                        {
+                            items.Remove(item);
+                        }
                     }
-                    items.Add(itemInfo);
+                    if (!items.Contains(itemInfo, new ItemInfoComparer()))
+                    {
+                        items.Add(itemInfo);
+                    }
                 }
                 using (var file = File.CreateText(fullRunsPath))
                 {

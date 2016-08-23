@@ -94,9 +94,10 @@ namespace Ghpr.Core
                 testRun.RunGuid = _currentRunGuid;
                 testRun.TestInfo.Start = testRun.TestInfo.Start.Equals(default(DateTime)) ? finishDateTime : testRun.TestInfo.Start;
                 testRun.TestInfo.Finish = testRun.TestInfo.Finish.Equals(default(DateTime)) ? finishDateTime : testRun.TestInfo.Finish;
-                testRun
-                    .TakeScreenshot(testPath, TakeScreenshotAfterFail)
-                    .Save(testPath, fileName);
+                testRun.TestDuration = testRun.TestDuration.Equals(0.0)
+                    ? (testRun.TestInfo.Finish - testRun.TestInfo.Start).TotalSeconds
+                    : testRun.TestDuration;
+                testRun.Save(testPath, fileName);
                 _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
 
                 TestRunsHelper.SaveCurrentTestInfo(testPath, testRun.TestInfo);
@@ -123,6 +124,9 @@ namespace Ghpr.Core
                 finalTest.RunGuid = _currentRunGuid;
                 finalTest.TestInfo.Start = finalTest.TestInfo.Start.Equals(default(DateTime)) ? finishDateTime : finalTest.TestInfo.Start;
                 finalTest.TestInfo.Finish = finalTest.TestInfo.Finish.Equals(default(DateTime)) ? finishDateTime : finalTest.TestInfo.Finish;
+                finalTest.TestDuration = finalTest.TestDuration.Equals(0.0) 
+                    ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds 
+                    : finalTest.TestDuration;
                 finalTest
                     .TakeScreenshot(testPath, TakeScreenshotAfterFail)
                     .Save(testPath, fileName);
@@ -140,6 +144,10 @@ namespace Ghpr.Core
 
         public void GenerateFullReport(List<ITestRun> testRuns, string runGuid = "")
         {
+            if (!testRuns.Any())
+            {
+                throw new Exception("Emplty test runs list!");
+            }
             var runStart = testRuns.OrderBy(t => t.TestInfo.Start).First().TestInfo.Start;
             var runFinish = testRuns.OrderByDescending(t => t.TestInfo.Finish).First().TestInfo.Finish;
             GenerateFullReport(testRuns, runStart, runFinish, runGuid);
@@ -147,19 +155,17 @@ namespace Ghpr.Core
 
         public void GenerateFullReport(List<ITestRun> testRuns, DateTime start, DateTime finish, string runGuid = "")
         {
-            var runStart = testRuns.OrderBy(t => t.TestInfo.Start).First().TestInfo.Start;
-            var runFinish = testRuns.OrderByDescending(t => t.TestInfo.Finish).First().TestInfo.Finish;
-
             if (!testRuns.Any())
             {
                 throw new Exception("Emplty test runs list!");
             }
-            InitializeRun(runStart, runGuid);
+
+            InitializeRun(start, runGuid);
             foreach (var testRun in testRuns)
             {
                 AddCompleteTestRun(testRun);
             }
-            GenerateReport(runFinish);
+            GenerateReport(finish);
         }
     }
 }

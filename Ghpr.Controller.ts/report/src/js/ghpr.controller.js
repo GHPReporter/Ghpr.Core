@@ -874,11 +874,12 @@ class TestPageUpdater {
             if (index === undefined || index.toString() === "NaN") {
                 index = this.testVersionsCount - 1;
             }
-            if (index === 0) {
+            if (index <= 0) {
                 this.disableBtn("btn-prev");
             }
-            if (index === testInfos.length - 1) {
+            if (index >= testInfos.length - 1) {
                 this.disableBtn("btn-next");
+                index = testInfos.length - 1;
             }
             this.currentTest = index;
             this.updateTestPage(testInfos[index].guid, testInfos[index].fileName);
@@ -895,12 +896,13 @@ class TestPageUpdater {
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {
                 this.enableBtns();
-                const index = testInfos.indexOf(testInfo);
-                if (index === 0) {
+                let index = testInfos.indexOf(testInfo);
+                if (index <= 0) {
                     this.disableBtn("btn-prev");
                 }
-                if (index === testInfos.length - 1) {
+                if (index >= testInfos.length - 1) {
                     this.disableBtn("btn-next");
+                    index = testInfos.length - 1;
                 }
                 this.loadTest(index);
             }
