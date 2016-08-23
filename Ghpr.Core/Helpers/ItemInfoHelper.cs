@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
+using Ghpr.Core.Comparers;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Helpers
@@ -41,7 +42,10 @@ namespace Ghpr.Core.Helpers
                             items.Remove(item);
                         }
                     }
-                    items.Add(itemInfo);
+                    if (!items.Contains(itemInfo, new ItemInfoComparer()))
+                    {
+                        items.Add(itemInfo);
+                    }
                 }
                 using (var file = File.CreateText(fullRunsPath))
                 {
