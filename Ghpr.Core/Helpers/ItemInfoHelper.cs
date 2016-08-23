@@ -35,7 +35,11 @@ namespace Ghpr.Core.Helpers
                     items = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
                     if (removeExisting && items.Any(i => i.Guid.Equals(itemInfo.Guid)))
                     {
-                        items.Remove(items.First(i => i.Guid.Equals(itemInfo.Guid)));
+                        var existingItems = items.Where(i => i.Guid.Equals(itemInfo.Guid));
+                        foreach (var item in existingItems)
+                        {
+                            items.Remove(item);
+                        }
                     }
                     items.Add(itemInfo);
                 }
