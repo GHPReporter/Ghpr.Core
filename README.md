@@ -16,7 +16,7 @@
 
 # Ghpr.Core
 
-Easy-to-use reporter
+Easy-to-use .NET test reporting tool
 
 # Usage
 
