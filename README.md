@@ -28,6 +28,10 @@ See [Ghpr.NUnit repository](https://github.com/GHPReporter/Ghpr.NUnit#usage)
 
 See [Ghpr.MSTest repository](https://github.com/GHPReporter/Ghpr.MSTest#usage)
 
+###SpecFlow
+
+See [Ghpr.SpecFlow repository](https://github.com/GHPReporter/Ghpr.SpecFlow)
+
 # Demo Report
 
 You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
