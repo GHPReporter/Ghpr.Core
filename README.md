@@ -20,17 +20,11 @@ Easy-to-use .NET test reporting tool
 
 # Usage
 
-###NUnit 3
-
-See [Ghpr.NUnit repository](https://github.com/GHPReporter/Ghpr.NUnit#usage)
-
-###MSTest
-
-See [Ghpr.MSTest repository](https://github.com/GHPReporter/Ghpr.MSTest#usage)
-
-###SpecFlow
-
-See [Ghpr.SpecFlow repository](https://github.com/GHPReporter/Ghpr.SpecFlow)
+|Framework|Repository|Nuget|
+|---|---|---|
+|NUnit 3|[Ghpr.NUnit](https://github.com/GHPReporter/Ghpr.NUnit#usage)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.NUnit.svg)](https://www.nuget.org/packages/Ghpr.NUnit)|
+|MSTest|[Ghpr.MSTest](https://github.com/GHPReporter/Ghpr.MSTest#usage)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.MSTest.svg)](https://www.nuget.org/packages/Ghpr.MSTest)|
+|SpecFlow|[Ghpr.SpecFlow](https://github.com/GHPReporter/Ghpr.SpecFlow)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.SpecFlowPlugin.svg)](https://www.nuget.org/packages/Ghpr.SpecFlowPlugin)|
 
 # Demo Report
 
