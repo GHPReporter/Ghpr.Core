@@ -83,7 +83,7 @@ namespace Ghpr.Core.Common
                 {
                     return TestResult.Passed;
                 }
-                if (Result.Contains("Error"))
+                if (Result.Contains("Error") || Result.Contains("Broken"))
                 {
                     return TestResult.Broken;
                 }
