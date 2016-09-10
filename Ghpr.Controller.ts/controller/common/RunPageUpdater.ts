@@ -82,7 +82,7 @@ class RunPageUpdater {
         //Test #${c - i - 1}:
         const ti = t.testInfo;
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
-        const testLi = `<li id=test-${ti.guid} style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
+        const testLi = `<li id="test-${ti.guid}" style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
             <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
         const arr = t.fullName.split(".");
@@ -99,12 +99,12 @@ class RunPageUpdater {
         }
         const ids: string[] = new Array();
         for (let j = 0; j < len2; j++) {
-            ids[j] = `id-${arr.slice(0, j + 1).join(".")}`;
+            ids[j] = `id-${arr.slice(0, j + 1).join(".").replace(/\s/g, "_")}`;
         }
         for (let j = 0; j <= len2; j++) {
             const el = document.getElementById(ids[j]);
             if (el === null || el === undefined) {
-                const li = `<li id=${ids[j]} class="test-suite"><a>${arr[j]}</a><ul></ul></li>`;
+                const li = `<li id="${ids[j]}" class="test-suite"><a>${arr[j]}</a><ul></ul></li>`;
                 if (j === 0) {
                     document.getElementById("all-tests").innerHTML += li;
                 } else {
