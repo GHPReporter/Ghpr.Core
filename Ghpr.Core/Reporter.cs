@@ -26,6 +26,7 @@ namespace Ghpr.Core
         public static bool TakeScreenshotAfterFail => Properties.Settings.Default.TakeScreenshotAfterFail;
         public static string Sprint => Properties.Settings.Default.Sprint;
         public static string RunName => Properties.Settings.Default.RunName;
+        public static string RunGuid => Properties.Settings.Default.RunGuid;
         public static bool RealTimeGeneration => Properties.Settings.Default.RealTime;
         public static string TestsPath => Path.Combine(OutputPath, TestsFolderName);
         public static string RunsPath => Path.Combine(OutputPath, RunsFolderName);
@@ -34,7 +35,7 @@ namespace Ghpr.Core
         {
             ActionHelper.SafeAction(() =>
             {
-                _currentRunGuid = runGuid.Equals("") ? Guid.NewGuid() : Guid.Parse(runGuid);
+                _currentRunGuid = runGuid.Equals("") || runGuid.Equals("null") ? Guid.NewGuid() : Guid.Parse(runGuid);
                 _currentRun = new Run(_currentRunGuid)
                 {
                     TestRunFiles = new List<string>(),
@@ -61,7 +62,7 @@ namespace Ghpr.Core
 
         public void RunStarted()
         {
-            InitializeRun(DateTime.Now);
+            InitializeRun(DateTime.Now, RunGuid);
         }
 
         public void RunFinished()
