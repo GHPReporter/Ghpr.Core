@@ -18,6 +18,5 @@
   <files>
     <file src=".\bin\Release\Ghpr.Core.dll" target="lib" />
     <file src=".\bin\Release\Ghpr.Core.dll.config" target="lib" />
-    <file src="lib\" target="lib" />
   </files>
 </package>
