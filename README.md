@@ -16,7 +16,7 @@
 
 # Ghpr.Core
 
-Easy-to-use .NET test reporting tool
+Easy-to-use .NET test reporting tool for several testing frameworks
 
 # Usage
 
@@ -30,7 +30,7 @@ Easy-to-use .NET test reporting tool
 
 You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
 
-# Local report
+# View report locally
 
 ####Firefox
 

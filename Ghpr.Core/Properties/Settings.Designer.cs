@@ -67,5 +67,14 @@ namespace Ghpr.Core.Properties {
                 return ((bool)(this["RealTime"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("null")]
+        public string RunGuid {
+            get {
+                return ((string)(this["RunGuid"]));
+            }
+        }
     }
 }
