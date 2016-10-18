@@ -16,7 +16,7 @@
     <tags>.NET package HTML report reporting tool</tags>
   </metadata>
   <files>
-    <file src=".\bin\Release\Ghpr.Core.dll" target="lib\net452\Ghpr.Core.dll" />
-    <file src=".\bin\Release\Ghpr.Core.dll.config" target="lib\net452\Ghpr.Core.dll.config" />
+    <file src=".\bin\Release\Ghpr.Core.dll" target="lib\net452" />
+    <file src=".\bin\Release\Ghpr.Core.dll.config" target="lib\net452" />
   </files>
 </package>
