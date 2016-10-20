@@ -25,15 +25,6 @@ namespace Ghpr.Core.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\_GhprReport")]
-        public string OutputPath {
-            get {
-                return ((string)(this["OutputPath"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool TakeScreenshotAfterFail {
             get {
@@ -74,6 +65,15 @@ namespace Ghpr.Core.Properties {
         public string RunGuid {
             get {
                 return ((string)(this["RunGuid"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\_GhprFolder")]
+        public string OutputPath {
+            get {
+                return ((string)(this["OutputPath"]));
             }
         }
     }

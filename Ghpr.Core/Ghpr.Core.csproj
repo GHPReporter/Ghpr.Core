@@ -96,7 +96,9 @@
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octicons.woff">
       <Link>EmbeddedResources\Report\src\octicons\octicons.woff</Link>
     </EmbeddedResource>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Ghpr.Core.nuspec" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
