@@ -10,7 +10,7 @@
     - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   after_build:
-    - .nuget/nuget.exe pack "Ghpr.Core/Ghpr.Core.csproj" -Prop Configuration=Release
+    - cmd: pack.bat
 
   artifacts:
     - path: '*.nupkg'
