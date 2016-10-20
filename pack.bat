@@ -1,1 +1,1 @@
-.nuget/nuget.exe pack "Ghpr.Core/Ghpr.Core.csproj" -Prop Configuration=Release
+".nuget/nuget.exe" pack "Ghpr.Core/Ghpr.Core.csproj" -Prop Configuration=Release
