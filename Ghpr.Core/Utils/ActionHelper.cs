@@ -2,9 +2,16 @@
 
 namespace Ghpr.Core.Utils
 {
-    public static class ActionHelper
+    public class ActionHelper
     {
-        public static void SafeAction(Action a)
+        private readonly Log _log;
+
+        public ActionHelper(string exceptionOutputPath)
+        {
+            _log = new Log(exceptionOutputPath);
+        }
+
+        public void SafeAction(Action a)
         {
             try
             {
@@ -12,7 +19,7 @@ namespace Ghpr.Core.Utils
             }
             catch (Exception ex)
             {
-                Log.Exception(ex, $"Exception in method '{a.Method.Name}'");
+                _log.Exception(ex, $"Exception in method '{a.Method.Name}'");
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Enums;
@@ -26,18 +25,21 @@ namespace Ghpr.Core.EmbeddedResources
             new EmbeddedResource("favicon.ico", ResourceType.Favicon, "src")
         };
 
-        public ResourceExtractor(string outputPath = "", bool replaceExisting = false)
+        public ResourceExtractor(ActionHelper actionHelper, string outputPath = "", bool replaceExisting = false)
         {
+            _actionHelper = actionHelper;
             OutputPath = outputPath;
             ReplaceExisting = replaceExisting;
         }
+
+        private readonly ActionHelper _actionHelper;
 
         public string OutputPath { get; }
         public bool ReplaceExisting { get; }
         
         private void ExtractResource(string searchQuery, string outputPath, string relativePath, string fileName, bool replaceExisting)
         {
-            try
+            _actionHelper.SafeAction(() =>
             {
                 var currentAssembly = GetType().Assembly;
                 var arrResources = currentAssembly.GetManifestResourceNames();
@@ -62,11 +64,7 @@ namespace Ghpr.Core.EmbeddedResources
                         resourceToSave?.Close();
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex, "Exception while extracting resource file!");
-            }
+            });
         }
 
         private void ExtractResources(ResourceType type, string outputPath, bool replaceExisting)
