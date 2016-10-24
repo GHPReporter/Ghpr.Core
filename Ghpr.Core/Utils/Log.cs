@@ -3,15 +3,20 @@ using System.IO;
 
 namespace Ghpr.Core.Utils
 {
-    public static class Log
+    public class Log
     {
-        private const string LogFile = @"GHPReporter.txt";
-        private static readonly string Output = Properties.Settings.Default.OutputPath;
-
-        private static void WriteToFile(string msg, string fileName)
+        public Log(string outputPath)
         {
-            Directory.CreateDirectory(Output);
-            using (var sw = File.AppendText(Path.Combine(Output, fileName)))
+            _output = outputPath;
+        }
+
+        private const string LogFile = @"GHPReporter.txt";
+        private readonly string _output;
+
+        private void WriteToFile(string msg, string fileName)
+        {
+            Directory.CreateDirectory(_output);
+            using (var sw = File.AppendText(Path.Combine(_output, fileName)))
             {
                 try
                 {
@@ -25,9 +30,9 @@ namespace Ghpr.Core.Utils
             }
         }
 
-        private static void WriteToFile(string msg, string fileName, string filePath)
+        private void WriteToFile(string msg, string fileName, string filePath)
         {
-            Directory.CreateDirectory(Output);
+            Directory.CreateDirectory(_output);
             using (var sw = File.AppendText(Path.Combine(filePath, fileName)))
             {
                 try
@@ -42,10 +47,10 @@ namespace Ghpr.Core.Utils
             }
         }
 
-        public static void Write(string msg)
+        public void Write(string msg)
         {
-            Directory.CreateDirectory(Output);
-            using (var sw = File.AppendText(Path.Combine(Output, LogFile)))
+            Directory.CreateDirectory(_output);
+            using (var sw = File.AppendText(Path.Combine(_output, LogFile)))
             {
                 try
                 {
@@ -63,7 +68,7 @@ namespace Ghpr.Core.Utils
             }
         }
 
-        public static void Exception(Exception exception, string exceptionMessage = "")
+        public void Exception(Exception exception, string exceptionMessage = "")
         {
             var msg = (exceptionMessage.Equals("") ? "Exception!" : exceptionMessage) + Environment.NewLine
                 + " Message: " + Environment.NewLine + exception.Message + Environment.NewLine +
@@ -79,7 +84,7 @@ namespace Ghpr.Core.Utils
             WriteToFile(msg, "Exception_" + DateTime.Now.ToString("ddMMyyHHmmssfff") + ".txt");
         }
 
-        public static void Exception(Exception exception, string path, string exceptionMessage)
+        public void Exception(Exception exception, string path, string exceptionMessage)
         {
             var msg = exceptionMessage + Environment.NewLine
                 + " Message: " + Environment.NewLine + exception.Message + Environment.NewLine +
@@ -87,7 +92,7 @@ namespace Ghpr.Core.Utils
             WriteToFile(msg, "Exception_" + DateTime.Now.ToString("ddMMyyHHmmssfff") + ".txt", path);
         }
 
-        public static void Warning(string warningMessage)
+        public void Warning(string warningMessage)
         {
             WriteToFile(warningMessage, "Warning_" + DateTime.Now.ToString("ddMMyyHHmmssfff") + ".txt");
         }

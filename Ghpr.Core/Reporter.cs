@@ -13,27 +13,41 @@ namespace Ghpr.Core
 {
     public class Reporter
     {
+        public Reporter(IReporterSettings settings)
+        {
+            OutputPath = settings.OutputPath;
+            TakeScreenshotAfterFail = settings.TakeScreenshotAfterFail;
+            Sprint = settings.Sprint;
+            RunName = settings.RunName;
+            RunGuid = settings.RunGuid;
+            RealTimeGeneration = settings.RealTimeGeneration;
+
+            _actionHelper = new ActionHelper(OutputPath);
+            _extractor = new ResourceExtractor(_actionHelper, OutputPath);
+        }
+
         private IRun _currentRun;
         private List<ITestRun> _currentTestRuns;
         private Guid _currentRunGuid;
 
-        private static readonly ResourceExtractor Extractor = new ResourceExtractor(OutputPath);
+        private readonly ActionHelper _actionHelper;
+        private readonly ResourceExtractor _extractor;
 
         public const string TestsFolderName = "tests";
         public const string RunsFolderName = "runs";
 
-        public static string OutputPath => Properties.Settings.Default.OutputPath;
-        public static bool TakeScreenshotAfterFail => Properties.Settings.Default.TakeScreenshotAfterFail;
-        public static string Sprint => Properties.Settings.Default.Sprint;
-        public static string RunName => Properties.Settings.Default.RunName;
-        public static string RunGuid => Properties.Settings.Default.RunGuid;
-        public static bool RealTimeGeneration => Properties.Settings.Default.RealTime;
-        public static string TestsPath => Path.Combine(OutputPath, TestsFolderName);
-        public static string RunsPath => Path.Combine(OutputPath, RunsFolderName);
+        public string OutputPath { get; }
+        public bool TakeScreenshotAfterFail { get; }
+        public string Sprint { get; }
+        public string RunName { get; }
+        public string RunGuid { get; }
+        public bool RealTimeGeneration { get; }
+        public string TestsPath => Path.Combine(OutputPath, TestsFolderName);
+        public string RunsPath => Path.Combine(OutputPath, RunsFolderName);
 
         public void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
-            ActionHelper.SafeAction(() =>
+            _actionHelper.SafeAction(() =>
             {
                 _currentRunGuid = runGuid.Equals("") || runGuid.Equals("null") ? Guid.NewGuid() : Guid.Parse(runGuid);
                 _currentRun = new Run(_currentRunGuid)
@@ -45,14 +59,14 @@ namespace Ghpr.Core
 
                 _currentRun.Name = RunName;
                 _currentRun.Sprint = Sprint;
-                Extractor.ExtractReportBase();
+                _extractor.ExtractReportBase();
                 _currentRun.RunInfo.Start = startDateTime;
             });
         }
 
         private void GenerateReport(DateTime finishDateTime)
         {
-            ActionHelper.SafeAction(() =>
+            _actionHelper.SafeAction(() =>
             {
                 _currentRun.RunInfo.Finish = finishDateTime;
                 _currentRun.Save(RunsPath);
@@ -72,7 +86,7 @@ namespace Ghpr.Core
         
         public void TestStarted(ITestRun testRun)
         {
-            ActionHelper.SafeAction(() =>
+            _actionHelper.SafeAction(() =>
             {
                 _currentTestRuns.Add(testRun);
             });
@@ -80,7 +94,7 @@ namespace Ghpr.Core
 
         public void AddCompleteTestRun(ITestRun testRun)
         {
-            ActionHelper.SafeAction(() =>
+            _actionHelper.SafeAction(() =>
             {
                 _currentRun.RunSummary.Total++;
 
@@ -108,7 +122,7 @@ namespace Ghpr.Core
 
         public void TestFinished(ITestRun testRun)
         {
-            ActionHelper.SafeAction(() =>
+            _actionHelper.SafeAction(() =>
             {
                 _currentRun.RunSummary.Total++;
 
