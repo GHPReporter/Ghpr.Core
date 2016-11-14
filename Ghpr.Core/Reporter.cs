@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
@@ -27,6 +28,7 @@ namespace Ghpr.Core
         }
 
         private IRun _currentRun;
+        private ITestRun _currentTestRun;
         private List<ITestRun> _currentTestRuns;
         private Guid _currentRunGuid;
 
@@ -89,6 +91,22 @@ namespace Ghpr.Core
             _actionHelper.SafeAction(() =>
             {
                 _currentTestRuns.Add(testRun);
+                _currentTestRun = testRun;
+            });
+        }
+
+        public void TakeScreenshot(Bitmap screen)
+        {
+            _actionHelper.SafeAction(() =>
+            {
+                var testGuid = _currentTestRun.TestInfo.Guid.ToString();
+                var date = DateTime.Now;
+                var s = new TestScreenshot(date);
+                Taker.TakeScreenshot(Path.Combine(TestsPath, testGuid, "img"), screen, date);
+                _currentTestRun.Screenshots.Add(s);
+                _currentTestRuns.First(
+                    tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
+                    .Screenshots.Add(s);
             });
         }
 

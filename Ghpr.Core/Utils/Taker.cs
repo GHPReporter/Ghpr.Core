@@ -13,7 +13,7 @@ namespace Ghpr.Core.Utils
             format = format ?? ImageFormat.Png;
             return $"img_{now.ToString("yyyyMMdd_HHmmssfff")}.{format.ToString().ToLower()}";
         }
-        
+
         public static string TakeScreenshot(string screenPath, DateTime creationTime = default(DateTime))
         {
             if (!Directory.Exists(screenPath))
@@ -44,6 +44,25 @@ namespace Ghpr.Core.Utils
 
                 }
             }
+            return screenName;
+        }
+
+        public static string TakeScreenshot(string screenPath, Bitmap screen, DateTime creationTime = default(DateTime))
+        {
+            if (!Directory.Exists(screenPath))
+            {
+                Directory.CreateDirectory(screenPath);
+            }
+            var format = ImageFormat.Png;
+            var now = DateTime.Now;
+            creationTime = creationTime.Equals(default(DateTime)) ? now : creationTime;
+            var screenName = GetScreenName(creationTime, format);
+            var file = Path.Combine(screenPath, screenName);
+            screen.Save(file, format);
+            var fileInfo = new FileInfo(file);
+            fileInfo.Refresh();
+            fileInfo.CreationTime = creationTime;
+            
             return screenName;
         }
     }
