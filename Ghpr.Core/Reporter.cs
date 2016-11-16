@@ -32,6 +32,8 @@ namespace Ghpr.Core
         private List<ITestRun> _currentTestRuns;
         private Guid _currentRunGuid;
 
+        private readonly object _lock = new object();
+
         private readonly ActionHelper _actionHelper;
         private readonly ResourceExtractor _extractor;
 
@@ -88,91 +90,111 @@ namespace Ghpr.Core
         
         public void TestStarted(ITestRun testRun)
         {
-            _actionHelper.SafeAction(() =>
+            lock (_lock)
             {
-                _currentTestRuns.Add(testRun);
-                _currentTestRun = testRun;
-            });
+                _actionHelper.SafeAction(() =>
+                {
+                    _currentTestRuns.Add(testRun);
+                    _currentTestRun = testRun;
+                });
+            }
         }
 
         public void TakeScreenshot(Bitmap screen)
         {
-            _actionHelper.SafeAction(() =>
+            lock (_lock)
             {
-                var testGuid = _currentTestRun.TestInfo.Guid.ToString();
-                var date = DateTime.Now;
-                var s = new TestScreenshot(date);
-                Taker.TakeScreenshot(Path.Combine(TestsPath, testGuid, "img"), screen, date);
-                _currentTestRun.Screenshots.Add(s);
-                _currentTestRuns.First(
-                    tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
-                    .Screenshots.Add(s);
-            });
+                _actionHelper.SafeAction(() =>
+                {
+                    var testGuid = _currentTestRun.TestInfo.Guid.ToString();
+                    var date = DateTime.Now;
+                    var s = new TestScreenshot(date);
+                    Taker.TakeScreenshot(Path.Combine(TestsPath, testGuid, "img"), screen, date);
+                    _currentTestRun.Screenshots.Add(s);
+                    _currentTestRuns.First(
+                        tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
+                        .Screenshots.Add(s);
+                });
+            }
         }
 
         public void AddCompleteTestRun(ITestRun testRun)
         {
-            _actionHelper.SafeAction(() =>
+            lock (_lock)
             {
-                _currentRun.RunSummary.Total++;
+                _actionHelper.SafeAction(() =>
+                {
+                    _currentRun.RunSummary.Total++;
 
-                var finishDateTime = testRun.TestInfo.Finish;
-                var testGuid = testRun.TestInfo.Guid.ToString();
-                var testPath = Path.Combine(TestsPath, testGuid);
-                var fileName = finishDateTime.GetTestName();
+                    var finishDateTime = testRun.TestInfo.Finish;
+                    var testGuid = testRun.TestInfo.Guid.ToString();
+                    var testPath = Path.Combine(TestsPath, testGuid);
+                    var fileName = finishDateTime.GetTestName();
 
-                _currentRun.RunSummary = _currentRun.RunSummary.Update(testRun);
+                    _currentRun.RunSummary = _currentRun.RunSummary.Update(testRun);
 
-                testRun.TestInfo.FileName = fileName;
-                testRun.RunGuid = _currentRunGuid;
-                testRun.TestInfo.Start = testRun.TestInfo.Start.Equals(default(DateTime)) ? finishDateTime : testRun.TestInfo.Start;
-                testRun.TestInfo.Finish = testRun.TestInfo.Finish.Equals(default(DateTime)) ? finishDateTime : testRun.TestInfo.Finish;
-                testRun.TestDuration = testRun.TestDuration.Equals(0.0)
-                    ? (testRun.TestInfo.Finish - testRun.TestInfo.Start).TotalSeconds
-                    : testRun.TestDuration;
-                testRun.Save(testPath, fileName);
-                _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
+                    testRun.TestInfo.FileName = fileName;
+                    testRun.RunGuid = _currentRunGuid;
+                    testRun.TestInfo.Start = testRun.TestInfo.Start.Equals(default(DateTime))
+                        ? finishDateTime
+                        : testRun.TestInfo.Start;
+                    testRun.TestInfo.Finish = testRun.TestInfo.Finish.Equals(default(DateTime))
+                        ? finishDateTime
+                        : testRun.TestInfo.Finish;
+                    testRun.TestDuration = testRun.TestDuration.Equals(0.0)
+                        ? (testRun.TestInfo.Finish - testRun.TestInfo.Start).TotalSeconds
+                        : testRun.TestDuration;
+                    testRun.Save(testPath, fileName);
+                    _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
 
-                TestRunsHelper.SaveCurrentTestInfo(testPath, testRun.TestInfo);
-                
-            });
+                    TestRunsHelper.SaveCurrentTestInfo(testPath, testRun.TestInfo);
+
+                });
+            }
         }
 
         public void TestFinished(ITestRun testRun)
         {
-            _actionHelper.SafeAction(() =>
+            lock (_lock)
             {
-                _currentRun.RunSummary.Total++;
-
-                var finishDateTime = DateTime.Now;
-                var currentTest = _currentTestRuns.GetTest(testRun);
-                var finalTest = testRun.Update(currentTest);
-                var testGuid = finalTest.TestInfo.Guid.ToString();
-                var testPath = Path.Combine(TestsPath, testGuid);
-                var fileName = finishDateTime.GetTestName();
-                
-                _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
-
-                finalTest.TestInfo.FileName = fileName;
-                finalTest.RunGuid = _currentRunGuid;
-                finalTest.TestInfo.Start = finalTest.TestInfo.Start.Equals(default(DateTime)) ? finishDateTime : finalTest.TestInfo.Start;
-                finalTest.TestInfo.Finish = finalTest.TestInfo.Finish.Equals(default(DateTime)) ? finishDateTime : finalTest.TestInfo.Finish;
-                finalTest.TestDuration = finalTest.TestDuration.Equals(0.0) 
-                    ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds 
-                    : finalTest.TestDuration;
-                finalTest
-                    .TakeScreenshot(testPath, TakeScreenshotAfterFail)
-                    .Save(testPath, fileName);
-                _currentTestRuns.Remove(currentTest);
-                _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
-
-                TestRunsHelper.SaveCurrentTestInfo(testPath, finalTest.TestInfo);
-
-                if (RealTimeGeneration)
+                _actionHelper.SafeAction(() =>
                 {
-                    GenerateReport(DateTime.Now);
-                }
-            });
+                    _currentRun.RunSummary.Total++;
+
+                    var finishDateTime = DateTime.Now;
+                    var currentTest = _currentTestRuns.GetTest(testRun);
+                    var finalTest = testRun.Update(currentTest);
+                    var testGuid = finalTest.TestInfo.Guid.ToString();
+                    var testPath = Path.Combine(TestsPath, testGuid);
+                    var fileName = finishDateTime.GetTestName();
+
+                    _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
+
+                    finalTest.TestInfo.FileName = fileName;
+                    finalTest.RunGuid = _currentRunGuid;
+                    finalTest.TestInfo.Start = finalTest.TestInfo.Start.Equals(default(DateTime))
+                        ? finishDateTime
+                        : finalTest.TestInfo.Start;
+                    finalTest.TestInfo.Finish = finalTest.TestInfo.Finish.Equals(default(DateTime))
+                        ? finishDateTime
+                        : finalTest.TestInfo.Finish;
+                    finalTest.TestDuration = finalTest.TestDuration.Equals(0.0)
+                        ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds
+                        : finalTest.TestDuration;
+                    finalTest
+                        .TakeScreenshot(testPath, TakeScreenshotAfterFail)
+                        .Save(testPath, fileName);
+                    _currentTestRuns.Remove(currentTest);
+                    _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
+
+                    TestRunsHelper.SaveCurrentTestInfo(testPath, finalTest.TestInfo);
+
+                    if (RealTimeGeneration)
+                    {
+                        GenerateReport(DateTime.Now);
+                    }
+                });
+            }
         }
 
         public void GenerateFullReport(List<ITestRun> testRuns, string runGuid = "")
