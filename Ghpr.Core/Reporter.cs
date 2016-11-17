@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
@@ -100,7 +101,7 @@ namespace Ghpr.Core
             }
         }
 
-        public void TakeScreenshot(Bitmap screen)
+        public void SaveScreenshot(Bitmap screen)
         {
             lock (_lock)
             {
@@ -109,7 +110,7 @@ namespace Ghpr.Core
                     var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                     var date = DateTime.Now;
                     var s = new TestScreenshot(date);
-                    Taker.TakeScreenshot(Path.Combine(TestsPath, testGuid, "img"), screen, date);
+                    Taker.SaveScreenshot(Path.Combine(TestsPath, testGuid, "img"), screen, date);
                     _currentTestRun.Screenshots.Add(s);
                     _currentTestRuns.First(
                         tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
