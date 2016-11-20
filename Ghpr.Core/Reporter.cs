@@ -70,12 +70,15 @@ namespace Ghpr.Core
 
         private void GenerateReport(DateTime finishDateTime)
         {
-            _actionHelper.SafeAction(() =>
+            lock (_lock)
             {
-                _currentRun.RunInfo.Finish = finishDateTime;
-                _currentRun.Save(RunsPath);
-                RunsHelper.SaveCurrentRunInfo(RunsPath, _currentRun.RunInfo);
-            });
+                _actionHelper.SafeAction(() =>
+                {
+                    _currentRun.RunInfo.Finish = finishDateTime;
+                    _currentRun.Save(RunsPath);
+                    RunsHelper.SaveCurrentRunInfo(RunsPath, _currentRun.RunInfo);
+                });
+            }
         }
 
         public void RunStarted()
