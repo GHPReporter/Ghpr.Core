@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
 namespace Ghpr.Core.Utils
 {
-    internal static class Taker
+    public static class Taker
     {
         public static void TakeScreenshot(string screenPath, DateTime creationTime = default(DateTime))
         {
@@ -26,6 +27,13 @@ namespace Ghpr.Core.Utils
         {
             var format = ImageFormat.Png;
             return $"img_{dt.ToString("yyyyMMdd_HHmmssfff")}.{format.ToString().ToLower()}";
+        }
+
+        public static DateTime GetScreenDate(string name)
+        {
+            var dtString = name.Replace("img_", "").Split('.')[0];
+            var dt = DateTime.ParseExact(dtString, "yyyyMMdd_HHmmssfff", CultureInfo.InvariantCulture);
+            return dt;
         }
 
         public static string SaveScreenshot(string screenPath, byte[] screenBytes, DateTime creationTime)

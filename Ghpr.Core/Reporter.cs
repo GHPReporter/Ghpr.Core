@@ -39,6 +39,7 @@ namespace Ghpr.Core
 
         public const string TestsFolderName = "tests";
         public const string RunsFolderName = "runs";
+        public const string ImgFolderName = "img";
 
         public string OutputPath { get; }
         public bool TakeScreenshotAfterFail { get; }
@@ -70,12 +71,15 @@ namespace Ghpr.Core
 
         private void GenerateReport(DateTime finishDateTime)
         {
-            _actionHelper.SafeAction(() =>
+            lock (_lock)
             {
-                _currentRun.RunInfo.Finish = finishDateTime;
-                _currentRun.Save(RunsPath);
-                RunsHelper.SaveCurrentRunInfo(RunsPath, _currentRun.RunInfo);
-            });
+                _actionHelper.SafeAction(() =>
+                {
+                    _currentRun.RunInfo.Finish = finishDateTime;
+                    _currentRun.Save(RunsPath);
+                    RunsHelper.SaveCurrentRunInfo(RunsPath, _currentRun.RunInfo);
+                });
+            }
         }
 
         public void RunStarted()
@@ -109,12 +113,20 @@ namespace Ghpr.Core
                     var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                     var date = DateTime.Now;
                     var s = new TestScreenshot(date);
-                    Taker.SaveScreenshot(Path.Combine(TestsPath, testGuid, "img"), screen, date);
+                    Taker.SaveScreenshot(GetScreenPath(testGuid), screen, date);
                     _currentTestRun.Screenshots.Add(s);
                     _currentTestRuns.First(
                         tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
                         .Screenshots.Add(s);
                 });
+            }
+        }
+
+        public string GetScreenPath(string testGuid)
+        {
+            lock (_lock)
+            {
+                return Path.Combine(TestsPath, testGuid, ImgFolderName);
             }
         }
 
@@ -182,7 +194,7 @@ namespace Ghpr.Core
                         ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds
                         : finalTest.TestDuration;
                     finalTest
-                        .TakeScreenshot(testPath, TakeScreenshotAfterFail)
+                        .TakeScreenshot(Path.Combine(testPath, ImgFolderName), TakeScreenshotAfterFail)
                         .Save(testPath, fileName);
                     _currentTestRuns.Remove(currentTest);
                     _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
