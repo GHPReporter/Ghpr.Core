@@ -21,6 +21,12 @@ namespace Ghpr.Core.Common
             Date = now;
         }
 
+        public TestScreenshot(string name)
+        {
+            Name = name;
+            Date = Taker.GetScreenDate(name);
+        }
+
         public TestScreenshot(DateTime date)
         {
             Name = Taker.GetScreenName(date);
