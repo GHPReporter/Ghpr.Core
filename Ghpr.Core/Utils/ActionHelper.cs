@@ -11,7 +11,7 @@ namespace Ghpr.Core.Utils
             _log = new Log(exceptionOutputPath);
         }
 
-        public void SafeAction(Action a)
+        public void Safe(Action a)
         {
             try
             {

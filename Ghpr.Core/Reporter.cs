@@ -52,7 +52,7 @@ namespace Ghpr.Core
 
         public void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
-            _actionHelper.SafeAction(() =>
+            _actionHelper.Safe(() =>
             {
                 _currentRunGuid = runGuid.Equals("") || runGuid.Equals("null") ? Guid.NewGuid() : Guid.Parse(runGuid);
                 _currentRun = new Run(_currentRunGuid)
@@ -73,7 +73,7 @@ namespace Ghpr.Core
         {
             lock (_lock)
             {
-                _actionHelper.SafeAction(() =>
+                _actionHelper.Safe(() =>
                 {
                     _currentRun.RunInfo.Finish = finishDateTime;
                     _currentRun.Save(RunsPath);
@@ -96,7 +96,7 @@ namespace Ghpr.Core
         {
             lock (_lock)
             {
-                _actionHelper.SafeAction(() =>
+                _actionHelper.Safe(() =>
                 {
                     _currentTestRuns.Add(testRun);
                     _currentTestRun = testRun;
@@ -108,7 +108,7 @@ namespace Ghpr.Core
         {
             lock (_lock)
             {
-                _actionHelper.SafeAction(() =>
+                _actionHelper.Safe(() =>
                 {
                     var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                     var date = DateTime.Now;
@@ -134,7 +134,7 @@ namespace Ghpr.Core
         {
             lock (_lock)
             {
-                _actionHelper.SafeAction(() =>
+                _actionHelper.Safe(() =>
                 {
                     _currentRun.RunSummary.Total++;
 
@@ -169,7 +169,7 @@ namespace Ghpr.Core
         {
             lock (_lock)
             {
-                _actionHelper.SafeAction(() =>
+                _actionHelper.Safe(() =>
                 {
                     _currentRun.RunSummary.Total++;
 
@@ -193,8 +193,11 @@ namespace Ghpr.Core
                     finalTest.TestDuration = finalTest.TestDuration.Equals(0.0)
                         ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds
                         : finalTest.TestDuration;
+                    _actionHelper.Safe(() =>
+                        finalTest
+                            .TakeScreenshot(Path.Combine(testPath, ImgFolderName), TakeScreenshotAfterFail)
+                        );
                     finalTest
-                        .TakeScreenshot(Path.Combine(testPath, ImgFolderName), TakeScreenshotAfterFail)
                         .Save(testPath, fileName);
                     _currentTestRuns.Remove(currentTest);
                     _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
