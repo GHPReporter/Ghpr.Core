@@ -4,22 +4,27 @@ namespace Ghpr.Core.Utils
 {
     public class ActionHelper
     {
+        private readonly object _lock;
         private readonly Log _log;
 
-        public ActionHelper(string exceptionOutputPath)
+        public ActionHelper(string outputPath)
         {
-            _log = new Log(exceptionOutputPath);
+            _log = new Log(outputPath);
+            _lock = new object();
         }
 
-        public void SafeAction(Action a)
+        public void Safe(Action a)
         {
-            try
+            lock (_lock)
             {
-                a.Invoke();
-            }
-            catch (Exception ex)
-            {
-                _log.Exception(ex, $"Exception in method '{a.Method.Name}'");
+                try
+                {
+                    a.Invoke();
+                }
+                catch (Exception ex)
+                {
+                    _log.Exception(ex, $"Exception in method '{a.Method.Name}'");
+                }
             }
         }
     }

@@ -39,7 +39,7 @@ namespace Ghpr.Core.EmbeddedResources
         
         private void ExtractResource(string searchQuery, string outputPath, string relativePath, string fileName, bool replaceExisting)
         {
-            _actionHelper.SafeAction(() =>
+            _actionHelper.Safe(() =>
             {
                 var currentAssembly = GetType().Assembly;
                 var arrResources = currentAssembly.GetManifestResourceNames();

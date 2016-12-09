@@ -119,14 +119,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\js\jquery-1.11.0.min.js">
-      <Link>EmbeddedResources\Report\src\js\jquery-1.11.0.min.js</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\js\plotly.min.js">
       <Link>EmbeddedResources\Report\src\js\plotly.min.js</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\js\tablesort.min.js">
-      <Link>EmbeddedResources\Report\src\js\tablesort.min.js</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

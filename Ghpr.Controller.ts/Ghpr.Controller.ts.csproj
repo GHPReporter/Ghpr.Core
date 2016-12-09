@@ -33,9 +33,7 @@
     <Content Include="report\src\js\ghpr.controller.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\js\jquery-1.11.0.min.js" />
     <Content Include="report\src\js\plotly.min.js" />
-    <Content Include="report\src\js\tablesort.min.js" />
     <Content Include="report\src\octicons\octicons.css" />
     <Content Include="report\src\octicons\octicons.svg" />
     <Content Include="report\src\style\github.css" />
