@@ -23,8 +23,8 @@ namespace Ghpr.Core
             RunGuid = settings.RunGuid;
             RealTimeGeneration = settings.RealTimeGeneration;
 
-            _actionHelper = new ActionHelper(OutputPath);
-            _extractor = new ResourceExtractor(_actionHelper, OutputPath);
+            _action = new ActionHelper(OutputPath);
+            _extractor = new ResourceExtractor(_action, OutputPath);
         }
 
         private IRun _currentRun;
@@ -32,7 +32,7 @@ namespace Ghpr.Core
         private List<ITestRun> _currentTestRuns;
         private Guid _currentRunGuid;
 
-        private readonly ActionHelper _actionHelper;
+        private readonly ActionHelper _action;
         private readonly ResourceExtractor _extractor;
 
         public const string TestsFolderName = "tests";
@@ -50,7 +50,7 @@ namespace Ghpr.Core
 
         public void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
-            _actionHelper.Safe(() =>
+            _action.Safe(() =>
             {
                 _currentRunGuid = runGuid.Equals("") || runGuid.Equals("null") ? Guid.NewGuid() : Guid.Parse(runGuid);
                 _currentRun = new Run(_currentRunGuid)
@@ -69,7 +69,7 @@ namespace Ghpr.Core
 
         private void GenerateReport(DateTime finishDateTime)
         {
-            _actionHelper.Safe(() =>
+            _action.Safe(() =>
             {
                 _currentRun.RunInfo.Finish = finishDateTime;
                 _currentRun.Save(RunsPath);
@@ -89,7 +89,7 @@ namespace Ghpr.Core
 
         public void TestStarted(ITestRun testRun)
         {
-            _actionHelper.Safe(() =>
+            _action.Safe(() =>
             {
                 _currentTestRuns.Add(testRun);
                 _currentTestRun = testRun;
@@ -98,7 +98,7 @@ namespace Ghpr.Core
 
         public void SaveScreenshot(Bitmap screen)
         {
-            _actionHelper.Safe(() =>
+            _action.Safe(() =>
             {
                 var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                 var date = DateTime.Now;
@@ -118,7 +118,7 @@ namespace Ghpr.Core
 
         public void AddCompleteTestRun(ITestRun testRun)
         {
-            _actionHelper.Safe(() =>
+            _action.Safe(() =>
             {
                 _currentRun.RunSummary.Total++;
 
@@ -149,7 +149,7 @@ namespace Ghpr.Core
 
         public void TestFinished(ITestRun testRun)
         {
-            _actionHelper.Safe(() =>
+            _action.Safe(() =>
             {
                 _currentRun.RunSummary.Total++;
 
@@ -173,7 +173,7 @@ namespace Ghpr.Core
                 finalTest.TestDuration = finalTest.TestDuration.Equals(0.0)
                     ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds
                     : finalTest.TestDuration;
-                _actionHelper.Safe(() =>
+                _action.Safe(() =>
                     finalTest
                         .TakeScreenshot(Path.Combine(testPath, ImgFolderName), TakeScreenshotAfterFail)
                     );

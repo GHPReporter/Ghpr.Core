@@ -7,9 +7,9 @@ namespace Ghpr.Core.Utils
         private readonly object _lock;
         private readonly Log _log;
 
-        public ActionHelper(string exceptionOutputPath)
+        public ActionHelper(string outputPath)
         {
-            _log = new Log(exceptionOutputPath);
+            _log = new Log(outputPath);
             _lock = new object();
         }
 
