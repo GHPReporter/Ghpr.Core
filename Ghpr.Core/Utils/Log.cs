@@ -75,7 +75,7 @@ namespace Ghpr.Core.Utils
                 "StackTrace: " + Environment.NewLine + inner.StackTrace;
                 inner = inner.InnerException;
             }
-            WriteToFile(msg, "Exception_" + DateTime.Now.ToString("ddMMyyHHmmssfff") + ".txt");
+            WriteToFile(msg, "Exception_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + ".txt");
         }
     }
 }
