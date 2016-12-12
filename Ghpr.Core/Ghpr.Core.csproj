@@ -66,6 +66,7 @@
     <Compile Include="Helpers\TestRunsHelper.cs" />
     <Compile Include="Helpers\RunsHelper.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
+    <Compile Include="Interfaces\ILog.cs" />
     <Compile Include="Interfaces\IReporterSettings.cs" />
     <Compile Include="Interfaces\IRun.cs" />
     <Compile Include="Interfaces\IRuns.cs" />

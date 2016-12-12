@@ -1,23 +1,25 @@
 ﻿using System;
 using System.IO;
+using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core.Utils
 {
-    public class Log
+    public class Log : ILog
     {
-        public Log(string outputPath)
+        public Log(string outputPath, string logFile = "")
         {
             if (outputPath == null)
             {
                 throw new ArgumentNullException(nameof(outputPath), "Log output must be specified!");
             }
             _output = outputPath;
+            _logFile = logFile.Equals("") ? "GHPReporter.txt" : logFile;
         }
 
-        private const string LogFile = @"GHPReporter.txt";
+        private string _logFile;
         private readonly string _output;
 
-        private void WriteToFile(string msg, string fileName)
+        public void WriteToFile(string msg, string fileName)
         {
             Directory.CreateDirectory(_output);
             using (var sw = File.AppendText(Path.Combine(_output, fileName)))
@@ -34,27 +36,10 @@ namespace Ghpr.Core.Utils
             }
         }
 
-        private void WriteToFile(string msg, string fileName, string filePath)
-        {
-            Directory.CreateDirectory(_output);
-            using (var sw = File.AppendText(Path.Combine(filePath, fileName)))
-            {
-                try
-                {
-                    var logLine = $"{DateTime.Now:G}: {msg}";
-                    sw.WriteLine(logLine);
-                }
-                finally
-                {
-                    sw.Close();
-                }
-            }
-        }
-
         public void Write(string msg)
         {
             Directory.CreateDirectory(_output);
-            using (var sw = File.AppendText(Path.Combine(_output, LogFile)))
+            using (var sw = File.AppendText(Path.Combine(_output, _logFile)))
             {
                 try
                 {
@@ -72,6 +57,11 @@ namespace Ghpr.Core.Utils
             }
         }
 
+        public void SetOutputFileName(string fileWithExtension)
+        {
+            _logFile = fileWithExtension;
+        }
+
         public void Exception(Exception exception, string exceptionMessage = "")
         {
             var msg = (exceptionMessage.Equals("") ? "Exception!" : exceptionMessage) + Environment.NewLine
@@ -86,19 +76,6 @@ namespace Ghpr.Core.Utils
                 inner = inner.InnerException;
             }
             WriteToFile(msg, "Exception_" + DateTime.Now.ToString("ddMMyyHHmmssfff") + ".txt");
-        }
-
-        public void Exception(Exception exception, string path, string exceptionMessage)
-        {
-            var msg = exceptionMessage + Environment.NewLine
-                + " Message: " + Environment.NewLine + exception.Message + Environment.NewLine +
-                "StackTrace: " + Environment.NewLine + exception.StackTrace;
-            WriteToFile(msg, "Exception_" + DateTime.Now.ToString("ddMMyyHHmmssfff") + ".txt", path);
-        }
-
-        public void Warning(string warningMessage)
-        {
-            WriteToFile(warningMessage, "Warning_" + DateTime.Now.ToString("ddMMyyHHmmssfff") + ".txt");
         }
     }
 }
