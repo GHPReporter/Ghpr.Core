@@ -7,6 +7,10 @@ namespace Ghpr.Core.Utils
     {
         public Log(string outputPath)
         {
+            if (outputPath == null)
+            {
+                throw new ArgumentNullException(nameof(outputPath), "Log output must be specified!");
+            }
             _output = outputPath;
         }
 

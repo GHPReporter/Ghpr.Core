@@ -16,6 +16,12 @@ namespace Ghpr.Core
     {
         public Reporter(IReporterSettings settings)
         {
+            if (settings.OutputPath == null)
+            {
+                throw new ArgumentNullException(nameof(settings.OutputPath), 
+                    "Reporter Output must be specified! Fix your settings.");
+            }
+
             OutputPath = settings.OutputPath;
             TakeScreenshotAfterFail = settings.TakeScreenshotAfterFail;
             Sprint = settings.Sprint;
