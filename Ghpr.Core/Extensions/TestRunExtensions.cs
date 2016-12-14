@@ -11,19 +11,6 @@ namespace Ghpr.Core.Extensions
 {
     public static class TestRunExtensions
     {
-        public static ITestRun TakeScreenshot(this ITestRun testRun, string screenPath, bool takeScreenshotAfterFail)
-        {
-            if (!takeScreenshotAfterFail || !testRun.FailedOrBroken)
-            {
-                return testRun;
-            }
-            var date = DateTime.Now;
-            var s = new TestScreenshot(date);
-            Taker.TakeScreenshot(screenPath, date);
-            testRun.Screenshots.Add(s);
-            return testRun;
-        }
-
         public static ITestRun Update(this ITestRun target, ITestRun run)
         {
             if (target.TestInfo.Guid.Equals(Guid.Empty))

@@ -23,7 +23,6 @@ namespace Ghpr.Core
             }
 
             OutputPath = settings.OutputPath;
-            TakeScreenshotAfterFail = settings.TakeScreenshotAfterFail;
             Sprint = settings.Sprint;
             RunName = settings.RunName;
             RunGuid = settings.RunGuid;
@@ -46,7 +45,6 @@ namespace Ghpr.Core
         public const string ImgFolderName = "img";
 
         public string OutputPath { get; }
-        public bool TakeScreenshotAfterFail { get; }
         public string Sprint { get; }
         public string RunName { get; }
         public string RunGuid { get; }
@@ -109,7 +107,7 @@ namespace Ghpr.Core
                 var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                 var date = DateTime.Now;
                 var s = new TestScreenshot(date);
-                Taker.SaveScreenshot(GetScreenPath(testGuid), screen, date);
+                ScreenshotHelper.SaveScreenshot(GetScreenPath(testGuid), screen, date);
                 _currentTestRun.Screenshots.Add(s);
                 _currentTestRuns.First(
                     tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
@@ -179,10 +177,6 @@ namespace Ghpr.Core
                 finalTest.TestDuration = finalTest.TestDuration.Equals(0.0)
                     ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds
                     : finalTest.TestDuration;
-                _action.Safe(() =>
-                    finalTest
-                        .TakeScreenshot(Path.Combine(testPath, ImgFolderName), TakeScreenshotAfterFail)
-                    );
                 finalTest
                     .Save(testPath, fileName);
                 _currentTestRuns.Remove(currentTest);

@@ -8,10 +8,6 @@ namespace Ghpr.Core.Utils
     {
         public Log(string outputPath, string logFile = "")
         {
-            if (outputPath == null)
-            {
-                throw new ArgumentNullException(nameof(outputPath), "Log output must be specified!");
-            }
             _output = outputPath;
             _logFile = logFile.Equals("") ? "GHPReporter.txt" : logFile;
         }

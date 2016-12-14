@@ -1,11 +1,12 @@
 ﻿using System;
+using Ghpr.Core.Utils;
 
-namespace Ghpr.Core.Utils
+namespace Ghpr.Core.Helpers
 {
     public class ActionHelper
     {
         private readonly object _lock;
-        private readonly Log _log;
+        private readonly string _outputPath;
 
         public ActionHelper(string outputPath)
         {
@@ -14,22 +15,27 @@ namespace Ghpr.Core.Utils
                 throw new ArgumentNullException(nameof(outputPath), "ActionHelper output must be specified!");
             }
 
-            _log = new Log(outputPath);
+            _outputPath = outputPath;
             _lock = new object();
+        }
+
+        public void Simple(Action a)
+        {
+            try
+            {
+                a.Invoke();
+            }
+            catch (Exception ex)
+            {
+                new Log(_outputPath).Exception(ex, $"Exception in method '{a.Method.Name}'");
+            }
         }
 
         public void Safe(Action a)
         {
             lock (_lock)
             {
-                try
-                {
-                    a.Invoke();
-                }
-                catch (Exception ex)
-                {
-                    _log.Exception(ex, $"Exception in method '{a.Method.Name}'");
-                }
+                Simple(a);
             }
         }
     }

@@ -2,8 +2,8 @@
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Enums;
+using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
-using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.EmbeddedResources
 {
