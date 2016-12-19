@@ -39,18 +39,14 @@ namespace Ghpr.Core
 
         private readonly ActionHelper _action;
         private readonly ResourceExtractor _extractor;
-
-        public const string TestsFolderName = "tests";
-        public const string RunsFolderName = "runs";
-        public const string ImgFolderName = "img";
-
+        
         public string OutputPath { get; }
         public string Sprint { get; }
         public string RunName { get; }
         public string RunGuid { get; }
         public bool RealTimeGeneration { get; }
-        public string TestsPath => Path.Combine(OutputPath, TestsFolderName);
-        public string RunsPath => Path.Combine(OutputPath, RunsFolderName);
+        public string TestsPath => Path.Combine(OutputPath, Names.TestsFolderName);
+        public string RunsPath => Path.Combine(OutputPath, Names.RunsFolderName);
 
         public void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
@@ -117,7 +113,7 @@ namespace Ghpr.Core
 
         public string GetScreenPath(string testGuid)
         {
-            return Path.Combine(TestsPath, testGuid, ImgFolderName);
+            return Path.Combine(TestsPath, testGuid, Names.ImgFolderName);
         }
 
         public void AddCompleteTestRun(ITestRun testRun)
@@ -145,7 +141,7 @@ namespace Ghpr.Core
                     ? (testRun.TestInfo.Finish - testRun.TestInfo.Start).TotalSeconds
                     : testRun.TestDuration;
                 testRun.Save(testPath, fileName);
-                _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
+                _currentRun.TestRunFiles.Add(Paths.GetRelativeTestRunPath(testGuid, fileName));
 
                 TestRunsHelper.SaveCurrentTestInfo(testPath, testRun.TestInfo);
             });
@@ -180,7 +176,7 @@ namespace Ghpr.Core
                 finalTest
                     .Save(testPath, fileName);
                 _currentTestRuns.Remove(currentTest);
-                _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
+                _currentRun.TestRunFiles.Add(Paths.GetRelativeTestRunPath(testGuid, fileName));
 
                 TestRunsHelper.SaveCurrentTestInfo(testPath, finalTest.TestInfo);
 

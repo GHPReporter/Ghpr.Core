@@ -29,15 +29,8 @@ namespace Ghpr.Core.Extensions
         
         public static void Save(this ITestRun testRun, string path, string name = "")
         {
-            if (name.Equals(""))
-            {
-                name = testRun.GetFileName();
-            }
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            var fullPath = Path.Combine(path, name);
+            Paths.Create(path);
+            var fullPath = Path.Combine(path, name.Equals("") ? testRun.GetFileName() : name);
             using (var file = File.CreateText(fullPath))
             {
                 var serializer = new JsonSerializer();

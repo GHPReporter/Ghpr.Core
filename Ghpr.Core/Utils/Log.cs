@@ -17,7 +17,7 @@ namespace Ghpr.Core.Utils
 
         public void WriteToFile(string msg, string fileName)
         {
-            Directory.CreateDirectory(_output);
+            Paths.Create(_output);
             using (var sw = File.AppendText(Path.Combine(_output, fileName)))
             {
                 try
@@ -34,7 +34,7 @@ namespace Ghpr.Core.Utils
 
         public void Write(string msg)
         {
-            Directory.CreateDirectory(_output);
+            Paths.Create(_output);
             using (var sw = File.AppendText(Path.Combine(_output, _logFile)))
             {
                 try

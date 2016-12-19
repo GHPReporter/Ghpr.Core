@@ -1,4 +1,5 @@
 ﻿using Ghpr.Core.Common;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.Helpers
 {
@@ -6,7 +7,7 @@ namespace Ghpr.Core.Helpers
     {
         public static void SaveCurrentRunInfo(string path, ItemInfo runInfo)
         {
-            ItemInfoHelper.SaveItemInfo(path, "runs.json", runInfo);
+            ItemInfoHelper.SaveItemInfo(path, Names.RunsFileName, runInfo);
         }
     }
 }

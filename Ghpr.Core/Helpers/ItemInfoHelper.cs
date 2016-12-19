@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.Comparers;
+using Ghpr.Core.Utils;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Helpers
@@ -12,10 +13,7 @@ namespace Ghpr.Core.Helpers
         public static void SaveItemInfo(string path, string filename, ItemInfo itemInfo, bool removeExisting = true)
         {
             var serializer = new JsonSerializer();
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            Paths.Create(path);
             var fullItemInfoPath = Path.Combine(path, filename);
             if (!File.Exists(fullItemInfoPath))
             {

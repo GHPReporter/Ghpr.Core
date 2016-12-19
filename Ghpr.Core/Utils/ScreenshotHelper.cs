@@ -37,10 +37,7 @@ namespace Ghpr.Core.Utils
         public static string SaveScreenshot(string screenPath, Bitmap screen, DateTime creationTime)
         {
             var format = ImageFormat.Png;
-            if (!Directory.Exists(screenPath))
-            {
-                Directory.CreateDirectory(screenPath);
-            }
+            Paths.Create(screenPath);
             creationTime = creationTime.Equals(default(DateTime)) ? DateTime.Now : creationTime;
             var screenName = GetScreenName(creationTime);
             var file = Path.Combine(screenPath, screenName);

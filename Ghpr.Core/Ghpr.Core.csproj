@@ -82,6 +82,8 @@
     <Compile Include="Helpers\ActionHelper.cs" />
     <Compile Include="Utils\GuidConverter.cs" />
     <Compile Include="Utils\Log.cs" />
+    <Compile Include="Utils\Names.cs" />
+    <Compile Include="Utils\Paths.cs" />
     <Compile Include="Utils\ScreenshotHelper.cs" />
   </ItemGroup>
   <ItemGroup>
