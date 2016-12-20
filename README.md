@@ -22,9 +22,9 @@ Easy-to-use .NET test reporting tool for several testing frameworks
 
 |Testing framework|Repository|Nuget version|Examples Repository|
 |---|---|---|---|
-|NUnit 3|[Ghpr.NUnit](https://github.com/GHPReporter/Ghpr.NUnit#usage)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.NUnit.svg)](https://www.nuget.org/packages/Ghpr.NUnit)|[View](https://github.com/GHPReporter/Ghpr.NUnit.Examples)|
-|MSTest|[Ghpr.MSTest](https://github.com/GHPReporter/Ghpr.MSTest#usage)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.MSTest.svg)](https://www.nuget.org/packages/Ghpr.MSTest)|[View](https://github.com/GHPReporter/Ghpr.MSTest.Examples)|
-|SpecFlow|[Ghpr.SpecFlow](https://github.com/GHPReporter/Ghpr.SpecFlow)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.SpecFlowPlugin.svg)](https://www.nuget.org/packages/Ghpr.SpecFlowPlugin)|[View](https://github.com/GHPReporter/Ghpr.SpecFlow.Examples)|
+|NUnit 3|[Ghpr.NUnit](https://github.com/GHPReporter/Ghpr.NUnit#usage)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.NUnit.svg)](https://www.nuget.org/packages/Ghpr.NUnit)|[View examples](https://github.com/GHPReporter/Ghpr.NUnit.Examples)|
+|MSTest|[Ghpr.MSTest](https://github.com/GHPReporter/Ghpr.MSTest#usage)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.MSTest.svg)](https://www.nuget.org/packages/Ghpr.MSTest)|[View examples](https://github.com/GHPReporter/Ghpr.MSTest.Examples)|
+|SpecFlow|[Ghpr.SpecFlow](https://github.com/GHPReporter/Ghpr.SpecFlow)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.SpecFlowPlugin.svg)](https://www.nuget.org/packages/Ghpr.SpecFlowPlugin)|[View examples](https://github.com/GHPReporter/Ghpr.SpecFlow.Examples)|
 
 # Demo Report
 
