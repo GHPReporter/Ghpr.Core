@@ -48,7 +48,7 @@ namespace Ghpr.Core
         public string TestsPath => Path.Combine(OutputPath, Names.TestsFolderName);
         public string RunsPath => Path.Combine(OutputPath, Names.RunsFolderName);
 
-        public void InitializeRun(DateTime startDateTime, string runGuid = "")
+        private void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
             _action.Safe(() =>
             {
