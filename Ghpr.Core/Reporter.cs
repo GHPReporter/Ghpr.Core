@@ -16,8 +16,13 @@ namespace Ghpr.Core
     {
         public Reporter(IReporterSettings settings)
         {
+            if (settings.OutputPath == null)
+            {
+                throw new ArgumentNullException(nameof(settings.OutputPath), 
+                    "Reporter Output must be specified! Fix your settings.");
+            }
+
             OutputPath = settings.OutputPath;
-            TakeScreenshotAfterFail = settings.TakeScreenshotAfterFail;
             Sprint = settings.Sprint;
             RunName = settings.RunName;
             RunGuid = settings.RunGuid;
@@ -34,21 +39,16 @@ namespace Ghpr.Core
 
         private readonly ActionHelper _action;
         private readonly ResourceExtractor _extractor;
-
-        public const string TestsFolderName = "tests";
-        public const string RunsFolderName = "runs";
-        public const string ImgFolderName = "img";
-
+        
         public string OutputPath { get; }
-        public bool TakeScreenshotAfterFail { get; }
         public string Sprint { get; }
         public string RunName { get; }
         public string RunGuid { get; }
         public bool RealTimeGeneration { get; }
-        public string TestsPath => Path.Combine(OutputPath, TestsFolderName);
-        public string RunsPath => Path.Combine(OutputPath, RunsFolderName);
+        public string TestsPath => Path.Combine(OutputPath, Names.TestsFolderName);
+        public string RunsPath => Path.Combine(OutputPath, Names.RunsFolderName);
 
-        public void InitializeRun(DateTime startDateTime, string runGuid = "")
+        private void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
             _action.Safe(() =>
             {
@@ -103,7 +103,7 @@ namespace Ghpr.Core
                 var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                 var date = DateTime.Now;
                 var s = new TestScreenshot(date);
-                Taker.SaveScreenshot(GetScreenPath(testGuid), screen, date);
+                ScreenshotHelper.SaveScreenshot(GetScreenPath(testGuid), screen, date);
                 _currentTestRun.Screenshots.Add(s);
                 _currentTestRuns.First(
                     tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
@@ -113,7 +113,7 @@ namespace Ghpr.Core
 
         public string GetScreenPath(string testGuid)
         {
-            return Path.Combine(TestsPath, testGuid, ImgFolderName);
+            return Path.Combine(TestsPath, testGuid, Names.ImgFolderName);
         }
 
         public void AddCompleteTestRun(ITestRun testRun)
@@ -141,7 +141,7 @@ namespace Ghpr.Core
                     ? (testRun.TestInfo.Finish - testRun.TestInfo.Start).TotalSeconds
                     : testRun.TestDuration;
                 testRun.Save(testPath, fileName);
-                _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
+                _currentRun.TestRunFiles.Add(Paths.GetRelativeTestRunPath(testGuid, fileName));
 
                 TestRunsHelper.SaveCurrentTestInfo(testPath, testRun.TestInfo);
             });
@@ -173,14 +173,10 @@ namespace Ghpr.Core
                 finalTest.TestDuration = finalTest.TestDuration.Equals(0.0)
                     ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds
                     : finalTest.TestDuration;
-                _action.Safe(() =>
-                    finalTest
-                        .TakeScreenshot(Path.Combine(testPath, ImgFolderName), TakeScreenshotAfterFail)
-                    );
                 finalTest
                     .Save(testPath, fileName);
                 _currentTestRuns.Remove(currentTest);
-                _currentRun.TestRunFiles.Add($"{testGuid}\\{fileName}");
+                _currentRun.TestRunFiles.Add(Paths.GetRelativeTestRunPath(testGuid, fileName));
 
                 TestRunsHelper.SaveCurrentTestInfo(testPath, finalTest.TestInfo);
 

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.Comparers;
+using Ghpr.Core.Utils;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Helpers
@@ -12,18 +13,15 @@ namespace Ghpr.Core.Helpers
         public static void SaveItemInfo(string path, string filename, ItemInfo itemInfo, bool removeExisting = true)
         {
             var serializer = new JsonSerializer();
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            var fullRunsPath = Path.Combine(path, filename);
-            if (!File.Exists(fullRunsPath))
+            Paths.Create(path);
+            var fullItemInfoPath = Path.Combine(path, filename);
+            if (!File.Exists(fullItemInfoPath))
             {
                 var items = new List<ItemInfo>
                 {
                     itemInfo
                 };
-                using (var file = File.CreateText(fullRunsPath))
+                using (var file = File.CreateText(fullItemInfoPath))
                 {
                     serializer.Serialize(file, items);
                 }
@@ -31,7 +29,7 @@ namespace Ghpr.Core.Helpers
             else
             {
                 List<ItemInfo> items;
-                using (var file = File.OpenText(fullRunsPath))
+                using (var file = File.OpenText(fullItemInfoPath))
                 {
                     items = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
                     if (removeExisting && items.Any(i => i.Guid.Equals(itemInfo.Guid)))
@@ -43,7 +41,7 @@ namespace Ghpr.Core.Helpers
                         items.Add(itemInfo);
                     }
                 }
-                using (var file = File.CreateText(fullRunsPath))
+                using (var file = File.CreateText(fullItemInfoPath))
                 {
                     items = items.OrderByDescending(x => x.Start).ToList();
                     serializer.Serialize(file, items);

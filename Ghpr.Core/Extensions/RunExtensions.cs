@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Utils;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Extensions
@@ -17,10 +18,7 @@ namespace Ghpr.Core.Extensions
                 fileName = $"run_{run.RunInfo.Guid.ToString().ToLower()}.json";
             }
             run.RunInfo.FileName = fileName;
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            Paths.Create(path);
             var fullRunPath = Path.Combine(path, fileName);
             using (var file = File.CreateText(fullRunPath))
             {

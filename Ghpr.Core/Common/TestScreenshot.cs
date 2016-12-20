@@ -17,19 +17,19 @@ namespace Ghpr.Core.Common
         public TestScreenshot()
         {
             var now = DateTime.Now;
-            Name = Taker.GetScreenName(now);
+            Name = ScreenshotHelper.GetScreenName(now);
             Date = now;
         }
 
         public TestScreenshot(string name)
         {
             Name = name;
-            Date = Taker.GetScreenDate(name);
+            Date = ScreenshotHelper.GetScreenDate(name);
         }
 
         public TestScreenshot(DateTime date)
         {
-            Name = Taker.GetScreenName(date);
+            Name = ScreenshotHelper.GetScreenName(date);
             Date = date;
         }
     }
