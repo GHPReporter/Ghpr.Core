@@ -15,8 +15,8 @@
     <copyright>Copyright Evgeniy Kosjakov © 2016</copyright>
     <tags>.NET package HTML report reporting tool</tags>
   </metadata>
-  <!--<files>
-    <file src=".\bin\Release\*.dll" target="lib\net452" />
-    <file src=".\bin\Release\*.config" target="lib\net452" />
-  </files>-->
+  <files>
+    <file src=".\bin\Release\Ghpr.Core.dll" target="lib\net452" />
+    <file src=".\bin\Release\Config.ghpr" target="lib\net452" />
+  </files>
 </package>
