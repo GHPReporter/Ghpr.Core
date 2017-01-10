@@ -85,7 +85,7 @@
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\Names.cs" />
     <Compile Include="Utils\Paths.cs" />
-    <Compile Include="Utils\ScreenshotHelper.cs" />
+    <Compile Include="Helpers\ScreenshotHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octicons.eot">
