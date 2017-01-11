@@ -12,11 +12,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Easy-to-use test run reporter</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright Evgeniy Kosjakov © 2016</copyright>
+    <copyright>Copyright Evgeniy Kosjakov © 2016-2017</copyright>
     <tags>.NET package HTML report reporting tool</tags>
   </metadata>
   <files>
-    <file src=".\bin\Release\Ghpr.Core.dll" target="lib\net452" />
-    <file src=".\bin\Release\Settings.json" target="lib\net452" />
+    <file src=".\bin\Release\Ghpr.Core.dll" target="lib" />
+    <file src=".\bin\Release\Settings.json" target="content" />
   </files>
 </package>
