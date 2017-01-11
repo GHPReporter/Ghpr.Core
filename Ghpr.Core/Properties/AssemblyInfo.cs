@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Evgeniy Kosjakov")]
 [assembly: AssemblyProduct("Ghpr.Core")]
-[assembly: AssemblyCopyright("Copyright © Evgeniy Kosjakov 2016")]
+[assembly: AssemblyCopyright("Copyright © Evgeniy Kosjakov 2016-2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
