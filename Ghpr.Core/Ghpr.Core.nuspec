@@ -17,6 +17,6 @@
   </metadata>
   <files>
     <file src=".\bin\Release\Ghpr.Core.dll" target="lib" />
-    <file src=".\bin\Release\Settings.json" target="content" />
+    <file src=".\bin\Release\Ghpr.Core.Settings.json" target="content" />
   </files>
 </package>

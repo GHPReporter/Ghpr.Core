@@ -152,7 +152,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include=".nuget\nuget.exe" />
-    <None Include="Settings.json">
+    <None Include="Ghpr.Core.Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

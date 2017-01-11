@@ -1,5 +1,4 @@
-﻿using System;
-using Ghpr.Core.Interfaces;
+﻿using Ghpr.Core.Interfaces;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Common
@@ -7,7 +6,7 @@ namespace Ghpr.Core.Common
     [JsonObject(MemberSerialization.OptIn)]
     public class ReporterSettings : IReporterSettings
     {
-        [JsonProperty(PropertyName = "guid")]
+        [JsonProperty(PropertyName = "outputPath")]
         public string OutputPath { get; set; }
 
         [JsonProperty(PropertyName = "sprint")]
