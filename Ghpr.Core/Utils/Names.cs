@@ -7,6 +7,6 @@
         public const string ImgFolderName = "img";
         public const string TestsFileName = "tests.json";
         public const string RunsFileName = "runs.json";
-        public const string SettingsFileName = "Settings.json";
+        public const string SettingsFileName = "Ghpr.Core.Settings.json";
     }
 }
