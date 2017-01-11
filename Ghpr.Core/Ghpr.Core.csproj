@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ReporterSettings.cs" />
     <Compile Include="Common\Run.cs" />
     <Compile Include="Common\ItemInfo.cs" />
     <Compile Include="Common\RunSummary.cs" />
@@ -84,7 +85,7 @@
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\Names.cs" />
     <Compile Include="Utils\Paths.cs" />
-    <Compile Include="Utils\ScreenshotHelper.cs" />
+    <Compile Include="Helpers\ScreenshotHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octicons.eot">
@@ -151,6 +152,9 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include=".nuget\nuget.exe" />
+    <None Include="Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

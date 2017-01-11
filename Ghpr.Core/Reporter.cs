@@ -9,19 +9,19 @@ using Ghpr.Core.Extensions;
 using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
+using Newtonsoft.Json;
 
 namespace Ghpr.Core
 {
     public class Reporter
     {
-        public Reporter(IReporterSettings settings)
+        private void SetUp(IReporterSettings settings)
         {
             if (settings.OutputPath == null)
             {
-                throw new ArgumentNullException(nameof(settings.OutputPath), 
+                throw new ArgumentNullException(nameof(settings.OutputPath),
                     "Reporter Output must be specified! Fix your settings.");
             }
-
             OutputPath = settings.OutputPath;
             Sprint = settings.Sprint;
             RunName = settings.RunName;
@@ -32,19 +32,31 @@ namespace Ghpr.Core
             _extractor = new ResourceExtractor(_action, OutputPath);
         }
 
+        public Reporter(IReporterSettings settings)
+        {
+            SetUp(settings);
+        }
+
+        public Reporter()
+        {
+            var uri = new Uri(typeof(ReporterSettings).Assembly.CodeBase);
+            var settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", Names.SettingsFileName);
+            var settings = JsonConvert.DeserializeObject <ReporterSettings>(File.ReadAllText(settingsPath));
+            SetUp(settings);
+        }
+
         private IRun _currentRun;
         private ITestRun _currentTestRun;
         private List<ITestRun> _currentTestRuns;
         private Guid _currentRunGuid;
-
-        private readonly ActionHelper _action;
-        private readonly ResourceExtractor _extractor;
+        private ActionHelper _action;
+        private ResourceExtractor _extractor;
         
-        public string OutputPath { get; }
-        public string Sprint { get; }
-        public string RunName { get; }
-        public string RunGuid { get; }
-        public bool RealTimeGeneration { get; }
+        public string OutputPath { get; private set; }
+        public string Sprint { get; private set; }
+        public string RunName { get; private set; }
+        public string RunGuid { get; private set; }
+        public bool RealTimeGeneration { get; private set; }
         public string TestsPath => Path.Combine(OutputPath, Names.TestsFolderName);
         public string RunsPath => Path.Combine(OutputPath, Names.RunsFolderName);
 
@@ -59,7 +71,6 @@ namespace Ghpr.Core
                     RunSummary = new RunSummary()
                 };
                 _currentTestRuns = new List<ITestRun>();
-
                 _currentRun.Name = RunName;
                 _currentRun.Sprint = Sprint;
                 _extractor.ExtractReportBase();
