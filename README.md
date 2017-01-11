@@ -39,6 +39,19 @@ You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](h
  - Find `security.fileuri.strict_origin_policy` parameter
  - Set it to `false`
 
+# How to publish the report in Jenkins
+
+ - In the configuration of your job, in the "Post-build actions", you just have to add a "Publish HTML reports" with the correct informations.
+ 
+Known Issues : 
+ - Due to the CSP (Content Security Policy), the report used for the functionals tests is not viewable on Jenkins with the default value defined for the CSP. So, for solving this issue, the CSP is automatically forced after each restart with a specific value. For that, a line is added in the C:\Program Files (x86)\Jenkins\jenkins.xml file, like this :
+... 
+ <arguments>-Xrs -Xmx256m -Dhudson.lifecycle=hudson.lifecycle.WindowsServiceLifecycle "-Dhudson.model.DirectoryBrowserSupport.CSP=" -jar -Dmail.smtp.starttls.enable=true "%BASE%\jenkins.war" --httpPort=8080 --webroot="%BASE%\war"</arguments>
+...
+
+ - The screenshots generated with Selenium work only when there were made with browsers like Firefox or Chrome (Doesn't work with IE) 
+ 
+
 # Contributing
 
 Anyone contributing is welcome. Write [issues](https://github.com/GHPReporter/Ghpr.Core/issues), create [pull requests](https://github.com/GHPReporter/Ghpr.Core/pulls).
