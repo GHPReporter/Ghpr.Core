@@ -5,44 +5,45 @@ using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
+using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
-using Newtonsoft.Json;
 
 namespace Ghpr.Core
 {
-    public class Reporter
+    public class Reporter : IReporter
     {
-        private void SetUp(IReporterSettings settings)
+        private void InitializeReporter(IReporterSettings settings)
         {
             if (settings.OutputPath == null)
             {
                 throw new ArgumentNullException(nameof(settings.OutputPath),
                     "Reporter Output must be specified! Fix your settings.");
             }
-            OutputPath = settings.OutputPath;
-            Sprint = settings.Sprint;
-            RunName = settings.RunName;
-            RunGuid = settings.RunGuid;
-            RealTimeGeneration = settings.RealTimeGeneration;
+            Settings = settings;
 
-            _action = new ActionHelper(OutputPath);
-            _extractor = new ResourceExtractor(_action, OutputPath);
+            _action = new ActionHelper(settings.OutputPath);
+            _extractor = new ResourceExtractor(_action, settings.OutputPath);
         }
-
+        
         public Reporter(IReporterSettings settings)
         {
-            SetUp(settings);
+            InitializeReporter(settings);
         }
 
         public Reporter()
         {
-            var uri = new Uri(typeof(ReporterSettings).Assembly.CodeBase);
-            var settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", Names.SettingsFileName);
-            var settings = JsonConvert.DeserializeObject <ReporterSettings>(File.ReadAllText(settingsPath));
-            SetUp(settings);
+            var settings = ReporterHelper.GetSettingsFromFile();
+            InitializeReporter(settings);
+        }
+
+        public Reporter(TestingFramework framework)
+        {
+            var fileName = ReporterHelper.GetSettingsFileName(framework);
+            var settings = ReporterHelper.GetSettingsFromFile(fileName);
+            InitializeReporter(settings);
         }
 
         private IRun _currentRun;
@@ -51,14 +52,10 @@ namespace Ghpr.Core
         private Guid _currentRunGuid;
         private ActionHelper _action;
         private ResourceExtractor _extractor;
-        
-        public string OutputPath { get; private set; }
-        public string Sprint { get; private set; }
-        public string RunName { get; private set; }
-        public string RunGuid { get; private set; }
-        public bool RealTimeGeneration { get; private set; }
-        public string TestsPath => Path.Combine(OutputPath, Names.TestsFolderName);
-        public string RunsPath => Path.Combine(OutputPath, Names.RunsFolderName);
+
+        public IReporterSettings Settings { get; private set; }
+        public string TestsPath => Path.Combine(Settings.OutputPath, Names.TestsFolderName);
+        public string RunsPath => Path.Combine(Settings.OutputPath, Names.RunsFolderName);
 
         private void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
@@ -71,8 +68,8 @@ namespace Ghpr.Core
                     RunSummary = new RunSummary()
                 };
                 _currentTestRuns = new List<ITestRun>();
-                _currentRun.Name = RunName;
-                _currentRun.Sprint = Sprint;
+                _currentRun.Name = Settings.RunName;
+                _currentRun.Sprint = Settings.Sprint;
                 _extractor.ExtractReportBase();
                 _currentRun.RunInfo.Start = startDateTime;
             });
@@ -90,7 +87,7 @@ namespace Ghpr.Core
 
         public void RunStarted()
         {
-            InitializeRun(DateTime.Now, RunGuid);
+            InitializeRun(DateTime.Now, Settings.RunGuid);
         }
 
         public void RunFinished()
@@ -114,19 +111,14 @@ namespace Ghpr.Core
                 var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                 var date = DateTime.Now;
                 var s = new TestScreenshot(date);
-                ScreenshotHelper.SaveScreenshot(GetScreenPath(testGuid), screen, date);
+                ScreenshotHelper.SaveScreenshot(Path.Combine(TestsPath, testGuid, Names.ImgFolderName), screen, date);
                 _currentTestRun.Screenshots.Add(s);
                 _currentTestRuns.First(
                     tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
                     .Screenshots.Add(s);
             });
         }
-
-        public string GetScreenPath(string testGuid)
-        {
-            return Path.Combine(TestsPath, testGuid, Names.ImgFolderName);
-        }
-
+        
         public void AddCompleteTestRun(ITestRun testRun)
         {
             _action.Safe(() =>
@@ -191,7 +183,7 @@ namespace Ghpr.Core
 
                 TestRunsHelper.SaveCurrentTestInfo(testPath, finalTest.TestInfo);
 
-                if (RealTimeGeneration)
+                if (Settings.RealTimeGeneration)
                 {
                     GenerateReport(DateTime.Now);
                 }
