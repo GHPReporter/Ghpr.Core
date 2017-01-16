@@ -10,11 +10,10 @@ using Ghpr.Core.Extensions;
 using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
-using Newtonsoft.Json;
 
 namespace Ghpr.Core
 {
-    public class Reporter
+    public class Reporter : IReporter
     {
         private void InitializeReporter(IReporterSettings settings)
         {
@@ -28,31 +27,7 @@ namespace Ghpr.Core
             _action = new ActionHelper(settings.OutputPath);
             _extractor = new ResourceExtractor(_action, settings.OutputPath);
         }
-
-        private string GetSettingsFileName(TestingFramework framework)
-        {
-            switch (framework)
-            {
-                case TestingFramework.MSTest:
-                    return Names.MSTestSettingsFileName;
-                case TestingFramework.NUnit:
-                    return Names.NUnitSettingsFileName;
-                case TestingFramework.SpecFlow:
-                    return Names.SpecFlowSettingsFileName;
-                default:
-                    return Names.CoreSettingsFileName;
-            }
-        }
-
-        private ReporterSettings GetSettingsFromFile(string fileName = "")
-        {
-            var uri = new Uri(typeof(ReporterSettings).Assembly.CodeBase);
-            var settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", 
-                fileName.Equals("") ? Names.CoreSettingsFileName : fileName);
-            var settings = JsonConvert.DeserializeObject<ReporterSettings>(File.ReadAllText(settingsPath));
-            return settings;
-        }
-
+        
         public Reporter(IReporterSettings settings)
         {
             InitializeReporter(settings);
@@ -60,14 +35,14 @@ namespace Ghpr.Core
 
         public Reporter()
         {
-            var settings = GetSettingsFromFile();
+            var settings = ReporterHelper.GetSettingsFromFile();
             InitializeReporter(settings);
         }
 
         public Reporter(TestingFramework framework)
         {
-            var fileName = GetSettingsFileName(framework);
-            var settings = GetSettingsFromFile(fileName);
+            var fileName = ReporterHelper.GetSettingsFileName(framework);
+            var settings = ReporterHelper.GetSettingsFromFile(fileName);
             InitializeReporter(settings);
         }
 
@@ -136,19 +111,14 @@ namespace Ghpr.Core
                 var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                 var date = DateTime.Now;
                 var s = new TestScreenshot(date);
-                ScreenshotHelper.SaveScreenshot(GetScreenPath(testGuid), screen, date);
+                ScreenshotHelper.SaveScreenshot(Path.Combine(TestsPath, testGuid, Names.ImgFolderName), screen, date);
                 _currentTestRun.Screenshots.Add(s);
                 _currentTestRuns.First(
                     tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
                     .Screenshots.Add(s);
             });
         }
-
-        public string GetScreenPath(string testGuid)
-        {
-            return Path.Combine(TestsPath, testGuid, Names.ImgFolderName);
-        }
-
+        
         public void AddCompleteTestRun(ITestRun testRun)
         {
             _action.Safe(() =>

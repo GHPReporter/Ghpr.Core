@@ -65,6 +65,7 @@
     <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
     <Compile Include="Helpers\ItemInfoHelper.cs" />
+    <Compile Include="Helpers\ReporterHelper.cs" />
     <Compile Include="Helpers\TestRunsHelper.cs" />
     <Compile Include="Helpers\RunsHelper.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
