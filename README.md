@@ -31,6 +31,20 @@ Easy-to-use .NET test reporting tool for several testing frameworks
 
 You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
 
+# Settings file
+
+Standard settings file:
+``` json
+{
+	"outputPath":"C:\\_GHPReportOutput",
+	"sprint":"",
+	"runName":"",
+	"runGuid":"",
+	"realTimeGeneration":"True"
+}
+```
+For Ghpr.Core it is called `Ghpr.Core.Settings.json`. This file is included in NuGet package.
+
 # View report locally
 
 ####Firefox
