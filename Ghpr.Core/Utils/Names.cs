@@ -3,6 +3,8 @@ namespace Ghpr.Core.Utils
 {
     public static class Names
     {
+        public const string ScreenshotKeyTemplate = "ghpr_screenshot_";
+
         public const string TestsFolderName = "tests";
         public const string RunsFolderName = "runs";
         public const string ImgFolderName = "img";
