@@ -169,6 +169,8 @@ class TestPageUpdater {
             }
             if (index <= 0) {
                 this.disableBtn("btn-prev");
+            } else {
+                this.enableBtn("btn-prev");
             }
             if (index >= testInfos.length - 1) {
                 this.disableBtn("btn-next");
@@ -214,6 +216,10 @@ class TestPageUpdater {
         document.getElementById(id).setAttribute("disabled", "true");
     }
 
+    private static enableBtn(id: string): void {
+        document.getElementById(id).removeAttribute("disabled");
+    }
+
     static loadPrev(): void {
         if (this.currentTest === 0) {
             this.disableBtn("btn-prev");
@@ -249,7 +255,14 @@ class TestPageUpdater {
     }
 
     static initializePage(): void {
-        this.tryLoadTestByGuid();
+        const isLatest = UrlHelper.getParam("loadLatest");
+        if (isLatest !== "true") {
+            UrlHelper.removeParam("loadLatest");
+            this.tryLoadTestByGuid();
+        } else {
+            UrlHelper.removeParam("loadLatest");
+            this.loadLatest();
+        }
         const tabFromUrl = UrlHelper.getParam("currentTab");
         const tab = tabFromUrl === "" ? "test-history" : tabFromUrl;
         this.showTab(tab === "" ? "test-history" : tab, document.getElementById(`tab-${tab}`));

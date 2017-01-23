@@ -285,7 +285,14 @@ class RunPageUpdater {
     }
 
     static initializePage(): void {
-        this.tryLoadRunByGuid();
+        const isLatest = UrlHelper.getParam("loadLatest");
+        if (isLatest !== "true") {
+            UrlHelper.removeParam("loadLatest");
+            this.tryLoadRunByGuid();
+        } else {
+            UrlHelper.removeParam("loadLatest");
+            this.loadLatest();
+        }
         const tabFromUrl = UrlHelper.getParam("currentTab");
         const tab = tabFromUrl === "" ? "run-main-stats" : tabFromUrl;
         this.showTab(tab, document.getElementById(`tab-${tab}`));

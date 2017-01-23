@@ -64,6 +64,22 @@ class UrlHelper {
             }
         }
     }
+    static removeParam(key) {
+        const paramsPart = document.location.search.substr(1);
+        window.history.pushState("", "", "");
+        if (paramsPart === "") {
+            return;
+        }
+        else {
+            let params = paramsPart.split("&");
+            const paramToRemove = params.find((par) => par.split("=")[0] === key);
+            if (paramToRemove != undefined) {
+                const index = params.indexOf(paramToRemove);
+                params.splice(index, 1);
+            }
+            window.history.pushState("", "", `?${params.join("&")}`);
+        }
+    }
 }
 class PathsHelper {
     static getRunPath(pt, guid) {
@@ -618,7 +634,15 @@ class RunPageUpdater {
         this.loadRun(undefined);
     }
     static initializePage() {
-        this.tryLoadRunByGuid();
+        const isLatest = UrlHelper.getParam("loadLatest");
+        if (isLatest !== "true") {
+            UrlHelper.removeParam("loadLatest");
+            this.tryLoadRunByGuid();
+        }
+        else {
+            UrlHelper.removeParam("loadLatest");
+            this.loadLatest();
+        }
         const tabFromUrl = UrlHelper.getParam("currentTab");
         const tab = tabFromUrl === "" ? "run-main-stats" : tabFromUrl;
         this.showTab(tab, document.getElementById(`tab-${tab}`));
@@ -877,6 +901,9 @@ class TestPageUpdater {
             if (index <= 0) {
                 this.disableBtn("btn-prev");
             }
+            else {
+                this.enableBtn("btn-prev");
+            }
             if (index >= testInfos.length - 1) {
                 this.disableBtn("btn-next");
                 index = testInfos.length - 1;
@@ -918,6 +945,9 @@ class TestPageUpdater {
     static disableBtn(id) {
         document.getElementById(id).setAttribute("disabled", "true");
     }
+    static enableBtn(id) {
+        document.getElementById(id).removeAttribute("disabled");
+    }
     static loadPrev() {
         if (this.currentTest === 0) {
             this.disableBtn("btn-prev");
@@ -951,7 +981,15 @@ class TestPageUpdater {
         this.loadTest(undefined);
     }
     static initializePage() {
-        this.tryLoadTestByGuid();
+        const isLatest = UrlHelper.getParam("loadLatest");
+        if (isLatest !== "true") {
+            UrlHelper.removeParam("loadLatest");
+            this.tryLoadTestByGuid();
+        }
+        else {
+            UrlHelper.removeParam("loadLatest");
+            this.loadLatest();
+        }
         const tabFromUrl = UrlHelper.getParam("currentTab");
         const tab = tabFromUrl === "" ? "test-history" : tabFromUrl;
         this.showTab(tab === "" ? "test-history" : tab, document.getElementById(`tab-${tab}`));

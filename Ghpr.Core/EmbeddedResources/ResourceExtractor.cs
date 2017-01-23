@@ -10,7 +10,7 @@ namespace Ghpr.Core.EmbeddedResources
 {
     public class ResourceExtractor
     {
-        private static readonly IEmbeddedResource[] All = {
+        private static readonly IEmbeddedResource[] AllResources = {
             new EmbeddedResource("ghpr.controller.js", ResourceType.GhprController, "src\\js"),
             new EmbeddedResource("plotly.min.js", ResourceType.Plotly, "src\\js"),
             new EmbeddedResource("octicons.css", ResourceType.Octicons, "src\\octicons"),
@@ -44,7 +44,6 @@ namespace Ghpr.Core.EmbeddedResources
             {
                 var currentAssembly = GetType().Assembly;
                 var arrResources = currentAssembly.GetManifestResourceNames();
-
                 var destinationPath = relativePath.Equals("") ? outputPath : Path.Combine(outputPath, relativePath);
                 Paths.Create(destinationPath);
 
@@ -70,7 +69,7 @@ namespace Ghpr.Core.EmbeddedResources
 
         private void ExtractResources(ResourceType type, string outputPath, bool replaceExisting)
         {
-            var ress = All.Where(r => r.Type == type);
+            var ress = AllResources.Where(r => r.Type == type);
             foreach (var res in ress)
             {
                 ExtractResource(res.SearchQuery, outputPath, res.RelativePath, res.FileName, replaceExisting);
