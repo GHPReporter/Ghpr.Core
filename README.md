@@ -36,7 +36,7 @@ You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](h
 Standard settings file is .json file with the following structure:
 ``` json
 {
-	"outputPath":"C:\\_GHPReportOutput",
+	"outputPath":"C:\\_GHPReporter_Core_Report",
 	"sprint":"",
 	"runName":"",
 	"runGuid":"",
