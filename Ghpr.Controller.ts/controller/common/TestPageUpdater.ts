@@ -60,7 +60,6 @@ class TestPageUpdater {
         const tickvals: Array<number> = new Array();
         const ticktext: Array<string> = new Array();
         const colors: Array<string> = new Array();
-
         const c = tests.length;
         for (let i = 0; i < c; i++) {
             const t = tests[i];
@@ -142,11 +141,9 @@ class TestPageUpdater {
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-
             for (let i = 0; i < testInfos.length; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
-
             this.loader.loadAllJsons(paths, 0, testStrings, (responses: Array<string>) => {
                 for (let i = 0; i < responses.length; i++) {
                     tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
@@ -154,7 +151,6 @@ class TestPageUpdater {
                 this.setTestHistory(tests);
             });
         });
-        
     }
 
     private static loadTest(index: number): void {
