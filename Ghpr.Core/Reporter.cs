@@ -81,7 +81,8 @@ namespace Ghpr.Core
             {
                 _currentRun.RunInfo.Finish = finishDateTime;
                 _currentRun.Save(RunsPath);
-                RunsHelper.SaveCurrentRunInfo(RunsPath, _currentRun.RunInfo);
+                var runInfo = new ItemInfo(_currentRun.RunInfo);
+                RunsHelper.SaveCurrentRunInfo(RunsPath, runInfo);
             });
         }
 

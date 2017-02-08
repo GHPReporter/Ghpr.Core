@@ -9,6 +9,11 @@ namespace Ghpr.Core.Helpers
 {
     public static class ScreenshotHelper
     {
+        public static string GetScreenKey(int count)
+        {
+            return $"{Names.ScreenshotKeyTemplate}{count}";
+        }
+
         public static string GetScreenName(DateTime dt)
         {
             var format = ImageFormat.Png;

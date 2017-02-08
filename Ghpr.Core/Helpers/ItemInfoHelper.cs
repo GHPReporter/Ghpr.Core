@@ -12,15 +12,13 @@ namespace Ghpr.Core.Helpers
     {
         public static void SaveItemInfo(string path, string filename, ItemInfo itemInfo, bool removeExisting = true)
         {
+            var ii = new ItemInfo(itemInfo);
             var serializer = new JsonSerializer();
             Paths.Create(path);
             var fullItemInfoPath = Path.Combine(path, filename);
             if (!File.Exists(fullItemInfoPath))
             {
-                var items = new List<ItemInfo>
-                {
-                    itemInfo
-                };
+                var items = new List<ItemInfo>(1) {ii};
                 using (var file = File.CreateText(fullItemInfoPath))
                 {
                     serializer.Serialize(file, items);
@@ -28,23 +26,26 @@ namespace Ghpr.Core.Helpers
             }
             else
             {
-                List<ItemInfo> items;
+                List<ItemInfo> existingItems;
                 using (var file = File.OpenText(fullItemInfoPath))
                 {
-                    items = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
-                    if (removeExisting && items.Any(i => i.Guid.Equals(itemInfo.Guid)))
-                    {
-                        items.RemoveAll(i => i.Guid.Equals(itemInfo.Guid));
-                    }
-                    if (!items.Contains(itemInfo, new ItemInfoComparer()))
-                    {
-                        items.Add(itemInfo);
-                    }
+                    existingItems = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
+                }
+                var itemsToSave = new List<ItemInfo>(existingItems.Count);
+                existingItems.ForEach(i => { itemsToSave.Add(new ItemInfo(i)); });
+
+                if (removeExisting && itemsToSave.Any(i => i.Guid.Equals(ii.Guid)))
+                {
+                    itemsToSave.RemoveAll(i => i.Guid.Equals(ii.Guid));
+                }
+                if (!itemsToSave.Contains(ii, new ItemInfoComparer()))
+                {
+                    itemsToSave.Add(new ItemInfo(ii));
                 }
                 using (var file = File.CreateText(fullItemInfoPath))
                 {
-                    items = items.OrderByDescending(x => x.Start).ToList();
-                    serializer.Serialize(file, items);
+                    itemsToSave = itemsToSave.OrderByDescending(x => x.Start).ToList();
+                    serializer.Serialize(file, itemsToSave);
                 }
             }
         }

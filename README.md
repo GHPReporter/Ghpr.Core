@@ -31,6 +31,20 @@ Easy-to-use .NET test reporting tool for several testing frameworks
 
 You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
 
+# About Settings file
+
+Standard settings file is .json file with the following structure:
+``` json
+{
+	"outputPath":"C:\\_GHPReporter_Core_Report",
+	"sprint":"",
+	"runName":"",
+	"runGuid":"",
+	"realTimeGeneration":"True"
+}
+```
+For Ghpr.Core it is called `Ghpr.Core.Settings.json`. This file is included in NuGet package. For different testing frameworks (MSTest, NUnit, SpecFlow) there are separate settings files. Separate files are needed to let Ghpr.Core use different settings for different testing frameworks.
+
 # View report locally
 
 ####Firefox

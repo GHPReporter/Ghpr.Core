@@ -40,4 +40,21 @@
             }
         }
     }
+
+    static removeParam(key: string): void {
+        const paramsPart = document.location.search.substr(1);
+        window.history.pushState("", "", "");
+        if (paramsPart === "") {
+            return;
+        }
+        else {
+            let params = paramsPart.split("&");
+            const paramToRemove = params.find((par) => par.split("=")[0] === key);
+            if (paramToRemove != undefined) {
+                const index = params.indexOf(paramToRemove);
+                params.splice(index, 1);
+            }
+            window.history.pushState("", "", `?${params.join("&")}`);
+        }
+    }
 }
