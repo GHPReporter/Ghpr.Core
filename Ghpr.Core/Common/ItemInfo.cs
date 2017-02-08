@@ -21,5 +21,13 @@ namespace Ghpr.Core.Common
         public ItemInfo()
         {
         }
+
+        public ItemInfo(ItemInfo ii)
+        {
+            Guid = ii.Guid;
+            Start = ii.Start;
+            Finish = ii.Finish;
+            FileName = ii.FileName;
+        }
     }
 }

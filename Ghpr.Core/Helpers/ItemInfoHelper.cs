@@ -28,23 +28,26 @@ namespace Ghpr.Core.Helpers
             }
             else
             {
-                List<ItemInfo> items;
+                List<ItemInfo> existingItems;
                 using (var file = File.OpenText(fullItemInfoPath))
                 {
-                    items = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
-                    if (removeExisting && items.Any(i => i.Guid.Equals(itemInfo.Guid)))
-                    {
-                        items.RemoveAll(i => i.Guid.Equals(itemInfo.Guid));
-                    }
-                    if (!items.Contains(itemInfo, new ItemInfoComparer()))
-                    {
-                        items.Add(itemInfo);
-                    }
+                    existingItems = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
+                }
+                var itemsToSave = new List<ItemInfo>(existingItems.Count);
+                existingItems.ForEach(i => { itemsToSave.Add(new ItemInfo(i)); });
+
+                if (removeExisting && itemsToSave.Any(i => i.Guid.Equals(itemInfo.Guid)))
+                {
+                    itemsToSave.RemoveAll(i => i.Guid.Equals(itemInfo.Guid));
+                }
+                if (!itemsToSave.Contains(itemInfo, new ItemInfoComparer()))
+                {
+                    itemsToSave.Add(itemInfo);
                 }
                 using (var file = File.CreateText(fullItemInfoPath))
                 {
-                    items = items.OrderByDescending(x => x.Start).ToList();
-                    serializer.Serialize(file, items);
+                    itemsToSave = itemsToSave.OrderByDescending(x => x.Start).ToList();
+                    serializer.Serialize(file, itemsToSave);
                 }
             }
         }
