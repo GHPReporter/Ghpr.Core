@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ReporterSettings.cs" />
+    <Compile Include="Common\ReportSettings.cs" />
     <Compile Include="Common\Run.cs" />
     <Compile Include="Common\ItemInfo.cs" />
     <Compile Include="Common\RunSummary.cs" />
