@@ -73,6 +73,7 @@
     <Compile Include="Interfaces\ILog.cs" />
     <Compile Include="Interfaces\IReporter.cs" />
     <Compile Include="Interfaces\IReporterSettings.cs" />
+    <Compile Include="Interfaces\IReportSettings.cs" />
     <Compile Include="Interfaces\IRun.cs" />
     <Compile Include="Interfaces\IRuns.cs" />
     <Compile Include="Interfaces\IRunSummary.cs" />

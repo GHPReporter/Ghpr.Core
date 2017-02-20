@@ -34,18 +34,16 @@ namespace Ghpr.Core.Helpers
             }
         }
 
-        public static void SaveReportSettings(this IReporterSettings reporterSettings)
+        public static void Save(this IReportSettings reportSettings, string reportOutputPath)
         {
-            var folder = Path.Combine(reporterSettings.OutputPath, Paths.Folders.Src);
+            var folder = Path.Combine(reportOutputPath, Paths.Folders.Src);
             var serializer = new JsonSerializer();
             Paths.Create(folder);
             var fullPath = Path.Combine(folder, Paths.Files.ReportSettings);
-            if (!File.Exists(fullPath))
+
+            using (var file = File.CreateText(fullPath))
             {
-                using (var file = File.CreateText(fullPath))
-                {
-                    serializer.Serialize(file, reporterSettings.ReportSettings);
-                }
+                serializer.Serialize(file, reportSettings);
             }
         }
     }
