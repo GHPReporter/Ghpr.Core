@@ -2,6 +2,7 @@
 using System.IO;
 using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
+using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
 using Newtonsoft.Json;
 
@@ -33,16 +34,17 @@ namespace Ghpr.Core.Helpers
             }
         }
 
-        public static void Save(this ReportSettings reportSettings, string path, string filename)
+        public static void SaveReportSettings(this IReporterSettings reporterSettings)
         {
+            var folder = Path.Combine(reporterSettings.OutputPath, Paths.Folders.Src);
             var serializer = new JsonSerializer();
-            Paths.Create(path);
-            var fullPath = Path.Combine(path, filename);
+            Paths.Create(folder);
+            var fullPath = Path.Combine(folder, Paths.Files.ReportSettings);
             if (!File.Exists(fullPath))
             {
                 using (var file = File.CreateText(fullPath))
                 {
-                    serializer.Serialize(file, reportSettings);
+                    serializer.Serialize(file, reporterSettings.ReportSettings);
                 }
             }
         }

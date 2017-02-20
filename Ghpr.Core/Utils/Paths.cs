@@ -28,6 +28,7 @@ namespace Ghpr.Core.Utils
             public const string Tests = "tests";
             public const string Runs = "runs";
             public const string Img = "img";
+            public const string Src = "src";
         }
 
         public static class Files

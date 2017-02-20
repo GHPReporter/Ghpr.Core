@@ -71,7 +71,7 @@ namespace Ghpr.Core
                 _currentRun.Name = Settings.RunName;
                 _currentRun.Sprint = Settings.Sprint;
                 _extractor.ExtractReportBase();
-                Settings.ReportSettings.Save("", "");
+                Settings.SaveReportSettings();
                 _currentRun.RunInfo.Start = startDateTime;
             });
         }
