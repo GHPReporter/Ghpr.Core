@@ -22,7 +22,7 @@ namespace Ghpr.Core.EmbeddedResources
             new EmbeddedResource("primer.css",         ResourceType.Primer,         "src\\style"                      ),
             new EmbeddedResource("index.html",         ResourceType.TestPage,       "tests",       "tests.index.html" ),
             new EmbeddedResource("index.html",         ResourceType.TestRunPage,    "runs",        "runs.index.html"  ),
-            new EmbeddedResource("index.html",         ResourceType.TestRunsPage,   "",            "Report.index.html"),
+            new EmbeddedResource("index.html",         ResourceType.MainPage,       "",            "Report.index.html"),
             new EmbeddedResource("favicon.ico",        ResourceType.Favicon,        "src"                             )
         };
 
@@ -93,7 +93,7 @@ namespace Ghpr.Core.EmbeddedResources
                 ResourceType.Octicons,
                 ResourceType.Github,
                 ResourceType.Primer,
-                ResourceType.TestRunsPage,
+                ResourceType.MainPage,
                 ResourceType.TestRunPage,
                 ResourceType.TestPage,
                 ResourceType.Favicon

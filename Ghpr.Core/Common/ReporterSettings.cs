@@ -21,5 +21,8 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "realTimeGeneration")]
         public bool RealTimeGeneration { get; set; }
 
+        [JsonProperty(PropertyName = "reportSettings")]
+        public ReportSettings ReportSettings { get; set; }
+
     }
 }

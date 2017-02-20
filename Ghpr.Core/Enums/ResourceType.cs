@@ -9,7 +9,7 @@
         Github,
         TestPage,
         TestRunPage,
-        TestRunsPage,
+        MainPage,
         Favicon
     }
 }

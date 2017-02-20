@@ -54,8 +54,8 @@ namespace Ghpr.Core
         private ResourceExtractor _extractor;
 
         public IReporterSettings Settings { get; private set; }
-        public string TestsPath => Path.Combine(Settings.OutputPath, Names.TestsFolderName);
-        public string RunsPath => Path.Combine(Settings.OutputPath, Names.RunsFolderName);
+        public string TestsPath => Path.Combine(Settings.OutputPath, Paths.Folders.Tests);
+        public string RunsPath => Path.Combine(Settings.OutputPath, Paths.Folders.Runs);
 
         private void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
@@ -71,6 +71,7 @@ namespace Ghpr.Core
                 _currentRun.Name = Settings.RunName;
                 _currentRun.Sprint = Settings.Sprint;
                 _extractor.ExtractReportBase();
+                Settings.ReportSettings.Save("", "");
                 _currentRun.RunInfo.Start = startDateTime;
             });
         }
@@ -112,7 +113,7 @@ namespace Ghpr.Core
                 var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                 var date = DateTime.Now;
                 var s = new TestScreenshot(date);
-                ScreenshotHelper.SaveScreenshot(Path.Combine(TestsPath, testGuid, Names.ImgFolderName), screen, date);
+                ScreenshotHelper.SaveScreenshot(Path.Combine(TestsPath, testGuid, Paths.Folders.Img), screen, date);
                 _currentTestRun.Screenshots.Add(s);
                 _currentTestRuns.First(
                     tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))

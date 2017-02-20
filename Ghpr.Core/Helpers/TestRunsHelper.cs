@@ -7,7 +7,7 @@ namespace Ghpr.Core.Helpers
     {
         public static void SaveCurrentTestInfo(string path, ItemInfo testInfo)
         {
-            ItemInfoHelper.SaveItemInfo(path, Names.TestsFileName, testInfo, false);
+            ItemInfoHelper.SaveItemInfo(path, Paths.Files.Tests, testInfo, false);
         }
     }
 }

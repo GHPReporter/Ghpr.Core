@@ -7,7 +7,7 @@ namespace Ghpr.Core.Helpers
     {
         public static void SaveCurrentRunInfo(string path, ItemInfo runInfo)
         {
-            ItemInfoHelper.SaveItemInfo(path, Names.RunsFileName, runInfo);
+            ItemInfoHelper.SaveItemInfo(path, Paths.Files.Runs, runInfo);
         }
     }
 }
