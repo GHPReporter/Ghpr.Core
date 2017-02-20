@@ -1,4 +1,5 @@
 ﻿///<reference path="./../interfaces/IItemInfo.ts"/>
+///<reference path="./../interfaces/IReportSettings.ts"/>
 ///<reference path="./../interfaces/IRun.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./JsonLoader.ts"/>
@@ -11,13 +12,13 @@ class ReportPageUpdater {
 
     static loader = new JsonLoader(PageType.TestRunsPage);
 
-    private static updateFields(run: IRun): void {
+    private static updateFields(run: IRun, settings: IReportSettings): void {
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
     }
 
-    private static updateRunsList(runs: Array<IRun>): void {
+    private static updateRunsList(runs: Array<IRun>, settings: IReportSettings): void {
         let list = "";
         const c = runs.length;
         for (let i = 0; i < c; i++) {
@@ -27,9 +28,9 @@ class ReportPageUpdater {
         document.getElementById("all-runs").innerHTML = list;
     }
     
-    private static updatePlotlyBars(runs: Array<IRun>): void {
+    private static updatePlotlyBars(runs: Array<IRun>, settings: IReportSettings, totalFiles: number): void {
 
-        document.getElementById("total").innerHTML = `<b>Total:</b> ${runs.length}`;
+        document.getElementById("total").innerHTML = `<b>Runs:</b> ${runs.length} (Total: ${totalFiles})`;
         
         let plotlyData = new Array();
         const passedY: Array<number> = new Array();
@@ -98,29 +99,34 @@ class ReportPageUpdater {
         });
     }
     
-    static updatePage(index: number): void {
+    static updatePage(settings: IReportSettings): void {
         let runInfos: Array<IItemInfo>;
         const paths: Array<string> = new Array();
         const r: Array<string> = new Array();
         const runs: Array<IRun> = new Array();
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            for (let i = 0; i < runInfos.length; i++) {
+            const runsToLoad = settings.runsToDisplay >= 1 ? Math.min(settings.runsToDisplay, runInfos.length) : runInfos.length;
+            for (let i = 0; i < runsToLoad; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
             }
             this.loader.loadAllJsons(paths, 0, r, (responses: Array<string>) => {
                 for (let i = 0; i < responses.length; i++) {
                     runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }
-                this.updateFields(runs[runs.length - 1]);
-                this.updatePlotlyBars(runs);
-                this.updateRunsList(runs);
+                this.updateFields(runs[runs.length - 1], settings);
+                this.updatePlotlyBars(runs, settings, runInfos.length);
+                this.updateRunsList(runs, settings);
             });
         });
     }
     
     static initializePage(): void {
-        this.updatePage(undefined);
+        let reportSettings: IReportSettings;
+        this.loader.loadReportSettingsJson((response: string) => {
+            reportSettings = JSON.parse(response);
+            this.updatePage(reportSettings);
+        });
         this.showTab("runs-stats", document.getElementById("tab-runs-stats"));
     }
 

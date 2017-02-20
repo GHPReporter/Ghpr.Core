@@ -106,6 +106,18 @@ class PathsHelper {
                 return "";
         }
     }
+    static getReportSettingsPath(pt) {
+        switch (pt) {
+            case PageType.TestRunsPage:
+                return `./src/ReportSettings.json`;
+            case PageType.TestRunPage:
+                return `./../src/ReportSettings.json`;
+            case PageType.TestPage:
+                return `./../src/ReportSettings.json`;
+            default:
+                return "";
+        }
+    }
     static getTestsPath(testGuid, pt) {
         switch (pt) {
             case PageType.TestRunsPage:
@@ -193,6 +205,10 @@ class JsonLoader {
     }
     loadRunsJson(callback) {
         const path = PathsHelper.getRunsPath(this.pageType);
+        this.loadJson(path, callback);
+    }
+    loadReportSettingsJson(callback) {
+        const path = PathsHelper.getReportSettingsPath(this.pageType);
         this.loadJson(path, callback);
     }
     loadTestJson(testGuid, testFileName, callback) {
@@ -654,12 +670,12 @@ class RunPageUpdater {
 RunPageUpdater.loader = new JsonLoader(PageType.TestRunPage);
 RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list"];
 class ReportPageUpdater {
-    static updateFields(run) {
+    static updateFields(run, settings) {
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
     }
-    static updateRunsList(runs) {
+    static updateRunsList(runs, settings) {
         let list = "";
         const c = runs.length;
         for (let i = 0; i < c; i++) {
@@ -668,8 +684,8 @@ class ReportPageUpdater {
         }
         document.getElementById("all-runs").innerHTML = list;
     }
-    static updatePlotlyBars(runs) {
-        document.getElementById("total").innerHTML = `<b>Total:</b> ${runs.length}`;
+    static updatePlotlyBars(runs, settings, totalFiles) {
+        document.getElementById("total").innerHTML = `<b>Runs:</b> ${runs.length} (Total: ${totalFiles})`;
         let plotlyData = new Array();
         const passedY = new Array();
         const failedY = new Array();
@@ -729,28 +745,33 @@ class ReportPageUpdater {
             bargap: 0.01
         });
     }
-    static updatePage(index) {
+    static updatePage(settings) {
         let runInfos;
         const paths = new Array();
         const r = new Array();
         const runs = new Array();
         this.loader.loadRunsJson((response) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            for (let i = 0; i < runInfos.length; i++) {
+            const runsToLoad = settings.runsToDisplay >= 1 ? Math.min(settings.runsToDisplay, runInfos.length) : runInfos.length;
+            for (let i = 0; i < runsToLoad; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
             }
             this.loader.loadAllJsons(paths, 0, r, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
                     runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }
-                this.updateFields(runs[runs.length - 1]);
-                this.updatePlotlyBars(runs);
-                this.updateRunsList(runs);
+                this.updateFields(runs[runs.length - 1], settings);
+                this.updatePlotlyBars(runs, settings, runInfos.length);
+                this.updateRunsList(runs, settings);
             });
         });
     }
     static initializePage() {
-        this.updatePage(undefined);
+        let reportSettings;
+        this.loader.loadReportSettingsJson((response) => {
+            reportSettings = JSON.parse(response);
+            this.updatePage(reportSettings);
+        });
         this.showTab("runs-stats", document.getElementById("tab-runs-stats"));
     }
     static showTab(idToShow, caller) {

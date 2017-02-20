@@ -21,6 +21,11 @@ class JsonLoader {
         this.loadJson(path, callback);
     }
 
+    loadReportSettingsJson(callback: Function): void {
+        const path = PathsHelper.getReportSettingsPath(this.pageType);
+        this.loadJson(path, callback);
+    }
+
     loadTestJson(testGuid: string, testFileName: string, callback: Function): void {
         const path = PathsHelper.getTestPath(testGuid, testFileName, this.pageType);
         this.loadJson(path, callback);
