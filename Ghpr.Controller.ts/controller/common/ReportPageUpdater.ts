@@ -12,10 +12,10 @@ class ReportPageUpdater {
 
     static loader = new JsonLoader(PageType.TestRunsPage);
 
-    private static updateFields(run: IRun, settings: IReportSettings): void {
-        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
-        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
-        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
+    private static updateLatestRunInfo(latestRun: IRun, settings: IReportSettings): void {
+        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;
+        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
+        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
 
     private static updateRunsList(runs: Array<IRun>, settings: IReportSettings): void {
@@ -27,11 +27,13 @@ class ReportPageUpdater {
         }
         document.getElementById("all-runs").innerHTML = list;
     }
-    
-    private static updatePlotlyBars(runs: Array<IRun>, settings: IReportSettings, totalFiles: number): void {
 
-        document.getElementById("total").innerHTML = `<b>Runs:</b> ${runs.length} (Total: ${totalFiles})`;
-        
+    private static updateRunsInfo(runs: Array<IRun>, totalFiles: number): void {
+        document.getElementById("total").innerHTML = `<b>Loaded runs:</b> ${runs.length}`;
+        document.getElementById("loaded").innerHTML = `<b>Total runs:</b> ${totalFiles}`;
+    }
+    
+    private static updatePlotlyBars(runs: Array<IRun>, settings: IReportSettings): void {
         let plotlyData = new Array();
         const passedY: Array<number> = new Array();
         const failedY: Array<number> = new Array();
@@ -114,8 +116,10 @@ class ReportPageUpdater {
                 for (let i = 0; i < responses.length; i++) {
                     runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }
-                this.updateFields(runs[runs.length - 1], settings);
-                this.updatePlotlyBars(runs, settings, runInfos.length);
+                const latestRun = runs[0];
+                this.updateLatestRunInfo(latestRun, settings);
+                this.updatePlotlyBars(runs, settings);
+                this.updateRunsInfo(runs, runInfos.length);
                 this.updateRunsList(runs, settings);
             });
         });

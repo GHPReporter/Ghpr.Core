@@ -670,10 +670,10 @@ class RunPageUpdater {
 RunPageUpdater.loader = new JsonLoader(PageType.TestRunPage);
 RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list"];
 class ReportPageUpdater {
-    static updateFields(run, settings) {
-        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
-        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
-        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
+    static updateLatestRunInfo(latestRun, settings) {
+        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;
+        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
+        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
     static updateRunsList(runs, settings) {
         let list = "";
@@ -684,8 +684,11 @@ class ReportPageUpdater {
         }
         document.getElementById("all-runs").innerHTML = list;
     }
-    static updatePlotlyBars(runs, settings, totalFiles) {
-        document.getElementById("total").innerHTML = `<b>Runs:</b> ${runs.length} (Total: ${totalFiles})`;
+    static updateRunsInfo(runs, totalFiles) {
+        document.getElementById("total").innerHTML = `<b>Loaded runs:</b> ${runs.length}`;
+        document.getElementById("loaded").innerHTML = `<b>Total runs:</b> ${totalFiles}`;
+    }
+    static updatePlotlyBars(runs, settings) {
         let plotlyData = new Array();
         const passedY = new Array();
         const failedY = new Array();
@@ -760,8 +763,10 @@ class ReportPageUpdater {
                 for (let i = 0; i < responses.length; i++) {
                     runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }
-                this.updateFields(runs[runs.length - 1], settings);
-                this.updatePlotlyBars(runs, settings, runInfos.length);
+                const latestRun = runs[0];
+                this.updateLatestRunInfo(latestRun, settings);
+                this.updatePlotlyBars(runs, settings);
+                this.updateRunsInfo(runs, runInfos.length);
                 this.updateRunsList(runs, settings);
             });
         });
