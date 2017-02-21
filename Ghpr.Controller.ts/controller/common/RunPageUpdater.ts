@@ -16,7 +16,7 @@ class RunPageUpdater {
     static loader = new JsonLoader(PageType.TestRunPage);
 
     private static updateRunInformation(run: IRun): void {
-        document.getElementById("name").innerHTML = `<b>Run name:</b> ${run.name}`;
+        document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
         document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
