@@ -9,10 +9,6 @@ namespace Ghpr.Core.Extensions
     {
         public static void Save(this IRun run, string path, string fileName = "")
         {
-            if (run.Name.Equals(""))
-            {
-                run.Name = $"Run {run.RunInfo.Start.ToString("yy-MM-dd hh:mm:ss")} - {run.RunInfo.Finish.ToString("yy-MM-dd hh:mm:ss")}";
-            }
             if (fileName.Equals(""))
             {
                 fileName = $"run_{run.RunInfo.Guid.ToString().ToLower()}.json";

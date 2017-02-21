@@ -675,11 +675,17 @@ class ReportPageUpdater {
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
+    static updateCopyright(settings) {
+        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${settings.coreVersion})`;
+    }
     static updateRunsList(runs, settings) {
         let list = "";
         const c = runs.length;
         for (let i = 0; i < c; i++) {
             const r = runs[i];
+            if (r.name === "") {
+                r.name = `${r.runInfo.start} - ${r.runInfo.finish}`;
+            }
             list += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
         }
         document.getElementById("all-runs").innerHTML = list;
@@ -768,6 +774,7 @@ class ReportPageUpdater {
                 this.updatePlotlyBars(runs, settings);
                 this.updateRunsInfo(runs, runInfos.length);
                 this.updateRunsList(runs, settings);
+                this.updateCopyright(settings);
             });
         });
     }
