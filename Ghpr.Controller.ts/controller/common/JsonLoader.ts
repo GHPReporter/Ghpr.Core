@@ -56,10 +56,9 @@ class JsonLoader {
         req.send(null);
     }
 
-    loadAllJsons(paths: Array<string>, ind: number, resps: Array<string>, callback: Function,
-        loadAll: boolean = true): void {
+    loadAllJsons(paths: Array<string>, ind: number, resps: Array<string>, callback: Function): void {
         const count = paths.length;
-        if (loadAll && ind >= count) {
+        if (ind >= count) {
             callback(resps);
             return;
         }
@@ -74,7 +73,7 @@ class JsonLoader {
                 } else {
                     resps[ind] = req.responseText;
                     ind++;
-                    this.loadAllJsons(paths, ind, resps, callback, loadAll);
+                    this.loadAllJsons(paths, ind, resps, callback);
                 }
         }
         req.timeout = 2000;

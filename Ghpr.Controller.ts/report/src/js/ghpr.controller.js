@@ -239,9 +239,9 @@ class JsonLoader {
         };
         req.send(null);
     }
-    loadAllJsons(paths, ind, resps, callback, loadAll = true) {
+    loadAllJsons(paths, ind, resps, callback) {
         const count = paths.length;
-        if (loadAll && ind >= count) {
+        if (ind >= count) {
             callback(resps);
             return;
         }
@@ -257,7 +257,7 @@ class JsonLoader {
                 else {
                     resps[ind] = req.responseText;
                     ind++;
-                    this.loadAllJsons(paths, ind, resps, callback, loadAll);
+                    this.loadAllJsons(paths, ind, resps, callback);
                 }
         };
         req.timeout = 2000;
@@ -310,11 +310,11 @@ class DateFormatter {
             return "-";
         }
         const year = `${date.getFullYear()}`;
-        const month = DateFormatter.correctString(`${date.getMonth() + 1}`);
-        const day = DateFormatter.correctString(`${date.getDate()}`);
-        const hour = DateFormatter.correctString(`${date.getHours()}`);
-        const minute = DateFormatter.correctString(`${date.getMinutes()}`);
-        const second = DateFormatter.correctString(`${date.getSeconds()}`);
+        const month = this.correctString(`${date.getMonth() + 1}`);
+        const day = this.correctString(`${date.getDate()}`);
+        const hour = this.correctString(`${date.getHours()}`);
+        const minute = this.correctString(`${date.getMinutes()}`);
+        const second = this.correctString(`${date.getSeconds()}`);
         return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
     }
     static diff(start, finish) {
@@ -324,7 +324,8 @@ class DateFormatter {
         const dMins = dDate.getUTCMinutes();
         const dSecs = dDate.getUTCSeconds();
         const dMilliSecs = dDate.getUTCMilliseconds();
-        const readableDifference = dHours + ":" + dMins + ":" + dSecs + "." + dMilliSecs;
+        const readableDifference = this.correctNumber(dHours) + ":" + this.correctNumber(dMins) + ":"
+            + this.correctNumber(dSecs) + "." + this.correctNumber(dMilliSecs);
         return readableDifference;
     }
     static correctString(s) {
@@ -333,6 +334,13 @@ class DateFormatter {
         }
         else
             return s;
+    }
+    static correctNumber(n) {
+        if (n >= 0 && n < 10) {
+            return `0${n}`;
+        }
+        else
+            return `${n}`;
     }
 }
 class TestRunHelper {
@@ -397,7 +405,7 @@ class TestRunHelper {
 }
 class RunPageUpdater {
     static updateRunInformation(run) {
-        document.getElementById("name").innerHTML = `<b>Run name:</b> ${run.name}`;
+        document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
         document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
