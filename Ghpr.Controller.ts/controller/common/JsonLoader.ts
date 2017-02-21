@@ -42,7 +42,7 @@ class JsonLoader {
         req.open("get", path, true);
         req.onreadystatechange = () => {
             if (req.readyState === 4)
-                if (req.status !== 200) {
+                if (req.status !== 200 && req.status !== 0) {
                     console
                         .log(`Error while loading .json data: '${path}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
@@ -67,7 +67,7 @@ class JsonLoader {
         req.open("get", paths[ind], true);
         req.onreadystatechange = () => {
             if (req.readyState === 4)
-                if (req.status !== 200) {
+                if (req.status !== 200 && req.status !== 0) {
                     console
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
@@ -98,7 +98,7 @@ class JsonLoader {
         req.open("get", paths[ind], true);
         req.onreadystatechange = () => {
             if (req.readyState === 4)
-                if (req.status !== 200) {
+                if (req.status !== 200 && req.status !== 0) {
                     console
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
