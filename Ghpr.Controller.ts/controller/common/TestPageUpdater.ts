@@ -1,4 +1,5 @@
 ﻿///<reference path="./../interfaces/IItemInfo.ts"/>
+///<reference path="./../interfaces/IReportSettings.ts"/>
 ///<reference path="./../interfaces/IRun.ts"/>
 ///<reference path="./../interfaces/ITestRun.ts"/>
 ///<reference path="./../enums/PageType.ts"/>

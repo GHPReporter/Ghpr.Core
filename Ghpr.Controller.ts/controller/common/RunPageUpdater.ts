@@ -1,4 +1,5 @@
 ﻿///<reference path="./../interfaces/IItemInfo.ts"/>
+///<reference path="./../interfaces/IReportSettings.ts"/>
 ///<reference path="./../interfaces/IRun.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./JsonLoader.ts"/>
@@ -14,6 +15,7 @@ class RunPageUpdater {
     static currentRun: number;
     static runsCount: number; 
     static loader = new JsonLoader(PageType.TestRunPage);
+    static reportSettings: IReportSettings;
 
     private static updateRunInformation(run: IRun): void {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
@@ -196,7 +198,7 @@ class RunPageUpdater {
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.runsCount = runInfos.length;
+            this.runsCount = Math.min(runInfos.length, this.reportSettings.runsToDisplay);
             if (index === undefined || index.toString() === "NaN") {
                 index = this.runsCount - 1;
             }
@@ -283,14 +285,17 @@ class RunPageUpdater {
     }
 
     static initializePage(): void {
-        const isLatest = UrlHelper.getParam("loadLatest");
-        if (isLatest !== "true") {
-            UrlHelper.removeParam("loadLatest");
-            this.tryLoadRunByGuid();
-        } else {
-            UrlHelper.removeParam("loadLatest");
-            this.loadLatest();
-        }
+        this.loader.loadReportSettingsJson((response: string) => {
+            this.reportSettings = JSON.parse(response);
+            const isLatest = UrlHelper.getParam("loadLatest");
+            if (isLatest !== "true") {
+                UrlHelper.removeParam("loadLatest");
+                this.tryLoadRunByGuid();
+            } else {
+                UrlHelper.removeParam("loadLatest");
+                this.loadLatest();
+            }
+        });
         const tabFromUrl = UrlHelper.getParam("currentTab");
         const tab = tabFromUrl === "" ? "run-main-stats" : tabFromUrl;
         this.showTab(tab, document.getElementById(`tab-${tab}`));

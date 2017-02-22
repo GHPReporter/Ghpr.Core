@@ -576,7 +576,7 @@ class RunPageUpdater {
         this.loader.loadRunsJson((response) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.runsCount = runInfos.length;
+            this.runsCount = Math.min(runInfos.length, this.reportSettings.runsToDisplay);
             if (index === undefined || index.toString() === "NaN") {
                 index = this.runsCount - 1;
             }
@@ -658,15 +658,18 @@ class RunPageUpdater {
         this.loadRun(undefined);
     }
     static initializePage() {
-        const isLatest = UrlHelper.getParam("loadLatest");
-        if (isLatest !== "true") {
-            UrlHelper.removeParam("loadLatest");
-            this.tryLoadRunByGuid();
-        }
-        else {
-            UrlHelper.removeParam("loadLatest");
-            this.loadLatest();
-        }
+        this.loader.loadReportSettingsJson((response) => {
+            this.reportSettings = JSON.parse(response);
+            const isLatest = UrlHelper.getParam("loadLatest");
+            if (isLatest !== "true") {
+                UrlHelper.removeParam("loadLatest");
+                this.tryLoadRunByGuid();
+            }
+            else {
+                UrlHelper.removeParam("loadLatest");
+                this.loadLatest();
+            }
+        });
         const tabFromUrl = UrlHelper.getParam("currentTab");
         const tab = tabFromUrl === "" ? "run-main-stats" : tabFromUrl;
         this.showTab(tab, document.getElementById(`tab-${tab}`));
