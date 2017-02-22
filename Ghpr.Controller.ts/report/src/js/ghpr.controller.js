@@ -576,7 +576,7 @@ class RunPageUpdater {
         this.loader.loadRunsJson((response) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.runsCount = Math.min(runInfos.length, this.reportSettings.runsToDisplay);
+            this.runsCount = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = this.runsCount - 1;
             }
@@ -681,15 +681,15 @@ class RunPageUpdater {
 RunPageUpdater.loader = new JsonLoader(PageType.TestRunPage);
 RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list"];
 class ReportPageUpdater {
-    static updateLatestRunInfo(latestRun, settings) {
+    static updateLatestRunInfo(latestRun) {
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
-    static updateCopyright(settings) {
-        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${settings.coreVersion})`;
+    static updateCopyright() {
+        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
     }
-    static updateRunsList(runs, settings) {
+    static updateRunsList(runs) {
         let list = "";
         const c = runs.length;
         for (let i = 0; i < c; i++) {
@@ -705,7 +705,7 @@ class ReportPageUpdater {
         document.getElementById("total").innerHTML = `<b>Loaded runs:</b> ${runs.length}`;
         document.getElementById("loaded").innerHTML = `<b>Total runs:</b> ${totalFiles}`;
     }
-    static updatePlotlyBars(runs, settings) {
+    static updatePlotlyBars(runs) {
         let plotlyData = new Array();
         const passedY = new Array();
         const failedY = new Array();
@@ -765,14 +765,14 @@ class ReportPageUpdater {
             bargap: 0.01
         });
     }
-    static updatePage(settings) {
+    static updatePage() {
         let runInfos;
         const paths = new Array();
         const r = new Array();
         const runs = new Array();
         this.loader.loadRunsJson((response) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            const runsToLoad = settings.runsToDisplay >= 1 ? Math.min(settings.runsToDisplay, runInfos.length) : runInfos.length;
+            const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
             for (let i = 0; i < runsToLoad; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
             }
@@ -781,19 +781,18 @@ class ReportPageUpdater {
                     runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
                 }
                 const latestRun = runs[0];
-                this.updateLatestRunInfo(latestRun, settings);
-                this.updatePlotlyBars(runs, settings);
+                this.updateLatestRunInfo(latestRun);
+                this.updatePlotlyBars(runs);
                 this.updateRunsInfo(runs, runInfos.length);
-                this.updateRunsList(runs, settings);
-                this.updateCopyright(settings);
+                this.updateRunsList(runs);
+                this.updateCopyright();
             });
         });
     }
     static initializePage() {
-        let reportSettings;
         this.loader.loadReportSettingsJson((response) => {
-            reportSettings = JSON.parse(response);
-            this.updatePage(reportSettings);
+            this.reportSettings = JSON.parse(response);
+            this.updatePage();
         });
         this.showTab("runs-stats", document.getElementById("tab-runs-stats"));
     }
@@ -938,7 +937,7 @@ class TestPageUpdater {
         this.loader.loadTestsJson(guid, (response) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.testVersionsCount = testInfos.length;
+            this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = this.testVersionsCount - 1;
             }
@@ -1025,15 +1024,18 @@ class TestPageUpdater {
         this.loadTest(undefined);
     }
     static initializePage() {
-        const isLatest = UrlHelper.getParam("loadLatest");
-        if (isLatest !== "true") {
-            UrlHelper.removeParam("loadLatest");
-            this.tryLoadTestByGuid();
-        }
-        else {
-            UrlHelper.removeParam("loadLatest");
-            this.loadLatest();
-        }
+        this.loader.loadReportSettingsJson((response) => {
+            this.reportSettings = JSON.parse(response);
+            const isLatest = UrlHelper.getParam("loadLatest");
+            if (isLatest !== "true") {
+                UrlHelper.removeParam("loadLatest");
+                this.tryLoadTestByGuid();
+            }
+            else {
+                UrlHelper.removeParam("loadLatest");
+                this.loadLatest();
+            }
+        });
         const tabFromUrl = UrlHelper.getParam("currentTab");
         const tab = tabFromUrl === "" ? "test-history" : tabFromUrl;
         this.showTab(tab === "" ? "test-history" : tab, document.getElementById(`tab-${tab}`));

@@ -16,6 +16,7 @@ class TestPageUpdater {
     static currentTest: number;
     static testVersionsCount: number;
     static loader = new JsonLoader(PageType.TestPage);
+    static reportSettings: IReportSettings;
 
     private static updateMainInformation(t: ITestRun): void {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
@@ -160,7 +161,7 @@ class TestPageUpdater {
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.testVersionsCount = testInfos.length;
+            this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = this.testVersionsCount - 1;
             }
@@ -185,7 +186,7 @@ class TestPageUpdater {
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.testVersionsCount = testInfos.length;
+            this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {
                 this.enableBtns();
@@ -252,14 +253,17 @@ class TestPageUpdater {
     }
 
     static initializePage(): void {
-        const isLatest = UrlHelper.getParam("loadLatest");
-        if (isLatest !== "true") {
-            UrlHelper.removeParam("loadLatest");
-            this.tryLoadTestByGuid();
-        } else {
-            UrlHelper.removeParam("loadLatest");
-            this.loadLatest();
-        }
+        this.loader.loadReportSettingsJson((response: string) => {
+            this.reportSettings = JSON.parse(response);
+            const isLatest = UrlHelper.getParam("loadLatest");
+            if (isLatest !== "true") {
+                UrlHelper.removeParam("loadLatest");
+                this.tryLoadTestByGuid();
+            } else {
+                UrlHelper.removeParam("loadLatest");
+                this.loadLatest();
+            }
+        });
         const tabFromUrl = UrlHelper.getParam("currentTab");
         const tab = tabFromUrl === "" ? "test-history" : tabFromUrl;
         this.showTab(tab === "" ? "test-history" : tab, document.getElementById(`tab-${tab}`));

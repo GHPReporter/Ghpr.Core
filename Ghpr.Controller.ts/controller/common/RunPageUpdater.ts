@@ -198,7 +198,7 @@ class RunPageUpdater {
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.runsCount = Math.min(runInfos.length, this.reportSettings.runsToDisplay);
+            this.runsCount = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = this.runsCount - 1;
             }
