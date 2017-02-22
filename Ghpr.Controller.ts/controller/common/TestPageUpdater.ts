@@ -18,6 +18,10 @@ class TestPageUpdater {
     static loader = new JsonLoader(PageType.TestPage);
     static reportSettings: IReportSettings;
 
+    private static updateCopyright(): void {
+        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+    }
+
     private static updateMainInformation(t: ITestRun): void {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
         document.getElementById("name").innerHTML = `<b>Test name:</b> ${t.name}`;
@@ -130,6 +134,7 @@ class TestPageUpdater {
             this.updateScreenshots(t);
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
+            this.updateCopyright();
         });
         return t;
     }

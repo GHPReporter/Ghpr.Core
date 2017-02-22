@@ -17,6 +17,10 @@ class RunPageUpdater {
     static loader = new JsonLoader(PageType.TestRunPage);
     static reportSettings: IReportSettings;
 
+    private static updateCopyright(): void {
+        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+    }
+
     private static updateRunInformation(run: IRun): void {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
         document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
@@ -170,6 +174,7 @@ class RunPageUpdater {
             this.updateTitle(run);
             this.updateTestsList(run);
             this.updateTestFilterButtons();
+            this.updateCopyright();
         });
         return run;
     }

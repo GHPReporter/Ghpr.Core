@@ -404,6 +404,9 @@ class TestRunHelper {
     }
 }
 class RunPageUpdater {
+    static updateCopyright() {
+        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+    }
     static updateRunInformation(run) {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
         document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
@@ -550,6 +553,7 @@ class RunPageUpdater {
             this.updateTitle(run);
             this.updateTestsList(run);
             this.updateTestFilterButtons();
+            this.updateCopyright();
         });
         return run;
     }
@@ -808,6 +812,9 @@ class ReportPageUpdater {
 ReportPageUpdater.loader = new JsonLoader(PageType.TestRunsPage);
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
 class TestPageUpdater {
+    static updateCopyright() {
+        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+    }
     static updateMainInformation(t) {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
         document.getElementById("name").innerHTML = `<b>Test name:</b> ${t.name}`;
@@ -913,6 +920,7 @@ class TestPageUpdater {
             this.updateScreenshots(t);
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
+            this.updateCopyright();
         });
         return t;
     }
