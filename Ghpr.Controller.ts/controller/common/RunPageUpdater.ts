@@ -12,8 +12,8 @@
 
 class RunPageUpdater {
 
-    static currentRun: number;
-    static runsCount: number; 
+    static currentRunIndex: number;
+    static runsToShow: number; 
     static loader = new JsonLoader(PageType.TestRunPage);
     static reportSettings: IReportSettings;
 
@@ -81,7 +81,6 @@ class RunPageUpdater {
 
     private static addTest(t: ITestRun, c: number, i: number): void {
         //console.log(`adding ${i} of ${c}`);
-        //Test #${c - i - 1}:
         const ti = t.testInfo;
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
         const testLi = `<li id="test-${ti.guid}" style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
@@ -188,7 +187,7 @@ class RunPageUpdater {
         this.loader.loadJsons(paths, 0, (response: string, c: number, i: number) => {
             test = JSON.parse(response, JsonLoader.reviveRun);
             this.addTest(test, c, i);
-            if(i === c - 1) RunPageUpdater.makeCollapsible();
+            if(i === c - 1) this.makeCollapsible();
             index++;
         });
     }
@@ -197,18 +196,18 @@ class RunPageUpdater {
         let runInfos: Array<IItemInfo>;
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            runInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.runsCount = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
+            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             if (index === undefined || index.toString() === "NaN") {
-                index = this.runsCount - 1;
+                index = 0;
             }
             if (index === 0) {
-                this.disableBtn("btn-prev");
-            }
-            if (index === runInfos.length - 1) {
                 this.disableBtn("btn-next");
             }
-            this.currentRun = index;
+            if (index === this.runsToShow - 1) {
+                this.disableBtn("btn-prev");
+            }
+            this.currentRunIndex = index;
             this.updateRunPage(runInfos[index].guid);
         });
     }
@@ -222,17 +221,18 @@ class RunPageUpdater {
         let runInfos: Array<IItemInfo>;
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            runInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.runsCount = runInfos.length;
+            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             const runInfo = runInfos.find((r) => r.guid === guid);
             if (runInfo != undefined) {
                 this.enableBtns();
-                const index = runInfos.indexOf(runInfo);
+                let index = runInfos.indexOf(runInfo);
                 if (index === 0) {
-                    this.disableBtn("btn-prev");
-                }
-                if (index === runInfos.length - 1) {
                     this.disableBtn("btn-next");
+                }
+                if (index >= this.runsToShow - 1) {
+                    index = this.runsToShow - 1;
+                    this.disableBtn("btn-prev");
                 }
                 this.loadRun(index);
             } else {
@@ -251,35 +251,38 @@ class RunPageUpdater {
     }
 
     static loadPrev(): void {
-        if (this.currentRun === 0) {
+        if (this.currentRunIndex === this.runsToShow - 1) {
             this.disableBtn("btn-prev");
             return;
         }
         else {
             this.enableBtns();
-            this.currentRun -= 1;
-            if (this.currentRun === 0) {
+            this.currentRunIndex += 1;
+            if (this.currentRunIndex >= this.runsToShow - 1) {
+                this.currentRunIndex = this.runsToShow - 1;
                 this.disableBtn("btn-prev");
             }
-            this.loadRun(this.currentRun);
+            this.loadRun(this.currentRunIndex);
         }
     }
 
     static loadNext(): void {
-        if (this.currentRun === this.runsCount - 1) {
+        if (this.currentRunIndex === 0) {
             this.disableBtn("btn-next");
             return;
         } else {
             this.enableBtns();
-            this.currentRun += 1;
-            if (this.currentRun === this.runsCount - 1) {
+            this.currentRunIndex -= 1;
+            if (this.currentRunIndex <= 0) {
+                this.currentRunIndex = 0;
                 this.disableBtn("btn-next");
             }
-            this.loadRun(this.currentRun);
+            this.loadRun(this.currentRunIndex);
         }
     }
 
     static loadLatest(): void {
+        this.enableBtns();
         this.disableBtn("btn-next");
         this.loadRun(undefined);
     }

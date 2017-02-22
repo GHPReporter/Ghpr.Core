@@ -142,8 +142,8 @@ class TestPageUpdater {
         let testInfos: Array<IItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            for (let i = 0; i < testInfos.length; i++) {
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            for (let i = 0; i < this.testVersionsCount; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
             this.loader.loadAllJsons(paths, 0, testStrings, (responses: Array<string>) => {
@@ -160,19 +160,20 @@ class TestPageUpdater {
         let testInfos: Array<IItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
-                index = this.testVersionsCount - 1;
+                index = 0;
             }
             if (index <= 0) {
-                this.disableBtn("btn-prev");
-            } else {
-                this.enableBtn("btn-prev");
-            }
-            if (index >= testInfos.length - 1) {
+                index = 0;
                 this.disableBtn("btn-next");
-                index = testInfos.length - 1;
+            } else {
+                this.enableBtn("btn-next");
+            }
+            if (index >= this.testVersionsCount - 1) {
+                index = this.testVersionsCount - 1;
+                this.disableBtn("btn-prev");
             }
             this.currentTest = index;
             this.updateTestPage(testInfos[index].guid, testInfos[index].fileName);
@@ -192,11 +193,12 @@ class TestPageUpdater {
                 this.enableBtns();
                 let index = testInfos.indexOf(testInfo);
                 if (index <= 0) {
-                    this.disableBtn("btn-prev");
-                }
-                if (index >= testInfos.length - 1) {
+                    index = 0;
                     this.disableBtn("btn-next");
-                    index = testInfos.length - 1;
+                }
+                if (index >= this.testVersionsCount - 1) {
+                    index = this.testVersionsCount - 1;
+                    this.disableBtn("btn-prev");
                 }
                 this.loadTest(index);
             } else {
@@ -219,14 +221,15 @@ class TestPageUpdater {
     }
 
     static loadPrev(): void {
-        if (this.currentTest === 0) {
+        if (this.currentTest === this.testVersionsCount - 1) {
             this.disableBtn("btn-prev");
             return;
         }
         else {
             this.enableBtns();
-            this.currentTest -= 1;
-            if (this.currentTest === 0) {
+            this.currentTest += 1;
+            if (this.currentTest >= this.testVersionsCount - 1) {
+                this.currentTest = this.testVersionsCount - 1;
                 this.disableBtn("btn-prev");
             }
             this.loadTest(this.currentTest);
@@ -234,13 +237,14 @@ class TestPageUpdater {
     }
 
     static loadNext(): void {
-        if (this.currentTest === this.testVersionsCount - 1) {
+        if (this.currentTest === 0) {
             this.disableBtn("btn-next");
             return;
         } else {
             this.enableBtns();
-            this.currentTest += 1;
-            if (this.currentTest === this.testVersionsCount - 1) {
+            this.currentTest -= 1;
+            if (this.currentTest <= 0) {
+                this.currentTest = 0;
                 this.disableBtn("btn-next");
             }
             this.loadTest(this.currentTest);
@@ -248,6 +252,7 @@ class TestPageUpdater {
     }
 
     static loadLatest(): void {
+        this.enableBtns();
         this.disableBtn("btn-next");
         this.loadTest(undefined);
     }

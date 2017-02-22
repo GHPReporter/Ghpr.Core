@@ -567,7 +567,7 @@ class RunPageUpdater {
             test = JSON.parse(response, JsonLoader.reviveRun);
             this.addTest(test, c, i);
             if (i === c - 1)
-                RunPageUpdater.makeCollapsible();
+                this.makeCollapsible();
             index++;
         });
     }
@@ -575,18 +575,18 @@ class RunPageUpdater {
         let runInfos;
         this.loader.loadRunsJson((response) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            runInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.runsCount = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
+            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             if (index === undefined || index.toString() === "NaN") {
-                index = this.runsCount - 1;
+                index = 0;
             }
             if (index === 0) {
-                this.disableBtn("btn-prev");
-            }
-            if (index === runInfos.length - 1) {
                 this.disableBtn("btn-next");
             }
-            this.currentRun = index;
+            if (index === this.runsToShow - 1) {
+                this.disableBtn("btn-prev");
+            }
+            this.currentRunIndex = index;
             this.updateRunPage(runInfos[index].guid);
         });
     }
@@ -599,17 +599,18 @@ class RunPageUpdater {
         let runInfos;
         this.loader.loadRunsJson((response) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            runInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.runsCount = runInfos.length;
+            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             const runInfo = runInfos.find((r) => r.guid === guid);
             if (runInfo != undefined) {
                 this.enableBtns();
-                const index = runInfos.indexOf(runInfo);
+                let index = runInfos.indexOf(runInfo);
                 if (index === 0) {
-                    this.disableBtn("btn-prev");
-                }
-                if (index === runInfos.length - 1) {
                     this.disableBtn("btn-next");
+                }
+                if (index >= this.runsToShow - 1) {
+                    index = this.runsToShow - 1;
+                    this.disableBtn("btn-prev");
                 }
                 this.loadRun(index);
             }
@@ -626,34 +627,37 @@ class RunPageUpdater {
         document.getElementById(id).setAttribute("disabled", "true");
     }
     static loadPrev() {
-        if (this.currentRun === 0) {
+        if (this.currentRunIndex === this.runsToShow - 1) {
             this.disableBtn("btn-prev");
             return;
         }
         else {
             this.enableBtns();
-            this.currentRun -= 1;
-            if (this.currentRun === 0) {
+            this.currentRunIndex += 1;
+            if (this.currentRunIndex >= this.runsToShow - 1) {
+                this.currentRunIndex = this.runsToShow - 1;
                 this.disableBtn("btn-prev");
             }
-            this.loadRun(this.currentRun);
+            this.loadRun(this.currentRunIndex);
         }
     }
     static loadNext() {
-        if (this.currentRun === this.runsCount - 1) {
+        if (this.currentRunIndex === 0) {
             this.disableBtn("btn-next");
             return;
         }
         else {
             this.enableBtns();
-            this.currentRun += 1;
-            if (this.currentRun === this.runsCount - 1) {
+            this.currentRunIndex -= 1;
+            if (this.currentRunIndex <= 0) {
+                this.currentRunIndex = 0;
                 this.disableBtn("btn-next");
             }
-            this.loadRun(this.currentRun);
+            this.loadRun(this.currentRunIndex);
         }
     }
     static loadLatest() {
+        this.enableBtns();
         this.disableBtn("btn-next");
         this.loadRun(undefined);
     }
@@ -772,6 +776,7 @@ class ReportPageUpdater {
         const runs = new Array();
         this.loader.loadRunsJson((response) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
+            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
             for (let i = 0; i < runsToLoad; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
@@ -919,8 +924,8 @@ class TestPageUpdater {
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            for (let i = 0; i < testInfos.length; i++) {
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            for (let i = 0; i < this.testVersionsCount; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
             this.loader.loadAllJsons(paths, 0, testStrings, (responses) => {
@@ -936,20 +941,21 @@ class TestPageUpdater {
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
-                index = this.testVersionsCount - 1;
+                index = 0;
             }
             if (index <= 0) {
-                this.disableBtn("btn-prev");
+                index = 0;
+                this.disableBtn("btn-next");
             }
             else {
-                this.enableBtn("btn-prev");
+                this.enableBtn("btn-next");
             }
-            if (index >= testInfos.length - 1) {
-                this.disableBtn("btn-next");
-                index = testInfos.length - 1;
+            if (index >= this.testVersionsCount - 1) {
+                index = this.testVersionsCount - 1;
+                this.disableBtn("btn-prev");
             }
             this.currentTest = index;
             this.updateTestPage(testInfos[index].guid, testInfos[index].fileName);
@@ -962,17 +968,18 @@ class TestPageUpdater {
         this.loader.loadTestsJson(guid, (response) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.testVersionsCount = testInfos.length;
+            this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {
                 this.enableBtns();
                 let index = testInfos.indexOf(testInfo);
                 if (index <= 0) {
-                    this.disableBtn("btn-prev");
-                }
-                if (index >= testInfos.length - 1) {
+                    index = 0;
                     this.disableBtn("btn-next");
-                    index = testInfos.length - 1;
+                }
+                if (index >= this.testVersionsCount - 1) {
+                    index = this.testVersionsCount - 1;
+                    this.disableBtn("btn-prev");
                 }
                 this.loadTest(index);
             }
@@ -992,34 +999,37 @@ class TestPageUpdater {
         document.getElementById(id).removeAttribute("disabled");
     }
     static loadPrev() {
-        if (this.currentTest === 0) {
+        if (this.currentTest === this.testVersionsCount - 1) {
             this.disableBtn("btn-prev");
             return;
         }
         else {
             this.enableBtns();
-            this.currentTest -= 1;
-            if (this.currentTest === 0) {
+            this.currentTest += 1;
+            if (this.currentTest >= this.testVersionsCount - 1) {
+                this.currentTest = this.testVersionsCount - 1;
                 this.disableBtn("btn-prev");
             }
             this.loadTest(this.currentTest);
         }
     }
     static loadNext() {
-        if (this.currentTest === this.testVersionsCount - 1) {
+        if (this.currentTest === 0) {
             this.disableBtn("btn-next");
             return;
         }
         else {
             this.enableBtns();
-            this.currentTest += 1;
-            if (this.currentTest === this.testVersionsCount - 1) {
+            this.currentTest -= 1;
+            if (this.currentTest <= 0) {
+                this.currentTest = 0;
                 this.disableBtn("btn-next");
             }
             this.loadTest(this.currentTest);
         }
     }
     static loadLatest() {
+        this.enableBtns();
         this.disableBtn("btn-next");
         this.loadTest(undefined);
     }
@@ -1052,6 +1062,15 @@ class Sorter {
             return 1;
         }
         if (a.finish < b.finish) {
+            return -1;
+        }
+        return 0;
+    }
+    static itemInfoSorterByFinishDateFuncDesc(a, b) {
+        if (a.finish < b.finish) {
+            return 1;
+        }
+        if (a.finish > b.finish) {
             return -1;
         }
         return 0;
