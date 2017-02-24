@@ -52,6 +52,12 @@ For Ghpr.Core it is called `Ghpr.Core.Settings.json`. This file is included in N
  - Go to `about:config`
  - Find `security.fileuri.strict_origin_policy` parameter
  - Set it to `false`
+ 
+####Chrome
+
+ - Close your Chrome
+ - Launch it with `--allow-file-access-from-files` option:
+    - eg C:\PATH TO\chrome.exe --allow-file-access-from-files
 
 # How to publish the report in Jenkins
 
