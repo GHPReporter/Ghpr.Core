@@ -6,9 +6,11 @@
 class JsonLoader {
 
     private pageType: PageType;
+    private progressBar: ProgressBar;
 
     constructor(pt: PageType) {
         this.pageType = pt;
+        this.progressBar = new ProgressBar(1);
     }
 
     loadRunJson(runGuid: string, callback: Function): void {
@@ -85,12 +87,12 @@ class JsonLoader {
 
     loadJsons(paths: Array<string>, ind: number, callback: Function): void {
         const count = paths.length;
-        const pb = new ProgressBar(paths.length);
+        this.progressBar.reset(count);
         if (ind === 0) {
-            pb.show();
+            this.progressBar.show();
         }
         if (ind >= count) {
-            pb.hide();
+            this.progressBar.hide();
             return;
         }
         const req = new XMLHttpRequest();
@@ -103,7 +105,7 @@ class JsonLoader {
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
                     callback(req.responseText, count, ind);
-                    pb.onLoaded(ind);
+                    this.progressBar.onLoaded(ind);
                     ind++;
                     this.loadJsons(paths, ind, callback);
                 }
