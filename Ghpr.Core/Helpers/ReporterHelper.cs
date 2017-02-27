@@ -40,10 +40,12 @@ namespace Ghpr.Core.Helpers
             var serializer = new JsonSerializer();
             Paths.Create(folder);
             var fullPath = Path.Combine(folder, Paths.Files.ReportSettings);
-
-            using (var file = File.CreateText(fullPath))
+            if (!File.Exists(fullPath))
             {
-                serializer.Serialize(file, reportSettings);
+                using (var file = File.CreateText(fullPath))
+                {
+                    serializer.Serialize(file, reportSettings);
+                }
             }
         }
     }

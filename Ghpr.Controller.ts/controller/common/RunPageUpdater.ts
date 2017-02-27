@@ -168,6 +168,9 @@ class RunPageUpdater {
         let run: IRun;
         this.loader.loadRunJson(runGuid, (response: string) => {
             run = JSON.parse(response, JsonLoader.reviveRun);
+            if (run.name === "") {
+                run.name = `${DateFormatter.format(run.runInfo.start)} - ${DateFormatter.format(run.runInfo.finish)}`;
+            }
             UrlHelper.insertParam("runGuid", run.runInfo.guid);
             this.updateRunInformation(run);
             this.updateSummary(run);

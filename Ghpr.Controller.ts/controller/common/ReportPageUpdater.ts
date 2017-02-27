@@ -29,7 +29,7 @@ class ReportPageUpdater {
         for (let i = 0; i < c; i++) {
             const r = runs[i];
             if (r.name === "") {
-                r.name = `${r.runInfo.start} - ${r.runInfo.finish}`;
+                r.name = `${DateFormatter.format(r.runInfo.start)} - ${DateFormatter.format(r.runInfo.finish)}`;
             }
             list += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
         }
@@ -123,7 +123,11 @@ class ReportPageUpdater {
             }
             this.loader.loadAllJsons(paths, 0, r, (responses: Array<string>) => {
                 for (let i = 0; i < responses.length; i++) {
-                    runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
+                    const loadedRun: IRun = JSON.parse(responses[i], JsonLoader.reviveRun);
+                    if (loadedRun.name === "") {
+                        loadedRun.name = `${DateFormatter.format(loadedRun.runInfo.start)} - ${DateFormatter.format(loadedRun.runInfo.finish)}`;
+                    }
+                    runs[i] = loadedRun;
                 }
                 const latestRun = runs[0];
                 this.updateLatestRunInfo(latestRun);
