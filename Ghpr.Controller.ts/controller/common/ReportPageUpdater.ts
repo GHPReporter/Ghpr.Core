@@ -1,4 +1,5 @@
 ﻿///<reference path="./../interfaces/IItemInfo.ts"/>
+///<reference path="./../interfaces/IReportSettings.ts"/>
 ///<reference path="./../interfaces/IRun.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./JsonLoader.ts"/>
@@ -10,11 +11,16 @@
 class ReportPageUpdater {
 
     static loader = new JsonLoader(PageType.TestRunsPage);
+    static reportSettings: IReportSettings;
 
-    private static updateFields(run: IRun): void {
-        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
-        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
-        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
+    private static updateLatestRunInfo(latestRun: IRun): void {
+        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;
+        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
+        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
+    }
+
+    private static updateCopyright(): void {
+        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
     }
 
     private static updateRunsList(runs: Array<IRun>): void {
@@ -22,15 +28,20 @@ class ReportPageUpdater {
         const c = runs.length;
         for (let i = 0; i < c; i++) {
             const r = runs[i];
+            if (r.name === "") {
+                r.name = `${DateFormatter.format(r.runInfo.start)} - ${DateFormatter.format(r.runInfo.finish)}`;
+            }
             list += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
         }
         document.getElementById("all-runs").innerHTML = list;
     }
+
+    private static updateRunsInfo(runs: Array<IRun>, totalFiles: number): void {
+        document.getElementById("total").innerHTML = `<b>Loaded runs:</b> ${runs.length}`;
+        document.getElementById("loaded").innerHTML = `<b>Total runs:</b> ${totalFiles}`;
+    }
     
     private static updatePlotlyBars(runs: Array<IRun>): void {
-
-        document.getElementById("total").innerHTML = `<b>Total:</b> ${runs.length}`;
-        
         let plotlyData = new Array();
         const passedY: Array<number> = new Array();
         const failedY: Array<number> = new Array();
@@ -98,29 +109,41 @@ class ReportPageUpdater {
         });
     }
     
-    static updatePage(index: number): void {
+    static updatePage(): void {
         let runInfos: Array<IItemInfo>;
         const paths: Array<string> = new Array();
         const r: Array<string> = new Array();
         const runs: Array<IRun> = new Array();
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            for (let i = 0; i < runInfos.length; i++) {
+            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
+            for (let i = 0; i < runsToLoad; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
             }
             this.loader.loadAllJsons(paths, 0, r, (responses: Array<string>) => {
                 for (let i = 0; i < responses.length; i++) {
-                    runs[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
+                    const loadedRun: IRun = JSON.parse(responses[i], JsonLoader.reviveRun);
+                    if (loadedRun.name === "") {
+                        loadedRun.name = `${DateFormatter.format(loadedRun.runInfo.start)} - ${DateFormatter.format(loadedRun.runInfo.finish)}`;
+                    }
+                    runs[i] = loadedRun;
                 }
-                this.updateFields(runs[runs.length - 1]);
+                const latestRun = runs[0];
+                this.updateLatestRunInfo(latestRun);
                 this.updatePlotlyBars(runs);
+                this.updateRunsInfo(runs, runInfos.length);
                 this.updateRunsList(runs);
+                this.updateCopyright();
             });
         });
     }
     
     static initializePage(): void {
-        this.updatePage(undefined);
+        this.loader.loadReportSettingsJson((response: string) => {
+            this.reportSettings = JSON.parse(response);
+            this.updatePage();
+        });
         this.showTab("runs-stats", document.getElementById("tab-runs-stats"));
     }
 

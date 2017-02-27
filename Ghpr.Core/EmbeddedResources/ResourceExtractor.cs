@@ -11,19 +11,19 @@ namespace Ghpr.Core.EmbeddedResources
     public class ResourceExtractor
     {
         private static readonly IEmbeddedResource[] AllResources = {
-            new EmbeddedResource("ghpr.controller.js", ResourceType.GhprController, "src\\js"),
-            new EmbeddedResource("plotly.min.js", ResourceType.Plotly, "src\\js"),
-            new EmbeddedResource("octicons.css", ResourceType.Octicons, "src\\octicons"),
-            new EmbeddedResource("octicons.eot", ResourceType.Octicons, "src\\octicons"),
-            new EmbeddedResource("octicons.svg", ResourceType.Octicons, "src\\octicons"),
-            new EmbeddedResource("octicons.ttf", ResourceType.Octicons, "src\\octicons"),
-            new EmbeddedResource("octicons.woff", ResourceType.Octicons, "src\\octicons"),
-            new EmbeddedResource("github.css", ResourceType.Github, "src\\style"),
-            new EmbeddedResource("primer.css", ResourceType.Primer, "src\\style"),
-            new EmbeddedResource("index.html", ResourceType.TestPage, "tests", "tests.index.html"),
-            new EmbeddedResource("index.html", ResourceType.TestRunPage, "runs", "runs.index.html"),
-            new EmbeddedResource("index.html", ResourceType.TestRunsPage, "", "Report.index.html"),
-            new EmbeddedResource("favicon.ico", ResourceType.Favicon, "src")
+            new EmbeddedResource("ghpr.controller.js", ResourceType.GhprController, "src\\js"                         ),
+            new EmbeddedResource("plotly.min.js",      ResourceType.Plotly,         "src\\js"                         ),
+            new EmbeddedResource("octicons.css",       ResourceType.Octicons,       "src\\octicons"                   ),
+            new EmbeddedResource("octicons.eot",       ResourceType.Octicons,       "src\\octicons"                   ),
+            new EmbeddedResource("octicons.svg",       ResourceType.Octicons,       "src\\octicons"                   ),
+            new EmbeddedResource("octicons.ttf",       ResourceType.Octicons,       "src\\octicons"                   ),
+            new EmbeddedResource("octicons.woff",      ResourceType.Octicons,       "src\\octicons"                   ),
+            new EmbeddedResource("github.css",         ResourceType.Github,         "src\\style"                      ),
+            new EmbeddedResource("primer.css",         ResourceType.Primer,         "src\\style"                      ),
+            new EmbeddedResource("index.html",         ResourceType.TestPage,       "tests",       "tests.index.html" ),
+            new EmbeddedResource("index.html",         ResourceType.TestRunPage,    "runs",        "runs.index.html"  ),
+            new EmbeddedResource("index.html",         ResourceType.MainPage,       "",            "Report.index.html"),
+            new EmbeddedResource("favicon.ico",        ResourceType.Favicon,        "src"                             )
         };
 
         public ResourceExtractor(ActionHelper actionHelper, string outputPath = "", bool replaceExisting = false)
@@ -93,7 +93,7 @@ namespace Ghpr.Core.EmbeddedResources
                 ResourceType.Octicons,
                 ResourceType.Github,
                 ResourceType.Primer,
-                ResourceType.TestRunsPage,
+                ResourceType.MainPage,
                 ResourceType.TestRunPage,
                 ResourceType.TestPage,
                 ResourceType.Favicon

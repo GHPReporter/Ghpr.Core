@@ -1,4 +1,5 @@
 ﻿///<reference path="./../interfaces/IItemInfo.ts"/>
+///<reference path="./../interfaces/IReportSettings.ts"/>
 ///<reference path="./../interfaces/IRun.ts"/>
 ///<reference path="./../interfaces/ITestRun.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
@@ -15,6 +16,11 @@ class TestPageUpdater {
     static currentTest: number;
     static testVersionsCount: number;
     static loader = new JsonLoader(PageType.TestPage);
+    static reportSettings: IReportSettings;
+
+    private static updateCopyright(): void {
+        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+    }
 
     private static updateMainInformation(t: ITestRun): void {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
@@ -128,6 +134,7 @@ class TestPageUpdater {
             this.updateScreenshots(t);
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
+            this.updateCopyright();
         });
         return t;
     }
@@ -140,8 +147,8 @@ class TestPageUpdater {
         let testInfos: Array<IItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            for (let i = 0; i < testInfos.length; i++) {
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            for (let i = 0; i < this.testVersionsCount; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
             this.loader.loadAllJsons(paths, 0, testStrings, (responses: Array<string>) => {
@@ -158,19 +165,20 @@ class TestPageUpdater {
         let testInfos: Array<IItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.testVersionsCount = testInfos.length;
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
-                index = this.testVersionsCount - 1;
+                index = 0;
             }
             if (index <= 0) {
-                this.disableBtn("btn-prev");
-            } else {
-                this.enableBtn("btn-prev");
-            }
-            if (index >= testInfos.length - 1) {
+                index = 0;
                 this.disableBtn("btn-next");
-                index = testInfos.length - 1;
+            } else {
+                this.enableBtn("btn-next");
+            }
+            if (index >= this.testVersionsCount - 1) {
+                index = this.testVersionsCount - 1;
+                this.disableBtn("btn-prev");
             }
             this.currentTest = index;
             this.updateTestPage(testInfos[index].guid, testInfos[index].fileName);
@@ -184,17 +192,18 @@ class TestPageUpdater {
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
-            this.testVersionsCount = testInfos.length;
+            this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {
                 this.enableBtns();
                 let index = testInfos.indexOf(testInfo);
                 if (index <= 0) {
-                    this.disableBtn("btn-prev");
-                }
-                if (index >= testInfos.length - 1) {
+                    index = 0;
                     this.disableBtn("btn-next");
-                    index = testInfos.length - 1;
+                }
+                if (index >= this.testVersionsCount - 1) {
+                    index = this.testVersionsCount - 1;
+                    this.disableBtn("btn-prev");
                 }
                 this.loadTest(index);
             } else {
@@ -217,14 +226,15 @@ class TestPageUpdater {
     }
 
     static loadPrev(): void {
-        if (this.currentTest === 0) {
+        if (this.currentTest === this.testVersionsCount - 1) {
             this.disableBtn("btn-prev");
             return;
         }
         else {
             this.enableBtns();
-            this.currentTest -= 1;
-            if (this.currentTest === 0) {
+            this.currentTest += 1;
+            if (this.currentTest >= this.testVersionsCount - 1) {
+                this.currentTest = this.testVersionsCount - 1;
                 this.disableBtn("btn-prev");
             }
             this.loadTest(this.currentTest);
@@ -232,13 +242,14 @@ class TestPageUpdater {
     }
 
     static loadNext(): void {
-        if (this.currentTest === this.testVersionsCount - 1) {
+        if (this.currentTest === 0) {
             this.disableBtn("btn-next");
             return;
         } else {
             this.enableBtns();
-            this.currentTest += 1;
-            if (this.currentTest === this.testVersionsCount - 1) {
+            this.currentTest -= 1;
+            if (this.currentTest <= 0) {
+                this.currentTest = 0;
                 this.disableBtn("btn-next");
             }
             this.loadTest(this.currentTest);
@@ -246,19 +257,23 @@ class TestPageUpdater {
     }
 
     static loadLatest(): void {
+        this.enableBtns();
         this.disableBtn("btn-next");
         this.loadTest(undefined);
     }
 
     static initializePage(): void {
-        const isLatest = UrlHelper.getParam("loadLatest");
-        if (isLatest !== "true") {
-            UrlHelper.removeParam("loadLatest");
-            this.tryLoadTestByGuid();
-        } else {
-            UrlHelper.removeParam("loadLatest");
-            this.loadLatest();
-        }
+        this.loader.loadReportSettingsJson((response: string) => {
+            this.reportSettings = JSON.parse(response);
+            const isLatest = UrlHelper.getParam("loadLatest");
+            if (isLatest !== "true") {
+                UrlHelper.removeParam("loadLatest");
+                this.tryLoadTestByGuid();
+            } else {
+                UrlHelper.removeParam("loadLatest");
+                this.loadLatest();
+            }
+        });
         const tabFromUrl = UrlHelper.getParam("currentTab");
         const tab = tabFromUrl === "" ? "test-history" : tabFromUrl;
         this.showTab(tab === "" ? "test-history" : tab, document.getElementById(`tab-${tab}`));

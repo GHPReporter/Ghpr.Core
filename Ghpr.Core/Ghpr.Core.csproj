@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ReporterSettings.cs" />
+    <Compile Include="Common\ReportSettings.cs" />
     <Compile Include="Common\Run.cs" />
     <Compile Include="Common\ItemInfo.cs" />
     <Compile Include="Common\RunSummary.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Interfaces\ILog.cs" />
     <Compile Include="Interfaces\IReporter.cs" />
     <Compile Include="Interfaces\IReporterSettings.cs" />
+    <Compile Include="Interfaces\IReportSettings.cs" />
     <Compile Include="Interfaces\IRun.cs" />
     <Compile Include="Interfaces\IRuns.cs" />
     <Compile Include="Interfaces\IRunSummary.cs" />
@@ -85,7 +87,6 @@
     <Compile Include="Helpers\ActionHelper.cs" />
     <Compile Include="Utils\GuidConverter.cs" />
     <Compile Include="Utils\Log.cs" />
-    <Compile Include="Utils\Names.cs" />
     <Compile Include="Utils\Paths.cs" />
     <Compile Include="Helpers\ScreenshotHelper.cs" />
   </ItemGroup>

@@ -27,6 +27,19 @@ class PathsHelper {
         }
     }
 
+    static getReportSettingsPath(pt: PageType): string {
+        switch (pt) {
+            case PageType.TestRunsPage:
+                return `./src/ReportSettings.json`;
+            case PageType.TestRunPage:
+                return `./../src/ReportSettings.json`;
+            case PageType.TestPage:
+                return `./../src/ReportSettings.json`;
+            default:
+                return "";
+        }
+    }
+
     static getTestsPath(testGuid: string, pt: PageType): string {
         switch (pt) {
             case PageType.TestRunsPage:

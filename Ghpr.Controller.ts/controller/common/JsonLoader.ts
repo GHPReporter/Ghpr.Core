@@ -6,9 +6,11 @@
 class JsonLoader {
 
     private pageType: PageType;
+    private progressBar: ProgressBar;
 
     constructor(pt: PageType) {
         this.pageType = pt;
+        this.progressBar = new ProgressBar(1);
     }
 
     loadRunJson(runGuid: string, callback: Function): void {
@@ -18,6 +20,11 @@ class JsonLoader {
 
     loadRunsJson(callback: Function): void {
         const path = PathsHelper.getRunsPath(this.pageType);
+        this.loadJson(path, callback);
+    }
+
+    loadReportSettingsJson(callback: Function): void {
+        const path = PathsHelper.getReportSettingsPath(this.pageType);
         this.loadJson(path, callback);
     }
 
@@ -37,7 +44,7 @@ class JsonLoader {
         req.open("get", path, true);
         req.onreadystatechange = () => {
             if (req.readyState === 4)
-                if (req.status !== 200) {
+                if (req.status !== 200 && req.status !== 0) {
                     console
                         .log(`Error while loading .json data: '${path}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
@@ -51,10 +58,9 @@ class JsonLoader {
         req.send(null);
     }
 
-    loadAllJsons(paths: Array<string>, ind: number, resps: Array<string>, callback: Function,
-        loadAll: boolean = true): void {
+    loadAllJsons(paths: Array<string>, ind: number, resps: Array<string>, callback: Function): void {
         const count = paths.length;
-        if (loadAll && ind >= count) {
+        if (ind >= count) {
             callback(resps);
             return;
         }
@@ -63,13 +69,13 @@ class JsonLoader {
         req.open("get", paths[ind], true);
         req.onreadystatechange = () => {
             if (req.readyState === 4)
-                if (req.status !== 200) {
+                if (req.status !== 200 && req.status !== 0) {
                     console
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
                     resps[ind] = req.responseText;
                     ind++;
-                    this.loadAllJsons(paths, ind, resps, callback, loadAll);
+                    this.loadAllJsons(paths, ind, resps, callback);
                 }
         }
         req.timeout = 2000;
@@ -81,12 +87,12 @@ class JsonLoader {
 
     loadJsons(paths: Array<string>, ind: number, callback: Function): void {
         const count = paths.length;
-        const pb = new ProgressBar(paths.length);
+        this.progressBar.reset(count);
         if (ind === 0) {
-            pb.show();
+            this.progressBar.show();
         }
         if (ind >= count) {
-            pb.hide();
+            this.progressBar.hide();
             return;
         }
         const req = new XMLHttpRequest();
@@ -94,12 +100,12 @@ class JsonLoader {
         req.open("get", paths[ind], true);
         req.onreadystatechange = () => {
             if (req.readyState === 4)
-                if (req.status !== 200) {
+                if (req.status !== 200 && req.status !== 0) {
                     console
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
                     callback(req.responseText, count, ind);
-                    pb.onLoaded(ind);
+                    this.progressBar.onLoaded(ind);
                     ind++;
                     this.loadJsons(paths, ind, callback);
                 }

@@ -23,7 +23,7 @@ namespace Ghpr.Core
                     "Reporter Output must be specified! Fix your settings.");
             }
             Settings = settings;
-
+            ReportSettings = new ReportSettings(settings.RunsToDisplay, settings.TestsToDisplay);
             _action = new ActionHelper(settings.OutputPath);
             _extractor = new ResourceExtractor(_action, settings.OutputPath);
         }
@@ -53,9 +53,10 @@ namespace Ghpr.Core
         private ActionHelper _action;
         private ResourceExtractor _extractor;
 
+        public IReportSettings ReportSettings { get; private set; }
         public IReporterSettings Settings { get; private set; }
-        public string TestsPath => Path.Combine(Settings.OutputPath, Names.TestsFolderName);
-        public string RunsPath => Path.Combine(Settings.OutputPath, Names.RunsFolderName);
+        public string TestsPath => Path.Combine(Settings.OutputPath, Paths.Folders.Tests);
+        public string RunsPath => Path.Combine(Settings.OutputPath, Paths.Folders.Runs);
 
         private void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
@@ -72,6 +73,7 @@ namespace Ghpr.Core
                 _currentRun.Sprint = Settings.Sprint;
                 _extractor.ExtractReportBase();
                 _currentRun.RunInfo.Start = startDateTime;
+                ReportSettings.Save(Settings.OutputPath);
             });
         }
 
@@ -112,7 +114,7 @@ namespace Ghpr.Core
                 var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                 var date = DateTime.Now;
                 var s = new TestScreenshot(date);
-                ScreenshotHelper.SaveScreenshot(Path.Combine(TestsPath, testGuid, Names.ImgFolderName), screen, date);
+                ScreenshotHelper.SaveScreenshot(Path.Combine(TestsPath, testGuid, Paths.Folders.Img), screen, date);
                 _currentTestRun.Screenshots.Add(s);
                 _currentTestRuns.First(
                     tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))

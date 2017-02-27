@@ -40,10 +40,16 @@ Standard settings file is .json file with the following structure:
 	"sprint":"",
 	"runName":"",
 	"runGuid":"",
-	"realTimeGeneration":"True"
+	"realTimeGeneration":"True",
+	"runsToDisplay": "5",
+	"testsToDisplay": "5"  
 }
 ```
-For Ghpr.Core it is called `Ghpr.Core.Settings.json`. This file is included in NuGet package. For different testing frameworks (MSTest, NUnit, SpecFlow) there are separate settings files. Separate files are needed to let Ghpr.Core use different settings for different testing frameworks.
+For Ghpr.Core it is called `Ghpr.Core.Settings.json`. This file is included in NuGet package. For different testing frameworks (MSTest, NUnit, SpecFlow) there are separate settings files. Separate files are needed to let Ghpr.Core use different settings for different testing frameworks. 
+
+Parameter `runsToDisplay`: if >0 the reporter will load only this specified number of the latest runs on test run page.
+
+Parameter `testsToDisplay`: if >0 the reporter will load only this specified number of the latest test runs on test history page.
 
 # View report locally
 
@@ -52,6 +58,12 @@ For Ghpr.Core it is called `Ghpr.Core.Settings.json`. This file is included in N
  - Go to `about:config`
  - Find `security.fileuri.strict_origin_policy` parameter
  - Set it to `false`
+ 
+####Chrome
+
+ - Close your Chrome
+ - Launch it with `--allow-file-access-from-files` option:
+    - eg C:\PATH TO\chrome.exe --allow-file-access-from-files
 
 # How to publish the report in Jenkins
 

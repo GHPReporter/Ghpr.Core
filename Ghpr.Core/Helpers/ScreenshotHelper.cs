@@ -11,7 +11,7 @@ namespace Ghpr.Core.Helpers
     {
         public static string GetScreenKey(int count)
         {
-            return $"{Names.ScreenshotKeyTemplate}{count}";
+            return $"{Paths.Names.ScreenshotKeyTemplate}{count}";
         }
 
         public static string GetScreenName(DateTime dt)

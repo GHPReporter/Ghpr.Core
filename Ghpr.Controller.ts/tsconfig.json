@@ -9,6 +9,7 @@
   },
   "files": [
         "controller/common/Color.ts",
+        "controller/interfaces/IReportSettings.ts",
         "controller/interfaces/IRunSummary.ts",
         "controller/interfaces/IItemInfo.ts",
         "controller/interfaces/IRun.ts",

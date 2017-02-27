@@ -10,6 +10,10 @@ class ProgressBar {
     private current: number;
 
     constructor(total: number) {
+        this.reset(total);
+    }
+
+    reset(total: number): void {
         this.total = total;
         this.current = 0;
     }
