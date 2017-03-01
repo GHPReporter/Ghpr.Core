@@ -986,7 +986,7 @@ class TestPageUpdater {
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {
