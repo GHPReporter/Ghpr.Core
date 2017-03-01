@@ -19,7 +19,7 @@ class TestPageUpdater {
     static reportSettings: IReportSettings;
 
     private static updateCopyright(): void {
-        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
     }
 
     private static updateMainInformation(t: ITestRun): void {
