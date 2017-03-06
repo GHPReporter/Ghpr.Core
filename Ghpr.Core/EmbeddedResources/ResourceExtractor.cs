@@ -37,17 +37,17 @@ namespace Ghpr.Core.EmbeddedResources
 
         public string OutputPath { get; }
         public bool ReplaceExisting { get; }
-        
-        private void ExtractResource(string searchQuery, string outputPath, string relativePath, string fileName, bool replaceExisting)
+
+        private void ExtractResource(string searchQuery, string relativePath, string fileName, bool replaceExisting)
         {
             _actionHelper.Safe(() =>
             {
                 var currentAssembly = GetType().Assembly;
                 var arrResources = currentAssembly.GetManifestResourceNames();
-                var destinationPath = relativePath.Equals("") ? outputPath : Path.Combine(outputPath, relativePath);
+                var destinationPath = relativePath.Equals("") ? OutputPath : Path.Combine(OutputPath, relativePath);
                 Paths.Create(destinationPath);
 
-                var destinationFullPath = relativePath.Equals("") ? Path.Combine(outputPath, fileName) : Path.Combine(outputPath, relativePath, fileName);
+                var destinationFullPath = relativePath.Equals("") ? Path.Combine(OutputPath, fileName) : Path.Combine(OutputPath, relativePath, fileName);
 
                 if (File.Exists(destinationFullPath) && !replaceExisting) return;
 
@@ -67,20 +67,49 @@ namespace Ghpr.Core.EmbeddedResources
             });
         }
 
-        private void ExtractResources(ResourceType type, string outputPath, bool replaceExisting)
+        private void ExtractResource(IEmbeddedResource res)
+        {
+            _actionHelper.Safe(() =>
+            {
+                var currentAssembly = GetType().Assembly;
+                var arrResources = currentAssembly.GetManifestResourceNames();
+                var destinationPath = res.RelativePath.Equals("") ? OutputPath : Path.Combine(OutputPath, res.RelativePath);
+                Paths.Create(destinationPath);
+
+                var destinationFullPath = res.RelativePath.Equals("") ? Path.Combine(OutputPath, res.FileName) : Path.Combine(OutputPath, res.RelativePath, res.FileName);
+
+                if (File.Exists(destinationFullPath) && !res.AlwaysReplaceExisting) return;
+
+                foreach (
+                    var resourceName in
+                        arrResources.Where(resourceName => resourceName.ToUpper().Contains(res.SearchQuery.ToUpper())))
+                {
+                    using (var resourceToSave = currentAssembly.GetManifestResourceStream(resourceName))
+                    {
+                        using (var output = File.Create(destinationFullPath))
+                        {
+                            resourceToSave?.CopyTo(output);
+                        }
+                        resourceToSave?.Close();
+                    }
+                }
+            });
+        }
+
+        private void ExtractResources(ResourceType type)
         {
             var ress = AllResources.Where(r => r.Type == type);
             foreach (var res in ress)
             {
-                ExtractResource(res.SearchQuery, outputPath, res.RelativePath, res.FileName, replaceExisting);
+                ExtractResource(res);
             }
         }
 
-        private void ExtractResources(IEnumerable<ResourceType> types, string outputPath, bool replaceExisting)
+        private void ExtractResources(IEnumerable<ResourceType> types)
         {
             foreach (var type in types)
             {
-                ExtractResources(type, outputPath, replaceExisting);
+                ExtractResources(type);
             }
         }
 
@@ -98,12 +127,7 @@ namespace Ghpr.Core.EmbeddedResources
                 ResourceType.TestPage,
                 ResourceType.Favicon
             };
-            ExtractResources(types, OutputPath, ReplaceExisting);
-        }
-
-        public void ExtractTestPage(string testPath)
-        {
-            ExtractResources(ResourceType.TestPage, testPath, ReplaceExisting);
+            ExtractResources(types);
         }
     }
 }
