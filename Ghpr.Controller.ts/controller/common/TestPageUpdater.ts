@@ -19,7 +19,7 @@ class TestPageUpdater {
     static reportSettings: IReportSettings;
 
     private static updateCopyright(): void {
-        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
     }
 
     private static updateMainInformation(t: ITestRun): void {
@@ -191,7 +191,7 @@ class TestPageUpdater {
         let testInfos: Array<IItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {

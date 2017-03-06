@@ -409,7 +409,7 @@ class TestRunHelper {
 }
 class RunPageUpdater {
     static updateCopyright() {
-        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
     }
     static updateRunInformation(run) {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
@@ -702,7 +702,7 @@ class ReportPageUpdater {
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
     static updateCopyright() {
-        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
     }
     static updateRunsList(runs) {
         let list = "";
@@ -824,7 +824,7 @@ ReportPageUpdater.loader = new JsonLoader(PageType.TestRunsPage);
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
 class TestPageUpdater {
     static updateCopyright() {
-        document.getElementById("copyright").innerHTML = `Copyright 2015- 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2017 © GhpReporter (version ${this.reportSettings.coreVersion})`;
     }
     static updateMainInformation(t) {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
@@ -986,7 +986,7 @@ class TestPageUpdater {
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFunc);
+            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {

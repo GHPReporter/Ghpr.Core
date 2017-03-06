@@ -11,12 +11,12 @@ namespace Ghpr.Core.EmbeddedResources
         public string RelativePath { get; set; }
         public bool AlwaysReplaceExisting { get; set; }
 
-        public EmbeddedResource(string fileName, ResourceType type, string relativePath, string searchQuery = "", bool alwaysReplaceExisting = false)
+        public EmbeddedResource(string fileName, ResourceType type, string relativePath, string searchQuery, bool alwaysReplaceExisting)
         {
             FileName = fileName;
             Type = type;
             RelativePath = relativePath;
-            SearchQuery = searchQuery.Equals("") ? fileName : searchQuery;
+            SearchQuery = searchQuery;
             AlwaysReplaceExisting = alwaysReplaceExisting;
         }
     }
