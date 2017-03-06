@@ -38,35 +38,6 @@ namespace Ghpr.Core.EmbeddedResources
         public string OutputPath { get; }
         public bool ReplaceExisting { get; }
 
-        private void ExtractResource(string searchQuery, string relativePath, string fileName, bool replaceExisting)
-        {
-            _actionHelper.Safe(() =>
-            {
-                var currentAssembly = GetType().Assembly;
-                var arrResources = currentAssembly.GetManifestResourceNames();
-                var destinationPath = relativePath.Equals("") ? OutputPath : Path.Combine(OutputPath, relativePath);
-                Paths.Create(destinationPath);
-
-                var destinationFullPath = relativePath.Equals("") ? Path.Combine(OutputPath, fileName) : Path.Combine(OutputPath, relativePath, fileName);
-
-                if (File.Exists(destinationFullPath) && !replaceExisting) return;
-
-                foreach (
-                    var resourceName in
-                        arrResources.Where(resourceName => resourceName.ToUpper().Contains(searchQuery.ToUpper())))
-                {
-                    using (var resourceToSave = currentAssembly.GetManifestResourceStream(resourceName))
-                    {
-                        using (var output = File.Create(destinationFullPath))
-                        {
-                            resourceToSave?.CopyTo(output);
-                        }
-                        resourceToSave?.Close();
-                    }
-                }
-            });
-        }
-
         private void ExtractResource(IEmbeddedResource res)
         {
             _actionHelper.Safe(() =>
