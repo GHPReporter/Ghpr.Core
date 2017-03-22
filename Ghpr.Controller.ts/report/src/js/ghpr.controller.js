@@ -437,7 +437,8 @@ class RunPageUpdater {
                 labels: ["Passed", "Broken", "Failed", "Inconclusive", "Ignored", "Unknown"],
                 marker: {
                     colors: [
-                        Color.passed, Color.broken, Color.failed, Color.inconclusive, Color.ignored, Color.unknown],
+                        Color.passed, Color.broken, Color.failed, Color.inconclusive, Color.ignored, Color.unknown
+                    ],
                     line: {
                         color: "white",
                         width: 2
