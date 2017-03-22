@@ -53,13 +53,13 @@ Parameter `testsToDisplay`: if >0 the reporter will load only this specified num
 
 # View report locally
 
-####Firefox
+#### Firefox
 
  - Go to `about:config`
  - Find `security.fileuri.strict_origin_policy` parameter
  - Set it to `false`
  
-####Chrome
+#### Chrome
 
  - Close your Chrome
  - Launch it with `--allow-file-access-from-files` option:
