@@ -7,7 +7,8 @@
     - nuget restore Ghpr.Core/Ghpr.Core.sln
 
   build_script: 
-    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
+    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release-NET40 /t:Rebuild
+    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release-NET452 /t:Rebuild
 
   after_build:
     - cmd: pack.bat
@@ -33,4 +34,5 @@
     - nuget restore Ghpr.Core/Ghpr.Core.sln
 
   build_script: 
-    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
+    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release-NET40 /t:Rebuild
+    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release-NET452 /t:Rebuild
