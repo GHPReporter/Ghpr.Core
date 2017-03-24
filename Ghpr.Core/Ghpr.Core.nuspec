@@ -19,7 +19,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src=".\bin\Release\Ghpr.Core.dll" target="lib" />
-    <file src=".\bin\Release\Ghpr.Core.Settings.json" target="content" />
+    <file src=".\bin\Release-NET40\Ghpr.Core.dll" target="lib/net40" />
+    <file src=".\bin\Release-NET452\Ghpr.Core.dll" target="lib/net452" />
+    <file src=".\bin\Release-NET452\Ghpr.Core.Settings.json" target="content" />
   </files>
 </package>
