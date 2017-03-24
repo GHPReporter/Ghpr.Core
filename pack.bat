@@ -1,1 +1,1 @@
-"Ghpr.Core/.nuget/nuget.exe" pack "Ghpr.Core/Ghpr.Core.csproj" -Prop Configuration=Release
+"Ghpr.Core/.nuget/nuget.exe" pack "Ghpr.Core/Ghpr.Core.csproj" -Prop Configuration=Release-NET452;OutDir=bin\Release-NET452
