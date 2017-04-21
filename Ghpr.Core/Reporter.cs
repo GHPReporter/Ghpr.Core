@@ -26,6 +26,7 @@ namespace Ghpr.Core
             ReportSettings = new ReportSettings(settings.RunsToDisplay, settings.TestsToDisplay);
             _action = new ActionHelper(settings.OutputPath);
             _extractor = new ResourceExtractor(_action, settings.OutputPath);
+            _log = new Log(settings.OutputPath);
         }
         
         public Reporter(IReporterSettings settings)
@@ -50,8 +51,10 @@ namespace Ghpr.Core
         private ITestRun _currentTestRun;
         private List<ITestRun> _currentTestRuns;
         private Guid _currentRunGuid;
-        private ActionHelper _action;
         private ResourceExtractor _extractor;
+        private Log _log;
+        private static ActionHelper _action;
+        //private readonly object _lock = new object();
 
         public IReportSettings ReportSettings { get; private set; }
         public IReporterSettings Settings { get; private set; }
@@ -62,6 +65,7 @@ namespace Ghpr.Core
         {
             _action.Safe(() =>
             {
+                _log.Write("Initializing run");
                 _currentRunGuid = runGuid.Equals("") || runGuid.Equals("null") ? Guid.NewGuid() : Guid.Parse(runGuid);
                 _currentRun = new Run(_currentRunGuid)
                 {
@@ -74,6 +78,7 @@ namespace Ghpr.Core
                 _extractor.ExtractReportBase();
                 _currentRun.RunInfo.Start = startDateTime;
                 ReportSettings.Save(Settings.OutputPath);
+                _log.Write($"Initializing run done: {_currentRun}, {_currentTestRuns}");
             });
         }
 
@@ -100,10 +105,13 @@ namespace Ghpr.Core
 
         public void TestStarted(ITestRun testRun)
         {
+            _log.Write($"test started  0: {testRun?.Name}");
             _action.Safe(() =>
             {
+                _log.Write($"test started  1: {testRun?.Name}, {_currentTestRuns.Count}");
                 _currentTestRuns.Add(testRun);
                 _currentTestRun = testRun;
+                _log.Write($"test started  2: {testRun?.Name}, {_currentTestRuns.Count}");
             });
         }
 
@@ -157,6 +165,7 @@ namespace Ghpr.Core
         {
             _action.Safe(() =>
             {
+                _log.Write($"test finished 1: {testRun?.Name}, {_currentTestRuns.Count}, {_currentRun}");
                 _currentRun.RunSummary.Total++;
 
                 var finishDateTime = DateTime.Now;
@@ -190,6 +199,7 @@ namespace Ghpr.Core
                 {
                     GenerateReport(DateTime.Now);
                 }
+                _log.Write($"test finished 2: {testRun?.Name}, {_currentTestRuns.Count}, {_currentRun}");
             });
         }
 
