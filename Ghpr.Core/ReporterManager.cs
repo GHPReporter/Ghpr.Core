@@ -5,22 +5,53 @@ namespace Ghpr.Core
 {
     public static class ReporterManager
     {
-        private static readonly Reporter Reporter;
+        private static bool _initialized;
+        private static Reporter _reporter;
         private static readonly object Lock;
 
-        public static string OutputPath => Reporter.Settings.OutputPath;
+        public static string OutputPath => _reporter.Settings.OutputPath;
 
         static ReporterManager()
         {
             Lock = new object();
-            Reporter = new Reporter(TestingFramework.SpecFlow);
+            _initialized = false;
         }
-        
+
+        public static void Initialize()
+        {
+            lock (Lock)
+            {
+                if (_initialized) return;
+                _reporter = new Reporter();
+                _initialized = true;
+            }
+        }
+
+        public static void Initialize(IReporterSettings settings)
+        {
+            lock (Lock)
+            {
+                if (_initialized) return;
+                _reporter = new Reporter(settings);
+                _initialized = true;
+            }
+        }
+
+        public static void Initialize(TestingFramework framework)
+        {
+            lock (Lock)
+            {
+                if (_initialized) return;
+                _reporter = new Reporter(framework);
+                _initialized = true;
+            }
+        }
+
         public static void RunStarted()
         {
             lock (Lock)
             {
-                Reporter.RunStarted();
+                _reporter.RunStarted();
             }
         }
 
@@ -28,7 +59,7 @@ namespace Ghpr.Core
         {
             lock (Lock)
             {
-                Reporter.RunFinished();
+                _reporter.RunFinished();
             }
         }
 
@@ -36,7 +67,7 @@ namespace Ghpr.Core
         {
             lock (Lock)
             {
-                Reporter.TestStarted(testRun);
+                _reporter.TestStarted(testRun);
             }
         }
 
@@ -44,7 +75,7 @@ namespace Ghpr.Core
         {
             lock (Lock)
             {
-                Reporter.TestFinished(testRun);
+                _reporter.TestFinished(testRun);
             }
         }
     }
