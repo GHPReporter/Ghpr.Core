@@ -1,5 +1,6 @@
 ﻿using Ghpr.Core.Enums;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.Core
 {
@@ -11,10 +12,14 @@ namespace Ghpr.Core
 
         public static string OutputPath => _reporter.Settings.OutputPath;
 
+        //private static readonly Log Log;
+
         static ReporterManager()
         {
             Lock = new object();
             _initialized = false;
+            //Log = new Log(@"C:\_GHPReporter_SpecFlow_Report");
+            //Log.Write("Constr");
         }
 
         public static void Initialize()
@@ -24,6 +29,7 @@ namespace Ghpr.Core
                 if (_initialized) return;
                 _reporter = new Reporter();
                 _initialized = true;
+                //Log.Write("Init");
             }
         }
 
@@ -34,6 +40,7 @@ namespace Ghpr.Core
                 if (_initialized) return;
                 _reporter = new Reporter(settings);
                 _initialized = true;
+                //Log.Write("Init");
             }
         }
 
@@ -44,6 +51,7 @@ namespace Ghpr.Core
                 if (_initialized) return;
                 _reporter = new Reporter(framework);
                 _initialized = true;
+                //Log.Write("Init");
             }
         }
 
@@ -52,6 +60,7 @@ namespace Ghpr.Core
             lock (Lock)
             {
                 _reporter.RunStarted();
+                //Log.Write("Run started");
             }
         }
 
@@ -60,6 +69,7 @@ namespace Ghpr.Core
             lock (Lock)
             {
                 _reporter.RunFinished();
+                //Log.Write("Run finished");
             }
         }
 
