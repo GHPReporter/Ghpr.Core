@@ -120,6 +120,7 @@
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\Paths.cs" />
     <Compile Include="Helpers\ScreenshotHelper.cs" />
+    <Compile Include="Utils\StaticLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octicons.eot">

@@ -1,29 +1,26 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
-using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core.Utils
 {
     public class Log : ILog
     {
-        private string _logFile;
-        private readonly string _output;
-        private readonly ActionHelper _actionHelper;
+        public string LogFile { get; private set; }
+        public string Output { get; }
         private static readonly ReaderWriterLock Locker = new ReaderWriterLock();
 
         public Log(string outputPath, string logFile = "")
         {
-            _output = outputPath;
-            _logFile = logFile.Equals("") ? "GHPReporter.txt" : logFile;
-            _actionHelper = new ActionHelper(outputPath);
+            Output = outputPath;
+            LogFile = logFile.Equals("") ? Paths.Files.DefaultLog : logFile;
         }
         
         public void WriteToFile(string msg, string fileName)
         {
-            Paths.Create(_output);
-            using (var sw = File.AppendText(Path.Combine(_output, fileName)))
+            Paths.Create(Output);
+            using (var sw = File.AppendText(Path.Combine(Output, fileName)))
             {
                 try
                 {
@@ -42,8 +39,8 @@ namespace Ghpr.Core.Utils
             try
             {
                 Locker.AcquireWriterLock(int.MaxValue);
-                Paths.Create(_output);
-                using (var sw = File.AppendText(Path.Combine(_output, _logFile)))
+                Paths.Create(Output);
+                using (var sw = File.AppendText(Path.Combine(Output, LogFile)))
                 {
                     try
                     {
@@ -69,7 +66,7 @@ namespace Ghpr.Core.Utils
 
         public void SetOutputFileName(string fileWithExtension)
         {
-            _logFile = fileWithExtension;
+            LogFile = fileWithExtension;
         }
 
         public void Exception(Exception exception, string exceptionMessage = "")
