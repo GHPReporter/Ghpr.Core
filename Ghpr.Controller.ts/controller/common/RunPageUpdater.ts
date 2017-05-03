@@ -92,6 +92,7 @@ class RunPageUpdater {
             <a href="${testHref}"> ${t.name}</a></li>`;
         const arr = t.fullName.split(".");
         const len1 = arr.length;
+        //remove all special symbols:
         for (let j = arr.length - 1; j >= 0; j -= 1) {
             if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(arr[j])) {
                 arr.splice(j, 1);
