@@ -90,7 +90,18 @@ class RunPageUpdater {
         const testLi = `<li id="test-${ti.guid}" style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
             <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
-        const arr = t.fullName.split(".");
+        //getting correct namespace to build hierarchical test list
+        const nameIndex = t.fullName.lastIndexOf(t.name);
+        let nameRemoved = false;
+        let fn = t.fullName;
+        if (t.fullName.indexOf(t.name) > 0) {
+            fn = t.fullName.substring(0, nameIndex);
+            nameRemoved = true;
+        }
+        if (fn.slice(-1) === ".") {
+            fn = fn.slice(0, -1);
+        }
+        const arr = fn.split(".");
         const len1 = arr.length;
         //remove all special symbols:
         for (let j = arr.length - 1; j >= 0; j -= 1) {
@@ -98,8 +109,9 @@ class RunPageUpdater {
                 arr.splice(j, 1);
             }
         }
+        //remove name from fullName if it was not removed:
         let len2 = arr.length;
-        if (len1 === len2) {
+        if ((len1 === len2) && !nameRemoved) {
             arr.splice(len2 - 1, 1);
             len2 = arr.length;
         }
