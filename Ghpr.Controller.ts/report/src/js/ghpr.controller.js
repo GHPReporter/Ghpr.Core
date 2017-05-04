@@ -473,9 +473,6 @@ class RunPageUpdater {
             <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
         const nameIndex = t.fullName.lastIndexOf(t.name);
-        console.log(`nInd: ${nameIndex}`);
-        console.log(`fullN: ${t.fullName}`);
-        console.log(`tName: ${t.name}`);
         let nameRemoved = false;
         let fn = t.fullName;
         if (t.fullName.indexOf(t.name) > 0) {
@@ -485,7 +482,6 @@ class RunPageUpdater {
         if (fn.slice(-1) === ".") {
             fn = fn.slice(0, -1);
         }
-        console.log(`fn: ${fn}`);
         const arr = fn.split(".");
         const len1 = arr.length;
         for (let j = arr.length - 1; j >= 0; j -= 1) {
