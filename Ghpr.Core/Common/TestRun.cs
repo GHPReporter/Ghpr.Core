@@ -95,7 +95,7 @@ namespace Ghpr.Core.Common
                 {
                     return TestResult.Inconclusive;
                 }
-                if (Result.Contains("Ignored") || Result.Contains("Skipped"))
+                if (Result.Contains("Ignored") || Result.Contains("Skipped") || Result.Contains("NotExecuted"))
                 {
                     return TestResult.Ignored;
                 }
