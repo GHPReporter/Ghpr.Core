@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
+using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
 using Newtonsoft.Json;
@@ -44,6 +45,15 @@ namespace Ghpr.Core.Extensions
                           ?? testRuns.FirstOrDefault(t => t.FullName.Equals(testRun.FullName))
                           ?? new TestRun();
             return tr;
+        }
+
+        public static ITestRun SaveScreenshot(this ITestRun testRun, byte[] screenBytes, string reportOutputPath)
+        {
+            var screenPath = Path.Combine(reportOutputPath, Paths.Folders.Tests, testRun.TestInfo.Guid.ToString(), Paths.Folders.Img);
+            var screenshotName = ScreenshotHelper.SaveScreenshot(screenPath, screenBytes, DateTime.Now);
+            var screenshot = new TestScreenshot(screenshotName);
+            testRun.Screenshots.Add(screenshot);
+            return testRun;
         }
     }
 }
