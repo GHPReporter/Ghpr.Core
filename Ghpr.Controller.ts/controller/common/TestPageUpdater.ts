@@ -37,7 +37,7 @@ class TestPageUpdater {
     }
 
     private static updateOutput(t: ITestRun): void {
-        document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br> ${TestRunHelper.getOutput(t)}`;
+        document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br> <div>${TestRunHelper.getOutput(t)}</div>`;
     }
 
     private static updateScreenshots(t: ITestRun): void {
