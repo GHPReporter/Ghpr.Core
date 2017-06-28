@@ -18,8 +18,8 @@ namespace Ghpr.Core.Extensions
             {
                 target.TestInfo.Guid = GuidConverter.ToMd5HashGuid(target.FullName);
             }
-            target.Screenshots.AddRange(run.Screenshots);
-            target.Events.AddRange(run.Events);
+            target.Screenshots.AddRange(run.Screenshots.Where(s => !target.Screenshots.Any(ts => ts.Name.Equals(s.Name))));
+            target.Events.AddRange(run.Events.Where(e => !target.Events.Any(te => te.Name.Equals(e.Name))));
             return target;
         }
 
