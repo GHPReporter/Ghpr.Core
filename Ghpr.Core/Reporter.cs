@@ -26,6 +26,7 @@ namespace Ghpr.Core
             ReportSettings = new ReportSettings(settings.RunsToDisplay, settings.TestsToDisplay);
             _action = new ActionHelper(settings.OutputPath);
             _extractor = new ResourceExtractor(_action, settings.OutputPath);
+            TestRunStarted = false;
             //_log = new Log(settings.OutputPath);
         }
         
@@ -55,6 +56,7 @@ namespace Ghpr.Core
         //private Log _log;
         private static ActionHelper _action;
 
+        public bool TestRunStarted { get; private set; }
         public IReportSettings ReportSettings { get; private set; }
         public IReporterSettings Settings { get; private set; }
         public string TestsPath => Path.Combine(Settings.OutputPath, Paths.Folders.Tests);
@@ -94,7 +96,11 @@ namespace Ghpr.Core
 
         public void RunStarted()
         {
-            InitializeRun(DateTime.Now, Settings.RunGuid);
+            if (!TestRunStarted)
+            {
+                InitializeRun(DateTime.Now, Settings.RunGuid);
+                TestRunStarted = true;
+            }
         }
 
         public void RunFinished()
