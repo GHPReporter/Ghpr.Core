@@ -11,7 +11,7 @@
     - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release-NET452 /t:Rebuild
 
   after_build:
-    - cmd: pack.bat
+    - nuget pack "Ghpr.Core/Ghpr.Core.csproj" -Prop Configuration=Release-NET452;OutDir=bin\Release-NET452
 
   artifacts:
     - path: '*.nupkg'
