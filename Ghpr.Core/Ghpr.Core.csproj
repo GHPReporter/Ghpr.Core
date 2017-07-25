@@ -186,7 +186,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include=".nuget\nuget.exe" />
     <None Include="Ghpr.Core.Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
