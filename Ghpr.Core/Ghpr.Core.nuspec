@@ -10,10 +10,10 @@
     <projectUrl>https://github.com/GHPReporter/Ghpr.Core</projectUrl>
     <iconUrl>https://github.com/GHPReporter/GHPReporter.github.io/blob/master/img/logo-small.png?raw=true</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Easy-to-use test run reporter</description>
+    <description>Ghpr.Core: Core Code for test run reporter</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright Evgeniy Kosjakov © 2016-2017</copyright>
-    <tags>.NET package HTML report reporting tool</tags>
+    <tags>.NET QA package HTML report reporting tool</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="10.0.3" />
     </dependencies>
