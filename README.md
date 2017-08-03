@@ -27,6 +27,10 @@ Easy-to-use .NET test reporting tool for several testing frameworks
 |MSTest|[Ghpr.MSTest](https://github.com/GHPReporter/Ghpr.MSTest#usage)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.MSTest.svg)](https://www.nuget.org/packages/Ghpr.MSTest)|[View examples](https://github.com/GHPReporter/Ghpr.MSTest.Examples)|[![Build status](https://ci.appveyor.com/api/projects/status/0surlhjtkckdiw18?svg=true)](https://ci.appveyor.com/project/elv1s42/ghpr-mstest)|
 |SpecFlow|[Ghpr.SpecFlow](https://github.com/GHPReporter/Ghpr.SpecFlow)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.SpecFlowPlugin.svg)](https://www.nuget.org/packages/Ghpr.SpecFlowPlugin)|[View examples](https://github.com/GHPReporter/Ghpr.SpecFlow.Examples)|[![Build status](https://ci.appveyor.com/api/projects/status/jtmugpb1axnpc97g?svg=true)](https://ci.appveyor.com/project/elv1s42/ghpr-specflow)|
 
+<p align="center">
+  <a href="https://raw.githubusercontent.com/GHPReporter/Ghpr.Core/master/packages.png"><img src="https://raw.githubusercontent.com/GHPReporter/Ghpr.Core/master/packages.png" alt="Diagram"></a>
+</p>
+
 # Demo Report
 
 You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
