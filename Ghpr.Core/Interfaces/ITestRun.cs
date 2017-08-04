@@ -21,7 +21,8 @@ namespace Ghpr.Core.Interfaces
         Guid RunGuid { get; set; }
         List<ITestScreenshot> Screenshots { get; set; }
         List<ITestEvent> Events { get; set; }
-        
+        List<ITestData> TestData { get; set; }
+
         TestResult TestResult { get; }
         bool FailedOrBroken { get; }
     }

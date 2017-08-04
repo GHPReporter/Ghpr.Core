@@ -21,6 +21,10 @@ namespace Ghpr.Core.Utils
         public static class Names
         {
             public const string ScreenshotKeyTemplate = "ghpr_screenshot_";
+            public const string TestDataCommentKeyTemplate = "ghpr_test_data_comment_";
+            public const string TestDataDateTimeKeyTemplate = "ghpr_test_data_datetime_";
+            public const string TestDataActualKeyTemplate = "ghpr_test_data_actual_";
+            public const string TestDataExpectedKeyTemplate = "ghpr_test_data_expected_";
         }
 
         public static class Folders
