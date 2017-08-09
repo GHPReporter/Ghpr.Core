@@ -26,6 +26,7 @@ class TestPageUpdater {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
         document.getElementById("name").innerHTML = `<b>Test name:</b> ${t.name}`;
         document.getElementById("full-name").innerHTML = `<b>Full name:</b> ${t.fullName}`;
+        document.getElementById("description").innerHTML = `<b>Test description:</b> ${TestRunHelper.getDescription(t)}`;
         document.getElementById("result").innerHTML = `<b>Result:</b> ${TestRunHelper.getColoredResult(t)}`;
         document.getElementById("priority").innerHTML = `<b>Priority:</b> ${t.priority}`;
         document.getElementById("test-type").innerHTML = `<b>Test type:</b> ${t.testType}`;

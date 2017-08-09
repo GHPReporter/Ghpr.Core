@@ -19,6 +19,7 @@ namespace Ghpr.Core.Common
             };
             Name = name;
             FullName = fullName;
+            Description = "";
             TestStackTrace = "";
             TestMessage = "";
             Result = "";
@@ -29,6 +30,7 @@ namespace Ghpr.Core.Common
             RunGuid = Guid.Empty;
             Screenshots = new List<ITestScreenshot>();
             Events = new List<ITestEvent>();
+            TestData = new List<ITestData>();
         }
 
         public TestRun(string guid = "", string name = "", string fullName = "")
@@ -41,6 +43,7 @@ namespace Ghpr.Core.Common
             };
             Name = name;
             FullName = fullName;
+            Description = "";
             TestStackTrace = "";
             TestMessage = "";
             Result = "";
@@ -51,6 +54,7 @@ namespace Ghpr.Core.Common
             RunGuid = Guid.Empty;
             Screenshots = new List<ITestScreenshot>();
             Events = new List<ITestEvent>();
+            TestData = new List<ITestData>();
         }
 
         [JsonProperty(PropertyName = "name")]
@@ -58,6 +62,9 @@ namespace Ghpr.Core.Common
 
         [JsonProperty(PropertyName = "fullName")]
         public string FullName { get; set; }
+
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; }
 
         [JsonProperty(PropertyName = "duration")]
         public double TestDuration { get; set; }
@@ -104,23 +111,24 @@ namespace Ghpr.Core.Common
         {
             get
             {
-                if (Result.Contains("Passed"))
+                if (Result.ToLowerInvariant().Contains("passed"))
                 {
                     return TestResult.Passed;
                 }
-                if (Result.Contains("Error") || Result.Contains("Broken"))
+                if (Result.ToLowerInvariant().Contains("error") || Result.ToLowerInvariant().Contains("broken"))
                 {
                     return TestResult.Broken;
                 }
-                if (Result.Contains("Failed") || Result.Contains("Failure"))
+                if (Result.ToLowerInvariant().Contains("failed") || Result.ToLowerInvariant().Contains("failure"))
                 {
                     return TestResult.Failed;
                 }
-                if (Result.Contains("Inconclusive"))
+                if (Result.ToLowerInvariant().Contains("inconclusive"))
                 {
                     return TestResult.Inconclusive;
                 }
-                if (Result.Contains("Ignored") || Result.Contains("Skipped") || Result.Contains("NotExecuted"))
+                if (Result.ToLowerInvariant().Contains("ignored") || Result.ToLowerInvariant().Contains("skipped") 
+                    || Result.ToLowerInvariant().Contains("notexecuted"))
                 {
                     return TestResult.Ignored;
                 }

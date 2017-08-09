@@ -58,6 +58,10 @@ class TestRunHelper {
         return t.testMessage === "" ? "-" : t.testMessage;
     }
 
+    static getDescription(t: ITestRun): string {
+        return (t.description === "" || t.description === undefined) ? "-" : t.description;
+    }
+
     static getStackTrace(t: ITestRun): string {
         return t.testStackTrace === "" ? "-" : t.testStackTrace;
     }
