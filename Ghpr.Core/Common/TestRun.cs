@@ -102,7 +102,7 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "events")]
         public List<ITestEvent> Events { get; set; }
 
-        [JsonProperty(PropertyName = "data")]
+        [JsonProperty(PropertyName = "testData")]
         public List<ITestData> TestData { get; set; }
 
         public bool FailedOrBroken => TestResult.Equals(TestResult.Broken) || TestResult.Equals(TestResult.Failed);

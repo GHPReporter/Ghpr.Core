@@ -66,6 +66,7 @@
     <TypeScriptCompile Include="controller\interfaces\IRunSummary.ts" />
     <TypeScriptCompile Include="controller\interfaces\ITestEvent.ts" />
     <TypeScriptCompile Include="controller\interfaces\ITestRun.ts" />
+    <TypeScriptCompile Include="controller\interfaces\ITestData.ts" />
     <TypeScriptCompile Include="controller\interfaces\ITestScreenshot.ts" />
   </ItemGroup>
   <ItemGroup>

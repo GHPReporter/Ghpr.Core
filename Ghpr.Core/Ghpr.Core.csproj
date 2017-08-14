@@ -84,6 +84,7 @@
     <Compile Include="Common\Run.cs" />
     <Compile Include="Common\ItemInfo.cs" />
     <Compile Include="Common\RunSummary.cs" />
+    <Compile Include="Common\TestData.cs" />
     <Compile Include="Common\TestRun.cs" />
     <Compile Include="Common\TestEvent.cs" />
     <Compile Include="Common\TestScreenshot.cs" />

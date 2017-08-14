@@ -1,4 +1,5 @@
 ﻿///<reference path="./ITestScreenshot.ts"/>
+///<reference path="./ITestData.ts"/>
 ///<reference path="./ITestEvent.ts"/>
 ///<reference path="./IItemInfo.ts"/>
 ///<reference path="./../enums/TestResult.ts"/>
@@ -18,6 +19,7 @@ interface ITestRun {
     priority: string;
     categories: Array<string>;
     screenshots: Array<ITestScreenshot>;
+    testData: Array<ITestData>;
     events: Array<ITestEvent>;
 
     testRunColor: string;
