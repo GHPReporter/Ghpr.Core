@@ -55,6 +55,10 @@
                     <span class="octicon octicon-device-desktop"></span>
                     Screenshots
                 </a>
+                <a id="tab-test-data" onclick="TestPageUpdater.showTab('test-data', this);" class="tabnav-tab">
+                    <span class="octicon octicon-checklist"></span>
+                    Test Data
+                </a>
             </nav>
         </div>
         <div class="columns border" id="test-history" style="margin-top: -16px">
@@ -108,8 +112,15 @@
                 <h2 class="border-bottom p-3 mb-3">
                     Test screenshots:
                 </h2>
-                <ul id="screenshots">
-                </ul>
+                <ul id="screenshots"></ul>
+            </div>
+        </div>
+        <div class="columns border" id="test-data" style="margin-top: -16px; display: none">
+            <div class="column">
+                <h2 class="border-bottom p-3 mb-3">
+                    Test data:
+                </h2>
+                <ul id="test-data-list"></ul>
             </div>
         </div>
     </div>

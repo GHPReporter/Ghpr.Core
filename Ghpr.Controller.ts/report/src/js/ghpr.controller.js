@@ -1146,6 +1146,11 @@ class TestPageUpdater {
     static updateOutput(t) {
         document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br> <div>${TestRunHelper.getOutput(t)}</div>`;
     }
+    static updateTestData(t) {
+        let res = "";
+        t.testData.forEach((td) => { res += `<li>${Differ.getHtml(td.actual, td.expected)}</li>`; });
+        document.getElementById("test-data-list").innerHTML = `${res}`;
+    }
     static updateScreenshots(t) {
         let screenshots = "";
         for (let i = 0; i < t.screenshots.length; i++) {
@@ -1378,7 +1383,7 @@ class TestPageUpdater {
     }
 }
 TestPageUpdater.loader = new JsonLoader(PageType.TestPage);
-TestPageUpdater.runPageTabsIds = ["test-history", "test-output", "test-failure", "test-screenshots"];
+TestPageUpdater.runPageTabsIds = ["test-history", "test-output", "test-failure", "test-screenshots", "test-data"];
 class Sorter {
     static itemInfoSorterByFinishDateFunc(a, b) {
         if (a.finish > b.finish) {

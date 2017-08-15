@@ -2,12 +2,14 @@
 ///<reference path="./../interfaces/IReportSettings.ts"/>
 ///<reference path="./../interfaces/IRun.ts"/>
 ///<reference path="./../interfaces/ITestRun.ts"/>
+///<reference path="./../interfaces/ITestData.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./JsonLoader.ts"/>
 ///<reference path="./UrlHelper.ts"/>
 ///<reference path="./DateFormatter.ts"/>
 ///<reference path="./Color.ts"/>
 ///<reference path="./PlotlyJs.ts"/>
+///<reference path="./Differ.ts"/>
 ///<reference path="./TabsHelper.ts"/>
 ///<reference path="./TestRunHelper.ts"/>
 
@@ -39,6 +41,12 @@ class TestPageUpdater {
 
     private static updateOutput(t: ITestRun): void {
         document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br> <div>${TestRunHelper.getOutput(t)}</div>`;
+    }
+
+    private static updateTestData(t: ITestRun): void {
+        let res = "";
+        t.testData.forEach((td: ITestData) => { res += `<li>${Differ.getHtml(td.actual, td.expected)}</li>` });
+        document.getElementById("test-data-list").innerHTML = `${res}`;
     }
 
     private static updateScreenshots(t: ITestRun): void {
@@ -280,7 +288,7 @@ class TestPageUpdater {
         this.showTab(tab === "" ? "test-history" : tab, document.getElementById(`tab-${tab}`));
     }
 
-    private static runPageTabsIds: Array<string> = ["test-history", "test-output", "test-failure", "test-screenshots"];
+    private static runPageTabsIds: Array<string> = ["test-history", "test-output", "test-failure", "test-screenshots","test-data"];
 
     static showTab(idToShow: string, caller: HTMLElement): void {
         TabsHelper.showTab(idToShow, caller, this.runPageTabsIds);
