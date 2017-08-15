@@ -12,6 +12,7 @@
         "controller/interfaces/IReportSettings.ts",
         "controller/interfaces/IRunSummary.ts",
         "controller/interfaces/IItemInfo.ts",
+        "controller/interfaces/ITestData.ts",
         "controller/interfaces/IRun.ts",
         "controller/interfaces/ITestEvent.ts",
         "controller/interfaces/ITestScreenshot.ts",
