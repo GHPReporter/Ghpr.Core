@@ -21,6 +21,296 @@ var PageType;
     PageType[PageType["TestRunPage"] = 1] = "TestRunPage";
     PageType[PageType["TestPage"] = 2] = "TestPage";
 })(PageType || (PageType = {}));
+class Differ {
+    static splitInclusive(str, sep, trim) {
+        if (!str.length) {
+            return [];
+        }
+        let split = str.split(sep);
+        if (trim) {
+            split = split.filter((v) => v.length);
+        }
+        return split.map((line, idx, arr) => (idx < arr.length - 1 ? line + sep : line));
+    }
+    static flattenRepeats(acc, cur) {
+        if (acc.length && acc[acc.length - 1].value === cur) {
+            acc[acc.length - 1].count++;
+            return acc;
+        }
+        return acc.concat({
+            value: cur,
+            ref: -1,
+            count: 1
+        });
+    }
+    static addToTable(table, arr, type) {
+        arr.forEach((token, idx) => {
+            var ref = table;
+            ref = ref[token.value] || (ref[token.value] = {});
+            ref = ref[token.count] || (ref[token.count] = {
+                left: -1,
+                right: -1
+            });
+            if (ref[type] === -1) {
+                ref[type] = idx;
+            }
+            else if (ref[type] >= 0) {
+                ref[type] = -2;
+            }
+        });
+    }
+    static findUnique(table, left, right) {
+        left.forEach((token) => {
+            var ref = table[token.value][token.count];
+            if (ref.left >= 0 && ref.right >= 0) {
+                left[ref.left].ref = ref.right;
+                right[ref.right].ref = ref.left;
+            }
+        });
+    }
+    static expandUnique(table, left, right, dir) {
+        left.forEach((token, idx) => {
+            if (token.ref === -1) {
+                return;
+            }
+            var i = idx + dir, j = token.ref + dir, lx = left.length, rx = right.length;
+            while (i >= 0 && j >= 0 && i < lx && j < rx) {
+                if (left[i].value !== right[j].value) {
+                    break;
+                }
+                left[i].ref = j;
+                right[j].ref = i;
+                i += dir;
+                j += dir;
+            }
+        });
+    }
+    static push(acc, token, type) {
+        let n = token.count;
+        while (n--) {
+            acc.push({ type: type, value: token.value });
+        }
+    }
+    static calcDist(lTarget, lPos, rTarget, rPos) {
+        return (lTarget - lPos) + (rTarget - rPos) + Math.abs((lTarget - lPos) - (rTarget - rPos));
+    }
+    static processDiff(left, right) {
+        var acc = [], lPos = 0, rPos = 0, lx = left.length, rx = right.length, lToken, rToken, lTarget, rTarget, rSeek, dist1, dist2;
+        var countDiff;
+        while (lPos < lx) {
+            lTarget = lPos;
+            while (left[lTarget].ref < 0) {
+                lTarget++;
+            }
+            rTarget = left[lTarget].ref;
+            if (rTarget < rPos) {
+                while (lPos < lTarget) {
+                    this.push(acc, left[lPos++], "del");
+                }
+                this.push(acc, left[lPos++], "del");
+                continue;
+            }
+            rToken = right[rTarget];
+            dist1 = this.calcDist(lTarget, lPos, rTarget, rPos);
+            for (rSeek = rTarget - 1; dist1 > 0 && rSeek >= rPos; rSeek--) {
+                if (right[rSeek].ref < 0) {
+                    continue;
+                }
+                if (right[rSeek].ref < lPos) {
+                    continue;
+                }
+                dist2 = this.calcDist(right[rSeek].ref, lPos, rSeek, rPos);
+                if (dist2 < dist1) {
+                    dist1 = dist2;
+                    rTarget = rSeek;
+                    lTarget = right[rSeek].ref;
+                }
+            }
+            while (lPos < lTarget) {
+                this.push(acc, left[lPos++], "del");
+            }
+            while (rPos < rTarget) {
+                this.push(acc, right[rPos++], "ins");
+            }
+            if ("eof" in left[lPos]) {
+                break;
+            }
+            countDiff = left[lPos].count - right[rPos].count;
+            if (countDiff === 0) {
+                this.push(acc, left[lPos], "same");
+            }
+            else if (countDiff < 0) {
+                this.push(acc, {
+                    count: right[rPos].count + countDiff,
+                    value: right[rPos].value
+                }, "same");
+                this.push(acc, {
+                    count: -countDiff,
+                    value: right[rPos].value
+                }, "ins");
+            }
+            else if (countDiff > 0) {
+                this.push(acc, {
+                    count: left[lPos].count - countDiff,
+                    value: left[lPos].value
+                }, "same");
+                this.push(acc, {
+                    count: countDiff,
+                    value: left[lPos].value
+                }, "del");
+            }
+            lPos++;
+            rPos++;
+        }
+        return acc;
+    }
+    static same(left, right) {
+        if (left.length !== right.length) {
+            return false;
+        }
+        return left.reduce((acc, cur, idx) => (acc && cur === right[idx]), true);
+    }
+    ;
+    static all(type) {
+        return (val) => ({
+            type: type,
+            value: val
+        });
+    }
+    static diff(leftLines, rightLines) {
+        let left = (leftLines && Array.isArray(leftLines) ? leftLines : []);
+        let right = (rightLines && Array.isArray(rightLines) ? rightLines : []);
+        if (this.same(leftLines, rightLines)) {
+            return left.map(this.all("same"));
+        }
+        if (left.length === 0) {
+            return right.map(this.all("ins"));
+        }
+        if (right.length === 0) {
+            return left.map(this.all("del"));
+        }
+        left = left.reduce(this.flattenRepeats, []);
+        right = right.reduce(this.flattenRepeats, []);
+        let table = {};
+        this.addToTable(table, left, "left");
+        this.addToTable(table, right, "right");
+        this.findUnique(table, left, right);
+        this.expandUnique(table, left, right, 1);
+        this.expandUnique(table, left, right, -1);
+        left.push({ ref: right.length, eof: true });
+        table = null;
+        const res = this.processDiff(left, right);
+        left = null;
+        right = null;
+        return res;
+    }
+    static accumulateChanges(changes, fn) {
+        var del = [], ins = [];
+        changes.forEach((change) => {
+            if (change.type === "del") {
+                del.push(change.value);
+            }
+            if (change.type === "ins") {
+                ins.push(change.value);
+            }
+        });
+        if (!del.length || !ins.length) {
+            return changes;
+        }
+        return fn(del.join(""), ins.join(""));
+    }
+    static refineChanged(changes, fn) {
+        var ptr = -1;
+        return changes.concat({
+            type: "same",
+            eof: true
+        }).reduce((acc, cur, idx, a) => {
+            var part = [];
+            if (cur.type === "same") {
+                if (ptr >= 0) {
+                    part = this.accumulateChanges(a.slice(ptr, idx), fn);
+                    if (a[idx - 1].type !== "ins") {
+                        part = a.slice(ptr, idx);
+                    }
+                    else {
+                    }
+                    ptr = -1;
+                }
+                return acc.concat(part).concat(cur.eof ? [] : [cur]);
+            }
+            else if (ptr < 0) {
+                ptr = idx;
+            }
+            return acc;
+        }, []);
+    }
+    static minimize(changes) {
+        var del = [], ins = [];
+        return changes.concat({ type: "same", eof: true })
+            .reduce((acc, cur) => {
+            if (cur.type === "del") {
+                del.push(cur.value);
+                return acc;
+            }
+            if (cur.type === "ins") {
+                ins.push(cur.value);
+                return acc;
+            }
+            if (del.length) {
+                acc.push({
+                    type: "del",
+                    value: del.join("")
+                });
+                del = [];
+            }
+            if (ins.length) {
+                acc.push({
+                    type: "ins",
+                    value: ins.join("")
+                });
+                ins = [];
+            }
+            if (cur.eof !== true) {
+                if (acc.length && acc[acc.length - 1].type === "same") {
+                    acc[acc.length - 1].value += cur.value;
+                }
+                else {
+                    acc.push(cur);
+                }
+            }
+            return acc;
+        }, []);
+    }
+    static diffLines(left, right, trim) {
+        return this.diff(this.splitInclusive(left, "\n", trim), this.splitInclusive(right, "\n", trim));
+    }
+    static diffWords(left, right, trim) {
+        return this.diff(this.splitInclusive(left, " ", trim), this.splitInclusive(right, " ", trim));
+    }
+    static diffHybrid(left, right, trim) {
+        return this.refineChanged(this.diffLines(left, right, trim), (del, ins) => this.diffWords(del, ins, trim));
+    }
+    static getHtmlForOneChange(change) {
+        let res = "";
+        if (change.type === "same") {
+            res = `" ${change.value} "`;
+        }
+        if (change.type === "ins") {
+            res = `<ins style="background:#E6FFE6;">" ${change.value} "</ins>`;
+        }
+        if (change.type === "del") {
+            res = `<del style="background:#FFE6E6;">" ${change.value} "</del>`;
+        }
+        return res;
+    }
+    static getHtml(left, right) {
+        let res = "";
+        const changes = Differ.diffWords("a b c", "a b d", false);
+        changes.forEach((change) => { res += this.getHtmlForOneChange(change); });
+        res = `<p>${res}</p>`;
+        return res;
+    }
+}
 class UrlHelper {
     static insertParam(key, value) {
         const paramsPart = document.location.search.substr(1);

@@ -7,7 +7,6 @@
         }
         return split.map((line: string, idx: number, arr: string[]) => (idx < arr.length - 1 ? line + sep : line));
     }
-
     
     static  flattenRepeats(acc: any, cur: any) : any {
         if (acc.length && acc[acc.length - 1].value === cur) {
@@ -105,22 +104,22 @@
             if (rTarget < rPos) {
                 // left-side un-referenced items are still deletions
                 while (lPos < lTarget) {
-                    Differ.push(acc, left[lPos++], "del");
+                    this.push(acc, left[lPos++], "del");
                 }
                 // ... but since we've already emitted this change, this reference is void
                 // and this token should be emitted as a deletion, not "same"
-                Differ.push(acc, left[lPos++], "del");
+                this.push(acc, left[lPos++], "del");
                 continue;
             }
             rToken = right[rTarget];
-            dist1 = Differ.calcDist(lTarget, lPos, rTarget, rPos);
+            dist1 = this.calcDist(lTarget, lPos, rTarget, rPos);
             for (rSeek = rTarget - 1; dist1 > 0 && rSeek >= rPos; rSeek--) {
                 // if this isn't a paired token, keep seeking
                 if (right[rSeek].ref < 0) { continue; }
                 // if we've already emitted the referenced left-side token, keep seeking
                 if (right[rSeek].ref < lPos) { continue; }
                 // is this pair "closer" than the current pair?
-                dist2 = Differ.calcDist(right[rSeek].ref, lPos, rSeek, rPos);
+                dist2 = this.calcDist(right[rSeek].ref, lPos, rSeek, rPos);
                 if (dist2 < dist1) {
                     dist1 = dist2;
                     rTarget = rSeek;
@@ -130,12 +129,12 @@
 
             // emit deletions
             while (lPos < lTarget) {
-                Differ.push(acc, left[lPos++], "del");
+                this.push(acc, left[lPos++], "del");
             }
 
             // emit insertions
             while (rPos < rTarget) {
-                Differ.push(acc, right[rPos++], "ins");
+                this.push(acc, right[rPos++], "ins");
             }
 
             // we're done when we hit the pseudo-token on the left
@@ -147,24 +146,24 @@
             // the correct sequence when the counts don't align
             countDiff = left[lPos].count - right[rPos].count;
             if (countDiff === 0) {
-                Differ.push(acc, left[lPos], "same");
+                this.push(acc, left[lPos], "same");
             } else if (countDiff < 0) {
                 // more on the right than the left: some same, some insertion
-                Differ.push(acc, {
+                this.push(acc, {
                     count: right[rPos].count + countDiff,
                     value: right[rPos].value
                 }, "same");
-                Differ.push(acc, {
+                this.push(acc, {
                     count: -countDiff,
                     value: right[rPos].value
                 }, "ins");
             } else if (countDiff > 0) {
                 // more on the left than the right: some same, some deletion
-                Differ.push(acc, {
+                this.push(acc, {
                     count: left[lPos].count - countDiff,
                     value: left[lPos].value
                 }, "same");
-                Differ.push(acc, {
+                this.push(acc, {
                     count: countDiff,
                     value: left[lPos].value
                 }, "del");
@@ -190,55 +189,39 @@
     static  diff(leftLines: any, rightLines: any) {
         let left = (leftLines && Array.isArray(leftLines) ? leftLines : []);
         let right = (rightLines && Array.isArray(rightLines) ? rightLines : []);
-
         // if they're the same, no need to do all that work
-        if (Differ.same(leftLines, rightLines)) {
-            return left.map(Differ.all("same"));
+        if (this.same(leftLines, rightLines)) {
+            return left.map(this.all("same"));
         }
-
         if (left.length === 0) {
-            return right.map(Differ.all("ins"));
+            return right.map(this.all("ins"));
         }
-
         if (right.length === 0) {
-            return left.map(Differ.all("del"));
+            return left.map(this.all("del"));
         }
-
-        left = left.reduce(Differ.flattenRepeats, []);
-        right = right.reduce(Differ.flattenRepeats, []);
-
+        left = left.reduce(this.flattenRepeats, []);
+        right = right.reduce(this.flattenRepeats, []);
         let table = {};
-
-        Differ.addToTable(table, left, "left");
-        Differ.addToTable(table, right, "right");
-
-        Differ.findUnique(table, left, right);
-
-        Differ.expandUnique(table, left, right, 1);
-        Differ.expandUnique(table, left, right, -1);
-
+        this.addToTable(table, left, "left");
+        this.addToTable(table, right, "right");
+        this.findUnique(table, left, right);
+        this.expandUnique(table, left, right, 1);
+        this.expandUnique(table, left, right, -1);
         left.push({ ref: right.length, eof: true }); // include trailing deletions
-
         table = null;
-
-        const res = Differ.processDiff(left, right);
-
+        const res = this.processDiff(left, right);
         left = null;
         right = null;
-
         return res;
     }
 
     static  accumulateChanges(changes: any, fn: any) {
         var del: any[] = [], ins: any[] = [];
-
         changes.forEach((change: any) => {
             if (change.type === "del") { del.push(change.value); }
             if (change.type === "ins") { ins.push(change.value); }
         });
-
         if (!del.length || !ins.length) { return changes; }
-
         return fn(del.join(""), ins.join(""));
     }
 
@@ -248,12 +231,12 @@
         return changes.concat({
             type: "same",
             eof: true
-        }).reduce((acc, cur, idx, a) => {
+        }).reduce((acc: any, cur: any, idx : number, a: any) => {
             var part: any[] = [];
 
             if (cur.type === "same") {
                 if (ptr >= 0) {
-                    part = Differ.accumulateChanges(a.slice(ptr, idx), fn);
+                    part = this.accumulateChanges(a.slice(ptr, idx), fn);
                     if (a[idx - 1].type !== "ins") {
                         part = a.slice(ptr, idx);
                     } else {
@@ -271,7 +254,7 @@
     static minimize(changes: any) : any {
         var del: any[] = [], ins: any[] = [];
         return changes.concat({ type: "same", eof: true })
-            .reduce((acc, cur) => {
+            .reduce((acc: any, cur: any) => {
                 if (cur.type === "del") {
                     del.push(cur.value);
                     return acc;
@@ -311,27 +294,45 @@
     }
 
     static diffLines(left: any, right: any, trim: any) {
-        return Differ.diff(
-            Differ.splitInclusive(left, "\n", trim),
-            Differ.splitInclusive(right, "\n", trim)
+        return this.diff(
+            this.splitInclusive(left, "\n", trim),
+            this.splitInclusive(right, "\n", trim)
         );
     }
 
     static diffWords(left: any, right: any, trim: any) {
-        return Differ.diff(
-            Differ.splitInclusive(left, " ", trim),
-            Differ.splitInclusive(right, " ", trim)
+        return this.diff(
+            this.splitInclusive(left, " ", trim),
+            this.splitInclusive(right, " ", trim)
         );
     }
 
     static diffHybrid(left: any, right: any, trim: any) {
-        return Differ.refineChanged(
-            Differ.diffLines(left, right, trim),
-            (del: any, ins: any) => Differ.diffWords(del, ins, trim)
+        return this.refineChanged(
+            this.diffLines(left, right, trim),
+            (del: any, ins: any) => this.diffWords(del, ins, trim)
         );
     }
+
+    static getHtmlForOneChange(change: any): string {
+        let res = "";
+        if (change.type === "same") {
+            res = `" ${change.value} "`;
+        }
+        if (change.type === "ins") {
+            res = `<ins style="background:#E6FFE6;">" ${change.value} "</ins>`;
+        }
+        if (change.type === "del") {
+            res = `<del style="background:#FFE6E6;">" ${change.value} "</del>`;
+        }
+        return res;
+    }
+
+    static getHtml(left: string, right: string): string {
+        let res = "";
+        const changes = Differ.diffWords("a b c", "a b d", false);
+        changes.forEach((change: any) => { res += this.getHtmlForOneChange(change); });
+        res = `<p>${res}</p>`; 
+        return res;
+    }
 }
-
-
-var changes = Differ.diffWords("a b c", "a b d", true);
-console.log(changes);
