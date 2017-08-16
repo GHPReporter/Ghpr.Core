@@ -21,6 +21,75 @@ var PageType;
     PageType[PageType["TestRunPage"] = 1] = "TestRunPage";
     PageType[PageType["TestPage"] = 2] = "TestPage";
 })(PageType || (PageType = {}));
+class TestRunHelper {
+    static getColorByResult(result) {
+        switch (result) {
+            case TestResult.Passed:
+                return Color.passed;
+            case TestResult.Failed:
+                return Color.failed;
+            case TestResult.Broken:
+                return Color.broken;
+            case TestResult.Ignored:
+                return Color.ignored;
+            case TestResult.Inconclusive:
+                return Color.inconclusive;
+            case TestResult.Unknown:
+                return Color.unknown;
+            default:
+                return "white";
+        }
+    }
+    static getColor(t) {
+        const result = this.getResult(t);
+        return this.getColorByResult(result);
+    }
+    static getResult(t) {
+        if (t.result.indexOf("Passed") > -1) {
+            return TestResult.Passed;
+        }
+        if (t.result.indexOf("Error") > -1) {
+            return TestResult.Broken;
+        }
+        if (t.result.indexOf("Failed") > -1 || t.result.indexOf("Failure") > -1) {
+            return TestResult.Failed;
+        }
+        if (t.result.indexOf("Inconclusive") > -1) {
+            return TestResult.Inconclusive;
+        }
+        if (t.result.indexOf("Ignored") > -1 || t.result.indexOf("Skipped") > -1) {
+            return TestResult.Ignored;
+        }
+        return TestResult.Unknown;
+    }
+    static getColoredResult(t) {
+        return `<span class="p-1" style= "background-color: ${this.getColor(t)};" > ${t.result} </span>`;
+    }
+    static getColoredIns(v) {
+        return `<ins class="p-1" style= "background-color: ${Color.passed};" > ${v} </ins>`;
+    }
+    static getColoredDel(v) {
+        return `<del class="p-1" style= "background-color: ${Color.failed};" > ${v} </del>`;
+    }
+    static getOutput(t) {
+        return t.output === "" ? "-" : t.output;
+    }
+    static getMessage(t) {
+        return t.testMessage === "" ? "-" : t.testMessage;
+    }
+    static getDescription(t) {
+        return (t.description === "" || t.description === undefined) ? "-" : t.description;
+    }
+    static getStackTrace(t) {
+        return t.testStackTrace === "" ? "-" : t.testStackTrace;
+    }
+    static getCategories(t) {
+        if (t.categories === undefined) {
+            return "-";
+        }
+        return t.categories.length <= 0 ? "-" : t.categories.join(", ");
+    }
+}
 class Differ {
     static splitInclusive(str, sep, trim) {
         if (!str.length) {
@@ -293,19 +362,20 @@ class Differ {
     static getHtmlForOneChange(change) {
         let res = "";
         if (change.type === "same") {
-            res = `" ${change.value} "`;
+            res = `${change.value}`;
         }
         if (change.type === "ins") {
-            res = `<ins style="background:#E6FFE6;">" ${change.value} "</ins>`;
+            res = TestRunHelper.getColoredIns(change.value);
         }
         if (change.type === "del") {
-            res = `<del style="background:#FFE6E6;">" ${change.value} "</del>`;
+            res = TestRunHelper.getColoredDel(change.value);
+            ;
         }
         return res;
     }
     static getHtml(left, right) {
         let res = "";
-        const changes = Differ.diffWords("a b c", "a b d", false);
+        const changes = Differ.diffWords(left, right, false);
         changes.forEach((change) => { res += this.getHtmlForOneChange(change); });
         res = `<p>${res}</p>`;
         return res;
@@ -635,69 +705,6 @@ class DateFormatter {
         }
         else
             return `${n}`;
-    }
-}
-class TestRunHelper {
-    static getColorByResult(result) {
-        switch (result) {
-            case TestResult.Passed:
-                return Color.passed;
-            case TestResult.Failed:
-                return Color.failed;
-            case TestResult.Broken:
-                return Color.broken;
-            case TestResult.Ignored:
-                return Color.ignored;
-            case TestResult.Inconclusive:
-                return Color.inconclusive;
-            case TestResult.Unknown:
-                return Color.unknown;
-            default:
-                return "white";
-        }
-    }
-    static getColor(t) {
-        const result = this.getResult(t);
-        return this.getColorByResult(result);
-    }
-    static getResult(t) {
-        if (t.result.indexOf("Passed") > -1) {
-            return TestResult.Passed;
-        }
-        if (t.result.indexOf("Error") > -1) {
-            return TestResult.Broken;
-        }
-        if (t.result.indexOf("Failed") > -1 || t.result.indexOf("Failure") > -1) {
-            return TestResult.Failed;
-        }
-        if (t.result.indexOf("Inconclusive") > -1) {
-            return TestResult.Inconclusive;
-        }
-        if (t.result.indexOf("Ignored") > -1 || t.result.indexOf("Skipped") > -1) {
-            return TestResult.Ignored;
-        }
-        return TestResult.Unknown;
-    }
-    static getColoredResult(t) {
-        return `<span class="p-1" style= "background-color: ${this.getColor(t)};" > ${t.result} </span>`;
-    }
-    static getOutput(t) {
-        return t.output === "" ? "-" : t.output;
-    }
-    static getMessage(t) {
-        return t.testMessage === "" ? "-" : t.testMessage;
-    }
-    static getDescription(t) {
-        return (t.description === "" || t.description === undefined) ? "-" : t.description;
-    }
-    static getStackTrace(t) {
-        return t.testStackTrace === "" ? "-" : t.testStackTrace;
-    }
-    static getCategories(t) {
-        if (t.categories === undefined) {
-            return "-";
-        }
-        return t.categories.length <= 0 ? "-" : t.categories.join(", ");
     }
 }
 class RunPageUpdater {
@@ -1148,7 +1155,9 @@ class TestPageUpdater {
     }
     static updateTestData(t) {
         let res = "";
-        t.testData.forEach((td) => { res += `<li>${Differ.getHtml(td.actual, td.expected)}</li>`; });
+        t.testData.forEach((td) => {
+            res += `<li>${DateFormatter.format(td.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}</li>`;
+        });
         document.getElementById("test-data-list").innerHTML = `${res}`;
     }
     static updateScreenshots(t) {
@@ -1238,6 +1247,7 @@ class TestPageUpdater {
             this.updateOutput(t);
             this.updateFailure(t);
             this.updateScreenshots(t);
+            this.updateTestData(t);
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
             this.updateCopyright();

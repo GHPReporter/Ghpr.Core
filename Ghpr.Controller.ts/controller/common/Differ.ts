@@ -1,4 +1,9 @@
-﻿class Differ {
+﻿///<reference path="./../interfaces/ITestRun.ts"/>
+///<reference path="./../enums/TestResult.ts"/>
+///<reference path="./Color.ts"/>
+///<reference path="./TestRunHelper.ts"/>
+
+class Differ {
     static splitInclusive(str: string, sep: string, trim: boolean) : any {
         if (!str.length) { return []; }
         let split = str.split(sep);
@@ -317,20 +322,20 @@
     static getHtmlForOneChange(change: any): string {
         let res = "";
         if (change.type === "same") {
-            res = `" ${change.value} "`;
+            res = `${change.value}`;
         }
         if (change.type === "ins") {
-            res = `<ins style="background:#E6FFE6;">" ${change.value} "</ins>`;
+            res = TestRunHelper.getColoredIns(change.value);
         }
         if (change.type === "del") {
-            res = `<del style="background:#FFE6E6;">" ${change.value} "</del>`;
+            res = TestRunHelper.getColoredDel(change.value);;
         }
         return res;
     }
 
     static getHtml(left: string, right: string): string {
         let res = "";
-        const changes = Differ.diffWords("a b c", "a b d", false);
+        const changes = Differ.diffWords(left, right, false);
         changes.forEach((change: any) => { res += this.getHtmlForOneChange(change); });
         res = `<p>${res}</p>`; 
         return res;

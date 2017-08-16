@@ -50,6 +50,14 @@ class TestRunHelper {
         return `<span class="p-1" style= "background-color: ${this.getColor(t)};" > ${t.result} </span>`;
     }
 
+    static getColoredIns(v: string): string {
+        return `<ins class="p-1" style= "background-color: ${Color.passed};" > ${v} </ins>`;
+    }
+
+    static getColoredDel(v: string): string {
+        return `<del class="p-1" style= "background-color: ${Color.failed};" > ${v} </del>`;
+    }
+
     static getOutput(t: ITestRun): string {
         return t.output === "" ? "-" : t.output;
     }

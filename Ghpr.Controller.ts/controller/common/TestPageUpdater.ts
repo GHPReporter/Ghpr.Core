@@ -45,7 +45,9 @@ class TestPageUpdater {
 
     private static updateTestData(t: ITestRun): void {
         let res = "";
-        t.testData.forEach((td: ITestData) => { res += `<li>${Differ.getHtml(td.actual, td.expected)}</li>` });
+        t.testData.forEach((td: ITestData) => {
+            res += `<li>${DateFormatter.format(td.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}</li>`;
+        });
         document.getElementById("test-data-list").innerHTML = `${res}`;
     }
 
@@ -141,6 +143,7 @@ class TestPageUpdater {
             this.updateOutput(t);
             this.updateFailure(t);
             this.updateScreenshots(t);
+            this.updateTestData(t);
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
             this.updateCopyright();
