@@ -291,7 +291,7 @@ class TestPageUpdater {
         this.showTab(tab === "" ? "test-history" : tab, document.getElementById(`tab-${tab}`));
     }
 
-    private static runPageTabsIds: Array<string> = ["test-history", "test-output", "test-failure", "test-screenshots","test-data"];
+    private static runPageTabsIds: Array<string> = ["test-history", "test-output", "test-failure", "test-screenshots", "test-data"];
 
     static showTab(idToShow: string, caller: HTMLElement): void {
         TabsHelper.showTab(idToShow, caller, this.runPageTabsIds);

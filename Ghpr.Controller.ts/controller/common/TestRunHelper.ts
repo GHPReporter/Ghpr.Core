@@ -51,11 +51,11 @@ class TestRunHelper {
     }
 
     static getColoredIns(v: string): string {
-        return `<ins class="p-1" style= "background-color: ${Color.passed};" > ${v} </ins>`;
+        return `<ins class="p-0" style= "background-color: ${Color.passed};text-decoration: none;" >${v}</ins>`;
     }
 
     static getColoredDel(v: string): string {
-        return `<del class="p-1" style= "background-color: ${Color.failed};" > ${v} </del>`;
+        return `<del class="p-0" style= "background-color: ${Color.failed};text-decoration: none;" >${v}</del>`;
     }
 
     static getOutput(t: ITestRun): string {

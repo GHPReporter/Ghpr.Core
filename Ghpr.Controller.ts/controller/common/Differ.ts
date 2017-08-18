@@ -4,13 +4,33 @@
 ///<reference path="./TestRunHelper.ts"/>
 
 class Differ {
-    static splitInclusive(str: string, sep: string, trim: boolean) : any {
+    static splitInclusive(str: string, sep: string, trim: boolean): any {
         if (!str.length) { return []; }
         let split = str.split(sep);
         if (trim) {
             split = split.filter((v: any) => v.length);
         }
         return split.map((line: string, idx: number, arr: string[]) => (idx < arr.length - 1 ? line + sep : line));
+    }
+
+    static splitArrInclusive(strs: string[], sep: string, trim: boolean): any {
+        if (!strs.length) { return []; }
+        let res = new Array<string>();
+        strs.forEach((str: string, index: number, arr: string[]) => {
+            res.push(this.splitInclusive(str, sep, trim));
+        });
+        console.log(`1: ${res}`);
+        return res;
+    }
+
+    static splitInclusiveSeveral(str: string[], seps: string[], trim: boolean): any {
+        if (!str.length) { return []; }
+        let res : Array<string> = str;
+        seps.forEach((sep: string, index: number, arr: string[]) => {
+            res.push(this.splitArrInclusive(res, sep, trim));
+        });
+        console.log(`2: ${res}`);
+        return res;
     }
     
     static  flattenRepeats(acc: any, cur: any) : any {
@@ -312,32 +332,70 @@ class Differ {
         );
     }
 
+    static diffLetters(left: any, right: any, trim: any) {
+        return this.diff(
+            this.splitInclusiveSeveral([left], [" ", "<", ">"], trim),
+            this.splitInclusiveSeveral([right], [" ", "<", ">"], trim)
+        );
+    }
+
+    static diffChars(left: any, right: any, trim: any) {
+        return this.diff(
+            this.splitInclusive(left, "", trim),
+            this.splitInclusive(right, "", trim)
+        );
+    }
+
     static diffHybrid(left: any, right: any, trim: any) {
         return this.refineChanged(
             this.diffLines(left, right, trim),
-            (del: any, ins: any) => this.diffWords(del, ins, trim)
+            (del: any, ins: any) => this.diffLetters(del, ins, trim)
         );
+    }
+
+    static replaceTag(tag: string) : string {
+        const tagsToReplace : any = {
+            '&': "&amp;",
+            '<': "&lt;",
+            '>': "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+            '/': "&#x2F;",
+            '`': "&#x60;",
+            '=': "&#x3D;"
+        };
+        return tagsToReplace[tag] || tag;
+    }
+
+    static safeTagsReplace(str: string) : string{
+        return str.replace(/[&<>]/g, this.replaceTag);
     }
 
     static getHtmlForOneChange(change: any): string {
         let res = "";
+        const v = this.safeTagsReplace(change.value);
+        if (change.value === "") {
+            res = "";
+        }
         if (change.type === "same") {
-            res = `${change.value}`;
+            res = `${v}`;
         }
         if (change.type === "ins") {
-            res = TestRunHelper.getColoredIns(change.value);
+            res = TestRunHelper.getColoredIns(v);
         }
         if (change.type === "del") {
-            res = TestRunHelper.getColoredDel(change.value);;
+            res = TestRunHelper.getColoredDel(v);
         }
         return res;
     }
 
     static getHtml(left: string, right: string): string {
         let res = "";
-        const changes = Differ.diffWords(left, right, false);
-        changes.forEach((change: any) => { res += this.getHtmlForOneChange(change); });
-        res = `<p>${res}</p>`; 
+        const changes = this.diffHybrid(left, right, true);
+        changes.forEach((change: any) => {
+             res += this.getHtmlForOneChange(change);
+        });
+        res = `<pre style="word-wrap: break-word;  white-space: pre-wrap;">${res}</pre>`; 
         return res;
     }
 }

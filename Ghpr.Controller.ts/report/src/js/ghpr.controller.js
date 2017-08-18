@@ -66,10 +66,10 @@ class TestRunHelper {
         return `<span class="p-1" style= "background-color: ${this.getColor(t)};" > ${t.result} </span>`;
     }
     static getColoredIns(v) {
-        return `<ins class="p-1" style= "background-color: ${Color.passed};" > ${v} </ins>`;
+        return `<ins class="p-0" style= "background-color: ${Color.passed};text-decoration: none;" >${v}</ins>`;
     }
     static getColoredDel(v) {
-        return `<del class="p-1" style= "background-color: ${Color.failed};" > ${v} </del>`;
+        return `<del class="p-0" style= "background-color: ${Color.failed};text-decoration: none;" >${v}</del>`;
     }
     static getOutput(t) {
         return t.output === "" ? "-" : t.output;
@@ -100,6 +100,28 @@ class Differ {
             split = split.filter((v) => v.length);
         }
         return split.map((line, idx, arr) => (idx < arr.length - 1 ? line + sep : line));
+    }
+    static splitArrInclusive(strs, sep, trim) {
+        if (!strs.length) {
+            return [];
+        }
+        let res = new Array();
+        strs.forEach((str, index, arr) => {
+            res.push(this.splitInclusive(str, sep, trim));
+        });
+        console.log(`1: ${res}`);
+        return res;
+    }
+    static splitInclusiveSeveral(str, seps, trim) {
+        if (!str.length) {
+            return [];
+        }
+        let res = str;
+        seps.forEach((sep, index, arr) => {
+            res.push(this.splitArrInclusive(res, sep, trim));
+        });
+        console.log(`2: ${res}`);
+        return res;
     }
     static flattenRepeats(acc, cur) {
         if (acc.length && acc[acc.length - 1].value === cur) {
@@ -356,28 +378,55 @@ class Differ {
     static diffWords(left, right, trim) {
         return this.diff(this.splitInclusive(left, " ", trim), this.splitInclusive(right, " ", trim));
     }
+    static diffLetters(left, right, trim) {
+        return this.diff(this.splitInclusiveSeveral([left], [" ", "<", ">"], trim), this.splitInclusiveSeveral([right], [" ", "<", ">"], trim));
+    }
+    static diffChars(left, right, trim) {
+        return this.diff(this.splitInclusive(left, "", trim), this.splitInclusive(right, "", trim));
+    }
     static diffHybrid(left, right, trim) {
-        return this.refineChanged(this.diffLines(left, right, trim), (del, ins) => this.diffWords(del, ins, trim));
+        return this.refineChanged(this.diffLines(left, right, trim), (del, ins) => this.diffLetters(del, ins, trim));
+    }
+    static replaceTag(tag) {
+        const tagsToReplace = {
+            '&': "&amp;",
+            '<': "&lt;",
+            '>': "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+            '/': "&#x2F;",
+            '`': "&#x60;",
+            '=': "&#x3D;"
+        };
+        return tagsToReplace[tag] || tag;
+    }
+    static safeTagsReplace(str) {
+        return str.replace(/[&<>]/g, this.replaceTag);
     }
     static getHtmlForOneChange(change) {
         let res = "";
+        const v = this.safeTagsReplace(change.value);
+        if (change.value === "") {
+            res = "";
+        }
         if (change.type === "same") {
-            res = `${change.value}`;
+            res = `${v}`;
         }
         if (change.type === "ins") {
-            res = TestRunHelper.getColoredIns(change.value);
+            res = TestRunHelper.getColoredIns(v);
         }
         if (change.type === "del") {
-            res = TestRunHelper.getColoredDel(change.value);
-            ;
+            res = TestRunHelper.getColoredDel(v);
         }
         return res;
     }
     static getHtml(left, right) {
         let res = "";
-        const changes = Differ.diffWords(left, right, false);
-        changes.forEach((change) => { res += this.getHtmlForOneChange(change); });
-        res = `<p>${res}</p>`;
+        const changes = this.diffHybrid(left, right, true);
+        changes.forEach((change) => {
+            res += this.getHtmlForOneChange(change);
+        });
+        res = `<pre style="word-wrap: break-word;  white-space: pre-wrap;">${res}</pre>`;
         return res;
     }
 }
