@@ -101,15 +101,38 @@ class Differ {
         }
         return split.map((line, idx, arr) => (idx < arr.length - 1 ? line + sep : line));
     }
+    static splitInclusiveFull(str, sep, trim) {
+        if (!str.length) {
+            return [];
+        }
+        let split = str.split(sep);
+        if (trim) {
+            split = split.filter((v) => v.length);
+        }
+        let res = new Array();
+        split.forEach((s, i, a) => {
+            if (i < a.length - 1) {
+                res.push(s);
+                res.push(sep);
+            }
+            else {
+                res.push(s);
+            }
+        });
+        return res;
+    }
     static splitArrInclusive(strs, sep, trim) {
         if (!strs.length) {
             return [];
         }
         let res = new Array();
         strs.forEach((str, index, arr) => {
-            res.push(this.splitInclusive(str, sep, trim));
+            const splittedStr = this.splitInclusiveFull(str, sep, trim);
+            splittedStr.forEach((s, i, a) => {
+                res.push(s);
+            });
         });
-        console.log(`1: ${res}`);
+        console.log(`ARR res: ${res}`);
         return res;
     }
     static splitInclusiveSeveral(str, seps, trim) {
@@ -118,9 +141,9 @@ class Differ {
         }
         let res = str;
         seps.forEach((sep, index, arr) => {
-            res.push(this.splitArrInclusive(res, sep, trim));
+            const splittedStr = this.splitArrInclusive(res, sep, trim);
+            res = splittedStr;
         });
-        console.log(`2: ${res}`);
         return res;
     }
     static flattenRepeats(acc, cur) {
@@ -373,16 +396,16 @@ class Differ {
         }, []);
     }
     static diffLines(left, right, trim) {
-        return this.diff(this.splitInclusive(left, "\n", trim), this.splitInclusive(right, "\n", trim));
+        return this.diff(this.splitInclusiveFull(left, "\n", trim), this.splitInclusiveFull(right, "\n", trim));
     }
     static diffWords(left, right, trim) {
-        return this.diff(this.splitInclusive(left, " ", trim), this.splitInclusive(right, " ", trim));
+        return this.diff(this.splitInclusiveFull(left, " ", trim), this.splitInclusiveFull(right, " ", trim));
     }
     static diffLetters(left, right, trim) {
-        return this.diff(this.splitInclusiveSeveral([left], [" ", "<", ">"], trim), this.splitInclusiveSeveral([right], [" ", "<", ">"], trim));
+        return this.diff(this.splitInclusiveSeveral([left], this.separators, trim), this.splitInclusiveSeveral([right], this.separators, trim));
     }
     static diffChars(left, right, trim) {
-        return this.diff(this.splitInclusive(left, "", trim), this.splitInclusive(right, "", trim));
+        return this.diff(this.splitInclusiveFull(left, "", trim), this.splitInclusiveFull(right, "", trim));
     }
     static diffHybrid(left, right, trim) {
         return this.refineChanged(this.diffLines(left, right, trim), (del, ins) => this.diffLetters(del, ins, trim));
@@ -422,7 +445,7 @@ class Differ {
     }
     static getHtml(left, right) {
         let res = "";
-        const changes = this.diffHybrid(left, right, true);
+        const changes = this.diffHybrid(left, right, false);
         changes.forEach((change) => {
             res += this.getHtmlForOneChange(change);
         });
@@ -430,6 +453,7 @@ class Differ {
         return res;
     }
 }
+Differ.separators = [" ", "<", ">", "/", ".", "?", "!"];
 class UrlHelper {
     static insertParam(key, value) {
         const paramsPart = document.location.search.substr(1);

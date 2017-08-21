@@ -4,7 +4,7 @@
 ///<reference path="./TestRunHelper.ts"/>
 
 class Differ {
-    static splitInclusive(str: string, sep: string, trim: boolean): any {
+    static splitInclusive(str: string, sep: string, trim: boolean): string[] {
         if (!str.length) { return []; }
         let split = str.split(sep);
         if (trim) {
@@ -13,23 +13,43 @@ class Differ {
         return split.map((line: string, idx: number, arr: string[]) => (idx < arr.length - 1 ? line + sep : line));
     }
 
-    static splitArrInclusive(strs: string[], sep: string, trim: boolean): any {
+    static splitInclusiveFull(str: string, sep: string, trim: boolean): string[] {
+        if (!str.length) { return []; }
+        let split = str.split(sep);
+        if (trim) {
+            split = split.filter((v: any) => v.length);
+        }
+        let res = new Array<string>();
+        split.forEach((s: string, i: number, a: string[]) => {
+            if (i < a.length - 1) {
+                res.push(s);
+                res.push(sep);
+            } else {
+                res.push(s);
+            }
+        });
+        return res;
+    }
+
+    static splitArrInclusive(strs: string[], sep: string, trim: boolean): string[] {
         if (!strs.length) { return []; }
         let res = new Array<string>();
         strs.forEach((str: string, index: number, arr: string[]) => {
-            res.push(this.splitInclusive(str, sep, trim));
+            const splittedStr = this.splitInclusiveFull(str, sep, trim);
+            splittedStr.forEach((s: string, i: number, a: string[]) => {
+                res.push(s);
+            });
         });
-        console.log(`1: ${res}`);
         return res;
     }
 
     static splitInclusiveSeveral(str: string[], seps: string[], trim: boolean): any {
         if (!str.length) { return []; }
-        let res : Array<string> = str;
+        let res: Array<string> = str;
         seps.forEach((sep: string, index: number, arr: string[]) => {
-            res.push(this.splitArrInclusive(res, sep, trim));
+            const splittedStr = this.splitArrInclusive(res, sep, trim);
+            res = splittedStr;
         });
-        console.log(`2: ${res}`);
         return res;
     }
     
@@ -284,12 +304,10 @@ class Differ {
                     del.push(cur.value);
                     return acc;
                 }
-
                 if (cur.type === "ins") {
                     ins.push(cur.value);
                     return acc;
                 }
-
                 if (del.length) {
                     acc.push({
                         type: "del",
@@ -297,7 +315,6 @@ class Differ {
                     });
                     del = [];
                 }
-
                 if (ins.length) {
                     acc.push({
                         type: "ins",
@@ -305,7 +322,6 @@ class Differ {
                     });
                     ins = [];
                 }
-
                 if (cur.eof !== true) {
                     if (acc.length && acc[acc.length - 1].type === "same") {
                         acc[acc.length - 1].value += cur.value;
@@ -313,36 +329,37 @@ class Differ {
                         acc.push(cur);
                     }
                 }
-
                 return acc;
             }, []);
     }
 
     static diffLines(left: any, right: any, trim: any) {
         return this.diff(
-            this.splitInclusive(left, "\n", trim),
-            this.splitInclusive(right, "\n", trim)
+            this.splitInclusiveFull(left, "\n", trim),
+            this.splitInclusiveFull(right, "\n", trim)
         );
     }
 
     static diffWords(left: any, right: any, trim: any) {
         return this.diff(
-            this.splitInclusive(left, " ", trim),
-            this.splitInclusive(right, " ", trim)
+            this.splitInclusiveFull(left, " ", trim),
+            this.splitInclusiveFull(right, " ", trim)
         );
     }
 
+    static separators: string[] = [" ", "<", ">", "/", ".", "?", "!"];
+
     static diffLetters(left: any, right: any, trim: any) {
         return this.diff(
-            this.splitInclusiveSeveral([left], [" ", "<", ">"], trim),
-            this.splitInclusiveSeveral([right], [" ", "<", ">"], trim)
+            this.splitInclusiveSeveral([left], this.separators, trim),
+            this.splitInclusiveSeveral([right], this.separators, trim)
         );
     }
 
     static diffChars(left: any, right: any, trim: any) {
         return this.diff(
-            this.splitInclusive(left, "", trim),
-            this.splitInclusive(right, "", trim)
+            this.splitInclusiveFull(left, "", trim),
+            this.splitInclusiveFull(right, "", trim)
         );
     }
 
@@ -391,7 +408,7 @@ class Differ {
 
     static getHtml(left: string, right: string): string {
         let res = "";
-        const changes = this.diffHybrid(left, right, true);
+        const changes = this.diffHybrid(left, right, false);
         changes.forEach((change: any) => {
              res += this.getHtmlForOneChange(change);
         });
