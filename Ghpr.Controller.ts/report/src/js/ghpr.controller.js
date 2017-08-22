@@ -132,7 +132,6 @@ class Differ {
                 res.push(s);
             });
         });
-        console.log(`ARR res: ${res}`);
         return res;
     }
     static splitInclusiveSeveral(str, seps, trim) {
