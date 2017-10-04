@@ -448,7 +448,7 @@ class Differ {
         changes.forEach((change) => {
             res += this.getHtmlForOneChange(change);
         });
-        res = `<pre style="word-wrap: break-word;  white-space: pre-wrap;">${res}</pre>`;
+        res = `<div style="word-wrap: break-word;  white-space: pre-wrap;">${res}</div>`;
         return res;
     }
 }
@@ -809,7 +809,8 @@ class RunPageUpdater {
                 labels: ["Passed", "Broken", "Failed", "Inconclusive", "Ignored", "Unknown"],
                 marker: {
                     colors: [
-                        Color.passed, Color.broken, Color.failed, Color.inconclusive, Color.ignored, Color.unknown],
+                        Color.passed, Color.broken, Color.failed, Color.inconclusive, Color.ignored, Color.unknown
+                    ],
                     line: {
                         color: "white",
                         width: 2
@@ -1223,7 +1224,8 @@ class TestPageUpdater {
         document.getElementById("message").innerHTML = `<b>Message:</b> ${TestRunHelper.getMessage(t)}`;
     }
     static updateOutput(t) {
-        document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br> <div>${TestRunHelper.getOutput(t)}</div>`;
+        document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
+		<div style="word-wrap: break-word;  white-space: pre-wrap;">${Differ.safeTagsReplace(TestRunHelper.getOutput(t))}</div>`;
     }
     static updateTestData(t) {
         let res = "";

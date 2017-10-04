@@ -40,7 +40,8 @@ class TestPageUpdater {
     }
 
     private static updateOutput(t: ITestRun): void {
-        document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br> <div>${TestRunHelper.getOutput(t)}</div>`;
+        document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
+		<div style="word-wrap: break-word;  white-space: pre-wrap;">${Differ.safeTagsReplace(TestRunHelper.getOutput(t))}</div>`;
     }
 
     private static updateTestData(t: ITestRun): void {
