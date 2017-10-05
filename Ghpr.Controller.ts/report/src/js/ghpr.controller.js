@@ -1230,7 +1230,7 @@ class TestPageUpdater {
     static updateTestData(t) {
         let res = "";
         t.testData.forEach((td) => {
-            res += `<li>${DateFormatter.format(td.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}</li>`;
+            res += `<li>${DateFormatter.format(td.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}<br></li>`;
         });
         document.getElementById("test-data-list").innerHTML = `${res}`;
     }
