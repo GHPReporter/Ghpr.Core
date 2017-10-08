@@ -888,6 +888,23 @@ class RunPageUpdater {
                 }
             }
         }
+        const btns = document.getElementById("test-result-filter-buttons").getElementsByTagName("button");
+        for (let i = 0; i < btns.length; i++) {
+            const btn = btns[i];
+            const id = btn.getAttribute("id");
+            const tests = document.getElementsByClassName(id);
+            btn.style.backgroundImage = "none";
+            btn.style.backgroundColor = TestRunHelper.getColorByResult(Number(id));
+            for (let j = 0; j < tests.length; j++) {
+                const t = tests[j];
+                if (!btn.classList.contains("disabled")) {
+                    t.style.display = "";
+                }
+                else {
+                    t.style.display = "none";
+                }
+            }
+        }
     }
     static makeCollapsible() {
         const targets = document.getElementsByClassName("test-suite");
@@ -941,8 +958,8 @@ class RunPageUpdater {
             this.updateRunInformation(run);
             this.updateSummary(run);
             this.updateTitle(run);
-            this.updateTestsList(run);
             this.updateTestFilterButtons();
+            this.updateTestsList(run);
             this.updateCopyright();
         });
         return run;
