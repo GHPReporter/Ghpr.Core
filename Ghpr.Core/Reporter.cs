@@ -20,7 +20,7 @@ namespace Ghpr.Core
             if (settings.OutputPath == null)
             {
                 throw new ArgumentNullException(nameof(settings.OutputPath),
-                    "Reporter Output must be specified! Fix your settings.");
+                    "Reporter Output path must be specified. Please fix your .json settings file.");
             }
             Settings = settings;
             ReportSettings = new ReportSettings(settings.RunsToDisplay, settings.TestsToDisplay);
