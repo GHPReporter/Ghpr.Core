@@ -27,7 +27,6 @@ namespace Ghpr.Core
             _action = new ActionHelper(settings.OutputPath);
             _extractor = new ResourceExtractor(_action, settings.OutputPath);
             TestRunStarted = false;
-            //_log = new Log(settings.OutputPath);
         }
         
         public Reporter(IReporterSettings settings)
@@ -53,7 +52,6 @@ namespace Ghpr.Core
         private List<ITestRun> _currentTestRuns;
         private Guid _currentRunGuid;
         private ResourceExtractor _extractor;
-        //private Log _log;
         private static ActionHelper _action;
 
         public bool TestRunStarted { get; private set; }
@@ -66,7 +64,6 @@ namespace Ghpr.Core
         {
             _action.Safe(() =>
             {
-                //_log.Write("Initializing run");
                 _currentRunGuid = runGuid.Equals("") || runGuid.Equals("null") ? Guid.NewGuid() : Guid.Parse(runGuid);
                 _currentRun = new Run(_currentRunGuid)
                 {
@@ -79,7 +76,6 @@ namespace Ghpr.Core
                 _extractor.ExtractReportBase();
                 _currentRun.RunInfo.Start = startDateTime;
                 ReportSettings.Save(Settings.OutputPath);
-                //_log.Write($"Initializing run done: {_currentRun}, {_currentTestRuns}");
             });
         }
 
