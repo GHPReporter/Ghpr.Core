@@ -6,7 +6,7 @@ namespace Ghpr.Core.Extensions
     {
         public static string GetTestName(this DateTime finishDateTime)
         {
-            return $"test_{finishDateTime.ToString("yyyyMMdd_HHmmssfff")}.json";
+            return $"test_{finishDateTime:yyyyMMdd_HHmmssfff}.json";
         }
     }
 }

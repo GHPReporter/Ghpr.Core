@@ -12,7 +12,7 @@ namespace Ghpr.Core.Interfaces
         void AddCompleteTestRun(ITestRun testRun);
         void TestFinished(ITestRun testRun);
 
-        void GenerateFullReport(List<ITestRun> testRuns, string runGuid = "");
-        void GenerateFullReport(List<ITestRun> testRuns, DateTime start, DateTime finish, string runGuid = "");
+        void GenerateFullReport(List<ITestRun> testRuns);
+        void GenerateFullReport(List<ITestRun> testRuns, DateTime start, DateTime finish);
     }
 }

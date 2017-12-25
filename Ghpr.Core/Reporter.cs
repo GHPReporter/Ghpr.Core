@@ -185,8 +185,8 @@ namespace Ghpr.Core
                 finalTest.TestDuration = finalTest.TestDuration.Equals(0.0)
                     ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds
                     : finalTest.TestDuration;
-                finalTest
-                    .Save(testPath, fileName);
+
+                finalTest.Save(testPath, fileName);
                 _currentTestRuns.Remove(currentTest);
                 _currentRun.TestRunFiles.Add(Paths.GetRelativeTestRunPath(testGuid, fileName));
 
@@ -199,25 +199,25 @@ namespace Ghpr.Core
             });
         }
 
-        public void GenerateFullReport(List<ITestRun> testRuns, string runGuid = "")
+        public void GenerateFullReport(List<ITestRun> testRuns)
         {
             if (!testRuns.Any())
             {
                 throw new Exception("Emplty test runs list!");
             }
-            var runStart = testRuns.OrderBy(t => t.TestInfo.Start).First().TestInfo.Start;
-            var runFinish = testRuns.OrderByDescending(t => t.TestInfo.Finish).First().TestInfo.Finish;
-            GenerateFullReport(testRuns, runStart, runFinish, runGuid);
+            var runStart = testRuns.OrderBy(t => t.TestInfo.Start).First(t => !t.TestInfo.Start.Equals(default(DateTime))).TestInfo.Start;
+            var runFinish = testRuns.OrderByDescending(t => t.TestInfo.Finish).First(t => !t.TestInfo.Start.Equals(default(DateTime))).TestInfo.Finish;
+            GenerateFullReport(testRuns, runStart, runFinish);
         }
 
-        public void GenerateFullReport(List<ITestRun> testRuns, DateTime start, DateTime finish, string runGuid = "")
+        public void GenerateFullReport(List<ITestRun> testRuns, DateTime start, DateTime finish)
         {
             if (!testRuns.Any())
             {
                 throw new Exception("Emplty test runs list!");
             }
 
-            InitializeRun(start, runGuid);
+            InitializeRun(start, Settings.RunGuid);
             foreach (var testRun in testRuns)
             {
                 AddCompleteTestRun(testRun);

@@ -28,7 +28,7 @@ namespace Ghpr.Core.Extensions
             return testRun.TestInfo.Finish.GetTestName();
         }
         
-        public static void Save(this ITestRun testRun, string path, string name = "")
+        public static void Save(this ITestRun testRun, string path, string name)
         {
             Paths.Create(path);
             var fullPath = Path.Combine(path, name.Equals("") ? testRun.GetFileName() : name);
