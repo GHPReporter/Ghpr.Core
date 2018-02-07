@@ -3,8 +3,8 @@ using System.IO;
 using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Interfaces;
-using Ghpr.Core.Utils;
 using Newtonsoft.Json;
+using static Ghpr.Core.Utils.Paths;
 
 namespace Ghpr.Core.Helpers
 {
@@ -14,7 +14,7 @@ namespace Ghpr.Core.Helpers
         {
             var uri = new Uri(typeof(ReporterSettings).Assembly.CodeBase);
             var settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "",
-                fileName.Equals("") ? Paths.Files.CoreSettings : fileName);
+                fileName.Equals("") ? Files.CoreSettings : fileName);
             var settings = JsonConvert.DeserializeObject<ReporterSettings>(File.ReadAllText(settingsPath));
             return settings;
         }
@@ -24,22 +24,22 @@ namespace Ghpr.Core.Helpers
             switch (framework)
             {
                 case TestingFramework.MSTest:
-                    return Paths.Files.MSTestSettings;
+                    return Files.MSTestSettings;
                 case TestingFramework.NUnit:
-                    return Paths.Files.NUnitSettings;
+                    return Files.NUnitSettings;
                 case TestingFramework.SpecFlow:
-                    return Paths.Files.SpecFlowSettings;
+                    return Files.SpecFlowSettings;
                 default:
-                    return Paths.Files.CoreSettings;
+                    return Files.CoreSettings;
             }
         }
 
         public static void Save(this IReportSettings reportSettings, string reportOutputPath)
         {
-            var folder = Path.Combine(reportOutputPath, Paths.Folders.Src);
+            var folder = Path.Combine(reportOutputPath, Folders.Src);
             var serializer = new JsonSerializer();
-            Paths.Create(folder);
-            var fullPath = Path.Combine(folder, Paths.Files.ReportSettings);
+            Create(folder);
+            var fullPath = Path.Combine(folder, Files.ReportSettings);
             if (!File.Exists(fullPath))
             {
                 using (var file = File.CreateText(fullPath))
