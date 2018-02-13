@@ -51,7 +51,7 @@ namespace Ghpr.Core.Extensions
             return testRun;
         }
 
-        public static ITestRun GetTest(this List<ITestRun> testRuns, ITestRun testRun)
+        public static ITestRun GetTestRun(this List<ITestRun> testRuns, ITestRun testRun)
         {
             var tr = testRuns.FirstOrDefault(t => t.TestInfo.Guid.Equals(testRun.TestInfo.Guid) && !t.TestInfo.Guid.Equals(Guid.Empty))
                           ?? testRuns.FirstOrDefault(t => t.FullName.Equals(testRun.FullName))

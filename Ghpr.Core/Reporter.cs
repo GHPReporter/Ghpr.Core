@@ -166,7 +166,7 @@ namespace Ghpr.Core
                 _currentRun.RunSummary.Total++;
 
                 var finishDateTime = DateTime.Now;
-                var currentTest = _currentTestRuns.GetTest(testRun);
+                var currentTest = _currentTestRuns.GetTestRun(testRun);
                 var finalTest = testRun.Update(currentTest);
                 var testGuid = finalTest.TestInfo.Guid.ToString();
                 var testPath = Path.Combine(TestsPath, testGuid);
