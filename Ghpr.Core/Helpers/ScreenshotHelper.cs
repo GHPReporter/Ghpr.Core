@@ -17,7 +17,7 @@ namespace Ghpr.Core.Helpers
         public static string GetScreenName(DateTime dt)
         {
             var format = ImageFormat.Png;
-            return $"img_{dt.ToString("yyyyMMdd_HHmmssfff")}.{format.ToString().ToLower()}";
+            return $"img_{dt:yyyyMMdd_HHmmssfff}.{format.ToString().ToLower()}";
         }
 
         public static DateTime GetScreenDate(string name)

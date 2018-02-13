@@ -86,7 +86,7 @@ namespace Ghpr.Core
                 _currentRun.RunInfo.Finish = finishDateTime;
                 _currentRun.Save(RunsPath);
                 var runInfo = new ItemInfo(_currentRun.RunInfo);
-                RunsHelper.SaveCurrentRunInfo(RunsPath, runInfo);
+                runInfo.SaveCurrentRunInfo(RunsPath);
             });
         }
 
@@ -155,7 +155,7 @@ namespace Ghpr.Core
                 testRun.Save(testPath, fileName);
                 _currentRun.TestRunFiles.Add(Paths.GetRelativeTestRunPath(testGuid, fileName));
 
-                TestRunsHelper.SaveCurrentTestInfo(testPath, testRun.TestInfo);
+                testRun.TestInfo.SaveCurrentTestInfo(testPath);
             });
         }
 
@@ -190,7 +190,7 @@ namespace Ghpr.Core
                 _currentTestRuns.Remove(currentTest);
                 _currentRun.TestRunFiles.Add(Paths.GetRelativeTestRunPath(testGuid, fileName));
 
-                TestRunsHelper.SaveCurrentTestInfo(testPath, finalTest.TestInfo);
+                finalTest.TestInfo.SaveCurrentTestInfo(testPath);
 
                 if (Settings.RealTimeGeneration)
                 {

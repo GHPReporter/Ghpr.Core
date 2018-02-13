@@ -6,11 +6,21 @@ using Ghpr.Core.Comparers;
 using Ghpr.Core.Utils;
 using Newtonsoft.Json;
 
-namespace Ghpr.Core.Helpers
+namespace Ghpr.Core.Extensions
 {
-    public static class ItemInfoHelper
+    public static class ItemInfoExtensions
     {
-        public static void SaveItemInfo(string path, string filename, ItemInfo itemInfo, bool removeExisting = true)
+        public static void SaveCurrentRunInfo(this ItemInfo runInfo, string path)
+        {
+            runInfo.SaveItemInfo(path, Paths.Files.Runs);
+        }
+
+        public static void SaveCurrentTestInfo(this ItemInfo testInfo, string path)
+        {
+            testInfo.SaveItemInfo(path, Paths.Files.Tests, false);
+        }
+
+        public static void SaveItemInfo(this ItemInfo itemInfo, string path, string filename, bool removeExisting = true)
         {
             var ii = new ItemInfo(itemInfo);
             var serializer = new JsonSerializer();
@@ -18,7 +28,7 @@ namespace Ghpr.Core.Helpers
             var fullItemInfoPath = Path.Combine(path, filename);
             if (!File.Exists(fullItemInfoPath))
             {
-                var items = new List<ItemInfo>(1) {ii};
+                var items = new List<ItemInfo>(1) { ii };
                 using (var file = File.CreateText(fullItemInfoPath))
                 {
                     serializer.Serialize(file, items);
@@ -48,6 +58,22 @@ namespace Ghpr.Core.Helpers
                     serializer.Serialize(file, itemsToSave);
                 }
             }
+        }
+
+        public static List<ItemInfo> LoadItemInfos(this string path, string filename, bool removeExisting = true)
+        {
+            var serializer = new JsonSerializer();
+            var fullItemInfoPath = Path.Combine(path, filename);
+            var existingItems = new List<ItemInfo>();
+            if (File.Exists(fullItemInfoPath))
+            {
+                using (var file = File.OpenText(fullItemInfoPath))
+                {
+                    existingItems = (List<ItemInfo>) serializer.Deserialize(file, typeof(List<ItemInfo>));
+                }
+            }
+            return existingItems;
+        
         }
     }
 }

@@ -93,14 +93,12 @@
     <Compile Include="Enums\TestingFramework.cs" />
     <Compile Include="Enums\TestResult.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\ItemInfoExtensions.cs" />
     <Compile Include="Extensions\RunSummaryExtensions.cs" />
     <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
-    <Compile Include="Helpers\ItemInfoHelper.cs" />
     <Compile Include="Helpers\ReporterHelper.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />
-    <Compile Include="Helpers\TestRunsHelper.cs" />
-    <Compile Include="Helpers\RunsHelper.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
     <Compile Include="Interfaces\ILog.cs" />
     <Compile Include="Interfaces\IReporter.cs" />
