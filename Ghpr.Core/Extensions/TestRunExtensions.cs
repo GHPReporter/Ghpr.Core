@@ -27,7 +27,7 @@ namespace Ghpr.Core.Extensions
         {
             return testRun.TestInfo.Finish.GetTestName();
         }
-        
+
         public static void Save(this ITestRun testRun, string path, string name)
         {
             Paths.Create(path);
@@ -37,6 +37,18 @@ namespace Ghpr.Core.Extensions
                 var serializer = new JsonSerializer();
                 serializer.Serialize(file, testRun);
             }
+        }
+
+        public static ITestRun LoadTestRun(this string path, string name)
+        {
+            ITestRun testRun;
+            var fullPath = Path.Combine(path, name);
+            using (var file = File.OpenText(fullPath))
+            {
+                var serializer = new JsonSerializer();
+                testRun = (ITestRun)serializer.Deserialize(file, typeof(TestRun));
+            }
+            return testRun;
         }
 
         public static ITestRun GetTest(this List<ITestRun> testRuns, ITestRun testRun)

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
 using Newtonsoft.Json;
@@ -21,6 +22,18 @@ namespace Ghpr.Core.Extensions
                 var serializer = new JsonSerializer();
                 serializer.Serialize(file, run);
             }
+        }
+
+        public static IRun LoadRun(this string path, string fileName)
+        {
+            IRun run;
+            var fullRunPath = Path.Combine(path, fileName);
+            using (var file = File.OpenText(fullRunPath))
+            {
+                var serializer = new JsonSerializer();
+                run = (IRun)serializer.Deserialize(file, typeof(Run));
+            }
+            return run;
         }
     }
 }

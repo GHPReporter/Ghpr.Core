@@ -64,16 +64,12 @@ namespace Ghpr.Core.Extensions
         {
             var serializer = new JsonSerializer();
             var fullItemInfoPath = Path.Combine(path, filename);
-            var existingItems = new List<ItemInfo>();
-            if (File.Exists(fullItemInfoPath))
+            List<ItemInfo> existingItems;
+            using (var file = File.OpenText(fullItemInfoPath))
             {
-                using (var file = File.OpenText(fullItemInfoPath))
-                {
-                    existingItems = (List<ItemInfo>) serializer.Deserialize(file, typeof(List<ItemInfo>));
-                }
+                existingItems = (List<ItemInfo>) serializer.Deserialize(file, typeof(List<ItemInfo>));
             }
-            return existingItems;
-        
+            return existingItems;        
         }
     }
 }

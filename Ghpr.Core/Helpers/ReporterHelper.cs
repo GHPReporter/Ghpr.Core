@@ -48,5 +48,18 @@ namespace Ghpr.Core.Helpers
                 }
             }
         }
+
+        public static IReportSettings LoadReportSettings(this string reportOutputPath)
+        {
+            IReportSettings settings;
+            var folder = Path.Combine(reportOutputPath, Folders.Src);
+            var serializer = new JsonSerializer();
+            var fullPath = Path.Combine(folder, Files.ReportSettings);    
+            using (var file = File.OpenText(fullPath))
+            {
+                settings = (IReportSettings)serializer.Deserialize(file, typeof(ReportSettings));
+            }
+            return settings;
+        }
     }
 }
