@@ -40,6 +40,7 @@ namespace Ghpr.Core.Utils
             public const string DefaultLog = "GHPReporter.txt";
             public const string CoreSettings = "Ghpr.Core.Settings.json";
             public const string MSTestSettings = "Ghpr.MSTest.Settings.json";
+            public const string MSTestV2Settings = "Ghpr.MSTestV2.Settings.json";
             public const string NUnitSettings = "Ghpr.NUnit.Settings.json";
             public const string SpecFlowSettings = "Ghpr.SpecFlow.Settings.json";
             public const string ReportSettings = "ReportSettings.json";

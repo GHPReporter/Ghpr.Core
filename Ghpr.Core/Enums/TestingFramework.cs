@@ -5,6 +5,7 @@ namespace Ghpr.Core.Enums
     {
         NUnit,
         MSTest,
+        MSTestV2,
         SpecFlow
     }
 }

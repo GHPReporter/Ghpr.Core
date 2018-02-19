@@ -25,6 +25,8 @@ namespace Ghpr.Core.Helpers
             {
                 case TestingFramework.MSTest:
                     return Files.MSTestSettings;
+                case TestingFramework.MSTestV2:
+                    return Files.MSTestV2Settings;
                 case TestingFramework.NUnit:
                     return Files.NUnitSettings;
                 case TestingFramework.SpecFlow:
