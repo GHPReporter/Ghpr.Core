@@ -10,8 +10,11 @@ namespace Ghpr.Core.Helpers
 
         public ActionHelper(string outputPath)
         {
-            _outputPath = outputPath ?? 
+            if (outputPath == null)
+            {
                 throw new ArgumentNullException(nameof(outputPath), "ActionHelper output must be specified!");
+            }
+            _outputPath = outputPath;
             _lock = new object();
         }
 
