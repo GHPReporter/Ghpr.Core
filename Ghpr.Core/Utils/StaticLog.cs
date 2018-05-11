@@ -24,7 +24,7 @@ namespace Ghpr.Core.Utils
             {
                 if (fileName.Equals(""))
                 {
-                    fileName = Paths.Files.DefaultLog;
+                    fileName = Log.DefaultLog;
                 }
                 if (!_logs.Any(log => log.LogFile.Equals(fileName)))
                 {
