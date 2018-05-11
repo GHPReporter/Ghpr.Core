@@ -59,9 +59,9 @@ namespace Ghpr.Core.Extensions
             return tr;
         }
 
-        public static ITestRun SaveScreenshot(this ITestRun testRun, byte[] screenBytes, string reportOutputPath)
+        public static ITestRun SaveScreenshot(this ITestRun testRun, byte[] screenBytes, ILocationsProvider locationsProvider)
         {
-            var screenPath = Path.Combine(reportOutputPath, Paths.Folders.Tests, testRun.TestInfo.Guid.ToString(), Paths.Folders.Img);
+            var screenPath = locationsProvider.GetScreenshotPath(testRun.TestInfo.Guid.ToString());
             var screenshotName = ScreenshotHelper.SaveScreenshot(screenPath, screenBytes, DateTime.Now);
             var screenshot = new TestScreenshot(screenshotName);
             testRun.Screenshots.Add(screenshot);

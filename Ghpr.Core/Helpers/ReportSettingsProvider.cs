@@ -9,9 +9,9 @@ namespace Ghpr.Core.Helpers
 {
     internal static class ReportSettingsProvider
     {
-        public static void Save(this IReportSettings reportSettings, string reportOutputPath)
+        public static void Save(this IReportSettings reportSettings, ILocationsProvider locationsProvider)
         {
-            var folder = Path.Combine(reportOutputPath, Folders.Src);
+            var folder = locationsProvider.SrcPath;
             var serializer = new JsonSerializer();
             folder.Create();
             var fullPath = Path.Combine(folder, Files.ReportSettings);
@@ -24,10 +24,10 @@ namespace Ghpr.Core.Helpers
             }
         }
 
-        public static IReportSettings LoadReportSettings(this string reportOutputPath)
+        public static IReportSettings LoadReportSettings(ILocationsProvider locationsProvider)
         {
             IReportSettings settings;
-            var folder = Path.Combine(reportOutputPath, Folders.Src);
+            var folder = locationsProvider.SrcPath;
             var serializer = new JsonSerializer();
             var fullPath = Path.Combine(folder, Files.ReportSettings);    
             using (var file = File.OpenText(fullPath))

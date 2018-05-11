@@ -3,21 +3,21 @@ using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.Comparers;
-using Ghpr.Core.Utils;
+using Ghpr.Core.Interfaces;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Extensions
 {
     public static class ItemInfoExtensions
     {
-        public static void SaveCurrentRunInfo(this ItemInfo runInfo, string path)
+        public static void SaveCurrentRunInfo(this ItemInfo runInfo, ILocationsProvider locationsProvider)
         {
-            runInfo.SaveItemInfo(path, Paths.Files.Runs);
+            runInfo.SaveItemInfo(locationsProvider.RunsPath, locationsProvider.Paths.File.Runs);
         }
 
-        public static void SaveCurrentTestInfo(this ItemInfo testInfo, string path)
+        public static void SaveCurrentTestInfo(this ItemInfo testInfo, ILocationsProvider locationsProvider)
         {
-            testInfo.SaveItemInfo(path, Paths.Files.Tests, false);
+            testInfo.SaveItemInfo(locationsProvider.GetTestPath(testInfo.Guid.ToString()), locationsProvider.Paths.File.Tests, false);
         }
 
         public static void SaveItemInfo(this ItemInfo itemInfo, string path, string filename, bool removeExisting = true)

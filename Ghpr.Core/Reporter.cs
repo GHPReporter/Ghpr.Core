@@ -9,7 +9,6 @@ using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
-using Ghpr.Core.Utils;
 
 namespace Ghpr.Core
 {
@@ -26,7 +25,7 @@ namespace Ghpr.Core
             ReportSettings = new ReportSettings(ReporterSettings.RunsToDisplay, ReporterSettings.TestsToDisplay);
             _action = new ActionHelper(ReporterSettings.OutputPath);
             _extractor = new ResourceExtractor(_action, ReporterSettings.OutputPath);
-            _locationsProvider = new LocationsProvider(ReporterSettings);
+            _locationsProvider = new LocationsProvider(ReporterSettings.OutputPath);
             TestRunStarted = false;
         }
         
@@ -72,7 +71,7 @@ namespace Ghpr.Core
                 _currentRun.Sprint = ReporterSettings.Sprint;
                 _extractor.ExtractReportBase();
                 _currentRun.RunInfo.Start = startDateTime;
-                ReportSettings.Save(ReporterSettings.OutputPath);
+                ReportSettings.Save(_locationsProvider);
             });
         }
 
@@ -83,7 +82,7 @@ namespace Ghpr.Core
                 _currentRun.RunInfo.Finish = finishDateTime;
                 _currentRun.Save(_locationsProvider.RunsPath);
                 var runInfo = new ItemInfo(_currentRun.RunInfo);
-                runInfo.SaveCurrentRunInfo(_locationsProvider.RunsPath);
+                runInfo.SaveCurrentRunInfo(_locationsProvider);
             });
         }
 
@@ -153,7 +152,7 @@ namespace Ghpr.Core
                 testRun.Save(testPath, fileName);
                 _currentRun.TestRunFiles.Add(_locationsProvider.GetRelativeTestRunPath(testGuid, fileName));
 
-                testRun.TestInfo.SaveCurrentTestInfo(testPath);
+                testRun.TestInfo.SaveCurrentTestInfo(_locationsProvider);
             });
         }
 
@@ -189,7 +188,7 @@ namespace Ghpr.Core
                 _currentTestRuns.Remove(currentTest);
                 _currentRun.TestRunFiles.Add(_locationsProvider.GetRelativeTestRunPath(testGuid, fileName));
 
-                finalTest.TestInfo.SaveCurrentTestInfo(testPath);
+                finalTest.TestInfo.SaveCurrentTestInfo(_locationsProvider);
 
                 if (ReporterSettings.RealTimeGeneration)
                 {

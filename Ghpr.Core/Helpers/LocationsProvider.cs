@@ -6,16 +6,20 @@ namespace Ghpr.Core.Helpers
 {
     public class LocationsProvider : ILocationsProvider
     {
-        public LocationsProvider(IReporterSettings reporterSettings)
+        public LocationsProvider(string outputPath)
         {
-            ReporterSettings = reporterSettings;
-            TestsPath = Path.Combine(reporterSettings.OutputPath, Paths.Folders.Tests);
-            RunsPath = Path.Combine(reporterSettings.OutputPath, Paths.Folders.Runs);
+            Paths = new Paths();
+            OutputPath = outputPath;
+            TestsPath = Path.Combine(outputPath, Paths.Folder.Tests);
+            RunsPath = Path.Combine(outputPath, Paths.Folder.Runs);
+            SrcPath = Path.Combine(outputPath, Paths.Folder.Src);
         }
 
+        public string SrcPath { get; }
         public string TestsPath { get; }
         public string RunsPath { get; }
-        public IReporterSettings ReporterSettings { get; }
+        public string OutputPath { get; }
+        public Paths Paths { get; }
 
         public string GetTestPath(string testGuid)
         {
@@ -29,7 +33,7 @@ namespace Ghpr.Core.Helpers
 
         public string GetScreenshotPath(string testGuid)
         {
-            return Path.Combine(TestsPath, testGuid, Paths.Folders.Img);
+            return Path.Combine(TestsPath, testGuid, Paths.Folder.Img);
         }
     }
 }

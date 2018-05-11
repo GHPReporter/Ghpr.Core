@@ -63,7 +63,6 @@ namespace Ghpr.Core.Utils
             {
                 Locker.ReleaseWriterLock();
             }
-            
         }
 
         public void SetOutputFileName(string fileWithExtension)

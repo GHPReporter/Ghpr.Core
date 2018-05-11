@@ -2,35 +2,46 @@
 
 namespace Ghpr.Core.Utils
 {
-    public static class Paths
+    public class Paths
     {
-        public static class Names
+        public Paths()
         {
-            public const string ScreenshotKeyTemplate = "ghpr_screenshot_";
-            public const string TestDataCommentKeyTemplate = "ghpr_test_data_comment_";
-            public const string TestDataDateTimeKeyTemplate = "ghpr_test_data_datetime_";
-            public const string TestDataActualKeyTemplate = "ghpr_test_data_actual_";
-            public const string TestDataExpectedKeyTemplate = "ghpr_test_data_expected_";
+            Name = new Names();
+            Folder = new Folders();
+            File = new Files();
         }
 
-        public static class Folders
+        public Names Name { get; }
+        public Folders Folder { get; }
+        public Files File { get; }
+
+        public class Names
         {
-            public const string Tests = "tests";
-            public const string Runs = "runs";
-            public const string Img = "img";
-            public const string Src = "src";
+            public static string ScreenshotKeyTemplate = "ghpr_screenshot_";
+            public static string TestDataCommentKeyTemplate = "ghpr_test_data_comment_";
+            public static string TestDataDateTimeKeyTemplate = "ghpr_test_data_datetime_";
+            public static string TestDataActualKeyTemplate = "ghpr_test_data_actual_";
+            public static string TestDataExpectedKeyTemplate = "ghpr_test_data_expected_";
         }
 
-        public static class Files
+        public class Folders
         {
-            public const string CoreSettings = "Ghpr.Core.Settings.json";
-            public const string MSTestSettings = "Ghpr.MSTest.Settings.json";
-            public const string MSTestV2Settings = "Ghpr.MSTestV2.Settings.json";
-            public const string NUnitSettings = "Ghpr.NUnit.Settings.json";
-            public const string SpecFlowSettings = "Ghpr.SpecFlow.Settings.json";
-            public const string ReportSettings = "ReportSettings.json";
-            public const string Tests = "tests.json";
-            public const string Runs = "runs.json";
+            public string Tests = "tests";
+            public string Runs = "runs";
+            public string Img = "img";
+            public string Src = "src";
+        }
+
+        public class Files
+        {
+            public static string CoreSettings = "Ghpr.Core.Settings.json";
+            public static string MSTestSettings = "Ghpr.MSTest.Settings.json";
+            public static string MSTestV2Settings = "Ghpr.MSTestV2.Settings.json";
+            public static string NUnitSettings = "Ghpr.NUnit.Settings.json";
+            public static string SpecFlowSettings = "Ghpr.SpecFlow.Settings.json";
+            public static string ReportSettings = "ReportSettings.json";
+            public string Tests = "tests.json";
+            public string Runs = "runs.json";
         }
     }
 }
