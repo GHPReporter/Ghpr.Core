@@ -15,7 +15,7 @@ namespace Ghpr.Core.Extensions
                 fileName = $"run_{run.RunInfo.Guid.ToString().ToLower()}.json";
             }
             run.RunInfo.FileName = fileName;
-            Paths.Create(path);
+            path.Create();
             var fullRunPath = Path.Combine(path, fileName);
             using (var file = File.CreateText(fullRunPath))
             {

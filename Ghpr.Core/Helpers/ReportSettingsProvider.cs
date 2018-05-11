@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Ghpr.Core.Common;
+using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
 using Newtonsoft.Json;
 using static Ghpr.Core.Utils.Paths;
@@ -12,7 +13,7 @@ namespace Ghpr.Core.Helpers
         {
             var folder = Path.Combine(reportOutputPath, Folders.Src);
             var serializer = new JsonSerializer();
-            Create(folder);
+            folder.Create();
             var fullPath = Path.Combine(folder, Files.ReportSettings);
             if (!File.Exists(fullPath))
             {

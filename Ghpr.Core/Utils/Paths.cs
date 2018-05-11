@@ -1,23 +1,9 @@
-﻿using System.IO;
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 
 namespace Ghpr.Core.Utils
 {
     public static class Paths
     {
-        public static void Create(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-        }
-
-        public static string GetRelativeTestRunPath(string testGuid, string testFileName)
-        {
-            return $"{testGuid}\\{testFileName}";
-        }
-
         public static class Names
         {
             public const string ScreenshotKeyTemplate = "ghpr_screenshot_";

@@ -24,7 +24,7 @@ namespace Ghpr.Core.Extensions
         {
             var ii = new ItemInfo(itemInfo);
             var serializer = new JsonSerializer();
-            Paths.Create(path);
+            path.Create();
             var fullItemInfoPath = Path.Combine(path, filename);
             if (!File.Exists(fullItemInfoPath))
             {

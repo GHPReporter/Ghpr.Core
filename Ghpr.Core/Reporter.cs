@@ -151,7 +151,7 @@ namespace Ghpr.Core
 
                 var testPath = _locationsProvider.GetTestPath(testGuid);
                 testRun.Save(testPath, fileName);
-                _currentRun.TestRunFiles.Add(Paths.GetRelativeTestRunPath(testGuid, fileName));
+                _currentRun.TestRunFiles.Add(_locationsProvider.GetRelativeTestRunPath(testGuid, fileName));
 
                 testRun.TestInfo.SaveCurrentTestInfo(testPath);
             });
@@ -187,7 +187,7 @@ namespace Ghpr.Core
 
                 finalTest.Save(testPath, fileName);
                 _currentTestRuns.Remove(currentTest);
-                _currentRun.TestRunFiles.Add(Paths.GetRelativeTestRunPath(testGuid, fileName));
+                _currentRun.TestRunFiles.Add(_locationsProvider.GetRelativeTestRunPath(testGuid, fileName));
 
                 finalTest.TestInfo.SaveCurrentTestInfo(testPath);
 

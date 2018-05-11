@@ -30,7 +30,7 @@ namespace Ghpr.Core.Extensions
 
         public static void Save(this ITestRun testRun, string path, string name)
         {
-            Paths.Create(path);
+            path.Create();
             var fullPath = Path.Combine(path, name.Equals("") ? testRun.GetFileName() : name);
             using (var file = File.CreateText(fullPath))
             {

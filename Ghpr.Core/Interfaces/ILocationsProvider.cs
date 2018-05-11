@@ -5,6 +5,8 @@
         string RunsPath { get; }
         string TestsPath { get; }
         IReporterSettings ReporterSettings { get; }
+
         string GetTestPath(string testGuid);
+        string GetRelativeTestRunPath(string testGuid, string testFileName);
     }
 }

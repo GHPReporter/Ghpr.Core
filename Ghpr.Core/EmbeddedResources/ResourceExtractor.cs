@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Enums;
+using Ghpr.Core.Extensions;
 using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
@@ -45,7 +46,7 @@ namespace Ghpr.Core.EmbeddedResources
                 var currentAssembly = GetType().Assembly;
                 var arrResources = currentAssembly.GetManifestResourceNames();
                 var destinationPath = res.RelativePath.Equals("") ? OutputPath : Path.Combine(OutputPath, res.RelativePath);
-                Paths.Create(destinationPath);
+                destinationPath.Create();
 
                 var destinationFullPath = res.RelativePath.Equals("") ? Path.Combine(OutputPath, res.FileName) : Path.Combine(OutputPath, res.RelativePath, res.FileName);
 

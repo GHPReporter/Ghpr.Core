@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core.Utils
@@ -19,7 +20,7 @@ namespace Ghpr.Core.Utils
         
         public void WriteToFile(string msg, string fileName)
         {
-            Paths.Create(Output);
+            Output.Create();
             using (var sw = File.AppendText(Path.Combine(Output, fileName)))
             {
                 try
@@ -39,7 +40,7 @@ namespace Ghpr.Core.Utils
             try
             {
                 Locker.AcquireWriterLock(int.MaxValue);
-                Paths.Create(Output);
+                Output.Create();
                 using (var sw = File.AppendText(Path.Combine(Output, LogFile)))
                 {
                     try

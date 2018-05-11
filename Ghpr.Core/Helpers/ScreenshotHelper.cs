@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using Ghpr.Core.Extensions;
 using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.Helpers
@@ -43,7 +44,7 @@ namespace Ghpr.Core.Helpers
         public static string SaveScreenshot(string screenPath, Bitmap screen, DateTime creationTime)
         {
             var format = ImageFormat.Png;
-            Paths.Create(screenPath);
+            screenPath.Create();
             creationTime = creationTime.Equals(default(DateTime)) ? DateTime.Now : creationTime;
             var screenName = GetScreenName(creationTime);
             var file = Path.Combine(screenPath, screenName);

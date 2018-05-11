@@ -21,5 +21,10 @@ namespace Ghpr.Core.Helpers
         {
             return Path.Combine(TestsPath, testGuid);
         }
+
+        public string GetRelativeTestRunPath(string testGuid, string testFileName)
+        {
+            return $"{testGuid}\\{testFileName}";
+        }
     }
 }
