@@ -9,7 +9,7 @@ namespace Ghpr.Core
         private static Reporter _reporter;
         private static readonly object Lock;
 
-        public static string OutputPath => _reporter.Settings.OutputPath;
+        public static string OutputPath => _reporter.ReporterSettings.OutputPath;
         
         static ReporterManager()
         {

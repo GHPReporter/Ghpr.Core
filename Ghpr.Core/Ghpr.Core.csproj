@@ -56,12 +56,12 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
-    </Reference>    
+    </Reference>
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'=='Debug-NET40' Or '$(Configuration)'=='Release-NET40'">
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.11.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private> 
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -97,9 +97,13 @@
     <Compile Include="Extensions\RunSummaryExtensions.cs" />
     <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
-    <Compile Include="Helpers\ReporterHelper.cs" />
+    <Compile Include="Helpers\LocationsProvider.cs" />
+    <Compile Include="Helpers\ReporterSettingsProvider.cs" />
+    <Compile Include="Helpers\ReportSettingsProvider.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />
+    <Compile Include="Interfaces\IDataProvider.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
+    <Compile Include="Interfaces\ILocationsProvider.cs" />
     <Compile Include="Interfaces\ILog.cs" />
     <Compile Include="Interfaces\IReporter.cs" />
     <Compile Include="Interfaces\IReporterSettings.cs" />
