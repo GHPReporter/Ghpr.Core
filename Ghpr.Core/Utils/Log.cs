@@ -8,6 +8,7 @@ namespace Ghpr.Core.Utils
 {
     public class Log : ILog
     {
+        public const string DefaultLog = "GHPReporter.txt";
         public string LogFile { get; private set; }
         public string Output { get; }
         private static readonly ReaderWriterLock Locker = new ReaderWriterLock();
@@ -15,7 +16,7 @@ namespace Ghpr.Core.Utils
         public Log(string outputPath, string logFile = "")
         {
             Output = outputPath;
-            LogFile = logFile.Equals("") ? Paths.Files.DefaultLog : logFile;
+            LogFile = logFile.Equals("") ? DefaultLog : logFile;
         }
         
         public void WriteToFile(string msg, string fileName)
@@ -83,7 +84,7 @@ namespace Ghpr.Core.Utils
                 msg = msg + nl + " Inner Exception: " + nl + inner.Message + nl + "StackTrace: " + nl + inner.StackTrace;
                 inner = inner.InnerException;
             }
-            WriteToFile(msg, $"Exception_{DateTime.Now.ToString("ddMMyy_HHmmss_fff")}_{Guid.NewGuid()}.txt");
+            WriteToFile(msg, $"Exception_{DateTime.Now:ddMMyy_HHmmss_fff}_{Guid.NewGuid()}.txt");
         }
     }
 }

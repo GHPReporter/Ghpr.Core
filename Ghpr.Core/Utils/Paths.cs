@@ -23,7 +23,6 @@ namespace Ghpr.Core.Utils
 
         public static class Files
         {
-            public const string DefaultLog = "GHPReporter.txt";
             public const string CoreSettings = "Ghpr.Core.Settings.json";
             public const string MSTestSettings = "Ghpr.MSTest.Settings.json";
             public const string MSTestV2Settings = "Ghpr.MSTestV2.Settings.json";

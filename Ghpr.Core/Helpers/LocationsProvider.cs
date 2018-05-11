@@ -26,5 +26,10 @@ namespace Ghpr.Core.Helpers
         {
             return $"{testGuid}\\{testFileName}";
         }
+
+        public string GetScreenshotPath(string testGuid)
+        {
+            return Path.Combine(TestsPath, testGuid, Paths.Folders.Img);
+        }
     }
 }

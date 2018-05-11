@@ -8,5 +8,6 @@
 
         string GetTestPath(string testGuid);
         string GetRelativeTestRunPath(string testGuid, string testFileName);
+        string GetScreenshotPath(string testGuid);
     }
 }

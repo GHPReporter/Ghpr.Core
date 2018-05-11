@@ -117,7 +117,7 @@ namespace Ghpr.Core
                 var testGuid = _currentTestRun.TestInfo.Guid.ToString();
                 var date = DateTime.Now;
                 var s = new TestScreenshot(date);
-                ScreenshotHelper.SaveScreenshot(Path.Combine(_locationsProvider.TestsPath, testGuid, Paths.Folders.Img), screen, date);
+                ScreenshotHelper.SaveScreenshot(_locationsProvider.GetScreenshotPath(testGuid), screen, date);
                 _currentTestRun.Screenshots.Add(s);
                 _currentTestRuns.First(
                     tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
