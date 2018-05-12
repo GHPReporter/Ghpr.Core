@@ -3,10 +3,10 @@ using System.IO;
 using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Utils;
 using Newtonsoft.Json;
-using static Ghpr.Core.Utils.Paths;
 
-namespace Ghpr.Core.Helpers
+namespace Ghpr.Core.Providers
 {
     internal static class ReporterSettingsProvider
     {
@@ -16,19 +16,19 @@ namespace Ghpr.Core.Helpers
             switch (testingFramework)
             {
                 case TestingFramework.MSTest:
-                    fileName = Files.MSTestSettings;
+                    fileName = Paths.Files.MSTestSettings;
                     break;
                 case TestingFramework.MSTestV2:
-                    fileName = Files.MSTestV2Settings;
+                    fileName = Paths.Files.MSTestV2Settings;
                     break;
                 case TestingFramework.NUnit:
-                    fileName = Files.NUnitSettings;
+                    fileName = Paths.Files.NUnitSettings;
                     break;
                 case TestingFramework.SpecFlow:
-                    fileName = Files.SpecFlowSettings;
+                    fileName = Paths.Files.SpecFlowSettings;
                     break;
                 default:
-                    fileName = Files.CoreSettings;
+                    fileName = Paths.Files.CoreSettings;
                     break;
             }
             var settings = Load(fileName);
@@ -39,7 +39,7 @@ namespace Ghpr.Core.Helpers
         {
             var uri = new Uri(typeof(ReporterSettings).Assembly.CodeBase);
             var settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "",
-                fileName.Equals("") ? Files.CoreSettings : fileName);
+                fileName.Equals("") ? Paths.Files.CoreSettings : fileName);
             var settings = JsonConvert.DeserializeObject<ReporterSettings>(File.ReadAllText(settingsPath));
             return settings;
         }

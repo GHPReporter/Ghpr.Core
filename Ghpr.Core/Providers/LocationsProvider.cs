@@ -2,7 +2,7 @@
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
 
-namespace Ghpr.Core.Helpers
+namespace Ghpr.Core.Providers
 {
     public class LocationsProvider : ILocationsProvider
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
@@ -9,6 +8,7 @@ using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Providers;
 
 namespace Ghpr.Core
 {
@@ -26,6 +26,7 @@ namespace Ghpr.Core
             _action = new ActionHelper(ReporterSettings.OutputPath);
             _extractor = new ResourceExtractor(_action, ReporterSettings.OutputPath);
             _locationsProvider = new LocationsProvider(ReporterSettings.OutputPath);
+            _dataProvider = new FileSystemDataProvider(ReporterSettings, _locationsProvider);
             TestRunStarted = false;
         }
         
@@ -47,21 +48,21 @@ namespace Ghpr.Core
         private IRun _currentRun;
         private ITestRun _currentTestRun;
         private List<ITestRun> _currentTestRuns;
-        private Guid _currentRunGuid;
         private ResourceExtractor _extractor;
         private static ActionHelper _action;
+        private ILocationsProvider _locationsProvider;
+        private IDataProvider _dataProvider;
 
         public bool TestRunStarted { get; private set; }
         public IReportSettings ReportSettings { get; private set; }
         public IReporterSettings ReporterSettings { get; private set; }
-        private ILocationsProvider _locationsProvider;
 
         private void InitializeRun(DateTime startDateTime, string runGuid = "")
         {
             _action.Safe(() =>
             {
-                _currentRunGuid = runGuid.Equals("") || runGuid.Equals("null") ? Guid.NewGuid() : Guid.Parse(runGuid);
-                _currentRun = new Run(_currentRunGuid)
+                var currentRunGuid = runGuid.Equals("") || runGuid.Equals("null") ? Guid.NewGuid() : Guid.Parse(runGuid);
+                _currentRun = new Run(currentRunGuid)
                 {
                     TestRunFiles = new List<string>(),
                     RunSummary = new RunSummary()
@@ -137,7 +138,7 @@ namespace Ghpr.Core
                 _currentRun.RunSummary = _currentRun.RunSummary.Update(testRun);
 
                 testRun.TestInfo.FileName = fileName;
-                testRun.RunGuid = _currentRunGuid;
+                testRun.RunGuid = _currentRun.RunInfo.Guid;
                 testRun.TestInfo.Start = testRun.TestInfo.Start.Equals(default(DateTime))
                     ? finishDateTime
                     : testRun.TestInfo.Start;
@@ -171,7 +172,7 @@ namespace Ghpr.Core
                 _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
 
                 finalTest.TestInfo.FileName = fileName;
-                finalTest.RunGuid = _currentRunGuid;
+                finalTest.RunGuid = _currentRun.RunInfo.Guid;
                 finalTest.TestInfo.Start = finalTest.TestInfo.Start.Equals(default(DateTime))
                     ? finishDateTime
                     : finalTest.TestInfo.Start;
