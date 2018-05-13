@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
-using Ghpr.Core.Utils;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Extensions

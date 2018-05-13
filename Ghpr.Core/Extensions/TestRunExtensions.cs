@@ -5,7 +5,6 @@ using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
-using Ghpr.Core.Utils;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Extensions
@@ -16,7 +15,7 @@ namespace Ghpr.Core.Extensions
         {
             if (target.TestInfo.Guid.Equals(Guid.Empty))
             {
-                target.TestInfo.Guid = GuidConverter.ToMd5HashGuid(target.FullName);
+                target.TestInfo.Guid = target.FullName.ToMd5HashGuid();
             }
             target.Screenshots.AddRange(run.Screenshots.Where(s => !target.Screenshots.Any(ts => ts.Name.Equals(s.Name))));
             target.Events.AddRange(run.Events.Where(e => !target.Events.Any(te => te.Name.Equals(e.Name))));
