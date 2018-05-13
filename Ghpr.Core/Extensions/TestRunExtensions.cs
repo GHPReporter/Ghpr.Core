@@ -24,7 +24,7 @@ namespace Ghpr.Core.Extensions
 
         public static string GetFileName(this ITestRun testRun)
         {
-            return testRun.TestInfo.Finish.GetTestName();
+            return $"test_{testRun.TestInfo.Finish:yyyyMMdd_HHmmssfff}.json";
         }
 
         public static void Save(this ITestRun testRun, string path, string name)

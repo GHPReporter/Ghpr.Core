@@ -133,7 +133,7 @@ namespace Ghpr.Core
 
                 var finishDateTime = testRun.TestInfo.Finish;
                 var testGuid = testRun.TestInfo.Guid.ToString();
-                var fileName = finishDateTime.GetTestName();
+                var fileName = testRun.GetFileName();
 
                 _currentRun.RunSummary = _currentRun.RunSummary.Update(testRun);
 
@@ -167,7 +167,7 @@ namespace Ghpr.Core
                 var currentTest = _currentTestRuns.GetTestRun(testRun);
                 var finalTest = testRun.Update(currentTest);
                 var testGuid = finalTest.TestInfo.Guid.ToString();
-                var fileName = finishDateTime.GetTestName();
+                var fileName = testRun.GetFileName();
 
                 _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
 

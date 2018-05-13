@@ -92,7 +92,6 @@
     <Compile Include="EmbeddedResources\EmbeddedResource.cs" />
     <Compile Include="Enums\TestingFramework.cs" />
     <Compile Include="Enums\TestResult.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\ItemInfoExtensions.cs" />
     <Compile Include="Extensions\RunSummaryExtensions.cs" />
     <Compile Include="Extensions\RunExtensions.cs" />
