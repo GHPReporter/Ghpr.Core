@@ -7,13 +7,13 @@ namespace Ghpr.Core.Providers
         protected AbstractDataProvider(IReporterSettings reporterSettings, ILocationsProvider locationsProvider)
         {
             ReporterSettings = reporterSettings;
-            LocationsProvider = LocationsProvider;
+            LocationsProvider = locationsProvider;
         }
 
         public IReporterSettings ReporterSettings { get; }
         public ILocationsProvider LocationsProvider { get; }
 
-        public abstract void SaveTestRun(IRun run);
-        public abstract void SaveRun(ITestRun testRun);
+        public abstract void SaveTestRun(ITestRun testRun);
+        public abstract void SaveRun(IRun run);
     }
 }

@@ -5,7 +5,7 @@
         IReporterSettings ReporterSettings { get; }
         ILocationsProvider LocationsProvider { get; }
 
-        void SaveTestRun(IRun run);
-        void SaveRun(ITestRun testRun);
+        void SaveTestRun(ITestRun testRun);
+        void SaveRun(IRun run);
     }
 }

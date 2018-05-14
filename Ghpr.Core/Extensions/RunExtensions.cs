@@ -7,12 +7,9 @@ namespace Ghpr.Core.Extensions
 {
     public static class RunExtensions
     {
-        public static void Save(this IRun run, string path, string fileName = "")
+        public static void Save(this IRun run, string path)
         {
-            if (fileName.Equals(""))
-            {
-                fileName = $"run_{run.RunInfo.Guid.ToString().ToLower()}.json";
-            }
+            var fileName = $"run_{run.RunInfo.Guid.ToString().ToLower()}.json";
             run.RunInfo.FileName = fileName;
             path.Create();
             var fullRunPath = Path.Combine(path, fileName);

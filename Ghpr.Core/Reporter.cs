@@ -81,9 +81,7 @@ namespace Ghpr.Core
             _action.Safe(() =>
             {
                 _currentRun.RunInfo.Finish = finishDateTime;
-                _currentRun.Save(_locationsProvider.RunsPath);
-                var runInfo = new ItemInfo(_currentRun.RunInfo);
-                runInfo.SaveCurrentRunInfo(_locationsProvider);
+                _dataProvider.SaveRun(_currentRun);
             });
         }
 
@@ -105,6 +103,10 @@ namespace Ghpr.Core
         {
             _action.Safe(() =>
             {
+                var startDateTime = DateTime.Now;
+                testRun.TestInfo.Start = testRun.TestInfo.Start.Equals(default(DateTime))
+                    ? startDateTime
+                    : testRun.TestInfo.Start;
                 _currentTestRuns.Add(testRun);
                 _currentTestRun = testRun;
             });
@@ -139,9 +141,6 @@ namespace Ghpr.Core
 
                 testRun.TestInfo.FileName = fileName;
                 testRun.RunGuid = _currentRun.RunInfo.Guid;
-                testRun.TestInfo.Start = testRun.TestInfo.Start.Equals(default(DateTime))
-                    ? finishDateTime
-                    : testRun.TestInfo.Start;
                 testRun.TestInfo.Finish = testRun.TestInfo.Finish.Equals(default(DateTime))
                     ? finishDateTime
                     : testRun.TestInfo.Finish;
@@ -149,11 +148,10 @@ namespace Ghpr.Core
                     ? (testRun.TestInfo.Finish - testRun.TestInfo.Start).TotalSeconds
                     : testRun.TestDuration;
 
-                var testPath = _locationsProvider.GetTestPath(testGuid);
-                testRun.Save(testPath, fileName);
+                testRun.Save(_locationsProvider.GetTestPath(testGuid), fileName);
                 _currentRun.TestRunFiles.Add(_locationsProvider.GetRelativeTestRunPath(testGuid, fileName));
 
-                testRun.TestInfo.SaveCurrentTestInfo(_locationsProvider);
+                testRun.TestInfo.SaveTestInfo(_locationsProvider);
             });
         }
 
@@ -173,9 +171,6 @@ namespace Ghpr.Core
 
                 finalTest.TestInfo.FileName = fileName;
                 finalTest.RunGuid = _currentRun.RunInfo.Guid;
-                finalTest.TestInfo.Start = finalTest.TestInfo.Start.Equals(default(DateTime))
-                    ? finishDateTime
-                    : finalTest.TestInfo.Start;
                 finalTest.TestInfo.Finish = finalTest.TestInfo.Finish.Equals(default(DateTime))
                     ? finishDateTime
                     : finalTest.TestInfo.Finish;
@@ -183,13 +178,11 @@ namespace Ghpr.Core
                     ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds
                     : finalTest.TestDuration;
 
-                var testPath = _locationsProvider.GetTestPath(testGuid);
-
-                finalTest.Save(testPath, fileName);
+                finalTest.Save(_locationsProvider.GetTestPath(testGuid), fileName);
                 _currentTestRuns.Remove(currentTest);
                 _currentRun.TestRunFiles.Add(_locationsProvider.GetRelativeTestRunPath(testGuid, fileName));
 
-                finalTest.TestInfo.SaveCurrentTestInfo(_locationsProvider);
+                finalTest.TestInfo.SaveTestInfo(_locationsProvider);
 
                 if (ReporterSettings.RealTimeGeneration)
                 {

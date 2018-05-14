@@ -10,28 +10,26 @@ namespace Ghpr.Core.Extensions
 {
     public static class ItemInfoExtensions
     {
-        public static void SaveCurrentRunInfo(this ItemInfo runInfo, ILocationsProvider locationsProvider)
+        public static void SaveRunInfo(this ItemInfo runInfo, ILocationsProvider locationsProvider)
         {
             runInfo.SaveItemInfo(locationsProvider.RunsPath, locationsProvider.Paths.File.Runs);
         }
 
-        public static void SaveCurrentTestInfo(this ItemInfo testInfo, ILocationsProvider locationsProvider)
+        public static void SaveTestInfo(this ItemInfo testInfo, ILocationsProvider locationsProvider)
         {
             testInfo.SaveItemInfo(locationsProvider.GetTestPath(testInfo.Guid.ToString()), locationsProvider.Paths.File.Tests, false);
         }
 
         public static void SaveItemInfo(this ItemInfo itemInfo, string path, string filename, bool removeExisting = true)
         {
-            var ii = new ItemInfo(itemInfo);
             var serializer = new JsonSerializer();
             path.Create();
             var fullItemInfoPath = Path.Combine(path, filename);
             if (!File.Exists(fullItemInfoPath))
             {
-                var items = new List<ItemInfo>(1) { ii };
                 using (var file = File.CreateText(fullItemInfoPath))
                 {
-                    serializer.Serialize(file, items);
+                    serializer.Serialize(file, new List<ItemInfo>(1) { itemInfo });
                 }
             }
             else
@@ -42,15 +40,15 @@ namespace Ghpr.Core.Extensions
                     existingItems = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
                 }
                 var itemsToSave = new List<ItemInfo>(existingItems.Count);
-                existingItems.ForEach(i => { itemsToSave.Add(new ItemInfo(i)); });
+                existingItems.ForEach(i => { itemsToSave.Add(i); });
 
-                if (removeExisting && itemsToSave.Any(i => i.Guid.Equals(ii.Guid)))
+                if (removeExisting && itemsToSave.Any(i => i.Guid.Equals(itemInfo.Guid)))
                 {
-                    itemsToSave.RemoveAll(i => i.Guid.Equals(ii.Guid));
+                    itemsToSave.RemoveAll(i => i.Guid.Equals(itemInfo.Guid));
                 }
-                if (!itemsToSave.Contains(ii, new ItemInfoComparer()))
+                if (!itemsToSave.Contains(itemInfo, new ItemInfoComparer()))
                 {
-                    itemsToSave.Add(new ItemInfo(ii));
+                    itemsToSave.Add(itemInfo);
                 }
                 using (var file = File.CreateText(fullItemInfoPath))
                 {
