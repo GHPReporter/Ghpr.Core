@@ -16,18 +16,18 @@ namespace Ghpr.Core
     {
         private void InitializeReporter(IReporterSettings settings)
         {
-            ReporterSettings = settings;
-            if (ReporterSettings.OutputPath == null)
+            _reporterSettings = settings;
+            if (_reporterSettings.OutputPath == null)
             {
-                throw new ArgumentNullException(nameof(ReporterSettings.OutputPath),
+                throw new ArgumentNullException(nameof(_reporterSettings.OutputPath),
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
-            ReportSettings = new ReportSettings(ReporterSettings.RunsToDisplay, ReporterSettings.TestsToDisplay);
-            _action = new ActionHelper(ReporterSettings.OutputPath);
-            _extractor = new ResourceExtractor(_action, ReporterSettings.OutputPath);
-            _locationsProvider = new LocationsProvider(ReporterSettings.OutputPath);
-            _dataProvider = new FileSystemDataProvider(ReporterSettings, _locationsProvider);
-            TestRunStarted = false;
+            _reportSettings = new ReportSettings(_reporterSettings.RunsToDisplay, _reporterSettings.TestsToDisplay);
+            _action = new ActionHelper(_reporterSettings.OutputPath);
+            _extractor = new ResourceExtractor(_action, _reporterSettings.OutputPath);
+            _locationsProvider = new LocationsProvider(_reporterSettings.OutputPath);
+            _dataProvider = new FileSystemDataProvider(_reporterSettings, _locationsProvider);
+            _testRunStarted = false;
         }
         
         public Reporter(IReporterSettings settings)
@@ -52,27 +52,33 @@ namespace Ghpr.Core
         private static ActionHelper _action;
         private ILocationsProvider _locationsProvider;
         private IDataProvider _dataProvider;
+        private bool _testRunStarted;
+        private IReportSettings _reportSettings;
+        private IReporterSettings _reporterSettings;
 
-        public bool TestRunStarted { get; private set; }
-        public IReportSettings ReportSettings { get; private set; }
-        public IReporterSettings ReporterSettings { get; private set; }
+        public IReportSettings GetReportSettings()
+        {
+            return _reportSettings;
+        }
 
-        private void InitializeRun(DateTime startDateTime, string runGuid = "")
+        public IReporterSettings GetReporterSettings()
+        {
+            return _reporterSettings;
+        }
+
+        public bool IsTestRunStarted()
+        {
+            return _testRunStarted;
+        }
+
+        private void InitializeRun(DateTime startDateTime)
         {
             _action.Safe(() =>
             {
-                var currentRunGuid = runGuid.Equals("") || runGuid.Equals("null") ? Guid.NewGuid() : Guid.Parse(runGuid);
-                _currentRun = new Run(currentRunGuid)
-                {
-                    TestRunFiles = new List<string>(),
-                    RunSummary = new RunSummary()
-                };
+                _currentRun = new Run(_reporterSettings, startDateTime);
                 _currentTestRuns = new List<ITestRun>();
-                _currentRun.Name = ReporterSettings.RunName;
-                _currentRun.Sprint = ReporterSettings.Sprint;
                 _extractor.ExtractReportBase();
-                _currentRun.RunInfo.Start = startDateTime;
-                ReportSettings.Save(_locationsProvider);
+                _reportSettings.Save(_locationsProvider);
             });
         }
 
@@ -87,10 +93,10 @@ namespace Ghpr.Core
 
         public void RunStarted()
         {
-            if (!TestRunStarted)
+            if (!_testRunStarted)
             {
-                InitializeRun(DateTime.Now, ReporterSettings.RunGuid);
-                TestRunStarted = true;
+                InitializeRun(DateTime.Now);
+                _testRunStarted = true;
             }
         }
 
@@ -184,7 +190,7 @@ namespace Ghpr.Core
 
                 finalTest.TestInfo.SaveTestInfo(_locationsProvider);
 
-                if (ReporterSettings.RealTimeGeneration)
+                if (_reporterSettings.RealTimeGeneration)
                 {
                     GenerateReport(DateTime.Now);
                 }
@@ -209,7 +215,7 @@ namespace Ghpr.Core
                 throw new Exception("Emplty test runs list!");
             }
 
-            InitializeRun(start, ReporterSettings.RunGuid);
+            InitializeRun(start);
             foreach (var testRun in testRuns)
             {
                 AddCompleteTestRun(testRun);

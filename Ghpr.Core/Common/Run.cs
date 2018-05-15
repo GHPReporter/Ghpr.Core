@@ -23,14 +23,18 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "summary")]
         public IRunSummary RunSummary { get; set; }
 
-        public Run(Guid runGuid)
+        public Run(IReporterSettings reporterSettings, DateTime startDateTime)
         {
             RunInfo = new ItemInfo
             {
-                Guid = runGuid
+                Guid = reporterSettings.RunGuid.Equals("") || reporterSettings.RunGuid.Equals("null") 
+                ? Guid.NewGuid() : Guid.Parse(reporterSettings.RunGuid),
+                Start = startDateTime
             };
-            Name = "";
-            Sprint = "";
+            Name = reporterSettings.RunName;
+            Sprint = reporterSettings.Sprint;
+            TestRunFiles = new List<string>();
+            RunSummary = new RunSummary();
         }
     }
 }
