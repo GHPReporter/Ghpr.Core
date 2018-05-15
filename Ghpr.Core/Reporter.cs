@@ -17,16 +17,15 @@ namespace Ghpr.Core
         private void InitializeReporter(IReporterSettings settings)
         {
             _reporterSettings = settings;
-            if (_reporterSettings.OutputPath == null)
+            if (settings.OutputPath == null)
             {
-                throw new ArgumentNullException(nameof(_reporterSettings.OutputPath),
+                throw new ArgumentNullException(nameof(settings.OutputPath),
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
-            _reportSettings = new ReportSettings(_reporterSettings.RunsToDisplay, _reporterSettings.TestsToDisplay);
-            _action = new ActionHelper(_reporterSettings.OutputPath);
-            _extractor = new ResourceExtractor(_action, _reporterSettings.OutputPath);
-            _locationsProvider = new LocationsProvider(_reporterSettings.OutputPath);
-            _dataProvider = new FileSystemDataProvider(_reporterSettings, _locationsProvider);
+            _reportSettings = new ReportSettings(settings.RunsToDisplay, settings.TestsToDisplay);
+            _action = new ActionHelper(settings.OutputPath);
+            _locationsProvider = new LocationsProvider(settings.OutputPath);
+            _dataProvider = new FileSystemDataProvider(settings, _locationsProvider);
             _testRunStarted = false;
         }
         
@@ -48,36 +47,20 @@ namespace Ghpr.Core
         private IRun _currentRun;
         private ITestRun _currentTestRun;
         private List<ITestRun> _currentTestRuns;
-        private ResourceExtractor _extractor;
         private static ActionHelper _action;
         private ILocationsProvider _locationsProvider;
         private IDataProvider _dataProvider;
         private bool _testRunStarted;
         private IReportSettings _reportSettings;
         private IReporterSettings _reporterSettings;
-
-        public IReportSettings GetReportSettings()
-        {
-            return _reportSettings;
-        }
-
-        public IReporterSettings GetReporterSettings()
-        {
-            return _reporterSettings;
-        }
-
-        public bool IsTestRunStarted()
-        {
-            return _testRunStarted;
-        }
-
+        
         private void InitializeRun(DateTime startDateTime)
         {
             _action.Safe(() =>
             {
                 _currentRun = new Run(_reporterSettings, startDateTime);
                 _currentTestRuns = new List<ITestRun>();
-                _extractor.ExtractReportBase();
+                ResourceExtractor.ExtractReportBase(_reporterSettings.OutputPath);
                 _reportSettings.Save(_locationsProvider);
             });
         }
@@ -221,6 +204,21 @@ namespace Ghpr.Core
                 AddCompleteTestRun(testRun);
             }
             GenerateReport(finish);
+        }
+        
+        public IReportSettings GetReportSettings()
+        {
+            return _reportSettings;
+        }
+
+        public IReporterSettings GetReporterSettings()
+        {
+            return _reporterSettings;
+        }
+
+        public bool IsTestRunStarted()
+        {
+            return _testRunStarted;
         }
     }
 }

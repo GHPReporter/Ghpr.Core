@@ -3,12 +3,11 @@ using System.IO;
 using System.Linq;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
-using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core.EmbeddedResources
 {
-    public class ResourceExtractor
+    public static class ResourceExtractor
     {
         private static readonly IEmbeddedResource[] AllResources = {
             new EmbeddedResource("ghpr.controller.js", ResourceType.GhprController, "src\\js",        "ghpr.controller.js", true ),
@@ -26,65 +25,50 @@ namespace Ghpr.Core.EmbeddedResources
             new EmbeddedResource("favicon.ico",        ResourceType.Favicon,        "src",            "favicon.ico",        true )
         };
 
-        public ResourceExtractor(ActionHelper actionHelper, string outputPath, bool replaceExisting = false)
+        private static void ExtractResource(IEmbeddedResource res, string outputPath)
         {
-            _actionHelper = actionHelper;
-            OutputPath = outputPath;
-            ReplaceExisting = replaceExisting;
-        }
+            var currentAssembly = typeof(ResourceExtractor).Assembly;
+            var arrResources = currentAssembly.GetManifestResourceNames();
+            var destinationPath = res.RelativePath.Equals("") ? outputPath : Path.Combine(outputPath, res.RelativePath);
+            destinationPath.Create();
 
-        private readonly ActionHelper _actionHelper;
+            var destinationFullPath = res.RelativePath.Equals("") ? Path.Combine(outputPath, res.FileName) : Path.Combine(outputPath, res.RelativePath, res.FileName);
 
-        public string OutputPath { get; }
-        public bool ReplaceExisting { get; }
+            if (File.Exists(destinationFullPath) && !res.AlwaysReplaceExisting) return;
 
-        private void ExtractResource(IEmbeddedResource res)
-        {
-            _actionHelper.Safe(() =>
+            foreach (
+                var resourceName in
+                    arrResources.Where(resourceName => resourceName.ToUpper().Contains(res.SearchQuery.ToUpper())))
             {
-                var currentAssembly = GetType().Assembly;
-                var arrResources = currentAssembly.GetManifestResourceNames();
-                var destinationPath = res.RelativePath.Equals("") ? OutputPath : Path.Combine(OutputPath, res.RelativePath);
-                destinationPath.Create();
-
-                var destinationFullPath = res.RelativePath.Equals("") ? Path.Combine(OutputPath, res.FileName) : Path.Combine(OutputPath, res.RelativePath, res.FileName);
-
-                if (File.Exists(destinationFullPath) && !res.AlwaysReplaceExisting) return;
-
-                foreach (
-                    var resourceName in
-                        arrResources.Where(resourceName => resourceName.ToUpper().Contains(res.SearchQuery.ToUpper())))
+                using (var resourceToSave = currentAssembly.GetManifestResourceStream(resourceName))
                 {
-                    using (var resourceToSave = currentAssembly.GetManifestResourceStream(resourceName))
+                    using (var output = File.Create(destinationFullPath))
                     {
-                        using (var output = File.Create(destinationFullPath))
-                        {
-                            resourceToSave?.CopyTo(output);
-                        }
-                        resourceToSave?.Close();
+                        resourceToSave?.CopyTo(output);
                     }
+                    resourceToSave?.Close();
                 }
-            });
+            }
         }
 
-        private void ExtractResources(ResourceType type)
+        private static void ExtractResources(ResourceType type, string outputPath)
         {
             var ress = AllResources.Where(r => r.Type == type);
             foreach (var res in ress)
             {
-                ExtractResource(res);
+                ExtractResource(res, outputPath);
             }
         }
 
-        private void ExtractResources(IEnumerable<ResourceType> types)
+        private static void ExtractResources(IEnumerable<ResourceType> types, string outputPath)
         {
             foreach (var type in types)
             {
-                ExtractResources(type);
+                ExtractResources(type, outputPath);
             }
         }
 
-        public void ExtractReportBase()
+        public static void ExtractReportBase(string outputPath)
         {
             var types = new[]
             {
@@ -98,7 +82,7 @@ namespace Ghpr.Core.EmbeddedResources
                 ResourceType.TestPage,
                 ResourceType.Favicon
             };
-            ExtractResources(types);
+            ExtractResources(types, outputPath);
         }
     }
 }
