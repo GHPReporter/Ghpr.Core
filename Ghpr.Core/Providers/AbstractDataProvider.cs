@@ -13,6 +13,7 @@ namespace Ghpr.Core.Providers
         public IReporterSettings ReporterSettings { get; }
         public ILocationsProvider LocationsProvider { get; }
 
+        public abstract void SaveReportSettings(IReportSettings reportSettings);
         public abstract void SaveTestRun(ITestRun testRun);
         public abstract void SaveRun(IRun run);
     }

@@ -61,7 +61,7 @@ namespace Ghpr.Core
                 _currentRun = new Run(_reporterSettings, startDateTime);
                 _currentTestRuns = new List<ITestRun>();
                 ResourceExtractor.ExtractReportBase(_reporterSettings.OutputPath);
-                _reportSettings.Save(_locationsProvider);
+                _dataProvider.SaveReportSettings(_reportSettings);
             });
         }
 

@@ -14,6 +14,11 @@ namespace Ghpr.Core.Providers
             run.RunInfo.SaveRunInfo(LocationsProvider);
         }
 
+        public override void SaveReportSettings(IReportSettings reportSettings)
+        {
+            reportSettings.Save(LocationsProvider);
+        }
+
         public override void SaveTestRun(ITestRun testRun)
         {
             throw new System.NotImplementedException();
