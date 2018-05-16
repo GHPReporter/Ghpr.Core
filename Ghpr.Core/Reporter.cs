@@ -45,7 +45,6 @@ namespace Ghpr.Core
         }
 
         private IRun _currentRun;
-        private ITestRun _currentTestRun;
         private List<ITestRun> _currentTestRuns;
         private static ActionHelper _action;
         private ILocationsProvider _locationsProvider;
@@ -92,67 +91,40 @@ namespace Ghpr.Core
         {
             _action.Safe(() =>
             {
-                var startDateTime = DateTime.Now;
                 testRun.TestInfo.Start = testRun.TestInfo.Start.Equals(default(DateTime))
-                    ? startDateTime
+                    ? DateTime.Now
                     : testRun.TestInfo.Start;
                 _currentTestRuns.Add(testRun);
-                _currentTestRun = testRun;
             });
         }
 
-        public void SaveScreenshot(Bitmap screen)
-        {
-            _action.Safe(() =>
-            {
-                var testGuid = _currentTestRun.TestInfo.Guid.ToString();
-                var date = DateTime.Now;
-                var s = new TestScreenshot(date);
-                ScreenshotHelper.SaveScreenshot(_locationsProvider.GetScreenshotPath(testGuid), screen, date);
-                _currentTestRun.Screenshots.Add(s);
-                _currentTestRuns.First(
-                    tr => tr.TestInfo.Guid.Equals(_currentTestRun.TestInfo.Guid))
-                    .Screenshots.Add(s);
-            });
-        }
-        
         public void AddCompleteTestRun(ITestRun testRun)
         {
-            _action.Safe(() =>
-            {
-                _currentRun.RunSummary.Total++;
-
-                var finishDateTime = testRun.TestInfo.Finish;
-                var testGuid = testRun.TestInfo.Guid.ToString();
-                var fileName = testRun.GetFileName();
-
-                _currentRun.RunSummary = _currentRun.RunSummary.Update(testRun);
-
-                testRun.TestInfo.FileName = fileName;
-                testRun.RunGuid = _currentRun.RunInfo.Guid;
-                testRun.TestInfo.Finish = testRun.TestInfo.Finish.Equals(default(DateTime))
-                    ? finishDateTime
-                    : testRun.TestInfo.Finish;
-                testRun.TestDuration = testRun.TestDuration.Equals(0.0)
-                    ? (testRun.TestInfo.Finish - testRun.TestInfo.Start).TotalSeconds
-                    : testRun.TestDuration;
-
-                testRun.Save(_locationsProvider.GetTestPath(testGuid), fileName);
-                _currentRun.TestRunFiles.Add(_locationsProvider.GetRelativeTestRunPath(testGuid, fileName));
-
-                testRun.TestInfo.SaveTestInfo(_locationsProvider);
-            });
+            ProcessTest(testRun, true);
         }
 
         public void TestFinished(ITestRun testRun)
         {
+            ProcessTest(testRun, false);
+            if (_reporterSettings.RealTimeGeneration)
+            {
+                GenerateReport(DateTime.Now);
+            }
+        }
+
+        private void ProcessTest(ITestRun testRun, bool isCompleteTestRun)
+        {
             _action.Safe(() =>
             {
                 _currentRun.RunSummary.Total++;
 
-                var finishDateTime = DateTime.Now;
                 var currentTest = _currentTestRuns.GetTestRun(testRun);
-                var finalTest = testRun.Update(currentTest);
+                var finalTest = isCompleteTestRun ? testRun : testRun.Update(currentTest);
+                if (!isCompleteTestRun)
+                {
+                    _currentTestRuns.Remove(currentTest);
+                }
+
                 var testGuid = finalTest.TestInfo.Guid.ToString();
                 var fileName = testRun.GetFileName();
 
@@ -161,22 +133,17 @@ namespace Ghpr.Core
                 finalTest.TestInfo.FileName = fileName;
                 finalTest.RunGuid = _currentRun.RunInfo.Guid;
                 finalTest.TestInfo.Finish = finalTest.TestInfo.Finish.Equals(default(DateTime))
-                    ? finishDateTime
+                    ? DateTime.Now
                     : finalTest.TestInfo.Finish;
                 finalTest.TestDuration = finalTest.TestDuration.Equals(0.0)
                     ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds
                     : finalTest.TestDuration;
 
                 finalTest.Save(_locationsProvider.GetTestPath(testGuid), fileName);
-                _currentTestRuns.Remove(currentTest);
+                
                 _currentRun.TestRunFiles.Add(_locationsProvider.GetRelativeTestRunPath(testGuid, fileName));
 
                 finalTest.TestInfo.SaveTestInfo(_locationsProvider);
-
-                if (_reporterSettings.RealTimeGeneration)
-                {
-                    GenerateReport(DateTime.Now);
-                }
             });
         }
 
