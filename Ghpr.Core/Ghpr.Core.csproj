@@ -97,6 +97,7 @@
     <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
+    <Compile Include="Interfaces\IRunRepository.cs" />
     <Compile Include="Providers\AbstractDataProvider.cs" />
     <Compile Include="Providers\FileSystemDataProvider.cs" />
     <Compile Include="Providers\LocationsProvider.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\Paths.cs" />
     <Compile Include="Helpers\ScreenshotHelper.cs" />
+    <Compile Include="Utils\RunRepository.cs" />
     <Compile Include="Utils\StaticLog.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +192,9 @@
       <Link>EmbeddedResources\Report\src\favicon.ico</Link>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Entities\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Ghpr.Core.Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

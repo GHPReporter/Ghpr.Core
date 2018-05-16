@@ -17,17 +17,5 @@ namespace Ghpr.Core.Common
 
         [JsonProperty(PropertyName = "fileName")]
         public string FileName { get; set; }
-        
-        public ItemInfo()
-        {
-        }
-
-        public ItemInfo(ItemInfo ii)
-        {
-            Guid = ii.Guid;
-            Start = ii.Start;
-            Finish = ii.Finish;
-            FileName = ii.FileName;
-        }
     }
 }
