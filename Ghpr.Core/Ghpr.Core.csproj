@@ -52,19 +52,10 @@
     <WarningLevel>4</WarningLevel>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
   </PropertyGroup>
-  <ItemGroup Condition=" '$(Configuration)'=='Debug-NET452' Or '$(Configuration)'=='Release-NET452'">
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup Condition=" '$(Configuration)'=='Debug-NET40' Or '$(Configuration)'=='Release-NET40'">
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.11.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -79,45 +70,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\ReporterSettings.cs" />
-    <Compile Include="Common\ReportSettings.cs" />
-    <Compile Include="Common\Run.cs" />
-    <Compile Include="Common\ItemInfo.cs" />
-    <Compile Include="Common\RunSummary.cs" />
-    <Compile Include="Common\TestData.cs" />
-    <Compile Include="Common\TestRun.cs" />
-    <Compile Include="Common\TestEvent.cs" />
-    <Compile Include="Common\TestScreenshot.cs" />
-    <Compile Include="Comparers\ItemInfoComparer.cs" />
+    <Compile Include="Common\ReporterSettingsDto.cs" />
+    <Compile Include="Common\ReportSettingsDto.cs" />
+    <Compile Include="Common\RunDto.cs" />
+    <Compile Include="Common\ItemInfoDto.cs" />
+    <Compile Include="Common\RunSummaryDto.cs" />
+    <Compile Include="Common\TestDataDto.cs" />
+    <Compile Include="Common\TestRunDto.cs" />
+    <Compile Include="Common\TestEventDto.cs" />
+    <Compile Include="Common\TestScreenshotDto.cs" />
+    <Compile Include="Comparers\ItemInfoDtoComparer.cs" />
     <Compile Include="EmbeddedResources\EmbeddedResource.cs" />
     <Compile Include="Enums\TestingFramework.cs" />
     <Compile Include="Enums\TestResult.cs" />
-    <Compile Include="Extensions\ItemInfoExtensions.cs" />
     <Compile Include="Extensions\RunSummaryExtensions.cs" />
-    <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
     <Compile Include="Interfaces\IRunRepository.cs" />
-    <Compile Include="Providers\AbstractDataProvider.cs" />
-    <Compile Include="Providers\FileSystemDataProvider.cs" />
-    <Compile Include="Providers\LocationsProvider.cs" />
+    <Compile Include="Interfaces\IScreenshotHelper.cs" />
+    <Compile Include="Interfaces\ITestDataHelper.cs" />
     <Compile Include="Providers\ReporterSettingsProvider.cs" />
-    <Compile Include="Providers\ReportSettingsProvider.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />
-    <Compile Include="Interfaces\IDataProvider.cs" />
+    <Compile Include="Interfaces\IDataService.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
-    <Compile Include="Interfaces\ILocationsProvider.cs" />
     <Compile Include="Interfaces\ILog.cs" />
     <Compile Include="Interfaces\IReporter.cs" />
-    <Compile Include="Interfaces\IReporterSettings.cs" />
-    <Compile Include="Interfaces\IReportSettings.cs" />
-    <Compile Include="Interfaces\IRun.cs" />
-    <Compile Include="Interfaces\IRuns.cs" />
-    <Compile Include="Interfaces\IRunSummary.cs" />
-    <Compile Include="Interfaces\ITestData.cs" />
-    <Compile Include="Interfaces\ITestEvent.cs" />
-    <Compile Include="Interfaces\ITestRun.cs" />
-    <Compile Include="Interfaces\ITestScreenshot.cs" />
     <Compile Include="Reporter.cs" />
     <Compile Include="EmbeddedResources\ResourceExtractor.cs" />
     <Compile Include="Enums\ResourceType.cs" />
@@ -192,9 +169,7 @@
       <Link>EmbeddedResources\Report\src\favicon.ico</Link>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Ghpr.Core.Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -1,11 +1,11 @@
-﻿using Ghpr.Core.Enums;
-using Ghpr.Core.Interfaces;
+﻿using Ghpr.Core.Common;
+using Ghpr.Core.Enums;
 
 namespace Ghpr.Core.Extensions
 {
     public static class RunSummaryExtensions
     {
-        public static IRunSummary Update(this IRunSummary s, ITestRun r)
+        public static RunSummaryDto Update(this RunSummaryDto s, TestRunDto r)
         {
             switch (r.TestResult)
             {

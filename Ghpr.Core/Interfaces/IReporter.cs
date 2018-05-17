@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ghpr.Core.Common;
 
 namespace Ghpr.Core.Interfaces
 {
@@ -8,15 +9,15 @@ namespace Ghpr.Core.Interfaces
         void RunStarted();
         void RunFinished();
 
-        void TestStarted(ITestRun testRun);
-        void AddCompleteTestRun(ITestRun testRun);
-        void TestFinished(ITestRun testRun);
+        void TestStarted(TestRunDto testRun);
+        void AddCompleteTestRun(TestRunDto testRun);
+        void TestFinished(TestRunDto testRun);
 
-        void GenerateFullReport(List<ITestRun> testRuns);
-        void GenerateFullReport(List<ITestRun> testRuns, DateTime start, DateTime finish);
+        void GenerateFullReport(List<TestRunDto> testRuns);
+        void GenerateFullReport(List<TestRunDto> testRuns, DateTime start, DateTime finish);
 
-        IReportSettings GetReportSettings();
-        IReporterSettings GetReporterSettings();
+        ReportSettingsDto GetReportSettings();
+        ReporterSettingsDto GetReporterSettings();
         bool IsTestRunStarted();
     }
 }

@@ -2,7 +2,6 @@
 using System.IO;
 using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
-using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
 using Newtonsoft.Json;
 
@@ -10,7 +9,7 @@ namespace Ghpr.Core.Providers
 {
     internal static class ReporterSettingsProvider
     {
-        public static IReporterSettings Load(TestingFramework testingFramework)
+        public static ReporterSettingsDto Load(TestingFramework testingFramework)
         {
             string fileName;
             switch (testingFramework)
@@ -35,12 +34,12 @@ namespace Ghpr.Core.Providers
             return settings;
         }
 
-        public static IReporterSettings Load(string fileName = "")
+        public static ReporterSettingsDto Load(string fileName = "")
         {
-            var uri = new Uri(typeof(ReporterSettings).Assembly.CodeBase);
+            var uri = new Uri(typeof(ReporterSettingsDto).Assembly.CodeBase);
             var settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "",
                 fileName.Equals("") ? Paths.Files.CoreSettings : fileName);
-            var settings = JsonConvert.DeserializeObject<ReporterSettings>(File.ReadAllText(settingsPath));
+            var settings = JsonConvert.DeserializeObject<ReporterSettingsDto>(File.ReadAllText(settingsPath));
             return settings;
         }
     }

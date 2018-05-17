@@ -1,4 +1,5 @@
-﻿using Ghpr.Core.Enums;
+﻿using Ghpr.Core.Common;
+using Ghpr.Core.Enums;
 using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core
@@ -17,32 +18,32 @@ namespace Ghpr.Core
             _initialized = false;
         }
 
-        public static void Initialize()
+        public static void Initialize(IDataService dataService)
         {
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = new Reporter();
+                _reporter = new Reporter(dataService);
                 _initialized = true;
             }
         }
 
-        public static void Initialize(IReporterSettings settings)
+        public static void Initialize(ReporterSettingsDto settings, IDataService dataService)
         {
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = new Reporter(settings);
+                _reporter = new Reporter(settings, dataService);
                 _initialized = true;
             }
         }
 
-        public static void Initialize(TestingFramework framework)
+        public static void Initialize(TestingFramework framework, IDataService dataService)
         {
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = new Reporter(framework);
+                _reporter = new Reporter(framework, dataService);
                 _initialized = true;
             }
         }
@@ -63,7 +64,7 @@ namespace Ghpr.Core
             }
         }
 
-        public static void TestStarted(ITestRun testRun)
+        public static void TestStarted(TestRunDto testRun)
         {
             lock (Lock)
             {
@@ -71,7 +72,7 @@ namespace Ghpr.Core
             }
         }
 
-        public static void TestFinished(ITestRun testRun)
+        public static void TestFinished(TestRunDto testRun)
         {
             lock (Lock)
             {

@@ -7,11 +7,11 @@ namespace Ghpr.Core.Utils
 {
     public class RunRepository : IRunRepository
     {
-        public IRun CurrentRun { get; private set; }
+        public RunDto CurrentRun { get; private set; }
 
-        public void OnRunStarted(IReporterSettings settings, DateTime runStartDateTime)
+        public void OnRunStarted(ReporterSettingsDto settings, DateTime runStartDateTime)
         {
-            CurrentRun = new Run(settings, runStartDateTime);
+            CurrentRun = new RunDto(settings, runStartDateTime);
         }
 
         public void OnRunFinished(DateTime runFinishDateTime)
@@ -19,12 +19,11 @@ namespace Ghpr.Core.Utils
             CurrentRun.RunInfo.Finish = runFinishDateTime;
         }
 
-        public void OnNewTestRun(ITestRun testRun)
+        public void OnNewTestRun(TestRunDto testRun)
         {
             CurrentRun.RunSummary.Total++;
             
             var testGuid = testRun.TestInfo.Guid.ToString();
-            var fileName = testRun.GetFileName();
 
             CurrentRun.RunSummary = CurrentRun.RunSummary.Update(testRun);
 
