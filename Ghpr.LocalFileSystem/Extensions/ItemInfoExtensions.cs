@@ -2,10 +2,10 @@
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Extensions;
+using Ghpr.LocalFileSystem.Comparers;
 using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Interfaces;
 using Newtonsoft.Json;
-using ItemInfoComparer = Ghpr.LocalFileSystem.Comparers.ItemInfoComparer;
 
 namespace Ghpr.LocalFileSystem.Extensions
 {

@@ -57,6 +57,7 @@
     <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
     <Compile Include="Interfaces\ILocationsProvider.cs" />
+    <Compile Include="Mappers\TestRunDtoMapper.cs" />
     <Compile Include="Mappers\ReportSettingsDtoMapper.cs" />
     <Compile Include="Mappers\RunDtoMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

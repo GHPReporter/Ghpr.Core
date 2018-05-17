@@ -10,7 +10,7 @@ namespace Ghpr.LocalFileSystem.Services
 {
     public class FileSystemDataService : IDataService
     {
-        public FileSystemDataService(ReporterSettings reporterSettings, LocationsProvider locationsProvider)
+        public FileSystemDataService(ReporterSettings reporterSettings, ILocationsProvider locationsProvider)
         {
             LocationsProvider = locationsProvider;
             ReporterSettings = reporterSettings;
@@ -32,9 +32,11 @@ namespace Ghpr.LocalFileSystem.Services
             reportSettings.Save(LocationsProvider);
         }
 
-        public void SaveTestRun(TestRunDto testRun)
+        public void SaveTestRun(TestRunDto testRunDto)
         {
-            throw new System.NotImplementedException();
+            var testRun = testRunDto.Map();
+            testRun.Save(LocationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
+            testRun.TestInfo.SaveTestInfo(LocationsProvider);
         }
     }
 }

@@ -88,9 +88,6 @@ namespace Ghpr.Core
         {
             _action.Safe(() =>
             {
-                testRun.TestInfo.Start = testRun.TestInfo.Start.Equals(default(DateTime))
-                    ? DateTime.Now
-                    : testRun.TestInfo.Start;
                 _currentTestRuns.Add(testRun);
             });
         }
@@ -116,7 +113,7 @@ namespace Ghpr.Core
                 _currentRun.RunSummary.Total++;
 
                 var currentTest = _currentTestRuns.GetTestRun(testRun);
-                var finalTest = isCompleteTestRun ? testRun : testRun.Update(currentTest);
+                var finalTest = isCompleteTestRun ? testRun : testRun.UpdateWithExistingTest(currentTest);
                 if (!isCompleteTestRun)
                 {
                     _currentTestRuns.Remove(currentTest);

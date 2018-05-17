@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Helpers;
+using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Interfaces;
 using Newtonsoft.Json;
 
@@ -12,7 +12,7 @@ namespace Ghpr.LocalFileSystem.Extensions
 {
     public static class TestRunExtensions
     {
-        public static TestRunDto Update(this TestRunDto target, TestRunDto run)
+        public static TestRun Update(this TestRun target, TestRun run)
         {
             if (target.TestInfo.Guid.Equals(Guid.Empty))
             {
@@ -23,15 +23,15 @@ namespace Ghpr.LocalFileSystem.Extensions
             return target;
         }
 
-        public static string GetFileName(this TestRunDto testRun)
+        public static string GetFileName(this TestRun testRun)
         {
             return $"test_{testRun.TestInfo.Finish:yyyyMMdd_HHmmssfff}.json";
         }
 
-        public static void Save(this TestRunDto testRun, string path, string name)
+        public static void Save(this TestRun testRun, string path)
         {
             path.Create();
-            var fullPath = Path.Combine(path, name.Equals("") ? testRun.GetFileName() : name);
+            var fullPath = Path.Combine(path, testRun.GetFileName());
             using (var file = File.CreateText(fullPath))
             {
                 var serializer = new JsonSerializer();
@@ -39,31 +39,31 @@ namespace Ghpr.LocalFileSystem.Extensions
             }
         }
 
-        public static TestRunDto LoadTestRun(this string path, string name)
+        public static TestRun LoadTestRun(this string path, string name)
         {
-            TestRunDto testRun;
+            TestRun testRun;
             var fullPath = Path.Combine(path, name);
             using (var file = File.OpenText(fullPath))
             {
                 var serializer = new JsonSerializer();
-                testRun = (TestRunDto)serializer.Deserialize(file, typeof(TestRunDto));
+                testRun = (TestRun)serializer.Deserialize(file, typeof(TestRun));
             }
             return testRun;
         }
 
-        public static TestRunDto GetTestRun(this List<TestRunDto> testRuns, TestRunDto testRun)
+        public static TestRun GetTestRun(this List<TestRun> testRuns, TestRun testRun)
         {
             var tr = testRuns.FirstOrDefault(t => t.TestInfo.Guid.Equals(testRun.TestInfo.Guid) && !t.TestInfo.Guid.Equals(Guid.Empty))
                           ?? testRuns.FirstOrDefault(t => t.FullName.Equals(testRun.FullName))
-                          ?? new TestRunDto();
+                          ?? new TestRun();
             return tr;
         }
 
-        public static TestRunDto SaveScreenshot(this TestRunDto testRun, byte[] screenBytes, ILocationsProvider locationsProvider)
+        public static TestRun SaveScreenshot(this TestRun testRun, byte[] screenBytes, ILocationsProvider locationsProvider)
         {
             var screenPath = locationsProvider.GetScreenshotPath(testRun.TestInfo.Guid.ToString());
             var screenshotName = ScreenshotHelper.SaveScreenshot(screenPath, screenBytes, DateTime.Now);
-            var screenshot = new TestScreenshotDto(screenshotName);
+            var screenshot = new TestScreenshot(screenshotName);
             testRun.Screenshots.Add(screenshot);
             return testRun;
         }

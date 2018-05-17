@@ -7,7 +7,7 @@ namespace Ghpr.Core.Extensions
 {
     public static class TestRunExtensions
     {
-        public static TestRunDto Update(this TestRunDto target, TestRunDto run)
+        public static TestRunDto UpdateWithExistingTest(this TestRunDto target, TestRunDto run)
         {
             if (target.TestInfo.Guid.Equals(Guid.Empty))
             {
