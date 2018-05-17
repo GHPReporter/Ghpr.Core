@@ -13,7 +13,7 @@ namespace Ghpr.Core
 {
     public class Reporter : IReporter
     {
-        private void InitializeReporter(ReporterSettingsDto settings, IDataService dataService)
+        private void InitializeReporter(ReporterSettings settings, IDataService dataService)
         {
             _reporterSettings = settings;
             if (settings.OutputPath == null)
@@ -27,7 +27,7 @@ namespace Ghpr.Core
             _testRunStarted = false;
         }
         
-        public Reporter(ReporterSettingsDto settings, IDataService dataService)
+        public Reporter(ReporterSettings settings, IDataService dataService)
         {
             InitializeReporter(settings, dataService);
         }
@@ -48,7 +48,7 @@ namespace Ghpr.Core
         private IDataService _dataService;
         private bool _testRunStarted;
         private ReportSettingsDto _reportSettings;
-        private ReporterSettingsDto _reporterSettings;
+        private ReporterSettings _reporterSettings;
         
         private void InitializeRun(DateTime startDateTime)
         {
@@ -122,8 +122,6 @@ namespace Ghpr.Core
                     _currentTestRuns.Remove(currentTest);
                 }
 
-                var testGuid = finalTest.TestInfo.Guid.ToString();
-
                 _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
 
                 finalTest.RunGuid = _currentRun.RunInfo.Guid;
@@ -174,7 +172,7 @@ namespace Ghpr.Core
             return _reportSettings;
         }
 
-        public ReporterSettingsDto GetReporterSettings()
+        public ReporterSettings GetReporterSettings()
         {
             return _reporterSettings;
         }

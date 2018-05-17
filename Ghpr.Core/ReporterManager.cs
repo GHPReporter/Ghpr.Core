@@ -28,7 +28,7 @@ namespace Ghpr.Core
             }
         }
 
-        public static void Initialize(ReporterSettingsDto settings, IDataService dataService)
+        public static void Initialize(ReporterSettings settings, IDataService dataService)
         {
             lock (Lock)
             {

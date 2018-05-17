@@ -6,7 +6,7 @@ namespace Ghpr.Core.Interfaces
     public interface IRunRepository
     {
         RunDto CurrentRun { get; }
-        void OnRunStarted(ReporterSettingsDto settings, DateTime runStartDateTime);
+        void OnRunStarted(ReporterSettings settings, DateTime runStartDateTime);
         void OnRunFinished(DateTime runFinishDateTime);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Ghpr.Core.Common;
+﻿using Ghpr.Core;
+using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
@@ -9,13 +10,13 @@ namespace Ghpr.LocalFileSystem.Services
 {
     public class FileSystemDataService : IDataService
     {
-        public FileSystemDataService(ReporterSettingsDto reporterSettings, LocationsProvider locationsProvider)
+        public FileSystemDataService(ReporterSettings reporterSettings, LocationsProvider locationsProvider)
         {
             LocationsProvider = locationsProvider;
             ReporterSettings = reporterSettings;
         }
 
-        public ReporterSettingsDto ReporterSettings { get; }
+        public ReporterSettings ReporterSettings { get; }
         public ILocationsProvider LocationsProvider { get; }
 
         public void SaveRun(RunDto runDto)

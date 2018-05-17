@@ -11,7 +11,7 @@ namespace Ghpr.Core.Common
         public string Name { get; set; }
         public RunSummaryDto RunSummary { get; set; }
 
-        public RunDto(ReporterSettingsDto reporterSettings, DateTime startDateTime)
+        public RunDto(ReporterSettings reporterSettings, DateTime startDateTime)
         {
             RunInfo = new ItemInfoDto
             {

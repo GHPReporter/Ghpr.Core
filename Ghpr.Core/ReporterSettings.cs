@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace Ghpr.LocalFileSystem.Entities
+namespace Ghpr.Core
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class ReporterSettings 
+    public class ReporterSettings
     {
         [JsonProperty(PropertyName = "outputPath")]
         public string OutputPath { get; set; }
@@ -25,6 +25,5 @@ namespace Ghpr.LocalFileSystem.Entities
 
         [JsonProperty(PropertyName = "testsToDisplay")]
         public int TestsToDisplay { get; set; }
-
     }
 }

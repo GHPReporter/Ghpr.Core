@@ -9,7 +9,7 @@ namespace Ghpr.Core.Utils
     {
         public RunDto CurrentRun { get; private set; }
 
-        public void OnRunStarted(ReporterSettingsDto settings, DateTime runStartDateTime)
+        public void OnRunStarted(ReporterSettings settings, DateTime runStartDateTime)
         {
             CurrentRun = new RunDto(settings, runStartDateTime);
         }

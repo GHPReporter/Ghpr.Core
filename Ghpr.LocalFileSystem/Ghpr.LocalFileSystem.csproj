@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="Comparers\ItemInfoComparer.cs" />
     <Compile Include="Entities\ItemInfo.cs" />
-    <Compile Include="Entities\ReporterSettings.cs" />
     <Compile Include="Entities\ReportSettings.cs" />
     <Compile Include="Entities\Run.cs" />
     <Compile Include="Entities\RunSummary.cs" />

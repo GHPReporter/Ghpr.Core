@@ -70,7 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\ReporterSettingsDto.cs" />
+    <Compile Include="ReporterSettings.cs" />
     <Compile Include="Common\ReportSettingsDto.cs" />
     <Compile Include="Common\RunDto.cs" />
     <Compile Include="Common\ItemInfoDto.cs" />

@@ -17,7 +17,7 @@ namespace Ghpr.Core.Interfaces
         void GenerateFullReport(List<TestRunDto> testRuns, DateTime start, DateTime finish);
 
         ReportSettingsDto GetReportSettings();
-        ReporterSettingsDto GetReporterSettings();
+        ReporterSettings GetReporterSettings();
         bool IsTestRunStarted();
     }
 }

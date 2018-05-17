@@ -4,7 +4,7 @@ namespace Ghpr.Core.Interfaces
 {
     public interface IDataService
     {
-        ReporterSettingsDto ReporterSettings { get; }
+        ReporterSettings ReporterSettings { get; }
 
         void SaveReportSettings(ReportSettingsDto reportSettings);
         void SaveTestRun(TestRunDto testRun);
