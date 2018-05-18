@@ -1,6 +1,6 @@
 ﻿using System;
 using Ghpr.Core.Common;
-using Ghpr.Core.Extensions;
+using Ghpr.Core.Enums;
 using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core.Utils
@@ -23,7 +23,30 @@ namespace Ghpr.Core.Utils
         public void OnTestFinished(TestRunDto testRun)
         {
             CurrentRun.RunSummary.Total++;
-            CurrentRun.RunSummary = CurrentRun.RunSummary.Update(testRun);
+            switch (testRun.TestResult)
+            {
+                case TestResult.Passed:
+                    CurrentRun.RunSummary.Success++;
+                    break;
+                case TestResult.Failed:
+                    CurrentRun.RunSummary.Failures++;
+                    break;
+                case TestResult.Broken:
+                    CurrentRun.RunSummary.Errors++;
+                    break;
+                case TestResult.Ignored:
+                    CurrentRun.RunSummary.Ignored++;
+                    break;
+                case TestResult.Inconclusive:
+                    CurrentRun.RunSummary.Inconclusive++;
+                    break;
+                case TestResult.Unknown:
+                    CurrentRun.RunSummary.Unknown++;
+                    break;
+                default:
+                    CurrentRun.RunSummary.Unknown++;
+                    break;
+            }
             CurrentRun.TestsInfo.Add(testRun.TestInfo);
         }
     }

@@ -100,27 +100,26 @@ namespace Ghpr.Core
 
         public void AddCompleteTestRun(TestRunDto testRun)
         {
-            ProcessTest(testRun);
+            OnTestFinish(testRun);
         }
 
         public void TestFinished(TestRunDto testRun)
         {
-            ProcessTest(testRun);
+            OnTestFinish(testRun);
             if (_reporterSettings.RealTimeGeneration)
             {
                 GenerateReport(DateTime.Now);
             }
         }
 
-        private void ProcessTest(TestRunDto testDtoWhenFinished)
+        private void OnTestFinish(TestRunDto testDtoWhenFinished)
         {
             _action.Safe(() =>
             {
                 _runRepository.OnTestFinished(testDtoWhenFinished);
 
                 var testDtoWhenStarted = _testRunDtosRepository.ExtractCorrespondingTestRun(testDtoWhenFinished);
-                var finalTest =
-                    _testRunDtoProcessor.Process(testDtoWhenStarted, testDtoWhenFinished, _runRepository.RunGuid);
+                var finalTest = _testRunDtoProcessor.Process(testDtoWhenStarted, testDtoWhenFinished, _runRepository.RunGuid);
 
                 _dataService.SaveTestRun(finalTest);
             });
@@ -128,13 +127,7 @@ namespace Ghpr.Core
 
         public void GenerateFullReport(List<TestRunDto> testRuns)
         {
-            if (!testRuns.Any())
-            {
-                throw new Exception("Emplty test runs list!");
-            }
-            var runStart = testRuns.OrderBy(t => t.TestInfo.Start).First(t => !t.TestInfo.Start.Equals(default(DateTime))).TestInfo.Start;
-            var runFinish = testRuns.OrderByDescending(t => t.TestInfo.Finish).First(t => !t.TestInfo.Start.Equals(default(DateTime))).TestInfo.Finish;
-            GenerateFullReport(testRuns, runStart, runFinish);
+            GenerateFullReport(testRuns, testRuns.GetRunStartDateTime(), testRuns.GetRunFinishDateTime());
         }
 
         public void GenerateFullReport(List<TestRunDto> testRuns, DateTime start, DateTime finish)
