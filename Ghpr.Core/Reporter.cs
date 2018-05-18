@@ -7,7 +7,9 @@ using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Processors;
 using Ghpr.Core.Providers;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.Core
 {
@@ -24,6 +26,9 @@ namespace Ghpr.Core
             _reportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay);
             _action = new ActionHelper(settings.OutputPath);
             _dataService = dataService;
+            _runRepository = new RunDtoRepository();
+            _testRunDtosRepository = new TestRunDtosRepository();
+            _testRunDtoProcessor = new TestRunDtoProcessor();
             _testRunStarted = false;
         }
         
@@ -42,8 +47,9 @@ namespace Ghpr.Core
             InitializeReporter(ReporterSettingsProvider.Load(framework), dataService);
         }
 
-        private RunDto _currentRun;
-        private List<TestRunDto> _currentTestRuns;
+        private IRunDtoRepository _runRepository;
+        private ITestRunDtosRepository _testRunDtosRepository;
+        private ITestRunDtoProcessor _testRunDtoProcessor;
         private static ActionHelper _action;
         private IDataService _dataService;
         private bool _testRunStarted;
@@ -54,8 +60,8 @@ namespace Ghpr.Core
         {
             _action.Safe(() =>
             {
-                _currentRun = new RunDto(_reporterSettings, startDateTime);
-                _currentTestRuns = new List<TestRunDto>();
+                _runRepository.OnRunStarted(_reporterSettings, startDateTime);
+                _testRunDtosRepository.OnRunStarted();
                 ResourceExtractor.ExtractReportBase(_reporterSettings.OutputPath);
                 _dataService.SaveReportSettings(_reportSettings);
             });
@@ -65,8 +71,8 @@ namespace Ghpr.Core
         {
             _action.Safe(() =>
             {
-                _currentRun.RunInfo.Finish = finishDateTime;
-                _dataService.SaveRun(_currentRun);
+                _runRepository.OnRunFinished(finishDateTime);
+                _dataService.SaveRun(_runRepository.CurrentRun);
             });
         }
 
@@ -88,53 +94,35 @@ namespace Ghpr.Core
         {
             _action.Safe(() =>
             {
-                _currentTestRuns.Add(testRun);
+                _testRunDtosRepository.AddNewTestRun(testRun);
             });
         }
 
         public void AddCompleteTestRun(TestRunDto testRun)
         {
-            ProcessTest(testRun, true);
+            ProcessTest(testRun);
         }
 
         public void TestFinished(TestRunDto testRun)
         {
-            ProcessTest(testRun, false);
+            ProcessTest(testRun);
             if (_reporterSettings.RealTimeGeneration)
             {
                 GenerateReport(DateTime.Now);
             }
         }
 
-        private void ProcessTest(TestRunDto testRun, bool isCompleteTestRun)
+        private void ProcessTest(TestRunDto testDtoWhenFinished)
         {
             _action.Safe(() =>
             {
-                _currentRun.RunSummary.Total++;
+                _runRepository.OnTestFinished(testDtoWhenFinished);
 
-                var currentTest = _currentTestRuns.GetTestRun(testRun);
-                var finalTest = isCompleteTestRun ? testRun : testRun.UpdateWithExistingTest(currentTest);
-                if (!isCompleteTestRun)
-                {
-                    _currentTestRuns.Remove(currentTest);
-                }
-
-                _currentRun.RunSummary = _currentRun.RunSummary.Update(finalTest);
-
-                finalTest.RunGuid = _currentRun.RunInfo.Guid;
-                finalTest.TestInfo.Finish = finalTest.TestInfo.Finish.Equals(default(DateTime))
-                    ? DateTime.Now
-                    : finalTest.TestInfo.Finish;
-                finalTest.TestDuration = finalTest.TestDuration.Equals(0.0)
-                    ? (finalTest.TestInfo.Finish - finalTest.TestInfo.Start).TotalSeconds
-                    : finalTest.TestDuration;
+                var testDtoWhenStarted = _testRunDtosRepository.ExtractCorrespondingTestRun(testDtoWhenFinished);
+                var finalTest =
+                    _testRunDtoProcessor.Process(testDtoWhenStarted, testDtoWhenFinished, _runRepository.RunGuid);
 
                 _dataService.SaveTestRun(finalTest);
-                //finalTest.Save(_locationsProvider.GetTestPath(testGuid), fileName);
-                //
-                //_currentRun.TestRunFiles.Add(_locationsProvider.GetRelativeTestRunPath(testGuid, fileName));
-                //
-                //finalTest.TestInfo.SaveTestInfo(_locationsProvider);
             });
         }
 

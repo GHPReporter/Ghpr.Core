@@ -5,9 +5,10 @@ using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core.Utils
 {
-    public class RunRepository : IRunRepository
+    public class RunDtoRepository : IRunDtoRepository
     {
         public RunDto CurrentRun { get; private set; }
+        public Guid RunGuid => CurrentRun.RunInfo.Guid;
 
         public void OnRunStarted(ReporterSettings settings, DateTime runStartDateTime)
         {
@@ -19,20 +20,11 @@ namespace Ghpr.Core.Utils
             CurrentRun.RunInfo.Finish = runFinishDateTime;
         }
 
-        public void OnNewTestRun(TestRunDto testRun)
+        public void OnTestFinished(TestRunDto testRun)
         {
             CurrentRun.RunSummary.Total++;
-            
-            var testGuid = testRun.TestInfo.Guid.ToString();
-
             CurrentRun.RunSummary = CurrentRun.RunSummary.Update(testRun);
-
-            //CurrentRun.TestRunFiles.Add(_locationsProvider.GetRelativeTestRunPath(testGuid, fileName));
-        }
-
-        public Guid GetRunGuid()
-        {
-            return CurrentRun.RunInfo.Guid;
+            CurrentRun.TestsInfo.Add(testRun.TestInfo);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Ghpr.Core.Common
 {
     public class RunDto
     {
-        public List<string> TestRunFiles { get; set; }
+        public List<ItemInfoDto> TestsInfo { get; set; }
         public ItemInfoDto RunInfo { get; set; }
         public string Sprint { get; set; }
         public string Name { get; set; }
@@ -21,7 +21,7 @@ namespace Ghpr.Core.Common
             };
             Name = reporterSettings.RunName;
             Sprint = reporterSettings.Sprint;
-            TestRunFiles = new List<string>();
+            TestsInfo = new List<ItemInfoDto>();
             RunSummary = new RunSummaryDto();
         }
     }

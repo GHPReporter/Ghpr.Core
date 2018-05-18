@@ -57,7 +57,6 @@ namespace Ghpr.Core.Common
         public string Name { get; set; }
         public string FullName { get; set; }
         public string Description { get; set; }
-        public double TestDuration { get; set; }
         public string TestStackTrace { get; set; }
         public string TestMessage { get; set; }
         public string Result { get; set; }

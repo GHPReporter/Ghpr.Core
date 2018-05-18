@@ -70,6 +70,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ITestRunDtoProcessor.cs" />
+    <Compile Include="Interfaces\ITestRunDtosRepository.cs" />
+    <Compile Include="Processors\TestRunDtoProcessor.cs" />
     <Compile Include="ReporterSettings.cs" />
     <Compile Include="Common\ReportSettingsDto.cs" />
     <Compile Include="Common\RunDto.cs" />
@@ -86,7 +89,7 @@
     <Compile Include="Extensions\RunSummaryExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
-    <Compile Include="Interfaces\IRunRepository.cs" />
+    <Compile Include="Interfaces\IRunDtoRepository.cs" />
     <Compile Include="Interfaces\IScreenshotHelper.cs" />
     <Compile Include="Interfaces\ITestDataHelper.cs" />
     <Compile Include="Providers\ReporterSettingsProvider.cs" />
@@ -104,7 +107,8 @@
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\Paths.cs" />
     <Compile Include="Helpers\ScreenshotHelper.cs" />
-    <Compile Include="Utils\RunRepository.cs" />
+    <Compile Include="Utils\TestRunDtosRepository.cs" />
+    <Compile Include="Utils\RunDtoRepository.cs" />
     <Compile Include="Utils\StaticLog.cs" />
   </ItemGroup>
   <ItemGroup>
