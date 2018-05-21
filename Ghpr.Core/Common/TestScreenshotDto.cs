@@ -1,5 +1,4 @@
 ﻿using System;
-using Ghpr.Core.Helpers;
 
 namespace Ghpr.Core.Common
 {

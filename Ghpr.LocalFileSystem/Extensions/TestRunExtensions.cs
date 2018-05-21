@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Ghpr.Core.Extensions;
 using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Helpers;
