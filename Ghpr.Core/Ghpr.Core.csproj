@@ -105,7 +105,6 @@
     <Compile Include="ReporterManager.cs" />
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\Paths.cs" />
-    <Compile Include="Helpers\ScreenshotHelper.cs" />
     <Compile Include="Utils\TestRunDtosRepository.cs" />
     <Compile Include="Utils\RunDtoRepository.cs" />
     <Compile Include="Utils\StaticLog.cs" />

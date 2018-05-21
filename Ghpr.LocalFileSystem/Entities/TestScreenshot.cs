@@ -1,5 +1,6 @@
 ﻿using System;
 using Ghpr.Core.Helpers;
+using Ghpr.LocalFileSystem.Helpers;
 using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Entities
@@ -18,12 +19,6 @@ namespace Ghpr.LocalFileSystem.Entities
             var now = DateTime.Now;
             Name = ScreenshotHelper.GetScreenName(now);
             Date = now;
-        }
-
-        public TestScreenshot(string name)
-        {
-            Name = name;
-            Date = ScreenshotHelper.GetScreenDate(name);
         }
 
         public TestScreenshot(DateTime date)
