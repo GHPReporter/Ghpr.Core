@@ -5,7 +5,7 @@ namespace Ghpr.Core.Common
 {
     public class TestScreenshotDto
     {
-        public string Name { get; set; }
+        public byte[] Data { get; set; }
         public DateTime Date { get; set; }
     }
 }
