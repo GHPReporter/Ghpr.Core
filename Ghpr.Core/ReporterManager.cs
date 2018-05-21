@@ -1,5 +1,6 @@
 ﻿using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
+using Ghpr.Core.Factories;
 using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core
@@ -23,7 +24,7 @@ namespace Ghpr.Core
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = new Reporter(dataService);
+                _reporter = ReporterFactory.Build(dataService);
                 _initialized = true;
             }
         }
@@ -33,7 +34,7 @@ namespace Ghpr.Core
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = new Reporter(settings, dataService);
+                _reporter = ReporterFactory.Build(settings, dataService);
                 _initialized = true;
             }
         }
@@ -43,7 +44,7 @@ namespace Ghpr.Core
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = new Reporter(framework, dataService);
+                _reporter = ReporterFactory.Build(framework, dataService);
                 _initialized = true;
             }
         }
