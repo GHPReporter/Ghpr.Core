@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Extensions;
@@ -22,7 +21,7 @@ namespace Ghpr.Core
         public static ActionHelper Action { get; internal set; }
         public static IScreenshotHelper ScreenshotHelper { get; internal set; }
 
-        private void InitializeRun(DateTime startDateTime)
+        private void InitializeOnRunStarted(DateTime startDateTime)
         {
             Action.Safe(() =>
             {
@@ -46,7 +45,7 @@ namespace Ghpr.Core
         {
             if (!TestRunStarted)
             {
-                InitializeRun(DateTime.Now);
+                InitializeOnRunStarted(DateTime.Now);
                 TestRunStarted = true;
             }
         }
@@ -83,10 +82,8 @@ namespace Ghpr.Core
             Action.Safe(() =>
             {
                 RunRepository.OnTestFinished(testDtoWhenFinished);
-
                 var testDtoWhenStarted = TestRunDtosRepository.ExtractCorrespondingTestRun(testDtoWhenFinished);
                 var finalTest = TestRunDtoProcessor.Process(testDtoWhenStarted, testDtoWhenFinished, RunRepository.RunGuid);
-
                 DataService.SaveTestRun(finalTest);
             });
         }
@@ -98,32 +95,12 @@ namespace Ghpr.Core
 
         public void GenerateFullReport(List<TestRunDto> testRuns, DateTime start, DateTime finish)
         {
-            if (!testRuns.Any())
-            {
-                throw new Exception("Emplty test runs list!");
-            }
-
-            InitializeRun(start);
+            InitializeOnRunStarted(start);
             foreach (var testRun in testRuns)
             {
                 AddCompleteTestRun(testRun);
             }
             GenerateReport(finish);
-        }
-        
-        public ReportSettingsDto GetReportSettings()
-        {
-            return ReportSettings;
-        }
-
-        public ReporterSettings GetReporterSettings()
-        {
-            return ReporterSettings;
-        }
-
-        public bool IsTestRunStarted()
-        {
-            return TestRunStarted;
         }
     }
 }
