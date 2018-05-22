@@ -17,7 +17,7 @@ namespace Ghpr.Core
         public ReportSettingsDto ReportSettings { get; internal set; }
         public ReporterSettings ReporterSettings { get; internal set; }
         public IActionHelper Action { get; internal set; }
-        public IScreenshotHelper ScreenshotHelper { get; internal set; }
+        public IScreenshotService ScreenshotService { get; internal set; }
 
         private void InitializeOnRunStarted(DateTime startDateTime)
         {

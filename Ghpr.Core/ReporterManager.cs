@@ -19,7 +19,7 @@ namespace Ghpr.Core
             _initialized = false;
         }
 
-        public static void Initialize(IScreenshotHelper screenshotHelper)
+        public static void Initialize(IScreenshotService screenshotHelper)
         {
             lock (Lock)
             {
@@ -29,7 +29,7 @@ namespace Ghpr.Core
             }
         }
 
-        public static void Initialize(ReporterSettings settings, IScreenshotHelper screenshotHelper)
+        public static void Initialize(ReporterSettings settings, IScreenshotService screenshotHelper)
         {
             lock (Lock)
             {
@@ -39,7 +39,7 @@ namespace Ghpr.Core
             }
         }
 
-        public static void Initialize(TestingFramework framework, IScreenshotHelper screenshotHelper)
+        public static void Initialize(TestingFramework framework, IScreenshotService screenshotHelper)
         {
             lock (Lock)
             {

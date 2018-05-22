@@ -13,22 +13,22 @@ namespace Ghpr.Core.Factories
 {
     public static class ReporterFactory
     {
-        public static IReporter Build(IScreenshotHelper screenshotHelper)
+        public static IReporter Build(IScreenshotService screenshotService)
         {
-            return InitializeReporter(ReporterSettingsProvider.Load());
+            return InitializeReporter(ReporterSettingsProvider.Load(), screenshotService);
         }
 
-        public static IReporter Build(ReporterSettings settings, IScreenshotHelper screenshotHelper)
+        public static IReporter Build(ReporterSettings settings, IScreenshotService screenshotService)
         {
-            return InitializeReporter(settings);
+            return InitializeReporter(settings, screenshotService);
         }
 
-        public static IReporter Build(TestingFramework framework, IScreenshotHelper screenshotHelper)
+        public static IReporter Build(TestingFramework framework, IScreenshotService screenshotService)
         {
-            return InitializeReporter(ReporterSettingsProvider.Load(framework));
+            return InitializeReporter(ReporterSettingsProvider.Load(framework), screenshotService);
         }
 
-        private static IReporter InitializeReporter(ReporterSettings settings)
+        private static IReporter InitializeReporter(ReporterSettings settings, IScreenshotService screenshotService)
         {
             if (settings.OutputPath == null)
             {
@@ -55,10 +55,12 @@ namespace Ghpr.Core.Factories
             }
 
             dataService.Initialize(settings);
+            screenshotService.InitializeDataService(dataService);
             
             var reporter = new Reporter
             {
                 Action = new ActionHelper(settings.OutputPath),
+                ScreenshotService = screenshotService,
                 ReporterSettings = settings,
                 ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay),
                 DataService = dataService,
