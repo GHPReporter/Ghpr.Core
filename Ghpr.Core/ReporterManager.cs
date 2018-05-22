@@ -8,7 +8,7 @@ namespace Ghpr.Core
     public static class ReporterManager
     {
         private static bool _initialized;
-        private static Reporter _reporter;
+        private static IReporter _reporter;
         private static readonly object Lock;
 
         public static string OutputPath => _reporter.ReporterSettings.OutputPath;
@@ -19,32 +19,32 @@ namespace Ghpr.Core
             _initialized = false;
         }
 
-        public static void Initialize(IDataService dataService)
+        public static void Initialize(IScreenshotHelper screenshotHelper)
         {
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = ReporterFactory.Build(dataService);
+                _reporter = ReporterFactory.Build(screenshotHelper);
                 _initialized = true;
             }
         }
 
-        public static void Initialize(ReporterSettings settings, IDataService dataService)
+        public static void Initialize(ReporterSettings settings, IScreenshotHelper screenshotHelper)
         {
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = ReporterFactory.Build(settings, dataService);
+                _reporter = ReporterFactory.Build(settings, screenshotHelper);
                 _initialized = true;
             }
         }
 
-        public static void Initialize(TestingFramework framework, IDataService dataService)
+        public static void Initialize(TestingFramework framework, IScreenshotHelper screenshotHelper)
         {
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = ReporterFactory.Build(framework, dataService);
+                _reporter = ReporterFactory.Build(framework, screenshotHelper);
                 _initialized = true;
             }
         }

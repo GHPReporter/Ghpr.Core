@@ -1,9 +1,10 @@
 ﻿{
-	"outputPath":"C:\\_GHPReporter_Core_Report",
-	"sprint":"",
-	"runName":"",
-	"runGuid":"",
+  "outputPath": "C:\\_GHPReporter_Core_Report",
+  "dataServiceFile": "Ghpr.LocalFileSystem.dll",
+  "sprint": "",
+  "runName": "",
+  "runGuid": "",
   "realTimeGeneration": "True",
   "runsToDisplay": "5",
-  "testsToDisplay": "5"  
+  "testsToDisplay": "5"
 }

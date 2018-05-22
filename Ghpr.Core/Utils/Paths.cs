@@ -43,5 +43,30 @@ namespace Ghpr.Core.Utils
             public string Tests = "tests.json";
             public string Runs = "runs.json";
         }
+
+        public static string GetScreenKey(int count)
+        {
+            return $"{Names.ScreenshotKeyTemplate}{count}";
+        }
+
+        public static string GetTestDataDateTimeKey(int count)
+        {
+            return $"{Names.TestDataDateTimeKeyTemplate}{count}";
+        }
+
+        public static string GetTestDataCommentKey(int count)
+        {
+            return $"{Names.TestDataCommentKeyTemplate}{count}";
+        }
+
+        public static string GetTestDataActualKey(int count)
+        {
+            return $"{Names.TestDataActualKeyTemplate}{count}";
+        }
+
+        public static string GetTestDataExpectedKey(int count)
+        {
+            return $"{Names.TestDataExpectedKeyTemplate}{count}";
+        }
     }
 }

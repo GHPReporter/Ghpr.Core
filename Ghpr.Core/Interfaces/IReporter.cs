@@ -14,6 +14,8 @@ namespace Ghpr.Core.Interfaces
         ITestRunDtosRepository TestRunDtosRepository { get; }
         ITestRunDtoProcessor TestRunDtoProcessor { get; }
         IDataService DataService { get; }
+        IActionHelper Action { get; }
+        IScreenshotHelper ScreenshotHelper { get; }
 
         void RunStarted();
         void RunFinished();

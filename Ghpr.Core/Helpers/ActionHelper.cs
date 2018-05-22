@@ -1,9 +1,10 @@
 ﻿using System;
+using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.Helpers
 {
-    public class ActionHelper
+    public class ActionHelper : IActionHelper
     {
         private readonly object _lock;
         private readonly string _outputPath;

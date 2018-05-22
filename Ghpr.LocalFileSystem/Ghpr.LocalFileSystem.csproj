@@ -56,7 +56,6 @@
     <Compile Include="Extensions\ItemInfoExtensions.cs" />
     <Compile Include="Extensions\RunExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
-    <Compile Include="Helpers\ScreenshotHelper.cs" />
     <Compile Include="Interfaces\ILocationsProvider.cs" />
     <Compile Include="Mappers\TestRunDtoMapper.cs" />
     <Compile Include="Mappers\ReportSettingsDtoMapper.cs" />

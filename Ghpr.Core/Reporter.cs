@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Extensions;
-using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Core
@@ -17,9 +16,8 @@ namespace Ghpr.Core
         public bool TestRunStarted { get; internal set; }
         public ReportSettingsDto ReportSettings { get; internal set; }
         public ReporterSettings ReporterSettings { get; internal set; }
-
-        public static ActionHelper Action { get; internal set; }
-        public static IScreenshotHelper ScreenshotHelper { get; internal set; }
+        public IActionHelper Action { get; internal set; }
+        public IScreenshotHelper ScreenshotHelper { get; internal set; }
 
         private void InitializeOnRunStarted(DateTime startDateTime)
         {

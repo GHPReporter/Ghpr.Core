@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Helpers;
@@ -11,23 +13,22 @@ namespace Ghpr.Core.Factories
 {
     public static class ReporterFactory
     {
-        public static Reporter Build(IDataService dataService)
+        public static IReporter Build(IScreenshotHelper screenshotHelper)
         {
-            return InitializeReporter(ReporterSettingsProvider.Load(), dataService);
+            return InitializeReporter(ReporterSettingsProvider.Load());
         }
 
-        public static Reporter Build(ReporterSettings settings, IDataService dataService)
+        public static IReporter Build(ReporterSettings settings, IScreenshotHelper screenshotHelper)
         {
-            return InitializeReporter(settings, dataService);
+            return InitializeReporter(settings);
         }
 
-        public static Reporter Build(TestingFramework framework, IDataService dataService)
+        public static IReporter Build(TestingFramework framework, IScreenshotHelper screenshotHelper)
         {
-            return InitializeReporter(ReporterSettingsProvider.Load(framework), dataService);
-
+            return InitializeReporter(ReporterSettingsProvider.Load(framework));
         }
 
-        private static Reporter InitializeReporter(ReporterSettings settings, IDataService dataService)
+        private static IReporter InitializeReporter(ReporterSettings settings)
         {
             if (settings.OutputPath == null)
             {
@@ -35,10 +36,29 @@ namespace Ghpr.Core.Factories
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
 
-            Reporter.Action = new ActionHelper(settings.OutputPath);
+            var dataServiceAssembly = Assembly.LoadFile(settings.DataServiceFile);
+            var dataServiceType = dataServiceAssembly.GetTypes()
+                .FirstOrDefault(t => typeof(IDataService).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
 
+            if (dataServiceType == null)
+            {
+                throw new NullReferenceException($"Can't find implementation of {nameof(IDataService)} in {settings.DataServiceFile} file. " +
+                                                 "Please fix your .json settings file.");
+            }
+
+            var dataService = Activator.CreateInstance(dataServiceType) as IDataService;
+
+            if (dataService == null)
+            {
+                throw new NullReferenceException($"Can't find create instance of type {nameof(dataServiceType)} from {settings.DataServiceFile} file. " +
+                                                 "Please fix your .json settings file.");
+            }
+
+            dataService.Initialize(settings);
+            
             var reporter = new Reporter
             {
+                Action = new ActionHelper(settings.OutputPath),
                 ReporterSettings = settings,
                 ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay),
                 DataService = dataService,

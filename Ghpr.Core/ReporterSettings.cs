@@ -8,6 +8,9 @@ namespace Ghpr.Core
         [JsonProperty(PropertyName = "outputPath")]
         public string OutputPath { get; set; }
 
+        [JsonProperty(PropertyName = "dataServiceFile")]
+        public string DataServiceFile { get; set; }
+
         [JsonProperty(PropertyName = "sprint")]
         public string Sprint { get; set; }
 

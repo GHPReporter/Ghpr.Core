@@ -1,5 +1,5 @@
 ﻿using System;
-using Ghpr.LocalFileSystem.Helpers;
+using Ghpr.LocalFileSystem.Providers;
 using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Entities
@@ -16,13 +16,13 @@ namespace Ghpr.LocalFileSystem.Entities
         public TestScreenshot()
         {
             var now = DateTime.Now;
-            Name = ScreenshotHelper.GetScreenName(now);
+            Name = LocationsProvider.GetScreenshotFileName(now);
             Date = now;
         }
 
         public TestScreenshot(DateTime date)
         {
-            Name = ScreenshotHelper.GetScreenName(date);
+            Name = LocationsProvider.GetScreenshotFileName(date);
             Date = date;
         }
     }

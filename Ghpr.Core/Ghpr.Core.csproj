@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Extensions\TestRunDtoListExtensions.cs" />
     <Compile Include="Factories\ReporterFactory.cs" />
+    <Compile Include="Interfaces\IActionHelper.cs" />
     <Compile Include="Interfaces\ITestRunDtoProcessor.cs" />
     <Compile Include="Interfaces\ITestRunDtosRepository.cs" />
     <Compile Include="Processors\TestRunDtoProcessor.cs" />
@@ -93,7 +94,6 @@
     <Compile Include="Interfaces\IScreenshotHelper.cs" />
     <Compile Include="Interfaces\ITestDataHelper.cs" />
     <Compile Include="Providers\ReporterSettingsProvider.cs" />
-    <Compile Include="Helpers\TestDataHelper.cs" />
     <Compile Include="Interfaces\IDataService.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
     <Compile Include="Interfaces\ILog.cs" />

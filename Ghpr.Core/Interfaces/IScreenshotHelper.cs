@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Ghpr.Core.Interfaces
+﻿namespace Ghpr.Core.Interfaces
 {
     public interface IScreenshotHelper
     {
-        void SaveScreenshot(byte[] screenshotBytes, Guid testRunGuid);
+        void SaveScreenshot(byte[] screenshotBytes);
     }
 }
