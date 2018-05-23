@@ -15,7 +15,7 @@ namespace Ghpr.Core.Interfaces
         ITestRunDtoProcessor TestRunDtoProcessor { get; }
         IDataService DataService { get; }
         IActionHelper Action { get; }
-        IScreenshotService ScreenshotService { get; }
+        ITestDataProvider TestDataProvider { get; }
 
         void RunStarted();
         void RunFinished();
@@ -23,6 +23,8 @@ namespace Ghpr.Core.Interfaces
         void TestStarted(TestRunDto testRun);
         void AddCompleteTestRun(TestRunDto testRun);
         void TestFinished(TestRunDto testRun);
+
+        void SaveScreenshot(byte[] screnshotBytes);
 
         void GenerateFullReport(List<TestRunDto> testRuns);
         void GenerateFullReport(List<TestRunDto> testRuns, DateTime start, DateTime finish);

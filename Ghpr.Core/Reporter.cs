@@ -17,7 +17,7 @@ namespace Ghpr.Core
         public ReportSettingsDto ReportSettings { get; internal set; }
         public ReporterSettings ReporterSettings { get; internal set; }
         public IActionHelper Action { get; internal set; }
-        public IScreenshotService ScreenshotService { get; internal set; }
+        public ITestDataProvider TestDataProvider { get; internal set; }
 
         private void InitializeOnRunStarted(DateTime startDateTime)
         {
@@ -73,6 +73,12 @@ namespace Ghpr.Core
             {
                 GenerateReport(DateTime.Now);
             }
+        }
+
+        public void SaveScreenshot(byte[] screenshotBytes)
+        {
+            var guid = TestDataProvider.GetCurrentTestRunGuid();
+            DataService.SaveScreenshot(screenshotBytes, guid, DateTime.Now);
         }
 
         private void OnTestFinish(TestRunDto testDtoWhenFinished)

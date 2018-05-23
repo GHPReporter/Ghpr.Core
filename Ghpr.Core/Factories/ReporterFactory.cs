@@ -13,22 +13,22 @@ namespace Ghpr.Core.Factories
 {
     public static class ReporterFactory
     {
-        public static IReporter Build(IScreenshotService screenshotService)
+        public static IReporter Build(ITestDataProvider testDataProvider)
         {
-            return InitializeReporter(ReporterSettingsProvider.Load(), screenshotService);
+            return InitializeReporter(ReporterSettingsProvider.Load(), testDataProvider);
         }
 
-        public static IReporter Build(ReporterSettings settings, IScreenshotService screenshotService)
+        public static IReporter Build(ReporterSettings settings, ITestDataProvider testDataProvider)
         {
-            return InitializeReporter(settings, screenshotService);
+            return InitializeReporter(settings, testDataProvider);
         }
 
-        public static IReporter Build(TestingFramework framework, IScreenshotService screenshotService)
+        public static IReporter Build(TestingFramework framework, ITestDataProvider testDataProvider)
         {
-            return InitializeReporter(ReporterSettingsProvider.Load(framework), screenshotService);
+            return InitializeReporter(ReporterSettingsProvider.Load(framework), testDataProvider);
         }
 
-        private static IReporter InitializeReporter(ReporterSettings settings, IScreenshotService screenshotService)
+        private static IReporter InitializeReporter(ReporterSettings settings, ITestDataProvider testDataProvider)
         {
             if (settings.OutputPath == null)
             {
@@ -55,12 +55,11 @@ namespace Ghpr.Core.Factories
             }
 
             dataService.Initialize(settings);
-            screenshotService.InitializeDataService(dataService);
             
             var reporter = new Reporter
             {
                 Action = new ActionHelper(settings.OutputPath),
-                ScreenshotService = screenshotService,
+                TestDataProvider = testDataProvider,
                 ReporterSettings = settings,
                 ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay),
                 DataService = dataService,
