@@ -92,7 +92,6 @@
     <Compile Include="Enums\TestResult.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\IRunDtoRepository.cs" />
-    <Compile Include="Interfaces\IScreenshotService.cs" />
     <Compile Include="Providers\ReporterSettingsProvider.cs" />
     <Compile Include="Interfaces\IDataService.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
