@@ -36,27 +36,22 @@ namespace Ghpr.Core.Factories
                 throw new ArgumentNullException(nameof(settings.OutputPath),
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
-
             var uri = new Uri(typeof(ReporterFactory).Assembly.CodeBase);
             var dataServiceAssemblyFullPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", settings.DataServiceFile);
-            var dataServiceAssembly = Assembly.LoadFile(dataServiceAssemblyFullPath);
+            var dataServiceAssembly = Assembly.LoadFrom(dataServiceAssemblyFullPath);
             var dataServiceType = dataServiceAssembly.GetTypes()
                 .FirstOrDefault(t => typeof(IDataService).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-
             if (dataServiceType == null)
             {
                 throw new NullReferenceException($"Can't find implementation of {nameof(IDataService)} in {settings.DataServiceFile} file. " +
                                                  "Please fix your .json settings file.");
             }
-
             var dataService = Activator.CreateInstance(dataServiceType) as IDataService;
-
             if (dataService == null)
             {
                 throw new NullReferenceException($"Can't find create instance of type {nameof(dataServiceType)} from {settings.DataServiceFile} file. " +
                                                  "Please fix your .json settings file.");
             }
-
             dataService.Initialize(settings);
             
             var reporter = new Reporter
