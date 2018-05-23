@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Ghpr.Core.Common;
@@ -36,7 +37,9 @@ namespace Ghpr.Core.Factories
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
 
-            var dataServiceAssembly = Assembly.LoadFile(settings.DataServiceFile);
+            var uri = new Uri(typeof(ReporterFactory).Assembly.CodeBase);
+            var dataServiceAssemblyFullPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", settings.DataServiceFile);
+            var dataServiceAssembly = Assembly.LoadFile(dataServiceAssemblyFullPath);
             var dataServiceType = dataServiceAssembly.GetTypes()
                 .FirstOrDefault(t => typeof(IDataService).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
 
