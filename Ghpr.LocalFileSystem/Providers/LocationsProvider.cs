@@ -39,11 +39,17 @@ namespace Ghpr.LocalFileSystem.Providers
             return Path.Combine(TestsPath, testGuid, Paths.Folder.Img);
         }
 
-        public static string GetTestRunFileName(TestRun testRun)
+        public static string GetTestRunFileName(DateTime finishDateTime)
         {
-            return $"test_{testRun.TestInfo.Finish:yyyyMMdd_HHmmssfff}.json";
+            return $"test_{finishDateTime:yyyyMMdd_HHmmssfff}.json";
         }
-        
+
+        public static string GetRunFileName(Guid runGuid)
+        {
+            var fileName = $"run_{runGuid.ToString().ToLower()}.json";
+            return fileName;
+        }
+
         public static string GetScreenshotFileName(DateTime creationDateTime)
         {
             var format = ImageFormat.Png;

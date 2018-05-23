@@ -1,5 +1,7 @@
-﻿using Ghpr.Core.Common;
+﻿using System.Linq;
+using Ghpr.Core.Common;
 using Ghpr.LocalFileSystem.Entities;
+using Ghpr.LocalFileSystem.Providers;
 
 namespace Ghpr.LocalFileSystem.Mappers
 {
@@ -9,7 +11,11 @@ namespace Ghpr.LocalFileSystem.Mappers
         {
             var run = new Run
             {
-                
+                TestRunFiles = runDto.TestsInfo.Select(ti => LocationsProvider.GetTestRunFileName(ti.Finish)).ToList(),
+                Name = runDto.Name,
+                RunInfo = runDto.RunInfo.MapRunInfo(),
+                RunSummary = runDto.RunSummary.Map(),
+                Sprint = runDto.Sprint
             };
             return run;
         }

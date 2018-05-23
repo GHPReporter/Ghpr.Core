@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Ghpr.Core.Extensions;
 using Ghpr.LocalFileSystem.Entities;
+using Ghpr.LocalFileSystem.Providers;
 using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Extensions
@@ -9,7 +10,7 @@ namespace Ghpr.LocalFileSystem.Extensions
     {
         public static void Save(this Run run, string path)
         {
-            var fileName = $"run_{run.RunInfo.Guid.ToString().ToLower()}.json";
+            var fileName = LocationsProvider.GetRunFileName(run.RunInfo.Guid);
             run.RunInfo.FileName = fileName;
             path.Create();
             var fullRunPath = Path.Combine(path, fileName);

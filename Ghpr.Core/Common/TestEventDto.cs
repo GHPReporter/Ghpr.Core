@@ -7,10 +7,7 @@ namespace Ghpr.Core.Common
         public string Name { get; set; }
         public DateTime Started { get; set; }
         public DateTime Finished { get; set; }
-
-        public double Duration => (Finished - Started).TotalSeconds;
-        public string DurationString => (Finished - Started).ToString(@"hh\:mm\:ss\:fff");
-
+        
         public TestEventDto()
         {
             Name = "";
