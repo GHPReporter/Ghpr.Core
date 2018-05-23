@@ -11,8 +11,8 @@ namespace Ghpr.Core.Interfaces
         bool TestRunStarted { get; }
 
         IRunDtoRepository RunRepository { get; }
-        ITestRunDtosRepository TestRunDtosRepository { get; }
-        ITestRunDtoProcessor TestRunDtoProcessor { get; }
+        ITestRunsRepository TestRunsRepository { get; }
+        ITestRunDtoProcessor TestRunProcessor { get; }
         IDataService DataService { get; }
         IActionHelper Action { get; }
         ITestDataProvider TestDataProvider { get; }

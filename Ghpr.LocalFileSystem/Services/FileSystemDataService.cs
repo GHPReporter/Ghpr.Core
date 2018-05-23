@@ -32,19 +32,19 @@ namespace Ghpr.LocalFileSystem.Services
             run.RunInfo.SaveRunInfo(_locationsProvider);
         }
         
-        public void SaveScreenshot(byte[] screenshotBytes, Guid testRunGuid, DateTime creationTime)
+        public void SaveScreenshot(TestScreenshotDto testScreenshot)
         {
-            using (var image = Image.FromStream(new MemoryStream(screenshotBytes)))
+            using (var image = Image.FromStream(new MemoryStream(testScreenshot.Data)))
             {
-                var screenPath = _locationsProvider.GetScreenshotPath(testRunGuid.ToString());
+                var screenPath = _locationsProvider.GetScreenshotPath(testScreenshot.TestGuid.ToString());
                 screenPath.Create();
-                var screenName = LocationsProvider.GetScreenshotFileName(creationTime);
+                var screenName = LocationsProvider.GetScreenshotFileName(testScreenshot.Date);
                 var file = Path.Combine(screenPath, screenName);
                 var screen = new Bitmap(image);
                 screen.Save(file, ImageFormat.Png);
                 var fileInfo = new FileInfo(file);
                 fileInfo.Refresh();
-                fileInfo.CreationTime = creationTime;
+                fileInfo.CreationTime = testScreenshot.Date;
             }
         }
 

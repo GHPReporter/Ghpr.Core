@@ -12,6 +12,6 @@ namespace Ghpr.Core.Interfaces
         void SaveReportSettings(ReportSettingsDto reportSettings);
         void SaveTestRun(TestRunDto testRun);
         void SaveRun(RunDto run);
-        void SaveScreenshot(byte[] screenshotBytes, Guid testRunGuid, DateTime creationDateTime);
+        void SaveScreenshot(TestScreenshotDto testScreenshot);
     }
 }

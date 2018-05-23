@@ -10,8 +10,8 @@ namespace Ghpr.Core
     public class Reporter : IReporter
     {
         public IRunDtoRepository RunRepository { get; internal set; }
-        public ITestRunDtosRepository TestRunDtosRepository { get; internal set; }
-        public ITestRunDtoProcessor TestRunDtoProcessor { get; internal set; }
+        public ITestRunsRepository TestRunsRepository { get; internal set; }
+        public ITestRunDtoProcessor TestRunProcessor { get; internal set; }
         public IDataService DataService { get; internal set; }
         public bool TestRunStarted { get; internal set; }
         public ReportSettingsDto ReportSettings { get; internal set; }
@@ -24,7 +24,7 @@ namespace Ghpr.Core
             Action.Safe(() =>
             {
                 RunRepository.OnRunStarted(ReporterSettings, startDateTime);
-                TestRunDtosRepository.OnRunStarted();
+                TestRunsRepository.OnRunStarted();
                 ResourceExtractor.ExtractReportBase(ReporterSettings.OutputPath);
                 DataService.SaveReportSettings(ReportSettings);
             });
@@ -57,7 +57,7 @@ namespace Ghpr.Core
         {
             Action.Safe(() =>
             {
-                TestRunDtosRepository.AddNewTestRun(testRun);
+                TestRunsRepository.AddNewTestRun(testRun);
             });
         }
 
@@ -78,7 +78,9 @@ namespace Ghpr.Core
         public void SaveScreenshot(byte[] screenshotBytes)
         {
             var guid = TestDataProvider.GetCurrentTestRunGuid();
-            DataService.SaveScreenshot(screenshotBytes, guid, DateTime.Now);
+            var testScreenshot = new TestScreenshotDto{TestGuid = guid, Data =  screenshotBytes, Date = DateTime.Now};
+            TestRunsRepository.AddNewScreenshot(testScreenshot);
+            DataService.SaveScreenshot(testScreenshot);
         }
 
         private void OnTestFinish(TestRunDto testDtoWhenFinished)
@@ -86,8 +88,8 @@ namespace Ghpr.Core
             Action.Safe(() =>
             {
                 RunRepository.OnTestFinished(testDtoWhenFinished);
-                var testDtoWhenStarted = TestRunDtosRepository.ExtractCorrespondingTestRun(testDtoWhenFinished);
-                var finalTest = TestRunDtoProcessor.Process(testDtoWhenStarted, testDtoWhenFinished, RunRepository.RunGuid);
+                var testDtoWhenStarted = TestRunsRepository.ExtractCorrespondingTestRun(testDtoWhenFinished);
+                var finalTest = TestRunProcessor.Process(testDtoWhenStarted, testDtoWhenFinished, RunRepository.RunGuid);
                 DataService.SaveTestRun(finalTest);
             });
         }

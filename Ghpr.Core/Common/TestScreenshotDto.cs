@@ -6,5 +6,6 @@ namespace Ghpr.Core.Common
     {
         public byte[] Data { get; set; }
         public DateTime Date { get; set; }
+        public Guid TestGuid { get; set; }
     }
 }

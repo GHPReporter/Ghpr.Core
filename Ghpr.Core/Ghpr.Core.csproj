@@ -75,7 +75,7 @@
     <Compile Include="Interfaces\IActionHelper.cs" />
     <Compile Include="Interfaces\ITestDataProvider.cs" />
     <Compile Include="Interfaces\ITestRunDtoProcessor.cs" />
-    <Compile Include="Interfaces\ITestRunDtosRepository.cs" />
+    <Compile Include="Interfaces\ITestRunsRepository.cs" />
     <Compile Include="Processors\TestRunDtoProcessor.cs" />
     <Compile Include="ReporterSettings.cs" />
     <Compile Include="Common\ReportSettingsDto.cs" />
@@ -105,7 +105,7 @@
     <Compile Include="ReporterManager.cs" />
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\Paths.cs" />
-    <Compile Include="Utils\TestRunDtosRepository.cs" />
+    <Compile Include="Utils\TestRunsRepository.cs" />
     <Compile Include="Utils\RunDtoRepository.cs" />
     <Compile Include="Utils\StaticLog.cs" />
   </ItemGroup>

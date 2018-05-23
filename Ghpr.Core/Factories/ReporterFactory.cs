@@ -64,8 +64,8 @@ namespace Ghpr.Core.Factories
                 ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay),
                 DataService = dataService,
                 RunRepository = new RunDtoRepository(),
-                TestRunDtosRepository = new TestRunDtosRepository(),
-                TestRunDtoProcessor = new TestRunDtoProcessor(),
+                TestRunsRepository = new TestRunsRepository(),
+                TestRunProcessor = new TestRunDtoProcessor(),
                 TestRunStarted = false
             };
             return reporter;
