@@ -4,6 +4,7 @@ using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.Core
 {
@@ -79,7 +80,6 @@ namespace Ghpr.Core
         {
             var guid = TestDataProvider.GetCurrentTestRunGuid();
             var testScreenshot = new TestScreenshotDto{TestGuid = guid, Data =  screenshotBytes, Date = DateTime.Now};
-            TestRunsRepository.AddNewScreenshot(testScreenshot);
             DataService.SaveScreenshot(testScreenshot);
         }
 

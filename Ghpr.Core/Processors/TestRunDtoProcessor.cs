@@ -21,12 +21,11 @@ namespace Ghpr.Core.Processors
             finalTestRunDto.Events.
                 AddRange(testRunDtoWhenStated.Events.Where(
                     e => !finalTestRunDto.Events.Any(te => te.Name.Equals(e.Name))));
+            finalTestRunDto.TestInfo.Start = testRunDtoWhenStated.TestInfo.Start;
             finalTestRunDto.TestInfo.Finish = finalTestRunDto.TestInfo.Finish.Equals(default(DateTime))
                 ? DateTime.Now
                 : finalTestRunDto.TestInfo.Finish;
-
             finalTestRunDto.RunGuid = runGuid;
-
             return finalTestRunDto;
         }
     }

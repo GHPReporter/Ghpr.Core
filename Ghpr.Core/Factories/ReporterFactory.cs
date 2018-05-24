@@ -36,6 +36,7 @@ namespace Ghpr.Core.Factories
                 throw new ArgumentNullException(nameof(settings.OutputPath),
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
+            StaticLog.Initialize(settings.OutputPath);
             var uri = new Uri(typeof(ReporterFactory).Assembly.CodeBase);
             var dataServiceAssemblyFullPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", settings.DataServiceFile);
             var dataServiceAssembly = Assembly.LoadFrom(dataServiceAssemblyFullPath);

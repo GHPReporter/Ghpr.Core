@@ -7,6 +7,5 @@ namespace Ghpr.Core.Interfaces
         void OnRunStarted();
         TestRunDto ExtractCorrespondingTestRun(TestRunDto finishedTestRun);
         void AddNewTestRun(TestRunDto testRun);
-        void AddNewScreenshot(TestScreenshotDto testScreenshot);
     }
 }

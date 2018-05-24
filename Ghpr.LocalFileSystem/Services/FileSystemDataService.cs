@@ -5,6 +5,7 @@ using Ghpr.Core;
 using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
+using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
 using Ghpr.LocalFileSystem.Mappers;
@@ -56,6 +57,15 @@ namespace Ghpr.LocalFileSystem.Services
         public void SaveTestRun(TestRunDto testRunDto)
         {
             var testRun = testRunDto.Map();
+            var imgFolder = _locationsProvider.GetScreenshotPath(testRun.TestInfo.Guid.ToString());
+            var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.png");
+            foreach (var imgFile in imgFiles)
+            {
+                if (imgFile.CreationTime > testRun.TestInfo.Start)
+                {
+                    testRun.Screenshots.Add(new TestScreenshot(imgFile.CreationTime));
+                }
+            }
             testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
             testRun.TestInfo.SaveTestInfo(_locationsProvider);
         }
