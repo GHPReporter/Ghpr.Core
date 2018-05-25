@@ -32,8 +32,9 @@ namespace Ghpr.LocalFileSystem.Services
             run.RunInfo.SaveRunInfo(_locationsProvider);
         }
         
-        public void SaveScreenshot(TestScreenshotDto testScreenshot)
+        public void SaveScreenshot(TestScreenshotDto screenshotDto)
         {
+            var testScreenshot = screenshotDto.Map();
             using (var image = Image.FromStream(new MemoryStream(testScreenshot.Data)))
             {
                 var screenPath = _locationsProvider.GetScreenshotPath(testScreenshot.TestGuid.ToString());
@@ -63,7 +64,11 @@ namespace Ghpr.LocalFileSystem.Services
             {
                 if (imgFile.CreationTime > testRun.TestInfo.Start)
                 {
-                    testRun.Screenshots.Add(new TestScreenshot(imgFile.CreationTime));
+                    testRun.Screenshots.Add(new TestScreenshot
+                    {
+                        Date = imgFile.CreationTime,
+                        Name = LocationsProvider.GetScreenshotFileName(imgFile.CreationTime)
+                    });
                 }
             }
             testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));

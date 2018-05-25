@@ -1,19 +1,18 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Ghpr.LocalFileSystem.Entities
+namespace Ghpr.CouchDb.Entities
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class TestScreenshot
     {
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
+        [JsonProperty(PropertyName = "testGuid")]
+        public Guid TestGuid { get; set; }
 
         [JsonProperty(PropertyName = "date")]
         public DateTime Date { get; set; }
 
+        [JsonProperty(PropertyName = "data")]
         public byte[] Data { get; set; }
-        public Guid TestGuid { get; set; }
-
     }
 }
