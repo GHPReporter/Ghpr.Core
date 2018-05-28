@@ -20,12 +20,12 @@ namespace Ghpr.CouchDb
             };
         }
 
-        public void SavetestRun(TestRun testRun)
+        public void SaveTestRun(TestRun testRun)
         {
-
+            var postResult = _client.PutAsync($"/{GhprDatabaseName}", EmptyStringContent).GetAwaiter().GetResult();
         }
 
-        public bool TestConnection()
+        public void ValidateConnection()
         {
             var resultStr = _client.GetStringAsync("/").GetAwaiter().GetResult();
             var r = JObject.Parse(resultStr);
@@ -33,7 +33,10 @@ namespace Ghpr.CouchDb
             var version = (string)r.SelectToken("version");
             var vendorName = (string)r.SelectToken("vendor").SelectToken("name");
             //Console.WriteLine($"{couchDb}. CouchDB version is {version}. Vendor: {vendorName}");
-            return couchDb != null && version != null && vendorName != null;
+            if (couchDb == null || version == null || vendorName == null)
+            {
+                throw new Exception($"Error while connecting to the database server: {resultStr}");
+            }
         }
 
         public void CreateDb()

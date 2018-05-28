@@ -14,7 +14,7 @@ namespace Ghpr.CouchDb.Services
             var couchDbSettings = "Ghpr.CouchDb.Settings.json".Load<CouchDbSettings>();
             Client = new CouchDbClient(couchDbSettings);
             Client.CreateDb();
-            Client.TestConnection();
+            Client.ValidateConnection();
         }
 
         public ReporterSettings ReporterSettings { get; private set; }
