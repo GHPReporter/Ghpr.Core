@@ -33,13 +33,9 @@ namespace Ghpr.Core.Providers
             return settings;
         }
 
-        public static ReporterSettings Load(string fileName = "")
+        public static ReporterSettings Load(string fileName)
         {
-            var uri = new Uri(typeof(ReporterSettings).Assembly.CodeBase);
-            var settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "",
-                fileName.Equals("") ? Paths.Files.CoreSettings : fileName);
-            var settings = JsonConvert.DeserializeObject<ReporterSettings>(File.ReadAllText(settingsPath));
-            return settings;
+            return fileName.Load<ReporterSettings>();
         }
     }
 }

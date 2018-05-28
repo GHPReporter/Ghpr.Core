@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.LocalFileSystem", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.CouchDb", "..\Ghpr.CouchDb\Ghpr.CouchDb.csproj", "{E1E7D3A7-8991-4A14-9C73-8672662AB913}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.ConsoleForDebug", "Ghpr.ConsoleForDebug\Ghpr.ConsoleForDebug.csproj", "{7458DB00-D683-4466-8E08-3534E4680E94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{E1E7D3A7-8991-4A14-9C73-8672662AB913}.Release-NET40|Any CPU.Build.0 = Release|Any CPU
 		{E1E7D3A7-8991-4A14-9C73-8672662AB913}.Release-NET452|Any CPU.ActiveCfg = Release|Any CPU
 		{E1E7D3A7-8991-4A14-9C73-8672662AB913}.Release-NET452|Any CPU.Build.0 = Release|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Debug-NET40|Any CPU.ActiveCfg = Debug|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Debug-NET40|Any CPU.Build.0 = Debug|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Debug-NET452|Any CPU.ActiveCfg = Debug|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Debug-NET452|Any CPU.Build.0 = Debug|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Release-NET40|Any CPU.ActiveCfg = Release|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Release-NET40|Any CPU.Build.0 = Release|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Release-NET452|Any CPU.ActiveCfg = Release|Any CPU
+		{7458DB00-D683-4466-8E08-3534E4680E94}.Release-NET452|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
