@@ -2,7 +2,6 @@
 using System.Drawing.Imaging;
 using System.IO;
 using Ghpr.Core.Utils;
-using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Interfaces;
 
 namespace Ghpr.LocalFileSystem.Providers

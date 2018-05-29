@@ -4,7 +4,6 @@ using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
-using Ghpr.Core.Utils;
 
 namespace Ghpr.Core
 {

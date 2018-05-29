@@ -1,8 +1,5 @@
-﻿using System;
-using System.IO;
-using Ghpr.Core.Enums;
+﻿using Ghpr.Core.Enums;
 using Ghpr.Core.Utils;
-using Newtonsoft.Json;
 
 namespace Ghpr.Core.Providers
 {
@@ -35,7 +32,7 @@ namespace Ghpr.Core.Providers
 
         public static ReporterSettings Load(string fileName)
         {
-            return fileName.Load<ReporterSettings>();
+            return fileName.LoadAs<ReporterSettings>();
         }
     }
 }
