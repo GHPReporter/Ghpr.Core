@@ -6,7 +6,7 @@ namespace Ghpr.CouchDb.Mappers
 {
     public static class TestRunDtoMapper
     {
-        public static TestRun Map(this TestRunDto testRunDto)
+        public static DatabaseEntity<TestRun> Map(this TestRunDto testRunDto)
         {
             var testRun = new TestRun
             {
@@ -41,7 +41,14 @@ namespace Ghpr.CouchDb.Mappers
                     Date = tdDto.Date
                 }).ToList()
             };
-            return testRun;
+            var entity = new DatabaseEntity<TestRun>
+            {
+                Data = testRun,
+                Id = $"test_run_{testRun.TestInfo.Guid}-{testRun.TestInfo.Start:yyyyMMdd_HHmmssfff}-{testRun.TestInfo.Finish:yyyyMMdd_HHmmssfff}",
+                Rev = $"1-{testRun.TestInfo.Start:yyyyMMdd_HHmmssfff}-{testRun.TestInfo.Finish:yyyyMMdd_HHmmssfff}",
+                Type = EntityType.TestRunType
+            };
+            return entity;
         }
     }
 }

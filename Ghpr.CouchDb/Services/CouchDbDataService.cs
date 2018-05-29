@@ -12,35 +12,37 @@ namespace Ghpr.CouchDb.Services
         {
             ReporterSettings = settings;
             var couchDbSettings = "Ghpr.CouchDb.Settings.json".Load<CouchDbSettings>();
-            Client = new CouchDbClient(couchDbSettings);
-            Client.CreateDb();
-            Client.ValidateConnection();
+            StaticLog.Initialize(settings.OutputPath);
+            Database = new CouchDbDatabase(couchDbSettings);
+            Database.CreateDb();
+            Database.ValidateConnection();
         }
 
         public ReporterSettings ReporterSettings { get; private set; }
-        public CouchDbClient Client { get; private set; }
-
+        public CouchDbDatabase Database { get; private set; }
+        
         public void SaveRun(RunDto runDto)
         {
-            var run = runDto.Map();
-
+            var runEntity = runDto.Map();
+            Database.SaveRun(runEntity);
         }
         
         public void SaveScreenshot(TestScreenshotDto testScreenshot)
         {
-            var screenshot = testScreenshot.Map();
-
+            var screenshotEntity = testScreenshot.Map();
+            
         }
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
         {
-            var reportSettings = reportSettingsDto.Map();
-
+            var reportSettingsEntity = reportSettingsDto.Map();
+            Database.SaveReportSettings(reportSettingsEntity);
         }
 
         public void SaveTestRun(TestRunDto testRunDto)
         {
-            var testRun = testRunDto.Map();
+            var testRunEntity = testRunDto.Map();
+            Database.SaveTestRun(testRunEntity);
         }
     }
 }

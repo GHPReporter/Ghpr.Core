@@ -45,6 +45,9 @@
   <ItemGroup>
     <Compile Include="Comparers\ItemInfoComparer.cs" />
     <Compile Include="CouchDbClient.cs" />
+    <Compile Include="CouchDbDatabase.cs" />
+    <Compile Include="Entities\DatabaseEntity.cs" />
+    <Compile Include="Entities\EntityType.cs" />
     <Compile Include="Entities\ItemInfo.cs" />
     <Compile Include="Entities\ReportSettings.cs" />
     <Compile Include="Entities\Run.cs" />

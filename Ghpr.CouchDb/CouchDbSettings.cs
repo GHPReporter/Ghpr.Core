@@ -1,5 +1,4 @@
-﻿using Ghpr.Core.Utils;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Ghpr.CouchDb
 {

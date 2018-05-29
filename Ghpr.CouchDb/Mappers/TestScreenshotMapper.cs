@@ -5,7 +5,7 @@ namespace Ghpr.CouchDb.Mappers
 {
     public static class TestScreenshotMapper
     {
-        public static TestScreenshot Map(this TestScreenshotDto testScreenshotDto)
+        public static DatabaseEntity<TestScreenshot> Map(this TestScreenshotDto testScreenshotDto)
         {
             var testScreenshot = new TestScreenshot
             {
@@ -13,7 +13,14 @@ namespace Ghpr.CouchDb.Mappers
                 Data = testScreenshotDto.Data,
                 TestGuid = testScreenshotDto.TestGuid
             };
-            return testScreenshot;
+            var entity = new DatabaseEntity<TestScreenshot>
+            {
+                Data = testScreenshot,
+                Id = $"screenshot-{testScreenshot.TestGuid.ToString()}-{testScreenshot.Date:yyyyMMdd_HHmmssfff}",
+                Rev = $"1-{testScreenshot.Date:yyyyMMdd_HHmmssfff}",
+                Type = EntityType.ScreenshotType
+            };
+            return entity;
         }
     }
 }
