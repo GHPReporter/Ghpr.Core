@@ -32,6 +32,24 @@ namespace Ghpr.ConsoleForDebug
             reporter.DataService.SaveRun(run);
             reporter.DataService.SaveRun(run);
 
+            var testGuid = Guid.NewGuid();
+            var screen = new TestScreenshotDto
+            {
+                Date = DateTime.Now,
+                Data = new byte[]{1, 2, 0, 3},
+                TestGuid = testGuid
+            };
+            var test = new TestRunDto(testGuid, "Test", "Test.FullName");
+            var testInfo = new ItemInfoDto
+            {
+                Start = DateTime.Now.AddSeconds(-2),
+                Finish = DateTime.Now.AddSeconds(2),
+                Guid = testGuid
+            };
+            test.TestInfo = testInfo;
+            reporter.DataService.SaveScreenshot(screen);
+            reporter.DataService.SaveTestRun(test);
+
             Console.WriteLine("Done.");
         }
     }

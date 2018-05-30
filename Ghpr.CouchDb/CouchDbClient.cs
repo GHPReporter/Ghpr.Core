@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using Ghpr.CouchDb.Entities;
 using Ghpr.CouchDb.Extensions;
 using Ghpr.CouchDb.Processors;

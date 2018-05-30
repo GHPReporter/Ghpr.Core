@@ -13,7 +13,7 @@ namespace Ghpr.CouchDb.Utils
     {
         public static StringContent Empty => new StringContent("");
 
-        private static StringContent CreateContentWithSelector(List<KeyValuePair<string, string>> andDictionary)
+        private static StringContent CreateContentWithSelector(IEnumerable<KeyValuePair<string, JToken>> andDictionary)
         {
             var andArray = new JArray();
             foreach (var a in andDictionary)
@@ -23,6 +23,7 @@ namespace Ghpr.CouchDb.Utils
                     new JObject(
                         new JProperty("$and", new JArray(andArray))))
             );
+            Console.WriteLine($"CONTENT: {selector}");
             var content = new StringContent(selector.ToString(), Encoding.UTF8, "application/json");
             return content;
         }
@@ -38,38 +39,38 @@ namespace Ghpr.CouchDb.Utils
 
         public StringContent FindRunsContent(string runGuid)
         {
-            return CreateContentWithSelector(new List<KeyValuePair<string, string>>
+            return CreateContentWithSelector(new List<KeyValuePair<string, JToken>>
             {
-                new KeyValuePair<string, string>("type", EntityType.RunType),
-                new KeyValuePair<string, string>("data.runInfo.guid", runGuid)
+                new KeyValuePair<string, JToken>("type", EntityType.RunType),
+                new KeyValuePair<string, JToken>("data.runInfo.guid", runGuid)
             });
         }
 
         public StringContent FindReportSettingsContent()
         {
-            return CreateContentWithSelector(new List<KeyValuePair<string, string>>
+            return CreateContentWithSelector(new List<KeyValuePair<string, JToken>>
             {
-                new KeyValuePair<string, string>("type", EntityType.ReportSettingsType)
+                new KeyValuePair<string, JToken>("type", EntityType.ReportSettingsType)
             });
         }
 
         public StringContent FindTestRunsByGuid(string testGuid)
         {
-            return CreateContentWithSelector(new List<KeyValuePair<string, string>>
+            return CreateContentWithSelector(new List<KeyValuePair<string, JToken>>
             {
-                new KeyValuePair<string, string>("type", EntityType.TestRunType),
-                new KeyValuePair<string, string>("data.testInfo.guid", testGuid)
+                new KeyValuePair<string, JToken>("type", EntityType.TestRunType),
+                new KeyValuePair<string, JToken>("data.testInfo.guid", testGuid)
             });
         }
         
-        public StringContent FindTestScreenshotsByTestGuid(string testGuid, DateTime testStarDateTime, DateTime testFinishDateTime)
+        public StringContent FindTestScreenshotsByTestGuid(string testGuid, DateTime testStartDateTime, DateTime testFinishDateTime)
         {
-            return CreateContentWithSelector(new List<KeyValuePair<string, string>>
+            return CreateContentWithSelector(new List<KeyValuePair<string, JToken>>
             {
-                new KeyValuePair<string, string>( "type", EntityType.ScreenshotType),
-                new KeyValuePair<string, string>( "data.testGuid", testGuid),
-                new KeyValuePair<string, string>( "data.date", $"{{\"$gt\":{testStarDateTime}}}"),
-                new KeyValuePair<string, string>( "data.date", $"{{\"$lt\":{testFinishDateTime}}}")
+                new KeyValuePair<string, JToken>( "type", EntityType.ScreenshotType),
+                new KeyValuePair<string, JToken>( "data.testGuid", testGuid),
+                new KeyValuePair<string, JToken>( "data.date", new JObject(new JProperty("$gt", testStartDateTime))),
+                new KeyValuePair<string, JToken>( "data.date", new JObject(new JProperty("$lt", testFinishDateTime)))
             });
         }
 
