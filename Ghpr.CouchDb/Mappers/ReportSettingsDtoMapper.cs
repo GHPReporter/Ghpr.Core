@@ -12,8 +12,7 @@ namespace Ghpr.CouchDb.Mappers
             {
                 Data = run,
                 Id = "ghpr_report_settings",
-                Type = EntityType.ReportSettingsType,
-                Rev = "1-ghpr_report_settings"
+                Type = EntityType.ReportSettingsType
             };
             return entity;
         }

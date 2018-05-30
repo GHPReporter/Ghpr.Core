@@ -47,7 +47,7 @@ namespace Ghpr.CouchDb.Entities
         public Guid RunGuid { get; set; }
 
         [JsonProperty(PropertyName = "screenshots")]
-        public List<TestScreenshot> Screenshots { get; set; }
+        public List<TestScreenshotInfo> Screenshots { get; set; }
 
         [JsonProperty(PropertyName = "events")]
         public List<TestEvent> Events { get; set; }

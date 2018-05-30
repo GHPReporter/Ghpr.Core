@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.CouchDb.Entities;
 
@@ -24,10 +25,7 @@ namespace Ghpr.CouchDb.Mappers
                 Priority = testRunDto.Priority,
                 Result = testRunDto.Result,
                 RunGuid = testRunDto.RunGuid,
-                Screenshots = testRunDto.Screenshots.Select(sDto => new TestScreenshot
-                {
-                    Date = sDto.Date
-                }).ToList(),
+                Screenshots = new List<TestScreenshotInfo>(),
                 TestInfo = testRunDto.TestInfo.MapTestRunInfo(),
                 TestDuration = (testRunDto.TestInfo.Finish - testRunDto.TestInfo.Start).TotalSeconds,
                 TestMessage = testRunDto.TestMessage,

@@ -7,5 +7,8 @@ namespace Ghpr.CouchDb
     {
         [JsonProperty(PropertyName = "endpoint")]
         public string Endpoint { get; set; }
+
+        [JsonProperty(PropertyName = "database")]
+        public string Database { get; set; }
     }
 }

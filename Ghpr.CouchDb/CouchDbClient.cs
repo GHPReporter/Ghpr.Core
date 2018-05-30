@@ -1,17 +1,21 @@
 ﻿using System;
-using System.Net;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using Ghpr.CouchDb.Entities;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Ghpr.CouchDb.Extensions;
+using Ghpr.CouchDb.Processors;
+using Ghpr.CouchDb.Utils;
 
 namespace Ghpr.CouchDb
 {
     public class CouchDbClient : IDisposable
     {
         private readonly HttpClient _client;
-        private static StringContent EmptyStringContent => new StringContent("");
-        private const string GhprDatabaseName = "ghpr";
+        private readonly StringContentBuilder _contentBuilder;
+        private readonly HttpResponseMessageProcessor _messageProcessor;
+        private readonly string _ghprDatabaseName;
         
         public CouchDbClient(CouchDbSettings couchDbSettings)
         {
@@ -19,107 +23,73 @@ namespace Ghpr.CouchDb
             {
                 BaseAddress = new Uri(couchDbSettings.Endpoint)
             };
-        }
-
-        private static StringContent GetContent<T>(DatabaseEntity<T> entity)
-        {
-            return new StringContent(JsonConvert.SerializeObject(entity));
+            _contentBuilder = new StringContentBuilder();
+            _messageProcessor = new HttpResponseMessageProcessor();
+            _ghprDatabaseName = couchDbSettings.Database;
         }
 
         public void SaveReportSettings(DatabaseEntity<ReportSettings> reportSettingsEntity)
         {
-            var settingsContent = GetContent(reportSettingsEntity);
-            var postResult = _client.PutAsync($"/{GhprDatabaseName}/{reportSettingsEntity.Id}?new_edits=false", settingsContent).GetAwaiter().GetResult();
-            var postResString = postResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            var jResult = JObject.Parse(postResString);
-            if (postResult.StatusCode == HttpStatusCode.Created && (bool)jResult.SelectToken("ok"))
-            {
-                Console.WriteLine($"Report settings {JsonConvert.SerializeObject(reportSettingsEntity.Data, Formatting.Indented)} " +
-                                  $"were saved successfully, result: {postResString}");
-            }
-            else
-            {
-                Console.WriteLine($"Report settings were not saved correctly: {postResString}");
-            }
+            var searchContent = _contentBuilder.FindReportSettingsContent();
+            var postRunsQueryResult = _client.Find(_ghprDatabaseName, searchContent);
+            var existingRunRevision = postRunsQueryResult.ContentAsJObject().SelectToken("docs")
+                .First?.ToObject<DatabaseEntity<ReportSettings>>()?.Rev ?? "";
+            reportSettingsEntity.Rev = existingRunRevision.Equals("") ? reportSettingsEntity.Rev : existingRunRevision;
+            var revParam = existingRunRevision.Equals("") ? "" : $"?rev={existingRunRevision}";
+
+            var settingsContent = _contentBuilder.GetContent(reportSettingsEntity);
+            var postResult = _client.Put($"/{_ghprDatabaseName}/{reportSettingsEntity.Id}{revParam}", settingsContent);
+            _messageProcessor.ProcessReportSettingsSavedMessage(postResult, reportSettingsEntity.Data);
+        }
+
+        public void SaveScreenshot(DatabaseEntity<TestScreenshot> screenshotEntity)
+        {
+            var settingsContent = _contentBuilder.GetContent(screenshotEntity);
+            var postResult = _client.Put($"/{_ghprDatabaseName}/{screenshotEntity.Id}?new_edits?=false", settingsContent);
+            _messageProcessor.ProcessScreenshotSavedMessage(postResult, screenshotEntity.Data.TestGuid.ToString(), screenshotEntity.Data.Date);
         }
 
         public void SaveTestRun(DatabaseEntity<TestRun> testRunEntity)
         {
-            var testRunContent = GetContent(testRunEntity);
-            var postResult = _client.PutAsync($"/{GhprDatabaseName}/{testRunEntity.Id}?new_edits=false", testRunContent).GetAwaiter().GetResult();
-            var postResString = postResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            var jResult = JObject.Parse(postResString);
-            if (postResult.StatusCode == HttpStatusCode.Created && (bool)jResult.SelectToken("ok"))
+            var screenshotSearchContent =
+                _contentBuilder.FindTestScreenshotsByTestGuid(testRunEntity.Data.TestInfo.Guid.ToString(), 
+                    testRunEntity.Data.TestInfo.Start, testRunEntity.Data.TestInfo.Finish);
+            var findResult = _client.Find(_ghprDatabaseName, screenshotSearchContent);
+            var screenshots = findResult.ContentAsJObject().SelectToken("docs").ToObject<List<DatabaseEntity<TestScreenshot>>>();
+            testRunEntity.Data.Screenshots.AddRange(screenshots.Select(screenshotEntity => new TestScreenshotInfo
             {
-                Console.WriteLine($"Test run {JsonConvert.SerializeObject(testRunEntity.Data.TestInfo, Formatting.Indented)} " +
-                                      $"was created successfully, result: {postResString}");
-            }
-            else
-            {
-                Console.WriteLine($"Test run was not saved correctly: {postResString}");
-            }
+                Date = screenshotEntity.Data.Date,
+                Id = screenshotEntity.Id,
+                Revision = screenshotEntity.Rev
+            }));
+            var testRunContent = _contentBuilder.GetContent(testRunEntity);
+            var response = _client.Put($"/{_ghprDatabaseName}/{testRunEntity.Id}?new_edits=false", testRunContent);
+            _messageProcessor.ProcessTestRunSavedMessage(response, testRunEntity.Data.TestInfo);
         }
         
         public void SaveRun(DatabaseEntity<Run> runEntity)
         {
-            var runContent = GetContent(runEntity);
-            var postResult = _client.PutAsync($"/{GhprDatabaseName}/{runEntity.Id}", runContent).GetAwaiter().GetResult();
-            var postResString = postResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            var jResult = JObject.Parse(postResString);
-            if (postResult.StatusCode == HttpStatusCode.Created && (bool)jResult.SelectToken("ok"))
-            {
-                Console.WriteLine($"Run {JsonConvert.SerializeObject(runEntity.Data.RunInfo, Formatting.Indented)} " +
-                                      $"was saved successfully, result: {postResString}");
-            }
-            else
-            {
-                Console.WriteLine($"Run was not saved correctly: {postResString}");
-            }
+            var searchContent = _contentBuilder.FindRunsContent(runEntity.Data.RunInfo.Guid.ToString());
+            var postRunsQueryResult = _client.Find(_ghprDatabaseName, searchContent);
+            var existingRunRevision = postRunsQueryResult.ContentAsJObject().SelectToken("docs")
+                .First?.ToObject<DatabaseEntity<Run>>()?.Rev ?? "";
+            runEntity.Rev = existingRunRevision.Equals("") ? runEntity.Rev : existingRunRevision;
+            var revParam = existingRunRevision.Equals("") ? "" : $"?rev={existingRunRevision}";
+            var runContent = _contentBuilder.GetContent(runEntity);
+            var postResult = _client.Put($"/{_ghprDatabaseName}/{runEntity.Id}{revParam}", runContent);
+            _messageProcessor.ProcessRunSavedMessage(postResult, runEntity.Data.RunInfo);
         }
-
+        
         public void ValidateConnection()
         {
-            var resultStr = _client.GetStringAsync("/").GetAwaiter().GetResult();
-            var r = JObject.Parse(resultStr);
-            var couchDb = (string)r.SelectToken("couchdb");
-            var version = (string)r.SelectToken("version");
-            var vendorName = (string)r.SelectToken("vendor").SelectToken("name");
-            Console.WriteLine($"{couchDb}. CouchDB version is {version}. Vendor: {vendorName}");
-            if (couchDb == null || version == null || vendorName == null)
-            {
-                throw new Exception($"Error while connecting to the database server: {resultStr}");
-            }
+            var resultStr = _client.GetString("/");
+            _messageProcessor.ProcessValidateConnectionMessage(resultStr);
         }
 
         public void CreateDb()
         {
-            var postResult = _client.PutAsync($"/{GhprDatabaseName}", EmptyStringContent).GetAwaiter().GetResult();
-            var resultContentString = postResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            var jResult = JObject.Parse(resultContentString);
-            if (postResult.StatusCode == HttpStatusCode.Created)
-            {
-                var ok = (bool)jResult.SelectToken("ok");
-                if (ok)
-                {
-                    Console.WriteLine($"Database {GhprDatabaseName} was created successfully, result: {resultContentString}");
-                }
-                else
-                {
-                    throw new Exception($"Database was not created correctly: {resultContentString}");
-                }
-            }
-            else if (postResult.StatusCode == HttpStatusCode.PreconditionFailed)
-            {
-                var fileExists = (string)jResult.SelectToken("error");
-                if (fileExists != null)
-                {
-                    Console.WriteLine($"Database {GhprDatabaseName} already exists.");
-                }
-                else
-                {
-                    throw new Exception($"Unexpected error while creating database: {resultContentString}");
-                }
-            }
+            var putResult = _client.Put($"/{_ghprDatabaseName}", StringContentBuilder.Empty);
+            _messageProcessor.ProcessCreateDbMessage(putResult, _ghprDatabaseName);
         }
 
         public void Dispose()

@@ -30,7 +30,7 @@ namespace Ghpr.CouchDb.Services
         public void SaveScreenshot(TestScreenshotDto testScreenshot)
         {
             var screenshotEntity = testScreenshot.Map();
-            
+            Database.SaveScreenshot(screenshotEntity);
         }
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)

@@ -27,6 +27,15 @@ namespace Ghpr.CouchDb
             }
         }
 
+
+        public void SaveScreenshot(DatabaseEntity<TestScreenshot> testScreenshotEntity)
+        {
+            using (var client = new CouchDbClient(_couchDbSettings))
+            {
+                client.SaveScreenshot(testScreenshotEntity);
+            }
+        }
+
         public void SaveReportSettings(DatabaseEntity<ReportSettings> reportSettingsEntity)
         {
             using (var client = new CouchDbClient(_couchDbSettings))

@@ -17,7 +17,6 @@ namespace Ghpr.CouchDb.Mappers
             {
                 Data = testScreenshot,
                 Id = $"screenshot-{testScreenshot.TestGuid.ToString()}-{testScreenshot.Date:yyyyMMdd_HHmmssfff}",
-                Rev = $"1-{testScreenshot.Date:yyyyMMdd_HHmmssfff}",
                 Type = EntityType.ScreenshotType
             };
             return entity;

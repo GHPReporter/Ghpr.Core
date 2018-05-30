@@ -25,7 +25,6 @@ namespace Ghpr.CouchDb.Mappers
             {
                 Data = run,
                 Id = $"run_{run.RunInfo.Guid}",
-                Rev = $"1-{run.RunInfo.Start:yyyyMMdd_HHmmssfff}",
                 Type = EntityType.RunType
             };
             return entity;
