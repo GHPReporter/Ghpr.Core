@@ -7,11 +7,10 @@
     - nuget restore Ghpr.Core/Ghpr.Core.sln
 
   build_script: 
-    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release-NET40 /t:Rebuild
-    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release-NET452 /t:Rebuild
+    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   after_build:
-    - nuget pack "Ghpr.Core/Ghpr.Core.csproj" -Prop Configuration=Release-NET452;OutDir=bin\Release-NET452
+    - nuget pack "Ghpr.Core/Ghpr.Core.csproj" -Prop Configuration=Release;OutDir=bin\Release
 
   artifacts:
     - path: '*.nupkg'
@@ -34,5 +33,4 @@
     - nuget restore Ghpr.Core/Ghpr.Core.sln
 
   build_script: 
-    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release-NET40 /t:Rebuild
-    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release-NET452 /t:Rebuild
+    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
