@@ -26,7 +26,7 @@ namespace Ghpr.Core.Utils
             {
                 try
                 {
-                    var logLine = $"{DateTime.Now:G}: {msg}";
+                    var logLine = $"{DateTime.Now:HH:mm:ss.ffffff}: {msg}";
                     sw.WriteLine(logLine);
                 }
                 finally
@@ -46,7 +46,7 @@ namespace Ghpr.Core.Utils
                 {
                     try
                     {
-                        var logLine = $"{DateTime.Now:G}: {msg}";
+                        var logLine = $"{DateTime.Now:HH:mm:ss.ffffff}: {msg}";
                         sw.WriteLine(logLine);
                     }
                     catch (Exception ex)

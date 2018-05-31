@@ -11,9 +11,22 @@ namespace Ghpr.CouchDb.Utils
 {
     public class StringContentBuilder
     {
-        public static StringContent Empty => new StringContent("");
+        private readonly JsonSerializerSettings _jsonSerializerSettings;
+        private readonly Formatting _formatting;
 
-        private static StringContent CreateContentWithSelector(IEnumerable<KeyValuePair<string, JToken>> andDictionary)
+        public StringContentBuilder()
+        {
+            _jsonSerializerSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DateTimeZoneHandling = DateTimeZoneHandling.Local
+            };
+            _formatting = Formatting.None;
+        }
+
+        public static StringContent Empty => new StringContent("");
+        
+        private StringContent CreateContentWithSelector(IEnumerable<KeyValuePair<string, JToken>> andDictionary)
         {
             var andArray = new JArray();
             foreach (var a in andDictionary)
@@ -24,7 +37,7 @@ namespace Ghpr.CouchDb.Utils
                         new JProperty("$and", new JArray(andArray))))
             );
             Console.WriteLine($"CONTENT: {selector}");
-            var content = new StringContent(selector.ToString(), Encoding.UTF8, "application/json");
+            var content = new StringContent(Serialize(selector), Encoding.UTF8, "application/json");
             return content;
         }
 
@@ -74,10 +87,14 @@ namespace Ghpr.CouchDb.Utils
             });
         }
 
+        public string Serialize<T>(T item)
+        {
+            return JsonConvert.SerializeObject(item, _formatting, _jsonSerializerSettings);
+        }
+
         public StringContent GetContent<T>(DatabaseEntity<T> entity)
         {
-            return new StringContent(JsonConvert.SerializeObject(entity, Formatting.None,
-                new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore}));
+            return new StringContent(Serialize(entity));
         }
     }
 }
