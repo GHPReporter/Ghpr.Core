@@ -59,16 +59,19 @@ namespace Ghpr.LocalFileSystem.Services
         {
             var testRun = testRunDto.Map();
             var imgFolder = _locationsProvider.GetScreenshotPath(testRun.TestInfo.Guid.ToString());
-            var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.png");
-            foreach (var imgFile in imgFiles)
+            if (Directory.Exists(imgFolder))
             {
-                if (imgFile.CreationTime > testRun.TestInfo.Start)
+                var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.png");
+                foreach (var imgFile in imgFiles)
                 {
-                    testRun.Screenshots.Add(new TestScreenshot
+                    if (imgFile.CreationTime > testRun.TestInfo.Start)
                     {
-                        Date = imgFile.CreationTime,
-                        Name = LocationsProvider.GetScreenshotFileName(imgFile.CreationTime)
-                    });
+                        testRun.Screenshots.Add(new TestScreenshot
+                        {
+                            Date = imgFile.CreationTime,
+                            Name = LocationsProvider.GetScreenshotFileName(imgFile.CreationTime)
+                        });
+                    }
                 }
             }
             testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
