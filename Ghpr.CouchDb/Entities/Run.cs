@@ -6,7 +6,7 @@ namespace Ghpr.CouchDb.Entities
     [JsonObject(MemberSerialization.OptIn)]
     public class Run
     {
-        [JsonProperty(PropertyName = "testRunFiles")]
+        [JsonProperty(PropertyName = "testRuns")]
         public List<ItemInfo> TestRuns { get; set; }
 
         [JsonProperty(PropertyName = "runInfo")]
