@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.CouchDb", "..\Ghpr.Cou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.ConsoleForDebug", "Ghpr.ConsoleForDebug\Ghpr.ConsoleForDebug.csproj", "{7458DB00-D683-4466-8E08-3534E4680E94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.Logger", "..\Ghpr.Logger\Ghpr.Logger.csproj", "{D155A663-873E-4EF4-8A93-E31CF81B7785}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{7458DB00-D683-4466-8E08-3534E4680E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7458DB00-D683-4466-8E08-3534E4680E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7458DB00-D683-4466-8E08-3534E4680E94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D155A663-873E-4EF4-8A93-E31CF81B7785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D155A663-873E-4EF4-8A93-E31CF81B7785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D155A663-873E-4EF4-8A93-E31CF81B7785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D155A663-873E-4EF4-8A93-E31CF81B7785}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
