@@ -61,6 +61,14 @@
     <TypeScriptCompile Include="controller\common\UrlHelper.ts" />
     <TypeScriptCompile Include="controller\enums\PageType.ts" />
     <TypeScriptCompile Include="controller\enums\TestResult.ts" />
+    <TypeScriptCompile Include="controller\dto\ItemInfoDto.ts" />
+    <TypeScriptCompile Include="controller\dto\ReportSettingsDto.ts" />
+    <TypeScriptCompile Include="controller\dto\RunDto.ts" />
+    <TypeScriptCompile Include="controller\dto\RunSummaryDto.ts" />
+    <TypeScriptCompile Include="controller\dto\TestDataDto.ts" />
+    <TypeScriptCompile Include="controller\dto\TestEventDto.ts" />
+    <TypeScriptCompile Include="controller\dto\TestRunDto.ts" />
+    <TypeScriptCompile Include="controller\dto\TestScreenshotDto.ts" />
     <TypeScriptCompile Include="controller\interfaces\IReportSettings.ts" />
     <TypeScriptCompile Include="controller\interfaces\IRun.ts" />
     <TypeScriptCompile Include="controller\interfaces\IItemInfo.ts" />

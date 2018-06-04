@@ -6,6 +6,20 @@ Color.failed = "#ef5350";
 Color.ignored = "#81d4fa";
 Color.inconclusive = "#D6FAF7";
 Color.unknown = "#bdbdbd";
+class ReportSettingsDto {
+}
+class RunSummaryDto {
+}
+class ItemInfoDto {
+}
+class TestDataDto {
+}
+class RunDto {
+}
+class TestEventDto {
+}
+class TestScreenshotDto {
+}
 var TestResult;
 (function (TestResult) {
     TestResult[TestResult["Passed"] = 0] = "Passed";
@@ -15,6 +29,8 @@ var TestResult;
     TestResult[TestResult["Inconclusive"] = 4] = "Inconclusive";
     TestResult[TestResult["Unknown"] = 5] = "Unknown";
 })(TestResult || (TestResult = {}));
+class TestRunDto {
+}
 var PageType;
 (function (PageType) {
     PageType[PageType["TestRunsPage"] = 0] = "TestRunsPage";
