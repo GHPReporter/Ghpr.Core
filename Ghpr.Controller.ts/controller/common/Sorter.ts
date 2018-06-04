@@ -1,4 +1,4 @@
-﻿///<reference path="./../interfaces/ItemInfo.ts"/>
+﻿///<reference path="./localFileSystem/entities/ItemInfo.ts"/>
 
 class Sorter {
     static itemInfoSorterByFinishDateFunc(a: ItemInfo, b: ItemInfo): number {

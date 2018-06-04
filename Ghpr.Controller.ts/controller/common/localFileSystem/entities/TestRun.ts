@@ -2,7 +2,7 @@
 ///<reference path="./TestData.ts"/>
 ///<reference path="./TestEvent.ts"/>
 ///<reference path="./ItemInfo.ts"/>
-///<reference path="./../enums/TestResult.ts"/>
+///<reference path="./../../../enums/TestResult.ts"/>
 
 class TestRun {
     name: string;

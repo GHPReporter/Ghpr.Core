@@ -1,4 +1,4 @@
-﻿///<reference path="./../../interfaces/Run.ts"/>
+﻿///<reference path="./entities/Run.ts"/>
 ///<reference path="./../../enums/PageType.ts"/>
 ///<reference path="./LocalFileSystemPathsHelper.ts"/>
 ///<reference path="./../ProgressBar.ts"/>

@@ -1,6 +1,6 @@
-﻿///<reference path="./../interfaces/ItemInfo.ts"/>
-///<reference path="./../interfaces/ReportSettings.ts"/>
-///<reference path="./../interfaces/Run.ts"/>
+﻿///<reference path="./localFileSystem/entities/ItemInfo.ts"/>
+///<reference path="./localFileSystem/entities/ReportSettings.ts"/>
+///<reference path="./localFileSystem/entities/Run.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./localFileSystem/JsonLoader.ts"/>
 ///<reference path="./UrlHelper.ts"/>
