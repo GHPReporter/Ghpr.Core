@@ -1,4 +1,4 @@
-﻿interface ITestData {
+﻿class TestData {
     comment: string;
     date: Date;
     actual: string;

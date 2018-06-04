@@ -1,8 +1,8 @@
-﻿///<reference path="./../interfaces/IItemInfo.ts"/>
-///<reference path="./../interfaces/IReportSettings.ts"/>
-///<reference path="./../interfaces/IRun.ts"/>
-///<reference path="./../interfaces/ITestRun.ts"/>
-///<reference path="./../interfaces/ITestData.ts"/>
+﻿///<reference path="./../interfaces/ItemInfo.ts"/>
+///<reference path="./../interfaces/ReportSettings.ts"/>
+///<reference path="./../interfaces/Run.ts"/>
+///<reference path="./../interfaces/TestRun.ts"/>
+///<reference path="./../interfaces/TestData.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./localFileSystem/JsonLoader.ts"/>
 ///<reference path="./UrlHelper.ts"/>
@@ -18,13 +18,13 @@ class TestPageUpdater {
     static currentTest: number;
     static testVersionsCount: number;
     static loader = new JsonLoader(PageType.TestPage);
-    static reportSettings: IReportSettings;
+    static reportSettings: ReportSettings;
 
     private static updateCopyright(): void {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${this.reportSettings.coreVersion})`;
     }
 
-    private static updateMainInformation(t: ITestRun): void {
+    private static updateMainInformation(t: TestRun): void {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
         document.getElementById("name").innerHTML = `<b>Test name:</b> ${t.name}`;
         document.getElementById("full-name").innerHTML = `<b>Full name:</b> ${t.fullName}`;
@@ -39,20 +39,20 @@ class TestPageUpdater {
         document.getElementById("message").innerHTML = `<b>Message:</b> ${TestRunHelper.getMessage(t)}`;
     }
 
-    private static updateOutput(t: ITestRun): void {
+    private static updateOutput(t: TestRun): void {
         document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
 		<div style="word-wrap: break-word;  white-space: pre-wrap;">${Differ.safeTagsReplace(TestRunHelper.getOutput(t))}</div>`;
     }
 
-    private static updateTestData(t: ITestRun): void {
+    private static updateTestData(t: TestRun): void {
         let res = "";
-        t.testData.forEach((td: ITestData) => {
+        t.testData.forEach((td: TestData) => {
             res += `<li>${DateFormatter.format(td.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}<br></li>`;
         });
         document.getElementById("test-data-list").innerHTML = `${res}`;
     }
 
-    private static updateScreenshots(t: ITestRun): void {
+    private static updateScreenshots(t: TestRun): void {
         let screenshots = ""; 
         for (let i = 0; i < t.screenshots.length; i++) {
             const s = t.screenshots[i];
@@ -65,12 +65,12 @@ class TestPageUpdater {
         document.getElementById("screenshots").innerHTML = screenshots;
     }
 
-    private static updateFailure(t: ITestRun): void {
+    private static updateFailure(t: TestRun): void {
         document.getElementById("test-message").innerHTML = `<b>Message:</b><br> ${TestRunHelper.getMessage(t)}`;
         document.getElementById("test-stack-trace").innerHTML = `<b>Stack trace:</b><br> ${TestRunHelper.getStackTrace(t)}`;
     }
 
-    private static setTestHistory(tests: Array<ITestRun>): void {
+    private static setTestHistory(tests: Array<TestRun>): void {
         const historyDiv = document.getElementById("test-history-chart");
         let plotlyData = new Array();
         const dataX: Array<Date> = new Array();
@@ -134,8 +134,8 @@ class TestPageUpdater {
         Plotly.newPlot(historyDiv, plotlyData, layout);      
     }
 
-    private static updateTestPage(testGuid: string, fileName: string): ITestRun {
-        let t: ITestRun;
+    private static updateTestPage(testGuid: string, fileName: string): TestRun {
+        let t: TestRun;
         this.loader.loadTestJson(testGuid, fileName, (response: string) => {
             t = JSON.parse(response, JsonLoader.reviveRun);
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
@@ -155,9 +155,9 @@ class TestPageUpdater {
     static updateTestHistory(): void {
         const paths: Array<string> = new Array();
         const testStrings: Array<string> = new Array();
-        const tests: Array<ITestRun> = new Array();
+        const tests: Array<TestRun> = new Array();
         const guid = UrlHelper.getParam("testGuid");
-        let testInfos: Array<IItemInfo>;
+        let testInfos: Array<ItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
@@ -175,7 +175,7 @@ class TestPageUpdater {
 
     private static loadTest(index: number): void {
         const guid = UrlHelper.getParam("testGuid");
-        let testInfos: Array<IItemInfo>;
+        let testInfos: Array<ItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
@@ -201,7 +201,7 @@ class TestPageUpdater {
     private static tryLoadTestByGuid(): void {
         const guid = UrlHelper.getParam("testGuid");
         const fileName = UrlHelper.getParam("testFile");
-        let testInfos: Array<IItemInfo>;
+        let testInfos: Array<ItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, JsonLoader.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);

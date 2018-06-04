@@ -1,6 +1,6 @@
-﻿///<reference path="./../interfaces/IItemInfo.ts"/>
-///<reference path="./../interfaces/IReportSettings.ts"/>
-///<reference path="./../interfaces/IRun.ts"/>
+﻿///<reference path="./../interfaces/ItemInfo.ts"/>
+///<reference path="./../interfaces/ReportSettings.ts"/>
+///<reference path="./../interfaces/Run.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./localFileSystem/JsonLoader.ts"/>
 ///<reference path="./UrlHelper.ts"/>
@@ -15,13 +15,13 @@ class RunPageUpdater {
     static currentRunIndex: number;
     static runsToShow: number; 
     static loader = new JsonLoader(PageType.TestRunPage);
-    static reportSettings: IReportSettings;
+    static reportSettings: ReportSettings;
 
     private static updateCopyright(): void {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${this.reportSettings.coreVersion})`;
     }
 
-    private static updateRunInformation(run: IRun): void {
+    private static updateRunInformation(run: Run): void {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
         document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
@@ -29,11 +29,11 @@ class RunPageUpdater {
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
     }
 
-    private static updateTitle(run: IRun): void {
+    private static updateTitle(run: Run): void {
         document.getElementById("page-title").innerHTML = run.name;
     }
 
-    private static updateSummary(run: IRun): void {
+    private static updateSummary(run: Run): void {
         const s = run.summary;
         document.getElementById("total").innerHTML = `<b>Total:</b> ${s.total}`;
         document.getElementById("passed").innerHTML = `<b>Success:</b> ${s.success}`;
@@ -73,7 +73,7 @@ class RunPageUpdater {
         });
     }
 
-    private static setTestsList(tests: Array<ITestRun>): void {
+    private static setTestsList(tests: Array<TestRun>): void {
         let list = "";
         const c = tests.length;
         for (let i = 0; i < c; i++) {
@@ -83,7 +83,7 @@ class RunPageUpdater {
         document.getElementById("all-tests").innerHTML = list;
     }
 
-    private static addTest(t: ITestRun, c: number, i: number): void {
+    private static addTest(t: TestRun, c: number, i: number): void {
         //console.log(`adding ${i} of ${c}`);
         const ti = t.testInfo;
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
@@ -194,8 +194,8 @@ class RunPageUpdater {
         }
     }
     
-    private static updateRunPage(runGuid: string): IRun {
-        let run: IRun;
+    private static updateRunPage(runGuid: string): Run {
+        let run: Run;
         this.loader.loadRunJson(runGuid, (response: string) => {
             run = JSON.parse(response, JsonLoader.reviveRun);
             if (run.name === "") {
@@ -212,9 +212,9 @@ class RunPageUpdater {
         return run;
     }
 
-    static updateTestsList(run: IRun): void {
+    static updateTestsList(run: Run): void {
         const paths: Array<string> = new Array();
-        var test: ITestRun;
+        var test: TestRun;
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
         document.getElementById("all-tests").innerHTML = "";
         const files = run.testRunFiles;
@@ -231,7 +231,7 @@ class RunPageUpdater {
     }
     
     private static loadRun(index: number): void {
-        let runInfos: Array<IItemInfo>;
+        let runInfos: Array<ItemInfo>;
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
@@ -256,7 +256,7 @@ class RunPageUpdater {
             this.loadRun(undefined);
             return;
         }
-        let runInfos: Array<IItemInfo>;
+        let runInfos: Array<ItemInfo>;
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, JsonLoader.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);

@@ -1,4 +1,4 @@
-﻿///<reference path="./../interfaces/ITestRun.ts"/>
+﻿///<reference path="./../interfaces/TestRun.ts"/>
 ///<reference path="./../enums/TestResult.ts"/>
 ///<reference path="./Color.ts"/>
 ///<reference path="./TestRunHelper.ts"/>

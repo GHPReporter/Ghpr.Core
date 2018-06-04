@@ -1,4 +1,4 @@
-﻿interface IItemInfo {
+﻿class ItemInfo {
     guid: string;
     start: Date;
     finish: Date;

@@ -69,14 +69,14 @@
     <TypeScriptCompile Include="controller\dto\TestEventDto.ts" />
     <TypeScriptCompile Include="controller\dto\TestRunDto.ts" />
     <TypeScriptCompile Include="controller\dto\TestScreenshotDto.ts" />
-    <TypeScriptCompile Include="controller\interfaces\IReportSettings.ts" />
-    <TypeScriptCompile Include="controller\interfaces\IRun.ts" />
-    <TypeScriptCompile Include="controller\interfaces\IItemInfo.ts" />
-    <TypeScriptCompile Include="controller\interfaces\IRunSummary.ts" />
-    <TypeScriptCompile Include="controller\interfaces\ITestEvent.ts" />
-    <TypeScriptCompile Include="controller\interfaces\ITestRun.ts" />
-    <TypeScriptCompile Include="controller\interfaces\ITestData.ts" />
-    <TypeScriptCompile Include="controller\interfaces\ITestScreenshot.ts" />
+    <TypeScriptCompile Include="controller\interfaces\ReportSettings.ts" />
+    <TypeScriptCompile Include="controller\interfaces\Run.ts" />
+    <TypeScriptCompile Include="controller\interfaces\ItemInfo.ts" />
+    <TypeScriptCompile Include="controller\interfaces\RunSummary.ts" />
+    <TypeScriptCompile Include="controller\interfaces\TestEvent.ts" />
+    <TypeScriptCompile Include="controller\interfaces\TestRun.ts" />
+    <TypeScriptCompile Include="controller\interfaces\TestData.ts" />
+    <TypeScriptCompile Include="controller\interfaces\TestScreenshot.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="report\src\octicons\octicons.eot" />

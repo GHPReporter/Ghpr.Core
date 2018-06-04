@@ -31,6 +31,22 @@ var TestResult;
 })(TestResult || (TestResult = {}));
 class TestRunDto {
 }
+class ReportSettings {
+}
+class RunSummary {
+}
+class ItemInfo {
+}
+class TestData {
+}
+class Run {
+}
+class TestEvent {
+}
+class TestScreenshot {
+}
+class TestRun {
+}
 var PageType;
 (function (PageType) {
     PageType[PageType["TestRunsPage"] = 0] = "TestRunsPage";
