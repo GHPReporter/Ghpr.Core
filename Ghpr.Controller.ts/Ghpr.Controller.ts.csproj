@@ -47,10 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="controller\common\Color.ts" />
-    <TypeScriptCompile Include="controller\common\Controller.ts" />
     <TypeScriptCompile Include="controller\common\DateFormatter.ts" />
-    <TypeScriptCompile Include="controller\common\JsonLoader.ts" />
-    <TypeScriptCompile Include="controller\common\PathsHelper.ts" />
+    <TypeScriptCompile Include="controller\common\localFileSystem\JsonLoader.ts" />
+    <TypeScriptCompile Include="controller\common\localFileSystem\LocalFileSystemPathsHelper.ts" />
     <TypeScriptCompile Include="controller\common\PlotlyJs.ts" />
     <TypeScriptCompile Include="controller\common\ProgressBar.ts" />
     <TypeScriptCompile Include="controller\common\ReportPageUpdater.ts" />
@@ -83,6 +82,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

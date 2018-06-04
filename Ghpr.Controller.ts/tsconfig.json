@@ -21,15 +21,14 @@
         "controller/enums/PageType.ts",
         "controller/common/Differ.ts",
         "controller/common/UrlHelper.ts",
-        "controller/common/PathsHelper.ts",
+        "controller/common/localFileSystem/LocalFileSystemPathsHelper.ts",
         "controller/common/ProgressBar.ts",
         "controller/common/TabsHelper.ts",
-        "controller/common/JsonLoader.ts",
+        "controller/common/localFileSystem/JsonLoader.ts",
         "controller/common/DateFormatter.ts",
         "controller/common/RunPageUpdater.ts",
         "controller/common/ReportPageUpdater.ts",
         "controller/common/TestPageUpdater.ts",
-        "controller/common/Sorter.ts",
-        "controller/common/Controller.ts"
+        "controller/common/Sorter.ts"
   ]
 }

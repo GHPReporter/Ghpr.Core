@@ -513,7 +513,7 @@ class UrlHelper {
         }
     }
 }
-class PathsHelper {
+class LocalFileSystemPathsHelper {
     static getRunPath(pt, guid) {
         switch (pt) {
             case PageType.TestRunsPage:
@@ -636,23 +636,23 @@ class JsonLoader {
         this.progressBar = new ProgressBar(1);
     }
     loadRunJson(runGuid, callback) {
-        const path = PathsHelper.getRunPath(this.pageType, runGuid);
+        const path = LocalFileSystemPathsHelper.getRunPath(this.pageType, runGuid);
         this.loadJson(path, callback);
     }
     loadRunsJson(callback) {
-        const path = PathsHelper.getRunsPath(this.pageType);
+        const path = LocalFileSystemPathsHelper.getRunsPath(this.pageType);
         this.loadJson(path, callback);
     }
     loadReportSettingsJson(callback) {
-        const path = PathsHelper.getReportSettingsPath(this.pageType);
+        const path = LocalFileSystemPathsHelper.getReportSettingsPath(this.pageType);
         this.loadJson(path, callback);
     }
     loadTestJson(testGuid, testFileName, callback) {
-        const path = PathsHelper.getTestPath(testGuid, testFileName, this.pageType);
+        const path = LocalFileSystemPathsHelper.getTestPath(testGuid, testFileName, this.pageType);
         this.loadJson(path, callback);
     }
     loadTestsJson(testGuid, callback) {
-        const path = PathsHelper.getTestsPath(testGuid, this.pageType);
+        const path = LocalFileSystemPathsHelper.getTestsPath(testGuid, this.pageType);
         this.loadJson(path, callback);
     }
     loadJson(path, callback) {
@@ -1504,7 +1504,5 @@ class Sorter {
         }
         return 0;
     }
-}
-function loadRun1(guid) {
 }
 //# sourceMappingURL=ghpr.controller.js.map

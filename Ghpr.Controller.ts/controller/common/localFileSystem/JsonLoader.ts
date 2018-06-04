@@ -1,7 +1,7 @@
-﻿///<reference path="./../interfaces/IRun.ts"/>
-///<reference path="./../enums/PageType.ts"/>
-///<reference path="./PathsHelper.ts"/>
-///<reference path="./ProgressBar.ts"/>
+﻿///<reference path="./../../interfaces/IRun.ts"/>
+///<reference path="./../../enums/PageType.ts"/>
+///<reference path="./LocalFileSystemPathsHelper.ts"/>
+///<reference path="./../ProgressBar.ts"/>
 
 class JsonLoader {
 
@@ -14,27 +14,27 @@ class JsonLoader {
     }
 
     loadRunJson(runGuid: string, callback: Function): void {
-        const path = PathsHelper.getRunPath(this.pageType, runGuid);
+        const path = LocalFileSystemPathsHelper.getRunPath(this.pageType, runGuid);
         this.loadJson(path, callback);
     }
 
     loadRunsJson(callback: Function): void {
-        const path = PathsHelper.getRunsPath(this.pageType);
+        const path = LocalFileSystemPathsHelper.getRunsPath(this.pageType);
         this.loadJson(path, callback);
     }
 
     loadReportSettingsJson(callback: Function): void {
-        const path = PathsHelper.getReportSettingsPath(this.pageType);
+        const path = LocalFileSystemPathsHelper.getReportSettingsPath(this.pageType);
         this.loadJson(path, callback);
     }
 
     loadTestJson(testGuid: string, testFileName: string, callback: Function): void {
-        const path = PathsHelper.getTestPath(testGuid, testFileName, this.pageType);
+        const path = LocalFileSystemPathsHelper.getTestPath(testGuid, testFileName, this.pageType);
         this.loadJson(path, callback);
     }
 
     loadTestsJson(testGuid: string, callback: Function): void {
-        const path = PathsHelper.getTestsPath(testGuid, this.pageType);
+        const path = LocalFileSystemPathsHelper.getTestsPath(testGuid, this.pageType);
         this.loadJson(path, callback);
     }
 
