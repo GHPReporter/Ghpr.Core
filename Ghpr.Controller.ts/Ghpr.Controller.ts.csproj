@@ -44,11 +44,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="web.config" />
+    <TypeScriptCompile Include="controller\interfaces\IDataService.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="controller\common\Color.ts" />
     <TypeScriptCompile Include="controller\common\DateFormatter.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\JsonLoader.ts" />
+    <TypeScriptCompile Include="controller\common\localFileSystem\LocalFileSystemDataService.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\LocalFileSystemPathsHelper.ts" />
     <TypeScriptCompile Include="controller\common\PlotlyJs.ts" />
     <TypeScriptCompile Include="controller\common\ProgressBar.ts" />
@@ -90,7 +92,6 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

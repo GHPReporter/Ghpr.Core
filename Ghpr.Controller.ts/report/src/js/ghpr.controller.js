@@ -47,6 +47,8 @@ class TestScreenshot {
 }
 class TestRun {
 }
+class LocalFileSystemDataService {
+}
 var PageType;
 (function (PageType) {
     PageType[PageType["TestRunsPage"] = 0] = "TestRunsPage";
