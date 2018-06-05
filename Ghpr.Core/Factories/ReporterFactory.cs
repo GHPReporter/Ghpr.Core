@@ -57,6 +57,7 @@ namespace Ghpr.Core.Factories
                 throw new ArgumentNullException(nameof(settings.OutputPath),
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
+
             var logger = CreateInstanceFromFile<ILogger>(settings.LoggerFile);
             logger.Initialize(settings);
 
