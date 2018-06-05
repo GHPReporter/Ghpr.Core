@@ -15,16 +15,15 @@ namespace Ghpr.LocalFileSystem.Services
 {
     public class FileSystemDataService : IDataService
     {
-        public void Initialize(ReporterSettings settings)
+        private ILocationsProvider _locationsProvider;
+        private ILogger _logger;
+
+        public void Initialize(ReporterSettings settings, ILogger logger)
         {
             _locationsProvider = new LocationsProvider(settings.OutputPath);
-            ReporterSettings = settings;
+            _logger = logger;
         }
-
-        public ReporterSettings ReporterSettings { get; private set; }
-
-        private ILocationsProvider _locationsProvider;
-
+        
         public void SaveRun(RunDto runDto)
         {
             var run = runDto.Map();

@@ -8,16 +8,17 @@ namespace Ghpr.CouchDb.Services
 {
     public class CouchDbDataService : IDataService
     {
-        public void Initialize(ReporterSettings settings)
+        private ILogger _logger;
+
+        public void Initialize(ReporterSettings settings, ILogger logger)
         {
-            ReporterSettings = settings;
             var couchDbSettings = "Ghpr.CouchDb.Settings.json".LoadAs<CouchDbSettings>();
             Database = new CouchDbDatabase(couchDbSettings);
             Database.CreateDb();
             Database.ValidateConnection();
+            _logger = logger;
         }
 
-        public ReporterSettings ReporterSettings { get; private set; }
         public CouchDbDatabase Database { get; private set; }
         
         public void SaveRun(RunDto runDto)

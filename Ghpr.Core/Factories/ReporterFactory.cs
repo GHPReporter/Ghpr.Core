@@ -57,12 +57,11 @@ namespace Ghpr.Core.Factories
                 throw new ArgumentNullException(nameof(settings.OutputPath),
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
-            
-            var dataService = CreateInstanceFromFile<IDataService>(settings.DataServiceFile);
-            dataService.Initialize(settings);
-
             var logger = CreateInstanceFromFile<ILogger>(settings.LoggerFile);
             logger.Initialize(settings);
+
+            var dataService = CreateInstanceFromFile<IDataService>(settings.DataServiceFile);
+            dataService.Initialize(settings, logger);
             
             var reporter = new Reporter
             {
