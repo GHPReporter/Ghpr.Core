@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using Ghpr.Core;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
 
@@ -8,8 +9,7 @@ namespace Ghpr.Logger
 {
     public class Logger : ILogger
     {
-        private readonly string _logFileName;
-        private readonly string _outputPath;
+        private string _outputPath;
         private static readonly ReaderWriterLock Locker = new ReaderWriterLock();
 
         private const string InfoLevel = "INFO";
@@ -19,10 +19,9 @@ namespace Ghpr.Logger
         private const string ErrorLevel = "ERROR";
         private const string ExceptionLevel = "EXCEPTION";
 
-        public Logger(string outputPath, string logFile)
+        public void Initialize(ReporterSettings reporterSettings)
         {
-            _outputPath = outputPath;
-            _logFileName = logFile;
+            _outputPath = reporterSettings.OutputPath;
         }
 
         private void Write(string msg, string logLevel)
@@ -31,7 +30,7 @@ namespace Ghpr.Logger
             {
                 Locker.AcquireWriterLock(int.MaxValue);
                 _outputPath.Create();
-                using (var sw = File.AppendText(Path.Combine(_outputPath, _logFileName)))
+                using (var sw = File.AppendText(Path.Combine(_outputPath, "GhprLog.txt")))
                 {
                     var logLine = $"{DateTime.Now:yyyy.MM.dd-HH:mm:ss.ffffff} {logLevel}: {msg}";
                     sw.WriteLine(logLine);

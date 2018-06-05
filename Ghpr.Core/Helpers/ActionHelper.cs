@@ -1,22 +1,17 @@
 ﻿using System;
 using Ghpr.Core.Interfaces;
-using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.Helpers
 {
     public class ActionHelper : IActionHelper
     {
         private readonly object _lock;
-        private readonly string _outputPath;
+        private readonly ILogger _logger;
 
-        public ActionHelper(string outputPath)
+        public ActionHelper(ILogger logger)
         {
-            if (outputPath == null)
-            {
-                throw new ArgumentNullException(nameof(outputPath), "ActionHelper output must be specified!");
-            }
-            _outputPath = outputPath;
             _lock = new object();
+            _logger = logger;
         }
 
         public void Simple(Action a)
@@ -27,7 +22,7 @@ namespace Ghpr.Core.Helpers
             }
             catch (Exception ex)
             {
-                new Log(_outputPath).Exception(ex, $"Exception in method '{a.Method.Name}'");
+                _logger.Exception($"Exception in method '{a.Method.Name}'", ex);
             }
         }
 

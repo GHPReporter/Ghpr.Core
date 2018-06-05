@@ -19,6 +19,7 @@ namespace Ghpr.Core
         public ReporterSettings ReporterSettings { get; internal set; }
         public IActionHelper Action { get; internal set; }
         public ITestDataProvider TestDataProvider { get; internal set; }
+        public ILogger Logger { get; internal set; }
 
         private void InitializeOnRunStarted(DateTime startDateTime)
         {

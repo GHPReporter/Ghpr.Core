@@ -16,6 +16,7 @@ namespace Ghpr.Core.Interfaces
         IDataService DataService { get; }
         IActionHelper Action { get; }
         ITestDataProvider TestDataProvider { get; }
+        ILogger Logger { get; }
 
         void RunStarted();
         void RunFinished();

@@ -12,7 +12,6 @@ namespace Ghpr.CouchDb.Services
         {
             ReporterSettings = settings;
             var couchDbSettings = "Ghpr.CouchDb.Settings.json".LoadAs<CouchDbSettings>();
-            StaticLog.Initialize(settings.OutputPath);
             Database = new CouchDbDatabase(couchDbSettings);
             Database.CreateDb();
             Database.ValidateConnection();

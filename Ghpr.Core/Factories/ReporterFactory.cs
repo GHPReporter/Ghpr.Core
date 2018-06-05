@@ -29,6 +29,27 @@ namespace Ghpr.Core.Factories
             return InitializeReporter(ReporterSettingsProvider.Load(framework), testDataProvider);
         }
 
+        private static T CreateInstanceFromFile<T>(string fileName) where T : class
+        {
+            var uri = new Uri(typeof(ReporterFactory).Assembly.CodeBase);
+            var dataServiceAssemblyFullPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", fileName);
+            var dataServiceAssembly = Assembly.LoadFrom(dataServiceAssemblyFullPath);
+            var implementationType = dataServiceAssembly.GetTypes()
+                .FirstOrDefault(t => typeof(T).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+            if (implementationType == null)
+            {
+                throw new NullReferenceException($"Can't find implementation of {nameof(T)} in {fileName} file. " +
+                                                 "Please fix your .json settings file.");
+            }
+            var instance = Activator.CreateInstance(implementationType) as T;
+            if (instance == null)
+            {
+                throw new NullReferenceException($"Can't find create instance of type {nameof(implementationType)} from {fileName} file. " +
+                                                 "Please fix your .json settings file.");
+            }
+            return instance;
+        }
+
         private static IReporter InitializeReporter(ReporterSettings settings, ITestDataProvider testDataProvider)
         {
             if (settings.OutputPath == null)
@@ -36,28 +57,17 @@ namespace Ghpr.Core.Factories
                 throw new ArgumentNullException(nameof(settings.OutputPath),
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
-            StaticLog.Initialize(settings.OutputPath);
-            var uri = new Uri(typeof(ReporterFactory).Assembly.CodeBase);
-            var dataServiceAssemblyFullPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", settings.DataServiceFile);
-            var dataServiceAssembly = Assembly.LoadFrom(dataServiceAssemblyFullPath);
-            var dataServiceType = dataServiceAssembly.GetTypes()
-                .FirstOrDefault(t => typeof(IDataService).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-            if (dataServiceType == null)
-            {
-                throw new NullReferenceException($"Can't find implementation of {nameof(IDataService)} in {settings.DataServiceFile} file. " +
-                                                 "Please fix your .json settings file.");
-            }
-            var dataService = Activator.CreateInstance(dataServiceType) as IDataService;
-            if (dataService == null)
-            {
-                throw new NullReferenceException($"Can't find create instance of type {nameof(dataServiceType)} from {settings.DataServiceFile} file. " +
-                                                 "Please fix your .json settings file.");
-            }
+            
+            var dataService = CreateInstanceFromFile<IDataService>(settings.DataServiceFile);
             dataService.Initialize(settings);
+
+            var logger = CreateInstanceFromFile<ILogger>(settings.LoggerFile);
+            logger.Initialize(settings);
             
             var reporter = new Reporter
             {
-                Action = new ActionHelper(settings.OutputPath),
+                Action = new ActionHelper(logger),
+                Logger = logger,
                 TestDataProvider = testDataProvider,
                 ReporterSettings = settings,
                 ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay),
