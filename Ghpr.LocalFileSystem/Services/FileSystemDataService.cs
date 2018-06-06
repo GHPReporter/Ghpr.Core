@@ -23,7 +23,7 @@ namespace Ghpr.LocalFileSystem.Services
             _locationsProvider = new LocationsProvider(settings.OutputPath);
             _logger = logger;
         }
-        
+
         public void SaveRun(RunDto runDto)
         {
             var run = runDto.Map();
@@ -31,8 +31,9 @@ namespace Ghpr.LocalFileSystem.Services
             _logger.Info($"Run was saved: '{runFullPath}'");
             var runsInfoFullPath = run.RunInfo.SaveRunInfo(_locationsProvider);
             _logger.Info($"Runs Info was saved: '{runsInfoFullPath}'");
+            _logger.Debug("Run data was saved correctly");
         }
-        
+
         public void SaveScreenshot(TestScreenshotDto screenshotDto)
         {
             var testScreenshot = screenshotDto.Map();
@@ -81,6 +82,7 @@ namespace Ghpr.LocalFileSystem.Services
             _logger.Info($"Test run was saved: '{testRunFullPath}'");
             var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);
             _logger.Info($"Test runs Info was saved: '{testRunsInfoFullPath}'");
+            _logger.Debug("test run data was saved correctly");
         }
     }
 }

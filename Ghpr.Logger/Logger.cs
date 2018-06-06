@@ -4,35 +4,42 @@ using System.Threading;
 using Ghpr.Core;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.Logger
 {
     public class Logger : ILogger
     {
         private string _outputPath;
+        private string _fileName;
+        private LogLevel _loggerLogLevel;
         private static readonly ReaderWriterLock Locker = new ReaderWriterLock();
-
-        private const string InfoLevel = "INFO";
-        private const string WarningLevel = "WARN";
-        private const string DebugLevel = "DEBUG";
-        private const string FatalLevel = "FATAL";
-        private const string ErrorLevel = "ERROR";
-        private const string ExceptionLevel = "EXCEPTION";
-
+        
         public void Initialize(ReporterSettings reporterSettings)
         {
-            _outputPath = reporterSettings.OutputPath;
+            var settings = "Ghpr.Logger.Settings.json".LoadAs<LoggerSettings>();
+            _outputPath = settings.OutputPath ?? reporterSettings.OutputPath;
+            _fileName = settings.FileName ?? "GhprLog.txt";
+            var success = Enum.TryParse(settings.LogLevel, out _loggerLogLevel);
+            if (!success)
+            {
+                _loggerLogLevel = LogLevel.Info;
+            }
         }
-
-        private void Write(string msg, string logLevel)
+        
+        private void Write(string msg, LogLevel messageLogLevel)
         {
+            if (messageLogLevel.SkipMessage(_loggerLogLevel))
+            {
+                return;
+            }
             try
             {
                 Locker.AcquireWriterLock(int.MaxValue);
                 _outputPath.Create();
-                using (var sw = File.AppendText(Path.Combine(_outputPath, "GhprLog.txt")))
+                using (var sw = File.AppendText(Path.Combine(_outputPath, _fileName)))
                 {
-                    var logLine = $"{DateTime.Now:yyyy.MM.dd-HH:mm:ss.ffffff} {logLevel}: {msg}";
+                    var logLine = $"{DateTime.Now:yyyy.MM.dd-HH:mm:ss.ffffff} {messageLogLevel.GetPrefix()}: {msg}";
                     sw.WriteLine(logLine);
                     sw.Close();
                 }
@@ -43,13 +50,13 @@ namespace Ghpr.Logger
             }
         }
 
-        private void WriteWithException(string message, Exception exception, string logLevel)
+        private void WriteWithException(string message, Exception exception, LogLevel logLevel)
         {
             Write($"Message: {message}{Environment.NewLine}Exception: {exception.Message}{Environment.NewLine}" +
                   $"Stack trace: {exception.StackTrace}", logLevel);
         }
 
-        private void WriteWithException(object message, Exception exception, string logLevel)
+        private void WriteWithException(object message, Exception exception, LogLevel logLevel)
         {
             Write($"Message: {message}{Environment.NewLine}Exception: {exception.Message}{Environment.NewLine}" +
                   $"Stack trace: {exception.StackTrace}", logLevel);
@@ -57,92 +64,92 @@ namespace Ghpr.Logger
 
         public void Info(string message)
         {
-            Write(message, InfoLevel);
+            Write(message, LogLevel.Info);
         }
 
         public void Info(string message, Exception exception)
         {
-            WriteWithException(message, exception, InfoLevel);
+            WriteWithException(message, exception, LogLevel.Info);
         }
 
         public void Info(object message, Exception exception)
         {
-            WriteWithException(message, exception, InfoLevel);
+            WriteWithException(message, exception, LogLevel.Info);
         }
 
         public void Warn(string message)
         {
-            Write(message, WarningLevel);
+            Write(message, LogLevel.Warning);
         }
 
         public void Warn(string message, Exception exception)
         {
-            WriteWithException(message, exception, WarningLevel);
+            WriteWithException(message, exception, LogLevel.Warning);
         }
 
         public void Warn(object message, Exception exception)
         {
-            WriteWithException(message, exception, WarningLevel);
+            WriteWithException(message, exception, LogLevel.Warning);
         }
 
         public void Error(string message)
         {
-            Write(message, ErrorLevel);
+            Write(message, LogLevel.Error);
         }
 
         public void Error(string message, Exception exception)
         {
-            WriteWithException(message, exception, ErrorLevel);
+            WriteWithException(message, exception, LogLevel.Error);
         }
 
         public void Error(object message, Exception exception)
         {
-            WriteWithException(message, exception, ErrorLevel);
+            WriteWithException(message, exception, LogLevel.Error);
         }
 
         public void Debug(string message)
         {
-            Write(message, DebugLevel);
+            Write(message, LogLevel.Debug);
         }
 
         public void Debug(string message, Exception exception)
         {
-            WriteWithException(message, exception, DebugLevel);
+            WriteWithException(message, exception, LogLevel.Debug);
         }
 
         public void Debug(object message, Exception exception)
         {
-            WriteWithException(message, exception, DebugLevel);
+            WriteWithException(message, exception, LogLevel.Debug);
         }
 
         public void Fatal(string message)
         {
-            Write(message, FatalLevel);
+            Write(message, LogLevel.Fatal);
         }
 
         public void Fatal(string message, Exception exception)
         {
-            WriteWithException(message, exception, FatalLevel);
+            WriteWithException(message, exception, LogLevel.Fatal);
         }
 
         public void Fatal(object message, Exception exception)
         {
-            WriteWithException(message, exception, FatalLevel);
+            WriteWithException(message, exception, LogLevel.Fatal);
         }
 
         public void Exception(string message)
         {
-            Write(message, ExceptionLevel);
+            Write(message, LogLevel.Exception);
         }
 
         public void Exception(string message, Exception exception)
         {
-            WriteWithException(message, exception, ExceptionLevel);
+            WriteWithException(message, exception, LogLevel.Exception);
         }
 
         public void Exception(object message, Exception exception)
         {
-            WriteWithException(message, exception, ExceptionLevel);
+            WriteWithException(message, exception, LogLevel.Exception);
         }
     }
 }
