@@ -96,7 +96,7 @@ namespace Ghpr.CouchDb.Processors
                 var ok = (bool)resultContentString.SelectToken("ok");
                 if (ok)
                 {
-                    _logger.Info($"Database {databaseName} was created successfully, result: {resultContentString}");
+                    _logger.Info($"Database '{databaseName}' was created successfully, result: {resultContentString}");
                 }
                 else
                 {
@@ -110,7 +110,7 @@ namespace Ghpr.CouchDb.Processors
                 var fileExists = (string)resultContentString.SelectToken("error") ?? "";
                 if (fileExists.Equals("file_exists"))
                 {
-                    _logger.Info($"Database {databaseName} already exists.");
+                    _logger.Info($"Database '{databaseName}' already exists.");
                 }
                 else
                 {

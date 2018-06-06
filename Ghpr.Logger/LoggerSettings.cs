@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Ghpr.Logger
+namespace Ghpr.SimpleFileLogger
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class LoggerSettings

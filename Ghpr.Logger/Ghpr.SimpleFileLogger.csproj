@@ -7,8 +7,8 @@
     <ProjectGuid>{D155A663-873E-4EF4-8A93-E31CF81B7785}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ghpr.Logger</RootNamespace>
-    <AssemblyName>Ghpr.Logger</AssemblyName>
+    <RootNamespace>Ghpr.SimpleFileLogger</RootNamespace>
+    <AssemblyName>Ghpr.SimpleFileLogger</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -56,7 +56,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Ghpr.Logger.Settings.json">
+    <Content Include="Ghpr.SimpleFileLogger.Settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

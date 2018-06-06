@@ -6,7 +6,7 @@ using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Utils;
 
-namespace Ghpr.Logger
+namespace Ghpr.SimpleFileLogger
 {
     public class Logger : ILogger
     {
@@ -17,7 +17,7 @@ namespace Ghpr.Logger
         
         public void Initialize(ReporterSettings reporterSettings)
         {
-            var settings = "Ghpr.Logger.Settings.json".LoadAs<LoggerSettings>();
+            var settings = "Ghpr.SimpleFileLogger.Settings.json".LoadAs<LoggerSettings>();
             _outputPath = settings.OutputPath ?? reporterSettings.OutputPath;
             _fileName = settings.FileName ?? "GhprLog.txt";
             var success = Enum.TryParse(settings.LogLevel, out _loggerLogLevel);
