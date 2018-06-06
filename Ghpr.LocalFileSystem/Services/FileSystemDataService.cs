@@ -27,8 +27,10 @@ namespace Ghpr.LocalFileSystem.Services
         public void SaveRun(RunDto runDto)
         {
             var run = runDto.Map();
-            run.Save(_locationsProvider.RunsPath);
-            run.RunInfo.SaveRunInfo(_locationsProvider);
+            var runFullPath = run.Save(_locationsProvider.RunsPath);
+            _logger.Info($"Run was saved: '{runFullPath}'");
+            var runsInfoFullPath = run.RunInfo.SaveRunInfo(_locationsProvider);
+            _logger.Info($"Runs Info was saved: '{runsInfoFullPath}'");
         }
         
         public void SaveScreenshot(TestScreenshotDto screenshotDto)
@@ -45,13 +47,15 @@ namespace Ghpr.LocalFileSystem.Services
                 var fileInfo = new FileInfo(file);
                 fileInfo.Refresh();
                 fileInfo.CreationTime = testScreenshot.Date;
+                _logger.Info($"Screenshot was saved: '{file}'");
             }
         }
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
         {
             var reportSettings = reportSettingsDto.Map();
-            reportSettings.Save(_locationsProvider);
+            var fullPath = reportSettings.Save(_locationsProvider);
+            _logger.Info($"Report settings were saved: '{fullPath}'");
         }
 
         public void SaveTestRun(TestRunDto testRunDto)
@@ -73,8 +77,10 @@ namespace Ghpr.LocalFileSystem.Services
                     }
                 }
             }
-            testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
-            testRun.TestInfo.SaveTestInfo(_locationsProvider);
+            var testRunFullPath = testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
+            _logger.Info($"Test run was saved: '{testRunFullPath}'");
+            var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);
+            _logger.Info($"Test runs Info was saved: '{testRunsInfoFullPath}'");
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Ghpr.Core.Interfaces;
 using Ghpr.CouchDb.Entities;
 using Ghpr.CouchDb.Extensions;
 using Ghpr.CouchDb.Processors;
@@ -16,14 +17,14 @@ namespace Ghpr.CouchDb
         private readonly HttpResponseMessageProcessor _messageProcessor;
         private readonly string _ghprDatabaseName;
         
-        public CouchDbClient(CouchDbSettings couchDbSettings)
+        public CouchDbClient(CouchDbSettings couchDbSettings, ILogger logger)
         {
             _client = new HttpClient
             {
                 BaseAddress = new Uri(couchDbSettings.Endpoint)
             };
             _contentBuilder = new StringContentBuilder();
-            _messageProcessor = new HttpResponseMessageProcessor();
+            _messageProcessor = new HttpResponseMessageProcessor(logger);
             _ghprDatabaseName = couchDbSettings.Database;
         }
 
@@ -35,7 +36,6 @@ namespace Ghpr.CouchDb
                 .First?.ToObject<DatabaseEntity<ReportSettings>>()?.Rev ?? "";
             reportSettingsEntity.Rev = existingRunRevision.Equals("") ? reportSettingsEntity.Rev : existingRunRevision;
             var revParam = existingRunRevision.Equals("") ? "" : $"?rev={existingRunRevision}";
-
             var settingsContent = _contentBuilder.GetContent(reportSettingsEntity);
             var postResult = _client.Put($"/{_ghprDatabaseName}/{reportSettingsEntity.Id}{revParam}", settingsContent);
             _messageProcessor.ProcessReportSettingsSavedMessage(postResult, reportSettingsEntity.Data);
