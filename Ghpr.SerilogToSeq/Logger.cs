@@ -7,15 +7,14 @@ namespace Ghpr.SerilogToSeqLogger
 {
     public class Logger : ILogger
     {
-        private static Serilog.ILogger SerilogLogger => Log.Logger;
+        private static Serilog.ILogger SerilogLogger => new LoggerConfiguration()
+                                                            .WriteTo.Console()
+                                                            .WriteTo.Seq("http://localhost:5341")
+                                                            .MinimumLevel.Debug()
+                                                            .CreateLogger();
 
         public void Initialize(ReporterSettings reporterSettings)
         {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .WriteTo.Seq("http://localhost:5341")
-                .MinimumLevel.Debug()
-                .CreateLogger();
             SerilogLogger.Debug("Logger initialization done.");
         }
 
