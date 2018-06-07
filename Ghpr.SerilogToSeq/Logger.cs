@@ -1,5 +1,6 @@
 ﻿using System;
 using Ghpr.Core;
+using Ghpr.Core.Utils;
 using Serilog;
 using ILogger = Ghpr.Core.Interfaces.ILogger;
 
@@ -11,8 +12,9 @@ namespace Ghpr.SerilogToSeqLogger
 
         public void SetUp(ReporterSettings reporterSettings)
         {
+            var settings = "Ghpr.SerilogToSeqLogger.Settings.json".LoadAs<LoggerSettings>();
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.Seq("http://localhost:5341")
+                .WriteTo.Seq(settings.Endpoint)
                 .MinimumLevel.Debug()
                 .CreateLogger();
             SerilogLogger.Debug("Logger initialization done");
