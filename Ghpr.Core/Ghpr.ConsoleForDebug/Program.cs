@@ -55,6 +55,7 @@ namespace Ghpr.ConsoleForDebug
             reporter.DataService.SaveTestRun(test);
 
             reporter.Logger.Info("DONE");
+            reporter.TearDown();
         }
     }
 }

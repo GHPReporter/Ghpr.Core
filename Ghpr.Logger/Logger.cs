@@ -15,7 +15,7 @@ namespace Ghpr.SimpleFileLogger
         private LogLevel _loggerLogLevel;
         private static readonly ReaderWriterLock Locker = new ReaderWriterLock();
         
-        public void Initialize(ReporterSettings reporterSettings)
+        public void SetUp(ReporterSettings reporterSettings)
         {
             var settings = "Ghpr.SimpleFileLogger.Settings.json".LoadAs<LoggerSettings>();
             _outputPath = settings.OutputPath ?? reporterSettings.OutputPath;
@@ -150,6 +150,11 @@ namespace Ghpr.SimpleFileLogger
         public void Exception(object message, Exception exception)
         {
             WriteWithException(message, exception, LogLevel.Exception);
+        }
+
+        public void TearDown()
+        {
+            
         }
     }
 }

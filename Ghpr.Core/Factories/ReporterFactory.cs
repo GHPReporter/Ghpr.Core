@@ -59,7 +59,7 @@ namespace Ghpr.Core.Factories
             }
 
             var logger = CreateInstanceFromFile<ILogger>(settings.LoggerFile);
-            logger.Initialize(settings);
+            logger.SetUp(settings);
 
             var dataService = CreateInstanceFromFile<IDataService>(settings.DataServiceFile);
             dataService.Initialize(settings, logger);

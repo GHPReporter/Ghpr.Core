@@ -29,5 +29,7 @@ namespace Ghpr.Core.Interfaces
 
         void GenerateFullReport(List<TestRunDto> testRuns);
         void GenerateFullReport(List<TestRunDto> testRuns, DateTime start, DateTime finish);
+
+        void TearDown();
     }
 }

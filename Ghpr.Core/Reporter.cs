@@ -129,5 +129,10 @@ namespace Ghpr.Core
             GenerateReport(finish);
             Logger.Debug("Generating full report from the list of test runs: Done");
         }
+
+        public void TearDown()
+        {
+            Logger.TearDown();
+        }
     }
 }
