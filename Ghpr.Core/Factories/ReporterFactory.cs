@@ -32,9 +32,9 @@ namespace Ghpr.Core.Factories
         private static T CreateInstanceFromFile<T>(string fileName) where T : class
         {
             var uri = new Uri(typeof(ReporterFactory).Assembly.CodeBase);
-            var dataServiceAssemblyFullPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", fileName);
-            var dataServiceAssembly = Assembly.LoadFrom(dataServiceAssemblyFullPath);
-            var implementationType = dataServiceAssembly.GetTypes()
+            var instanceAssemblyFullPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", fileName);
+            var instanceAssembly = Assembly.LoadFrom(instanceAssemblyFullPath);
+            var implementationType = instanceAssembly.GetTypes()
                 .FirstOrDefault(t => typeof(T).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
             if (implementationType == null)
             {
