@@ -10,6 +10,7 @@ using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
 using Ghpr.LocalFileSystem.Mappers;
 using Ghpr.LocalFileSystem.Providers;
+using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Services
 {
@@ -31,7 +32,7 @@ namespace Ghpr.LocalFileSystem.Services
             _logger.Info($"Run was saved: '{runFullPath}'");
             var runsInfoFullPath = run.RunInfo.SaveRunInfo(_locationsProvider);
             _logger.Info($"Runs Info was saved: '{runsInfoFullPath}'");
-            _logger.Debug("Run data was saved correctly");
+            _logger.Debug($"Run data was saved correctly: {JsonConvert.SerializeObject(run, Formatting.Indented)}");
         }
 
         public void SaveScreenshot(TestScreenshotDto screenshotDto)
@@ -82,7 +83,7 @@ namespace Ghpr.LocalFileSystem.Services
             _logger.Info($"Test run was saved: '{testRunFullPath}'");
             var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);
             _logger.Info($"Test runs Info was saved: '{testRunsInfoFullPath}'");
-            _logger.Debug("test run data was saved correctly");
+            _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testRun, Formatting.Indented)}");
         }
     }
 }

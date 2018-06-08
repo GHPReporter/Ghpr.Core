@@ -42,7 +42,7 @@ namespace Ghpr.CouchDb
             var settingsContent = _contentBuilder.GetContent(reportSettingsEntity);
             var postResult = _client.Put($"/{_ghprDatabaseName}/{reportSettingsEntity.Id}{revParam}", settingsContent);
             _messageProcessor.ProcessReportSettingsSavedMessage(postResult, reportSettingsEntity.Data);
-            _logger.Debug($"Report settings were saved: {JsonConvert.SerializeObject(reportSettingsEntity)}");
+            _logger.Debug($"Report settings were saved: {JsonConvert.SerializeObject(reportSettingsEntity, Formatting.Indented)}");
         }
 
         public void SaveScreenshot(DatabaseEntity<TestScreenshot> screenshotEntity)
@@ -50,7 +50,7 @@ namespace Ghpr.CouchDb
             var settingsContent = _contentBuilder.GetContent(screenshotEntity);
             var postResult = _client.Put($"/{_ghprDatabaseName}/{screenshotEntity.Id}?new_edits?=false", settingsContent);
             _messageProcessor.ProcessScreenshotSavedMessage(postResult, screenshotEntity.Data.TestGuid.ToString(), screenshotEntity.Data.Date);
-            _logger.Debug($"Screenshot was saved: {JsonConvert.SerializeObject(screenshotEntity)}");
+            _logger.Debug($"Screenshot was saved: {JsonConvert.SerializeObject(screenshotEntity, Formatting.Indented)}");
         }
 
         public void SaveTestRun(DatabaseEntity<TestRun> testRunEntity)
@@ -69,7 +69,7 @@ namespace Ghpr.CouchDb
             var testRunContent = _contentBuilder.GetContent(testRunEntity);
             var response = _client.Put($"/{_ghprDatabaseName}/{testRunEntity.Id}?new_edits=false", testRunContent);
             _messageProcessor.ProcessTestRunSavedMessage(response, testRunEntity.Data.TestInfo);
-            _logger.Debug($"Test run was saved: {JsonConvert.SerializeObject(testRunEntity)}");
+            _logger.Debug($"Test run was saved: {JsonConvert.SerializeObject(testRunEntity, Formatting.Indented)}");
         }
         
         public void SaveRun(DatabaseEntity<Run> runEntity)
@@ -83,7 +83,7 @@ namespace Ghpr.CouchDb
             var runContent = _contentBuilder.GetContent(runEntity);
             var postResult = _client.Put($"/{_ghprDatabaseName}/{runEntity.Id}{revParam}", runContent);
             _messageProcessor.ProcessRunSavedMessage(postResult, runEntity.Data.RunInfo);
-            _logger.Debug($"Run was saved: {JsonConvert.SerializeObject(runEntity)}");
+            _logger.Debug($"Run was saved: {JsonConvert.SerializeObject(runEntity, Formatting.Indented)}");
         }
         
         public void ValidateConnection()
