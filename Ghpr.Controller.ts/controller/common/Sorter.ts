@@ -1,7 +1,7 @@
 ﻿///<reference path="./localFileSystem/entities/ItemInfo.ts"/>
 
 class Sorter {
-    static itemInfoSortByFinishDateFunc(a: ItemInfo, b: ItemInfo): number {
+    static itemInfoByFinishDate(a: ItemInfo, b: ItemInfo): number {
         if (a.finish > b.finish) {
             return 1;
         }
@@ -11,7 +11,7 @@ class Sorter {
         return 0;
     }
 
-    static itemInfoSortByFinishDateFuncDesc(a: ItemInfo, b: ItemInfo): number {
+    static itemInfoByFinishDateDesc(a: ItemInfo, b: ItemInfo): number {
         if (a.finish < b.finish) {
             return 1;
         }

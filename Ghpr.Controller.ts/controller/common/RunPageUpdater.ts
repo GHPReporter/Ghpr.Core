@@ -236,7 +236,7 @@ class RunPageUpdater {
         let runInfos: Array<ItemInfo>;
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, this.reviveRun);
-            runInfos.sort(Sorter.itemInfoSortByFinishDateFuncDesc);
+            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = 0;
@@ -261,7 +261,7 @@ class RunPageUpdater {
         let runInfos: Array<ItemInfo>;
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, this.reviveRun);
-            runInfos.sort(Sorter.itemInfoSortByFinishDateFuncDesc);
+            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             const runInfo = runInfos.find((r) => r.guid === guid);
             if (runInfo != undefined) {

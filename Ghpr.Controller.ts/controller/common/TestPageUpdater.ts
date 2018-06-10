@@ -162,7 +162,7 @@ class TestPageUpdater {
         let testInfos: Array<ItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, this.reviveRun);
-            testInfos.sort(Sorter.itemInfoSortByFinishDateFuncDesc);
+            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
             for (let i = 0; i < this.testVersionsCount; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
@@ -180,7 +180,7 @@ class TestPageUpdater {
         let testInfos: Array<ItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, this.reviveRun);
-            testInfos.sort(Sorter.itemInfoSortByFinishDateFuncDesc);
+            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = 0;
@@ -206,7 +206,7 @@ class TestPageUpdater {
         let testInfos: Array<ItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, this.reviveRun);
-            testInfos.sort(Sorter.itemInfoSortByFinishDateFuncDesc);
+            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {

@@ -118,7 +118,7 @@ class ReportPageUpdater {
         const runs: Array<Run> = new Array();
         this.loader.loadRunsJson((response: string) => {
             runInfos = JSON.parse(response, this.reviveRun);
-            runInfos.sort(Sorter.itemInfoSortByFinishDateFuncDesc);
+            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
             const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
             for (let i = 0; i < runsToLoad; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
