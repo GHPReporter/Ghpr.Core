@@ -3,6 +3,7 @@
 ///<reference path="./localFileSystem/entities/Run.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./localFileSystem/JsonLoader.ts"/>
+///<reference path="./JsonParser.ts"/>
 ///<reference path="./UrlHelper.ts"/>
 ///<reference path="./DateFormatter.ts"/>
 ///<reference path="./Color.ts"/>
@@ -16,6 +17,7 @@ class RunPageUpdater {
     static runsToShow: number; 
     static loader = new JsonLoader(PageType.TestRunPage);
     static reportSettings: ReportSettings;
+    static reviveRun = JsonParser.reviveRun;
 
     private static updateCopyright(): void {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${this.reportSettings.coreVersion})`;
@@ -197,7 +199,7 @@ class RunPageUpdater {
     private static updateRunPage(runGuid: string): Run {
         let run: Run;
         this.loader.loadRunJson(runGuid, (response: string) => {
-            run = JSON.parse(response, JsonLoader.reviveRun);
+            run = JSON.parse(response, this.reviveRun);
             if (run.name === "") {
                 run.name = `${DateFormatter.format(run.runInfo.start)} - ${DateFormatter.format(run.runInfo.finish)}`;
             }
@@ -223,7 +225,7 @@ class RunPageUpdater {
         }
         var index = 0;
         this.loader.loadJsons(paths, 0, (response: string, c: number, i: number) => {
-            test = JSON.parse(response, JsonLoader.reviveRun);
+            test = JSON.parse(response, this.reviveRun);
             this.addTest(test, c, i);
             if(i === c - 1) this.makeCollapsible();
             index++;
@@ -233,7 +235,7 @@ class RunPageUpdater {
     private static loadRun(index: number): void {
         let runInfos: Array<ItemInfo>;
         this.loader.loadRunsJson((response: string) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
+            runInfos = JSON.parse(response, this.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             if (index === undefined || index.toString() === "NaN") {
@@ -258,7 +260,7 @@ class RunPageUpdater {
         }
         let runInfos: Array<ItemInfo>;
         this.loader.loadRunsJson((response: string) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
+            runInfos = JSON.parse(response, this.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             const runInfo = runInfos.find((r) => r.guid === guid);

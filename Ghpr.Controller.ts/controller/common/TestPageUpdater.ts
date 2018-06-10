@@ -5,6 +5,7 @@
 ///<reference path="./localFileSystem/entities/TestData.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./localFileSystem/JsonLoader.ts"/>
+///<reference path="./JsonParser.ts"/>
 ///<reference path="./UrlHelper.ts"/>
 ///<reference path="./DateFormatter.ts"/>
 ///<reference path="./Color.ts"/>
@@ -19,6 +20,7 @@ class TestPageUpdater {
     static testVersionsCount: number;
     static loader = new JsonLoader(PageType.TestPage);
     static reportSettings: ReportSettings;
+    static reviveRun = JsonParser.reviveRun;
 
     private static updateCopyright(): void {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${this.reportSettings.coreVersion})`;
@@ -137,7 +139,7 @@ class TestPageUpdater {
     private static updateTestPage(testGuid: string, fileName: string): TestRun {
         let t: TestRun;
         this.loader.loadTestJson(testGuid, fileName, (response: string) => {
-            t = JSON.parse(response, JsonLoader.reviveRun);
+            t = JSON.parse(response, this.reviveRun);
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
             UrlHelper.insertParam("testFile", t.testInfo.fileName);
             this.updateMainInformation(t);
@@ -159,14 +161,14 @@ class TestPageUpdater {
         const guid = UrlHelper.getParam("testGuid");
         let testInfos: Array<ItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
-            testInfos = JSON.parse(response, JsonLoader.reviveRun);
+            testInfos = JSON.parse(response, this.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             for (let i = 0; i < this.testVersionsCount; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
             this.loader.loadAllJsons(paths, 0, testStrings, (responses: Array<string>) => {
                 for (let i = 0; i < responses.length; i++) {
-                    tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
+                    tests[i] = JSON.parse(responses[i], this.reviveRun);
                 }
                 this.setTestHistory(tests);
             });
@@ -177,7 +179,7 @@ class TestPageUpdater {
         const guid = UrlHelper.getParam("testGuid");
         let testInfos: Array<ItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
-            testInfos = JSON.parse(response, JsonLoader.reviveRun);
+            testInfos = JSON.parse(response, this.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
@@ -203,7 +205,7 @@ class TestPageUpdater {
         const fileName = UrlHelper.getParam("testFile");
         let testInfos: Array<ItemInfo>;
         this.loader.loadTestsJson(guid, (response: string) => {
-            testInfos = JSON.parse(response, JsonLoader.reviveRun);
+            testInfos = JSON.parse(response, this.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);

@@ -44,6 +44,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="web.config" />
+    <TypeScriptCompile Include="controller\common\JsonParser.ts" />
     <TypeScriptCompile Include="controller\interfaces\IDataService.ts" />
   </ItemGroup>
   <ItemGroup>

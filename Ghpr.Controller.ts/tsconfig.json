@@ -34,6 +34,7 @@
     "controller/common/localFileSystem/LocalFileSystemPathsHelper.ts",
     "controller/common/ProgressBar.ts",
     "controller/common/TabsHelper.ts",
+    "controller/common/JsonParser.ts",
     "controller/common/localFileSystem/JsonLoader.ts",
     "controller/common/DateFormatter.ts",
     "controller/common/RunPageUpdater.ts",

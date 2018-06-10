@@ -664,6 +664,13 @@ class ProgressBar {
         document.getElementById(this.barId).style.display = "none";
     }
 }
+class JsonParser {
+    static reviveRun(key, value) {
+        if (key === "start" || key === "finish" || key === "date")
+            return new Date(value);
+        return value;
+    }
+}
 class JsonLoader {
     constructor(pt) {
         this.pageType = pt;
@@ -767,11 +774,6 @@ class JsonLoader {
             console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
         };
         req.send(null);
-    }
-    static reviveRun(key, value) {
-        if (key === "start" || key === "finish" || key === "date")
-            return new Date(value);
-        return value;
     }
 }
 class DateFormatter {
@@ -984,7 +986,7 @@ class RunPageUpdater {
     static updateRunPage(runGuid) {
         let run;
         this.loader.loadRunJson(runGuid, (response) => {
-            run = JSON.parse(response, JsonLoader.reviveRun);
+            run = JSON.parse(response, this.reviveRun);
             if (run.name === "") {
                 run.name = `${DateFormatter.format(run.runInfo.start)} - ${DateFormatter.format(run.runInfo.finish)}`;
             }
@@ -1009,7 +1011,7 @@ class RunPageUpdater {
         }
         var index = 0;
         this.loader.loadJsons(paths, 0, (response, c, i) => {
-            test = JSON.parse(response, JsonLoader.reviveRun);
+            test = JSON.parse(response, this.reviveRun);
             this.addTest(test, c, i);
             if (i === c - 1)
                 this.makeCollapsible();
@@ -1019,7 +1021,7 @@ class RunPageUpdater {
     static loadRun(index) {
         let runInfos;
         this.loader.loadRunsJson((response) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
+            runInfos = JSON.parse(response, this.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             if (index === undefined || index.toString() === "NaN") {
@@ -1043,7 +1045,7 @@ class RunPageUpdater {
         }
         let runInfos;
         this.loader.loadRunsJson((response) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
+            runInfos = JSON.parse(response, this.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             const runInfo = runInfos.find((r) => r.guid === guid);
@@ -1128,6 +1130,7 @@ class RunPageUpdater {
     }
 }
 RunPageUpdater.loader = new JsonLoader(PageType.TestRunPage);
+RunPageUpdater.reviveRun = JsonParser.reviveRun;
 RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list"];
 class ReportPageUpdater {
     static updateLatestRunInfo(latestRun) {
@@ -1220,7 +1223,7 @@ class ReportPageUpdater {
         const r = new Array();
         const runs = new Array();
         this.loader.loadRunsJson((response) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
+            runInfos = JSON.parse(response, this.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
             for (let i = 0; i < runsToLoad; i++) {
@@ -1228,7 +1231,7 @@ class ReportPageUpdater {
             }
             this.loader.loadAllJsons(paths, 0, r, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
-                    const loadedRun = JSON.parse(responses[i], JsonLoader.reviveRun);
+                    const loadedRun = JSON.parse(responses[i], this.reviveRun);
                     if (loadedRun.name === "") {
                         loadedRun.name = `${DateFormatter.format(loadedRun.runInfo.start)} - ${DateFormatter.format(loadedRun.runInfo.finish)}`;
                     }
@@ -1255,6 +1258,7 @@ class ReportPageUpdater {
     }
 }
 ReportPageUpdater.loader = new JsonLoader(PageType.TestRunsPage);
+ReportPageUpdater.reviveRun = JsonParser.reviveRun;
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
 class TestPageUpdater {
     static updateCopyright() {
@@ -1365,7 +1369,7 @@ class TestPageUpdater {
     static updateTestPage(testGuid, fileName) {
         let t;
         this.loader.loadTestJson(testGuid, fileName, (response) => {
-            t = JSON.parse(response, JsonLoader.reviveRun);
+            t = JSON.parse(response, this.reviveRun);
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
             UrlHelper.insertParam("testFile", t.testInfo.fileName);
             this.updateMainInformation(t);
@@ -1386,14 +1390,14 @@ class TestPageUpdater {
         const guid = UrlHelper.getParam("testGuid");
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
-            testInfos = JSON.parse(response, JsonLoader.reviveRun);
+            testInfos = JSON.parse(response, this.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             for (let i = 0; i < this.testVersionsCount; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
             this.loader.loadAllJsons(paths, 0, testStrings, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
-                    tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
+                    tests[i] = JSON.parse(responses[i], this.reviveRun);
                 }
                 this.setTestHistory(tests);
             });
@@ -1403,7 +1407,7 @@ class TestPageUpdater {
         const guid = UrlHelper.getParam("testGuid");
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
-            testInfos = JSON.parse(response, JsonLoader.reviveRun);
+            testInfos = JSON.parse(response, this.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
@@ -1429,7 +1433,7 @@ class TestPageUpdater {
         const fileName = UrlHelper.getParam("testFile");
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
-            testInfos = JSON.parse(response, JsonLoader.reviveRun);
+            testInfos = JSON.parse(response, this.reviveRun);
             testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
@@ -1518,6 +1522,7 @@ class TestPageUpdater {
     }
 }
 TestPageUpdater.loader = new JsonLoader(PageType.TestPage);
+TestPageUpdater.reviveRun = JsonParser.reviveRun;
 TestPageUpdater.runPageTabsIds = ["test-history", "test-output", "test-failure", "test-screenshots", "test-data"];
 class Sorter {
     static itemInfoSorterByFinishDateFunc(a, b) {

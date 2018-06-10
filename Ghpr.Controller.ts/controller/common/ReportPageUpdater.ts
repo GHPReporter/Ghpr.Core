@@ -3,6 +3,7 @@
 ///<reference path="./localFileSystem/entities/Run.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
 ///<reference path="./localFileSystem/JsonLoader.ts"/>
+///<reference path="./JsonParser.ts"/>
 ///<reference path="./UrlHelper.ts"/>
 ///<reference path="./DateFormatter.ts"/>
 ///<reference path="./Color.ts"/>
@@ -12,6 +13,7 @@ class ReportPageUpdater {
 
     static loader = new JsonLoader(PageType.TestRunsPage);
     static reportSettings: ReportSettings;
+    static reviveRun = JsonParser.reviveRun;
 
     private static updateLatestRunInfo(latestRun: Run): void {
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;
@@ -115,7 +117,7 @@ class ReportPageUpdater {
         const r: Array<string> = new Array();
         const runs: Array<Run> = new Array();
         this.loader.loadRunsJson((response: string) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
+            runInfos = JSON.parse(response, this.reviveRun);
             runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
             const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
             for (let i = 0; i < runsToLoad; i++) {
@@ -123,7 +125,7 @@ class ReportPageUpdater {
             }
             this.loader.loadAllJsons(paths, 0, r, (responses: Array<string>) => {
                 for (let i = 0; i < responses.length; i++) {
-                    const loadedRun: Run = JSON.parse(responses[i], JsonLoader.reviveRun);
+                    const loadedRun: Run = JSON.parse(responses[i], this.reviveRun);
                     if (loadedRun.name === "") {
                         loadedRun.name = `${DateFormatter.format(loadedRun.runInfo.start)} - ${DateFormatter.format(loadedRun.runInfo.finish)}`;
                     }
