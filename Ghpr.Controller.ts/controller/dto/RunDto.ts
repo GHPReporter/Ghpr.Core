@@ -2,7 +2,7 @@
 ///<reference path="./ItemInfoDto.ts"/>
 
 class RunDto {
-    testRunFiles: Array<string>;
+    testsInfo: Array<ItemInfoDto>;
     runInfo: ItemInfoDto;
     summary: RunSummaryDto;
     name: string;

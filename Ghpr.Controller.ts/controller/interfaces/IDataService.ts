@@ -3,6 +3,9 @@
 ///<reference path="./../dto/ReportSettingsDto.ts"/>
 
 interface IDataService {
+
+    reportSettings: ReportSettingsDto;
+
     getRunDto(guid: string, start: Date, finish: Date): RunDto;
     getTestRunDto(guid: string, start: Date, finish: Date): TestRunDto;
     getReportSettingsDto() : ReportSettingsDto;
