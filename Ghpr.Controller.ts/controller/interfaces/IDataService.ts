@@ -6,7 +6,7 @@ interface IDataService {
 
     reportSettings: ReportSettingsDto;
 
-    getRunDto(guid: string, start: Date, finish: Date): RunDto;
-    getTestRunDto(guid: string, start: Date, finish: Date): TestRunDto;
-    getReportSettingsDto() : ReportSettingsDto;
+    getRunDto(guid: string, start: Date, finish: Date, callback: Function): RunDto;
+    getTestRunDto(guid: string, start: Date, finish: Date, callback: Function): TestRunDto;
+    getReportSettingsDto(callback: Function) : ReportSettingsDto;
 }
