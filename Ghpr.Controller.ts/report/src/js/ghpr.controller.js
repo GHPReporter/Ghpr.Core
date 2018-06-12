@@ -47,6 +47,93 @@ class TestScreenshot {
 }
 class TestRun {
 }
+class ItemInfoDtoMapper {
+    static map(itemInfo) {
+        let itemIntoDto = new ItemInfoDto();
+        itemIntoDto.guid = itemInfo.guid;
+        itemIntoDto.start = itemInfo.start;
+        itemIntoDto.finish = itemInfo.finish;
+        return itemIntoDto;
+    }
+}
+class TestRunDtoMapper {
+    static map(testRun) {
+        let eventDtos = new Array(testRun.events.length);
+        let screenshotDtos = new Array(testRun.screenshots.length);
+        let testDataDtos = new Array(testRun.testData.length);
+        for (let i = 0; i < testRun.events.length; i++) {
+            let event = testRun.events[i];
+            let eventDto = new TestEventDto();
+            eventDto.name = event.name;
+            eventDto.started = event.started;
+            eventDto.finished = event.finished;
+            eventDtos[i] = eventDto;
+        }
+        for (let i = 0; i < testRun.screenshots.length; i++) {
+            let screenshot = testRun.screenshots[i];
+            let screenshotDto = new TestScreenshotDto();
+            screenshotDto.date = screenshot.date;
+            screenshotDto.data = screenshot.data;
+            screenshotDto.testGuid = screenshot.testGuid;
+            screenshotDtos[i] = screenshotDto;
+        }
+        for (let i = 0; i < testRun.events.length; i++) {
+            let event = testRun.events[i];
+            let eventDto = new TestEventDto();
+            eventDto.name = event.name;
+            eventDto.started = event.started;
+            eventDto.finished = event.finished;
+            eventDtos[i] = eventDto;
+        }
+        let testRunDto = new TestRunDto();
+        testRunDto.name = testRun.name;
+        testRunDto.categories = testRun.categories;
+        testRunDto.description = testRunDto.description;
+        testRunDto.duration = testRun.duration;
+        testRunDto.events = eventDtos;
+        testRunDto.fullName = testRun.fullName;
+        testRunDto.output = testRun.output;
+        testRunDto.priority = testRun.priority;
+        testRunDto.result = testRun.result;
+        testRunDto.testInfo = ItemInfoDtoMapper.map(testRun.testInfo);
+        testRunDto.testMessage = testRun.testMessage;
+        testRunDto.testStackTrace = testRun.testStackTrace;
+        testRunDto.runGuid = testRun.runGuid;
+        testRunDto.testType = testRun.testType;
+        testRunDto.screenshots = screenshotDtos;
+        testRunDto.testData = testDataDtos;
+        return testRunDto;
+    }
+}
+class RunDtoMapper {
+    static map(run) {
+        let runSummaryDto = new RunSummaryDto();
+        runSummaryDto.errors = run.summary.errors;
+        runSummaryDto.failures = run.summary.failures;
+        runSummaryDto.ignored = run.summary.ignored;
+        runSummaryDto.inconclusive = run.summary.inconclusive;
+        runSummaryDto.success = run.summary.success;
+        runSummaryDto.unknown = run.summary.unknown;
+        runSummaryDto.total = run.summary.total;
+        let files = run.testRunFiles;
+        let testsInfoDto = new Array();
+        for (let testRunFile in files) {
+            let testInfoDto = new ItemInfoDto();
+            testInfoDto.guid = testRunFile.split("\\")[0];
+            let date = testRunFile.split("\\")[1].split(".")[0].split("_")[1];
+            let time = testRunFile.split("\\")[1].split(".")[0].split("_")[2];
+            testInfoDto.finish = new Date(+date.substr(0, 4), +date.substr(4, 2), +date.substr(6, 2), +time.substr(0, 2), +time.substr(2, 2), +time.substr(4, 2), +time.substr(6, 3));
+            testInfoDto.start = new Date();
+        }
+        let runDto = new RunDto();
+        runDto.name = run.name;
+        runDto.runInfo = ItemInfoDtoMapper.map(run.runInfo);
+        runDto.sprint = run.sprint;
+        runDto.summary = runSummaryDto;
+        runDto.testsInfo = testsInfoDto;
+        return runDto;
+    }
+}
 class LocalFileSystemDataService {
     getRunDto(guid, start, finish) {
         throw new Error("Not implemented");
