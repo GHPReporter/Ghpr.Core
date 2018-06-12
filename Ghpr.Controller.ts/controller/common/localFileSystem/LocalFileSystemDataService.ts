@@ -1,4 +1,7 @@
 ﻿///<reference path="./../../interfaces/IDataService.ts"/>
+///<reference path="./../../dto/RunDto.ts/"/>
+///<reference path="./../../dto/ReportSettingsDto.ts/"/>
+///<reference path="./../../dto/TestRunDto.ts/"/>
 
 class LocalFileSystemDataService implements IDataService{
     getRunDto(guid: string, start: Date, finish: Date): RunDto {

@@ -16,8 +16,9 @@ class RunDtoMapper {
         runSummaryDto.total = run.summary.total;
 
         let files = run.testRunFiles;
-        let testsInfoDto = new Array<ItemInfoDto>();
-        for (let testRunFile in files) {
+        let testInfoDtos = new Array<ItemInfoDto>(files.length);
+        for (let i = 0; i < files.length; i++) {
+            let testRunFile = files[i];
             let testInfoDto = new ItemInfoDto();
             testInfoDto.guid = testRunFile.split("\\")[0];
             let date = testRunFile.split("\\")[1].split(".")[0].split("_")[1];
@@ -25,6 +26,7 @@ class RunDtoMapper {
             testInfoDto.finish = new Date(+date.substr(0, 4), +date.substr(4, 2), +date.substr(6, 2),
                 +time.substr(0, 2), +time.substr(2, 2), +time.substr(4, 2), +time.substr(6, 3));
             testInfoDto.start = new Date();
+            testInfoDtos[i] = testInfoDto;
         }
 
         let runDto = new RunDto();
@@ -32,7 +34,7 @@ class RunDtoMapper {
         runDto.runInfo = ItemInfoDtoMapper.map(run.runInfo);
         runDto.sprint = run.sprint;
         runDto.summary = runSummaryDto;
-        runDto.testsInfo = testsInfoDto;
+        runDto.testsInfo = testInfoDtos;
         return runDto;
     }
 }
