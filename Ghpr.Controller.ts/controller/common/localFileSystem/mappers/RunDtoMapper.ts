@@ -20,9 +20,11 @@ class RunDtoMapper {
         for (let testRunFile in files) {
             let testInfoDto = new ItemInfoDto();
             testInfoDto.guid = testRunFile.split("\\")[0];
-            var date = testRunFile.split("\\")[1].split(".")[0].split("_")[1];
-            var time = testRunFile.split("\\")[1].split(".")[0].split("_")[2];
-            testInfoDto.finish = new Date(+date.substr(0, 4), 10, 20, 19, 45, 55);
+            let date = testRunFile.split("\\")[1].split(".")[0].split("_")[1];
+            let time = testRunFile.split("\\")[1].split(".")[0].split("_")[2];
+            testInfoDto.finish = new Date(+date.substr(0, 4), +date.substr(4, 2), +date.substr(6, 2),
+                +time.substr(0, 2), +time.substr(2, 2), +time.substr(4, 2), +time.substr(6, 3));
+            testInfoDto.start = new Date();
         }
 
         let runDto = new RunDto();

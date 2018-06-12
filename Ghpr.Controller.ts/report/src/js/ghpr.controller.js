@@ -48,6 +48,15 @@ class TestScreenshot {
 class TestRun {
 }
 class LocalFileSystemDataService {
+    getRunDto(guid, start, finish) {
+        throw new Error("Not implemented");
+    }
+    getTestRunDto(guid, start, finish) {
+        throw new Error("Not implemented");
+    }
+    getReportSettingsDto() {
+        throw new Error("Not implemented");
+    }
 }
 var PageType;
 (function (PageType) {
@@ -1022,7 +1031,7 @@ class RunPageUpdater {
         let runInfos;
         this.loader.loadRunsJson((response) => {
             runInfos = JSON.parse(response, this.reviveRun);
-            runInfos.sort(Sorter.itemInfoByFinishDateFuncDesc);
+            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = 0;
@@ -1046,7 +1055,7 @@ class RunPageUpdater {
         let runInfos;
         this.loader.loadRunsJson((response) => {
             runInfos = JSON.parse(response, this.reviveRun);
-            runInfos.sort(Sorter.itemInfoByFinishDateFuncDesc);
+            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             const runInfo = runInfos.find((r) => r.guid === guid);
             if (runInfo != undefined) {
@@ -1224,7 +1233,7 @@ class ReportPageUpdater {
         const runs = new Array();
         this.loader.loadRunsJson((response) => {
             runInfos = JSON.parse(response, this.reviveRun);
-            runInfos.sort(Sorter.itemInfoByFinishDateFuncDesc);
+            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
             const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
             for (let i = 0; i < runsToLoad; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
@@ -1391,7 +1400,7 @@ class TestPageUpdater {
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
             testInfos = JSON.parse(response, this.reviveRun);
-            testInfos.sort(Sorter.itemInfoByFinishDateFuncDesc);
+            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
             for (let i = 0; i < this.testVersionsCount; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
@@ -1408,7 +1417,7 @@ class TestPageUpdater {
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
             testInfos = JSON.parse(response, this.reviveRun);
-            testInfos.sort(Sorter.itemInfoByFinishDateFuncDesc);
+            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = 0;
@@ -1434,7 +1443,7 @@ class TestPageUpdater {
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
             testInfos = JSON.parse(response, this.reviveRun);
-            testInfos.sort(Sorter.itemInfoByFinishDateFuncDesc);
+            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {
@@ -1525,7 +1534,7 @@ TestPageUpdater.loader = new JsonLoader(PageType.TestPage);
 TestPageUpdater.reviveRun = JsonParser.reviveRun;
 TestPageUpdater.runPageTabsIds = ["test-history", "test-output", "test-failure", "test-screenshots", "test-data"];
 class Sorter {
-    static itemInfoByFinishDateFunc(a, b) {
+    static itemInfoByFinishDate(a, b) {
         if (a.finish > b.finish) {
             return 1;
         }
@@ -1534,7 +1543,7 @@ class Sorter {
         }
         return 0;
     }
-    static itemInfoByFinishDateFuncDesc(a, b) {
+    static itemInfoByFinishDateDesc(a, b) {
         if (a.finish < b.finish) {
             return 1;
         }

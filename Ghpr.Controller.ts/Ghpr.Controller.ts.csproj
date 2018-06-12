@@ -45,6 +45,9 @@
     </Content>
     <Content Include="web.config" />
     <TypeScriptCompile Include="controller\common\JsonParser.ts" />
+    <TypeScriptCompile Include="controller\common\localFileSystem\mappers\ItemInfoDtoMapper.ts" />
+    <TypeScriptCompile Include="controller\common\localFileSystem\mappers\RunDtoMapper.ts" />
+    <TypeScriptCompile Include="controller\common\localFileSystem\mappers\TestRunDtoMapper.ts" />
     <TypeScriptCompile Include="controller\interfaces\IDataService.ts" />
   </ItemGroup>
   <ItemGroup>

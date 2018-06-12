@@ -1,4 +1,5 @@
 ﻿class TestScreenshotDto {
-    name: string;
+    data: string;
     date: Date;
+    testGuid: string;
 }
