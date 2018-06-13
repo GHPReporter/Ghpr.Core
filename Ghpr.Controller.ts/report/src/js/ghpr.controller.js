@@ -136,7 +136,17 @@ class RunDtoMapper {
         return runDto;
     }
 }
+var PageType;
+(function (PageType) {
+    PageType[PageType["TestRunsPage"] = 0] = "TestRunsPage";
+    PageType[PageType["TestRunPage"] = 1] = "TestRunPage";
+    PageType[PageType["TestPage"] = 2] = "TestPage";
+})(PageType || (PageType = {}));
 class LocalFileSystemDataService {
+    fromPage(pageType) {
+        this.currentPage = pageType;
+        return this;
+    }
     getRunDto(guid, start, finish, callback) {
         throw new Error("Not implemented");
     }
@@ -167,12 +177,6 @@ class LocalFileSystemDataService {
         req.send(null);
     }
 }
-var PageType;
-(function (PageType) {
-    PageType[PageType["TestRunsPage"] = 0] = "TestRunsPage";
-    PageType[PageType["TestRunPage"] = 1] = "TestRunPage";
-    PageType[PageType["TestPage"] = 2] = "TestPage";
-})(PageType || (PageType = {}));
 class TestRunHelper {
     static getColorByResult(result) {
         switch (result) {
@@ -890,6 +894,32 @@ class JsonLoader {
         req.timeout = 2000;
         req.ontimeout = () => {
             console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
+        };
+        req.send(null);
+    }
+}
+class Controller {
+    static init(settingsPath, callback) {
+        const req = new XMLHttpRequest();
+        req.overrideMimeType("application/json");
+        req.open("get", settingsPath, true);
+        req.onreadystatechange = () => {
+            if (req.readyState === 4) {
+                if (req.status !== 200 && req.status !== 0) {
+                    console
+                        .log(`Error while loading .json data: '${settingsPath}'! Status: ${req.status} : ${req
+                        .statusText}`);
+                }
+                else {
+                    this.reportSettings = JSON.parse(req.responseText);
+                    this.dataService = new LocalFileSystemDataService();
+                    callback(this.reportSettings, this.dataService);
+                }
+            }
+        };
+        req.timeout = 2000;
+        req.ontimeout = () => {
+            console.log(`Timeout while loading .json data: '${settingsPath}'! Status: ${req.status} : ${req.statusText}`);
         };
         req.send(null);
     }
@@ -1660,30 +1690,6 @@ class Sorter {
             return -1;
         }
         return 0;
-    }
-}
-class Controller {
-    static init(settingsPath, callback) {
-        const req = new XMLHttpRequest();
-        req.overrideMimeType("application/json");
-        req.open("get", settingsPath, true);
-        req.onreadystatechange = () => {
-            if (req.readyState === 4)
-                if (req.status !== 200 && req.status !== 0) {
-                    console
-                        .log(`Error while loading .json data: '${settingsPath}'! Status: ${req.status} : ${req.statusText}`);
-                }
-                else {
-                    this.reportSettings = JSON.parse(req.responseText);
-                    this.dataService = new LocalFileSystemDataService();
-                    callback(this.reportSettings, this.dataService);
-                }
-        };
-        req.timeout = 2000;
-        req.ontimeout = () => {
-            console.log(`Timeout while loading .json data: '${settingsPath}'! Status: ${req.status} : ${req.statusText}`);
-        };
-        req.send(null);
     }
 }
 //# sourceMappingURL=ghpr.controller.js.map

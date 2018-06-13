@@ -2,8 +2,16 @@
 ///<reference path="./../../dto/RunDto.ts"/>
 ///<reference path="./../../dto/ReportSettingsDto.ts"/>
 ///<reference path="./../../dto/TestRunDto.ts"/>
+///<reference path="./../../enums/PageType.ts"/>
 
 class LocalFileSystemDataService implements IDataService {
+    private currentPage: PageType;
+
+    fromPage(pageType: PageType): IDataService {
+        this.currentPage = pageType;
+        return this;
+    }
+
     getRunDto(guid: string, start: Date, finish: Date, callback: Function): RunDto {
         throw new Error("Not implemented");
     }
