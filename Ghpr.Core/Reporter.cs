@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
-using Ghpr.Core.Utils;
 
 namespace Ghpr.Core
 {
@@ -78,6 +78,11 @@ namespace Ghpr.Core
 
         public void SaveScreenshot(byte[] screenshotBytes)
         {
+            var now = DateTime.Now;
+            while (!TestRunStarted && (DateTime.Now - now).TotalSeconds < 1)
+            {
+                Thread.Sleep(50);
+            }
             var guid = TestDataProvider.GetCurrentTestRunGuid();
             var testScreenshot = new TestScreenshotDto{TestGuid = guid, Data =  screenshotBytes, Date = DateTime.Now};
             DataService.SaveScreenshot(testScreenshot);

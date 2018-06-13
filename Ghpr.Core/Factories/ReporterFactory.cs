@@ -16,7 +16,7 @@ namespace Ghpr.Core.Factories
     {
         public static IReporter Build(ITestDataProvider testDataProvider)
         {
-            return InitializeReporter(ReporterSettingsProvider.Load(), testDataProvider);
+            return InitializeReporter(ReporterSettingsProvider.Load(Paths.Files.CoreSettings), testDataProvider);
         }
 
         public static IReporter Build(ReporterSettings settings, ITestDataProvider testDataProvider)

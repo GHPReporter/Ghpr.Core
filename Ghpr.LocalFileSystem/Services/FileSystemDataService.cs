@@ -32,8 +32,9 @@ namespace Ghpr.LocalFileSystem.Services
             run.RunInfo.SaveRunInfo(_locationsProvider);
         }
         
-        public void SaveScreenshot(TestScreenshotDto testScreenshot)
+        public void SaveScreenshot(TestScreenshotDto screenshotDto)
         {
+            var testScreenshot = screenshotDto.Map();
             using (var image = Image.FromStream(new MemoryStream(testScreenshot.Data)))
             {
                 var screenPath = _locationsProvider.GetScreenshotPath(testScreenshot.TestGuid.ToString());
@@ -58,12 +59,19 @@ namespace Ghpr.LocalFileSystem.Services
         {
             var testRun = testRunDto.Map();
             var imgFolder = _locationsProvider.GetScreenshotPath(testRun.TestInfo.Guid.ToString());
-            var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.png");
-            foreach (var imgFile in imgFiles)
+            if (Directory.Exists(imgFolder))
             {
-                if (imgFile.CreationTime > testRun.TestInfo.Start)
+                var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.png");
+                foreach (var imgFile in imgFiles)
                 {
-                    testRun.Screenshots.Add(new TestScreenshot(imgFile.CreationTime));
+                    if (imgFile.CreationTime > testRun.TestInfo.Start)
+                    {
+                        testRun.Screenshots.Add(new TestScreenshot
+                        {
+                            Date = imgFile.CreationTime,
+                            Name = LocationsProvider.GetScreenshotFileName(imgFile.CreationTime)
+                        });
+                    }
                 }
             }
             testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));

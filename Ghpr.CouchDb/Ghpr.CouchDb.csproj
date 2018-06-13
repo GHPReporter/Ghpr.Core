@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{40BE674C-5954-4ABA-B1ED-A890621AD306}</ProjectGuid>
+    <ProjectGuid>{E1E7D3A7-8991-4A14-9C73-8672662AB913}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ghpr.LocalFileSystem</RootNamespace>
-    <AssemblyName>Ghpr.LocalFileSystem</AssemblyName>
+    <RootNamespace>Ghpr.CouchDb</RootNamespace>
+    <AssemblyName>Ghpr.CouchDb</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,7 +35,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,7 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Comparers\ItemInfoComparer.cs" />
+    <Compile Include="CouchDbClient.cs" />
+    <Compile Include="CouchDbDatabase.cs" />
+    <Compile Include="Entities\DatabaseEntity.cs" />
+    <Compile Include="Entities\EntityType.cs" />
     <Compile Include="Entities\ItemInfo.cs" />
     <Compile Include="Entities\ReportSettings.cs" />
     <Compile Include="Entities\Run.cs" />
@@ -52,21 +54,27 @@
     <Compile Include="Entities\TestData.cs" />
     <Compile Include="Entities\TestEvent.cs" />
     <Compile Include="Entities\TestRun.cs" />
+    <Compile Include="Entities\TestScreenshotInfo.cs" />
     <Compile Include="Entities\TestScreenshot.cs" />
-    <Compile Include="Extensions\ItemInfoExtensions.cs" />
-    <Compile Include="Extensions\RunExtensions.cs" />
-    <Compile Include="Extensions\TestRunExtensions.cs" />
-    <Compile Include="Interfaces\ILocationsProvider.cs" />
+    <Compile Include="Extensions\HttpClientExtensions.cs" />
+    <Compile Include="Extensions\HttpResponseMessageExtensions.cs" />
     <Compile Include="Mappers\ItemInfoDtoMapper.cs" />
-    <Compile Include="Mappers\RunSummaryDtoMapper.cs" />
-    <Compile Include="Mappers\TestRunDtoMapper.cs" />
     <Compile Include="Mappers\ReportSettingsDtoMapper.cs" />
     <Compile Include="Mappers\RunDtoMapper.cs" />
+    <Compile Include="Mappers\RunSummaryDtoMapper.cs" />
+    <Compile Include="Mappers\TestRunDtoMapper.cs" />
     <Compile Include="Mappers\TestScreenshotMapper.cs" />
+    <Compile Include="Processors\HttpResponseMessageProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\LocationsProvider.cs" />
-    <Compile Include="Providers\ReportSettingsProvider.cs" />
-    <Compile Include="Services\FileSystemDataService.cs" />
+    <Compile Include="CouchDbSettings.cs" />
+    <Compile Include="Services\CouchDbDataService.cs" />
+    <Compile Include="Utils\StringContentBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Ghpr.CouchDb.Settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ghpr.Core\Ghpr.Core.csproj">
@@ -74,9 +82,5 @@
       <Name>Ghpr.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

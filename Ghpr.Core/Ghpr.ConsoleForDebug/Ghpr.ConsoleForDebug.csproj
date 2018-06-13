@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{40BE674C-5954-4ABA-B1ED-A890621AD306}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ghpr.LocalFileSystem</RootNamespace>
-    <AssemblyName>Ghpr.LocalFileSystem</AssemblyName>
+    <ProjectGuid>{7458DB00-D683-4466-8E08-3534E4680E94}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ghpr.ConsoleForDebug</RootNamespace>
+    <AssemblyName>Ghpr.ConsoleForDebug</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,12 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\Ghpr.Core\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,39 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Comparers\ItemInfoComparer.cs" />
-    <Compile Include="Entities\ItemInfo.cs" />
-    <Compile Include="Entities\ReportSettings.cs" />
-    <Compile Include="Entities\Run.cs" />
-    <Compile Include="Entities\RunSummary.cs" />
-    <Compile Include="Entities\TestData.cs" />
-    <Compile Include="Entities\TestEvent.cs" />
-    <Compile Include="Entities\TestRun.cs" />
-    <Compile Include="Entities\TestScreenshot.cs" />
-    <Compile Include="Extensions\ItemInfoExtensions.cs" />
-    <Compile Include="Extensions\RunExtensions.cs" />
-    <Compile Include="Extensions\TestRunExtensions.cs" />
-    <Compile Include="Interfaces\ILocationsProvider.cs" />
-    <Compile Include="Mappers\ItemInfoDtoMapper.cs" />
-    <Compile Include="Mappers\RunSummaryDtoMapper.cs" />
-    <Compile Include="Mappers\TestRunDtoMapper.cs" />
-    <Compile Include="Mappers\ReportSettingsDtoMapper.cs" />
-    <Compile Include="Mappers\RunDtoMapper.cs" />
-    <Compile Include="Mappers\TestScreenshotMapper.cs" />
+    <Compile Include="DummyTestDataProvider.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\LocationsProvider.cs" />
-    <Compile Include="Providers\ReportSettingsProvider.cs" />
-    <Compile Include="Services\FileSystemDataService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ghpr.Core\Ghpr.Core.csproj">
+    <None Include="App.config" />
+    <None Include="Ghpr.Core.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Ghpr.CouchDb\Ghpr.CouchDb.csproj">
+      <Project>{e1e7d3a7-8991-4a14-9c73-8672662ab913}</Project>
+      <Name>Ghpr.CouchDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ghpr.Core.csproj">
       <Project>{8cde51df-b9d2-4945-a992-35e33decef36}</Project>
       <Name>Ghpr.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
