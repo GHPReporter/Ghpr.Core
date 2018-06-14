@@ -36,7 +36,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug-NET452\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -73,6 +73,7 @@
     <Compile Include="Extensions\TestRunDtoListExtensions.cs" />
     <Compile Include="Factories\ReporterFactory.cs" />
     <Compile Include="Interfaces\IActionHelper.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\ITestDataProvider.cs" />
     <Compile Include="Interfaces\ITestRunDtoProcessor.cs" />
     <Compile Include="Interfaces\ITestRunsRepository.cs" />
@@ -95,7 +96,6 @@
     <Compile Include="Providers\ReporterSettingsProvider.cs" />
     <Compile Include="Interfaces\IDataService.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
-    <Compile Include="Interfaces\ILog.cs" />
     <Compile Include="Interfaces\IReporter.cs" />
     <Compile Include="Reporter.cs" />
     <Compile Include="EmbeddedResources\ResourceExtractor.cs" />
@@ -103,12 +103,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\ActionHelper.cs" />
     <Compile Include="ReporterManager.cs" />
-    <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\Paths.cs" />
     <Compile Include="Utils\SettingsLoader.cs" />
     <Compile Include="Utils\TestRunsRepository.cs" />
     <Compile Include="Utils\RunDtoRepository.cs" />
-    <Compile Include="Utils\StaticLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octicons.eot">

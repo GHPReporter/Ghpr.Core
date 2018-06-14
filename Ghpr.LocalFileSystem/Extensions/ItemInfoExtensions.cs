@@ -11,17 +11,17 @@ namespace Ghpr.LocalFileSystem.Extensions
 {
     public static class ItemInfoExtensions
     {
-        public static void SaveRunInfo(this ItemInfo runInfo, ILocationsProvider locationsProvider)
+        public static string SaveRunInfo(this ItemInfo runInfo, ILocationsProvider locationsProvider)
         {
-            runInfo.SaveItemInfo(locationsProvider.RunsPath, locationsProvider.Paths.File.Runs);
+            return runInfo.SaveItemInfo(locationsProvider.RunsPath, locationsProvider.Paths.File.Runs);
         }
 
-        public static void SaveTestInfo(this ItemInfo testInfo, ILocationsProvider locationsProvider)
+        public static string SaveTestInfo(this ItemInfo testInfo, ILocationsProvider locationsProvider)
         {
-            testInfo.SaveItemInfo(locationsProvider.GetTestPath(testInfo.Guid.ToString()), locationsProvider.Paths.File.Tests, false);
+            return testInfo.SaveItemInfo(locationsProvider.GetTestPath(testInfo.Guid.ToString()), locationsProvider.Paths.File.Tests, false);
         }
 
-        public static void SaveItemInfo(this ItemInfo itemInfo, string path, string filename, bool removeExisting = true)
+        public static string SaveItemInfo(this ItemInfo itemInfo, string path, string filename, bool removeExisting = true)
         {
             var serializer = new JsonSerializer();
             path.Create();
@@ -57,6 +57,7 @@ namespace Ghpr.LocalFileSystem.Extensions
                     serializer.Serialize(file, itemsToSave);
                 }
             }
+            return fullItemInfoPath;
         }
 
         public static List<ItemInfo> LoadItemInfos(this string path, string filename, bool removeExisting = true)

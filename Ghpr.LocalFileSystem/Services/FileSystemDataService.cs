@@ -10,28 +10,31 @@ using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
 using Ghpr.LocalFileSystem.Mappers;
 using Ghpr.LocalFileSystem.Providers;
+using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Services
 {
     public class FileSystemDataService : IDataService
     {
-        public void Initialize(ReporterSettings settings)
+        private ILocationsProvider _locationsProvider;
+        private ILogger _logger;
+
+        public void Initialize(ReporterSettings settings, ILogger logger)
         {
             _locationsProvider = new LocationsProvider(settings.OutputPath);
-            ReporterSettings = settings;
+            _logger = logger;
         }
-
-        public ReporterSettings ReporterSettings { get; private set; }
-
-        private ILocationsProvider _locationsProvider;
 
         public void SaveRun(RunDto runDto)
         {
             var run = runDto.Map();
-            run.Save(_locationsProvider.RunsPath);
-            run.RunInfo.SaveRunInfo(_locationsProvider);
+            var runFullPath = run.Save(_locationsProvider.RunsPath);
+            _logger.Info($"Run was saved: '{runFullPath}'");
+            var runsInfoFullPath = run.RunInfo.SaveRunInfo(_locationsProvider);
+            _logger.Info($"Runs Info was saved: '{runsInfoFullPath}'");
+            _logger.Debug($"Run data was saved correctly: {JsonConvert.SerializeObject(run, Formatting.Indented)}");
         }
-        
+
         public void SaveScreenshot(TestScreenshotDto screenshotDto)
         {
             var testScreenshot = screenshotDto.Map();
@@ -46,13 +49,15 @@ namespace Ghpr.LocalFileSystem.Services
                 var fileInfo = new FileInfo(file);
                 fileInfo.Refresh();
                 fileInfo.CreationTime = testScreenshot.Date;
+                _logger.Info($"Screenshot was saved: '{file}'");
             }
         }
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
         {
             var reportSettings = reportSettingsDto.Map();
-            reportSettings.Save(_locationsProvider);
+            var fullPath = reportSettings.Save(_locationsProvider);
+            _logger.Info($"Report settings were saved: '{fullPath}'");
         }
 
         public void SaveTestRun(TestRunDto testRunDto)
@@ -74,8 +79,11 @@ namespace Ghpr.LocalFileSystem.Services
                     }
                 }
             }
-            testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
-            testRun.TestInfo.SaveTestInfo(_locationsProvider);
+            var testRunFullPath = testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
+            _logger.Info($"Test run was saved: '{testRunFullPath}'");
+            var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);
+            _logger.Info($"Test runs Info was saved: '{testRunsInfoFullPath}'");
+            _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testRun, Formatting.Indented)}");
         }
     }
 }

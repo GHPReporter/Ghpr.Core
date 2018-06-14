@@ -9,7 +9,7 @@ namespace Ghpr.LocalFileSystem.Providers
 {
     public static class ReportSettingsProvider
     {
-        public static void Save(this ReportSettings reportSettings, ILocationsProvider locationsProvider)
+        public static string Save(this ReportSettings reportSettings, ILocationsProvider locationsProvider)
         {
             var folder = locationsProvider.SrcPath;
             var serializer = new JsonSerializer();
@@ -22,6 +22,7 @@ namespace Ghpr.LocalFileSystem.Providers
                     serializer.Serialize(file, reportSettings);
                 }
             }
+            return fullPath;
         }
 
         public static ReportSettings LoadReportSettings(ILocationsProvider locationsProvider)
