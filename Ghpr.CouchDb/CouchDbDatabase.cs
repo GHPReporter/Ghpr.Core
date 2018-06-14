@@ -1,19 +1,22 @@
-﻿using Ghpr.CouchDb.Entities;
+﻿using Ghpr.Core.Interfaces;
+using Ghpr.CouchDb.Entities;
 
 namespace Ghpr.CouchDb
 {
     public class CouchDbDatabase
     {
         private readonly CouchDbSettings _couchDbSettings;
+        private readonly ILogger _logger;
 
-        public CouchDbDatabase(CouchDbSettings couchDbSettings)
+        public CouchDbDatabase(CouchDbSettings couchDbSettings, ILogger logger)
         {
             _couchDbSettings = couchDbSettings;
+            _logger = logger;
         }
 
         public void CreateDb()
         {
-            using (var client = new CouchDbClient(_couchDbSettings))
+            using (var client = new CouchDbClient(_couchDbSettings, _logger))
             {
                 client.CreateDb();
             }
@@ -21,16 +24,15 @@ namespace Ghpr.CouchDb
 
         public void SaveTestRun(DatabaseEntity<TestRun> testRunEntity)
         {
-            using (var client = new CouchDbClient(_couchDbSettings))
+            using (var client = new CouchDbClient(_couchDbSettings, _logger))
             {
                 client.SaveTestRun(testRunEntity);
             }
         }
 
-
         public void SaveScreenshot(DatabaseEntity<TestScreenshot> testScreenshotEntity)
         {
-            using (var client = new CouchDbClient(_couchDbSettings))
+            using (var client = new CouchDbClient(_couchDbSettings, _logger))
             {
                 client.SaveScreenshot(testScreenshotEntity);
             }
@@ -38,7 +40,7 @@ namespace Ghpr.CouchDb
 
         public void SaveReportSettings(DatabaseEntity<ReportSettings> reportSettingsEntity)
         {
-            using (var client = new CouchDbClient(_couchDbSettings))
+            using (var client = new CouchDbClient(_couchDbSettings, _logger))
             {
                 client.SaveReportSettings(reportSettingsEntity);
             }
@@ -46,7 +48,7 @@ namespace Ghpr.CouchDb
 
         public void SaveRun(DatabaseEntity<Run> runEntity)
         {
-            using (var client = new CouchDbClient(_couchDbSettings))
+            using (var client = new CouchDbClient(_couchDbSettings, _logger))
             {
                 client.SaveRun(runEntity);
             }
@@ -54,7 +56,7 @@ namespace Ghpr.CouchDb
 
         public void ValidateConnection()
         {
-            using (var client = new CouchDbClient(_couchDbSettings))
+            using (var client = new CouchDbClient(_couchDbSettings, _logger))
             {
                 client.ValidateConnection();
             }

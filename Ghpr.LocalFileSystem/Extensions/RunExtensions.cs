@@ -8,7 +8,7 @@ namespace Ghpr.LocalFileSystem.Extensions
 {
     public static class RunExtensions
     {
-        public static void Save(this Run run, string path)
+        public static string Save(this Run run, string path)
         {
             var fileName = LocationsProvider.GetRunFileName(run.RunInfo.Guid);
             run.RunInfo.FileName = fileName;
@@ -19,6 +19,7 @@ namespace Ghpr.LocalFileSystem.Extensions
                 var serializer = new JsonSerializer();
                 serializer.Serialize(file, run);
             }
+            return fullRunPath;
         }
 
         public static Run LoadRun(this string path, string fileName)

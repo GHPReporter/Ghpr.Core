@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,14 +51,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Ghpr.Core.Settings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Ghpr.CouchDb\Ghpr.CouchDb.csproj">
       <Project>{e1e7d3a7-8991-4a14-9c73-8672662ab913}</Project>
       <Name>Ghpr.CouchDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ghpr.LocalFileSystem\Ghpr.LocalFileSystem.csproj">
+      <Project>{40be674c-5954-4aba-b1ed-a890621ad306}</Project>
+      <Name>Ghpr.LocalFileSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ghpr.Logger\Ghpr.SimpleFileLogger.csproj">
+      <Project>{d155a663-873e-4ef4-8a93-e31cf81b7785}</Project>
+      <Name>Ghpr.SimpleFileLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ghpr.SerilogToSeq\Ghpr.SerilogToSeqLogger.csproj">
+      <Project>{32edf166-49df-4235-a3b9-5877c1e7966c}</Project>
+      <Name>Ghpr.SerilogToSeqLogger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ghpr.Core.csproj">
       <Project>{8cde51df-b9d2-4945-a992-35e33decef36}</Project>

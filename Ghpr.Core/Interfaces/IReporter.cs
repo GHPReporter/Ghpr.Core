@@ -16,6 +16,7 @@ namespace Ghpr.Core.Interfaces
         IDataService DataService { get; }
         IActionHelper Action { get; }
         ITestDataProvider TestDataProvider { get; }
+        ILogger Logger { get; }
 
         void RunStarted();
         void RunFinished();
@@ -28,5 +29,7 @@ namespace Ghpr.Core.Interfaces
 
         void GenerateFullReport(List<TestRunDto> testRuns);
         void GenerateFullReport(List<TestRunDto> testRuns, DateTime start, DateTime finish);
+
+        void TearDown();
     }
 }

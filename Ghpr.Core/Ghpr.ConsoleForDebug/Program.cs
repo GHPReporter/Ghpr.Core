@@ -14,6 +14,8 @@ namespace Ghpr.ConsoleForDebug
             
             ResourceExtractor.ExtractReportBase(reporter.ReporterSettings.OutputPath);
 
+            reporter.Logger.Info("STARTED");
+
             var reportSettings = new ReportSettingsDto(5, 7);
             reporter.DataService.SaveReportSettings(reportSettings);
             reporter.DataService.SaveReportSettings(reportSettings);
@@ -35,6 +37,8 @@ namespace Ghpr.ConsoleForDebug
             reporter.DataService.SaveRun(run);
             reporter.DataService.SaveRun(run);
 
+            reporter.Logger.Info("RUN SAVED");
+
             var testGuid = Guid.NewGuid();
             var screen = new TestScreenshotDto
             {
@@ -53,7 +57,8 @@ namespace Ghpr.ConsoleForDebug
             reporter.DataService.SaveScreenshot(screen);
             reporter.DataService.SaveTestRun(test);
 
-            Console.WriteLine("Done.");
+            reporter.Logger.Info("DONE");
+            reporter.TearDown();
         }
     }
 }

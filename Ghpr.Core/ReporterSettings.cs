@@ -11,6 +11,9 @@ namespace Ghpr.Core
         [JsonProperty(PropertyName = "dataServiceFile")]
         public string DataServiceFile { get; set; }
 
+        [JsonProperty(PropertyName = "loggerFile")]
+        public string LoggerFile { get; set; }
+
         [JsonProperty(PropertyName = "sprint")]
         public string Sprint { get; set; }
 

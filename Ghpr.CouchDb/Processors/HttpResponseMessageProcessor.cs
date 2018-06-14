@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using Ghpr.Core.Interfaces;
 using Ghpr.CouchDb.Entities;
 using Ghpr.CouchDb.Extensions;
 using Newtonsoft.Json;
@@ -10,17 +11,24 @@ namespace Ghpr.CouchDb.Processors
 {
     public class HttpResponseMessageProcessor
     {
+        private readonly ILogger _logger;
+
+        public HttpResponseMessageProcessor(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         public void ProcessScreenshotSavedMessage(HttpResponseMessage response, string testGuid, DateTime screenshotDateTime)
         {
             var postResString = response.ContentAsJObject();
             if (response.StatusCode == HttpStatusCode.Created && (bool)postResString.SelectToken("ok"))
             {
-                Console.WriteLine($"Screenshot for test {testGuid} with date time {screenshotDateTime} " +
+                _logger.Info($"Screenshot for test {testGuid} with date time {screenshotDateTime} " +
                                   $"was saved successfully, result: {postResString}");
             }
             else
             {
-                Console.WriteLine($"Screenshot was not saved correctly: {postResString}");
+                _logger.Warn($"Screenshot was not saved correctly: {postResString}");
             }
         }
 
@@ -29,12 +37,12 @@ namespace Ghpr.CouchDb.Processors
             var postResString = response.ContentAsJObject();
             if (response.StatusCode == HttpStatusCode.Created && (bool)postResString.SelectToken("ok"))
             {
-                Console.WriteLine($"Report settings {JsonConvert.SerializeObject(reportSettings, Formatting.Indented)} " +
+                _logger.Info($"Report settings {JsonConvert.SerializeObject(reportSettings, Formatting.Indented)} " +
                                   $"were saved successfully, result: {postResString}");
             }
             else
             {
-                Console.WriteLine($"Report settings were not saved correctly: {postResString}");
+                _logger.Warn($"Report settings were not saved correctly: {postResString}");
             }
         }
 
@@ -43,12 +51,12 @@ namespace Ghpr.CouchDb.Processors
             var jContent = response.ContentAsJObject();
             if (response.StatusCode == HttpStatusCode.Created && (bool)jContent.SelectToken("ok"))
             {
-                Console.WriteLine($"Test run {JsonConvert.SerializeObject(itemInfo, Formatting.Indented)} " +
+                _logger.Info($"Test run {JsonConvert.SerializeObject(itemInfo, Formatting.Indented)} " +
                                   $"was created successfully, result: {jContent}");
             }
             else
             {
-                Console.WriteLine($"Test run was not saved correctly: {jContent}");
+                _logger.Warn($"Test run was not saved correctly: {jContent}");
             }
         }
 
@@ -57,12 +65,12 @@ namespace Ghpr.CouchDb.Processors
             var jContent = response.ContentAsJObject();
             if (response.StatusCode == HttpStatusCode.Created && (bool)jContent.SelectToken("ok"))
             {
-                Console.WriteLine($"Run {JsonConvert.SerializeObject(itemInfo, Formatting.Indented)} " +
+                _logger.Info($"Run {JsonConvert.SerializeObject(itemInfo, Formatting.Indented)} " +
                                   $"was saved successfully, result: {jContent}");
             }
             else
             {
-                Console.WriteLine($"Run was not saved correctly: {jContent}");
+                _logger.Warn($"Run was not saved correctly: {jContent}");
             }
         }
 
@@ -72,10 +80,11 @@ namespace Ghpr.CouchDb.Processors
             var couchDb = (string)r.SelectToken("couchdb");
             var version = (string)r.SelectToken("version");
             var vendorName = (string)r.SelectToken("vendor").SelectToken("name");
-            //Console.WriteLine($"{couchDb}. CouchDB version is {version}. Vendor: {vendorName}");
             if (couchDb == null || version == null || vendorName == null)
             {
-                throw new Exception($"Error while connecting to the database server: {response}");
+                var exception = new Exception($"Error while connecting to the database server: {response}");
+                _logger.Fatal("Can't connect to the database", exception);
+                throw exception;
             }
         }
 
@@ -87,11 +96,13 @@ namespace Ghpr.CouchDb.Processors
                 var ok = (bool)resultContentString.SelectToken("ok");
                 if (ok)
                 {
-                    Console.WriteLine($"Database {databaseName} was created successfully, result: {resultContentString}");
+                    _logger.Info($"Database '{databaseName}' was created successfully, result: {resultContentString}");
                 }
                 else
                 {
-                    throw new Exception($"Database was not created correctly: {resultContentString}");
+                    var exception = new Exception($"Database was not created correctly: {resultContentString}");
+                    _logger.Fatal("Can't create the database", exception);
+                    throw exception;
                 }
             }
             else if (response.StatusCode == HttpStatusCode.PreconditionFailed)
@@ -99,11 +110,13 @@ namespace Ghpr.CouchDb.Processors
                 var fileExists = (string)resultContentString.SelectToken("error") ?? "";
                 if (fileExists.Equals("file_exists"))
                 {
-                    Console.WriteLine($"Database {databaseName} already exists.");
+                    _logger.Info($"Database '{databaseName}' already exists.");
                 }
                 else
                 {
-                    throw new Exception($"Unexpected error while creating database: {resultContentString}");
+                    var exception = new Exception($"Unexpected error while creating database: {resultContentString}");
+                    _logger.Fatal("Can't create the database", exception);
+                    throw exception;
                 }
             }
         }
