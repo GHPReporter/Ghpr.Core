@@ -8,7 +8,7 @@ namespace Ghpr.LocalFileSystem.Extensions
 {
     public static class TestRunExtensions
     {
-        public static void Save(this TestRun testRun, string path)
+        public static string Save(this TestRun testRun, string path)
         {
             path.Create();
             var fullPath = Path.Combine(path, LocationsProvider.GetTestRunFileName(testRun.TestInfo.Finish));
@@ -17,6 +17,7 @@ namespace Ghpr.LocalFileSystem.Extensions
                 var serializer = new JsonSerializer();
                 serializer.Serialize(file, testRun);
             }
+            return fullPath;
         }
 
         public static TestRun LoadTestRun(this string path, string name)
