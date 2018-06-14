@@ -28,6 +28,9 @@ class LocalFileSystemDataService implements IDataService {
         this.loadJsonsByPaths([path], 0, new Array(), false, true, (response: string) => {
             const run: Run = JSON.parse(response, this.reviveRun);
             const runDto = RunDtoMapper.map(run);
+            if (runDto.name === "") {
+                runDto.name = `${DateFormatter.format(runDto.runInfo.start)} - ${DateFormatter.format(runDto.runInfo.finish)}`;
+            }
             callback(runDto);
         });
     }

@@ -277,6 +277,9 @@ class LocalFileSystemDataService {
         this.loadJsonsByPaths([path], 0, new Array(), false, true, (response) => {
             const run = JSON.parse(response, this.reviveRun);
             const runDto = RunDtoMapper.map(run);
+            if (runDto.name === "") {
+                runDto.name = `${DateFormatter.format(runDto.runInfo.start)} - ${DateFormatter.format(runDto.runInfo.finish)}`;
+            }
             callback(runDto);
         });
     }
@@ -997,8 +1000,8 @@ class DateFormatter {
     }
 }
 class RunPageUpdater {
-    static updateCopyright() {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+    static updateCopyright(coreVersion) {
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
     static updateRunInformation(run) {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
@@ -1052,13 +1055,13 @@ class RunPageUpdater {
         const c = tests.length;
         for (let i = 0; i < c; i++) {
             const t = tests[i];
-            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFile=${t.testInfo.fileName}">${t.name}</a></li>`;
+            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFinishDate=${t.testInfo.finish}">${t.name}</a></li>`;
         }
         document.getElementById("all-tests").innerHTML = list;
     }
     static addTest(t, c, i) {
         const ti = t.testInfo;
-        const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
+        const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFinishDate=${ti.finish}`;
         const testLi = `<li id="test-${ti.guid}" style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
             <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
@@ -1165,32 +1168,24 @@ class RunPageUpdater {
         }
     }
     static updateRunPage(runGuid) {
-        let run;
         Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto) => {
+                UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
+                this.updateRunInformation(runDto);
+                this.updateSummary(runDto);
+                this.updateTitle(runDto);
+                this.updateTestFilterButtons();
+                this.updateTestsList(runDto);
+                this.updateCopyright(reportSettings.coreVersion);
             });
         });
-        this.loader.loadRunJson(runGuid, (response) => {
-            run = JSON.parse(response, this.reviveRun);
-            if (run.name === "") {
-                run.name = `${DateFormatter.format(run.runInfo.start)} - ${DateFormatter.format(run.runInfo.finish)}`;
-            }
-            UrlHelper.insertParam("runGuid", run.runInfo.guid);
-            this.updateRunInformation(run);
-            this.updateSummary(run);
-            this.updateTitle(run);
-            this.updateTestFilterButtons();
-            this.updateTestsList(run);
-            this.updateCopyright();
-        });
-        return run;
     }
     static updateTestsList(run) {
         const paths = new Array();
         var test;
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
         document.getElementById("all-tests").innerHTML = "";
-        const files = run.testRunFiles;
+        const files = run.testsInfo;
         for (let i = 0; i < files.length; i++) {
             paths[i] = `./../tests/${files[i]}`;
         }
