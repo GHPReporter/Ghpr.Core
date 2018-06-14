@@ -1,6 +1,6 @@
-﻿///<reference path="./../enums/PageType.ts"/>
+﻿///<reference path="./../../enums/PageType.ts"/>
 
-class PathsHelper {
+class LocalFileSystemPathsHelper {
     static getRunPath(pt: PageType, guid: string): string {
         switch (pt) {
             case PageType.TestRunsPage:

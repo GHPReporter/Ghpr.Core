@@ -1,4 +1,4 @@
-﻿///<reference path="./../interfaces/ITestRun.ts"/>
+﻿///<reference path="./../dto/TestRunDto.ts"/>
 ///<reference path="./../enums/TestResult.ts"/>
 ///<reference path="./Color.ts"/>
 
@@ -22,12 +22,12 @@ class TestRunHelper {
         }
     }
 
-    static getColor(t: ITestRun): string {
+    static getColor(t: TestRunDto): string {
         const result = this.getResult(t);
         return this.getColorByResult(result);
     }
 
-    static getResult(t: ITestRun): TestResult {
+    static getResult(t: TestRunDto): TestResult {
         if (t.result.indexOf("Passed") > -1) {
             return TestResult.Passed;
         }
@@ -46,7 +46,7 @@ class TestRunHelper {
         return TestResult.Unknown;
     }
 
-    static getColoredResult(t: ITestRun): string {
+    static getColoredResult(t: TestRunDto): string {
         return `<span class="p-1" style= "background-color: ${this.getColor(t)};" > ${t.result} </span>`;
     }
 
@@ -58,23 +58,23 @@ class TestRunHelper {
         return `<del class="p-0" style= "background-color: ${Color.failed};text-decoration: none;" >${v}</del>`;
     }
 
-    static getOutput(t: ITestRun): string {
+    static getOutput(t: TestRunDto): string {
         return t.output === "" ? "-" : t.output;
     }
 
-    static getMessage(t: ITestRun): string {
+    static getMessage(t: TestRunDto): string {
         return t.testMessage === "" ? "-" : t.testMessage;
     }
 
-    static getDescription(t: ITestRun): string {
+    static getDescription(t: TestRunDto): string {
         return (t.description === "" || t.description === undefined) ? "-" : t.description;
     }
 
-    static getStackTrace(t: ITestRun): string {
+    static getStackTrace(t: TestRunDto): string {
         return t.testStackTrace === "" ? "-" : t.testStackTrace;
     }
 
-    static getCategories(t: ITestRun): string {
+    static getCategories(t: TestRunDto): string {
         if (t.categories === undefined) {
             return "-";
         }

@@ -1,4 +1,4 @@
-﻿interface IRunSummary {
+﻿class RunSummaryDto {
     total: number;
     success: number;
     errors: number;

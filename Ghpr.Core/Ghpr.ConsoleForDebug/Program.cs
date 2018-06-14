@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ghpr.Core.Common;
+using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Factories;
 
 namespace Ghpr.ConsoleForDebug
@@ -10,6 +11,8 @@ namespace Ghpr.ConsoleForDebug
         public static void Main(string[] args)
         {
             var reporter = ReporterFactory.Build(new DummyTestDataProvider());
+            
+            ResourceExtractor.ExtractReportBase(reporter.ReporterSettings.OutputPath);
 
             reporter.Logger.Info("STARTED");
 

@@ -1,15 +1,15 @@
-﻿///<reference path="./ITestScreenshot.ts"/>
-///<reference path="./ITestData.ts"/>
-///<reference path="./ITestEvent.ts"/>
-///<reference path="./IItemInfo.ts"/>
+﻿///<reference path="./TestScreenshotDto.ts"/>
+///<reference path="./TestDataDto.ts"/>
+///<reference path="./TestEventDto.ts"/>
+///<reference path="./ItemInfoDto.ts"/>
 ///<reference path="./../enums/TestResult.ts"/>
 
-interface ITestRun {
+class TestRunDto {
     name: string;
     fullName: string;
     description: string;
     duration: number;
-    testInfo: IItemInfo;
+    testInfo: ItemInfoDto;
     testStackTrace: string;
     testMessage: string;
     result: string;
@@ -18,9 +18,9 @@ interface ITestRun {
     testType: string;
     priority: string;
     categories: Array<string>;
-    screenshots: Array<ITestScreenshot>;
-    testData: Array<ITestData>;
-    events: Array<ITestEvent>;
+    screenshots: Array<TestScreenshotDto>;
+    testData: Array<TestDataDto>;
+    events: Array<TestEventDto>;
 
     testRunColor: string;
     testResult: TestResult;

@@ -1,27 +1,30 @@
-﻿///<reference path="./../interfaces/IItemInfo.ts"/>
-///<reference path="./../interfaces/IReportSettings.ts"/>
-///<reference path="./../interfaces/IRun.ts"/>
+﻿///<reference path="./localFileSystem/entities/ItemInfo.ts"/>
+///<reference path="./localFileSystem/entities/ReportSettings.ts"/>
+///<reference path="./localFileSystem/entities/Run.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
-///<reference path="./JsonLoader.ts"/>
+///<reference path="./localFileSystem/JsonLoader.ts"/>
+///<reference path="./JsonParser.ts"/>
 ///<reference path="./UrlHelper.ts"/>
 ///<reference path="./DateFormatter.ts"/>
 ///<reference path="./Color.ts"/>
 ///<reference path="./PlotlyJs.ts"/>
 ///<reference path="./TestRunHelper.ts"/>
 ///<reference path="./TabsHelper.ts"/>
+///<reference path="./../Controller.ts"/>
 
 class RunPageUpdater {
 
     static currentRunIndex: number;
     static runsToShow: number; 
     static loader = new JsonLoader(PageType.TestRunPage);
-    static reportSettings: IReportSettings;
+    static reportSettings: ReportSettings;
+    static reviveRun = JsonParser.reviveRun;
 
-    private static updateCopyright(): void {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+    private static updateCopyright(coreVersion: string): void {
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
 
-    private static updateRunInformation(run: IRun): void {
+    private static updateRunInformation(run: RunDto): void {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
         document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
@@ -29,11 +32,11 @@ class RunPageUpdater {
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
     }
 
-    private static updateTitle(run: IRun): void {
+    private static updateTitle(run: RunDto): void {
         document.getElementById("page-title").innerHTML = run.name;
     }
 
-    private static updateSummary(run: IRun): void {
+    private static updateSummary(run: RunDto): void {
         const s = run.summary;
         document.getElementById("total").innerHTML = `<b>Total:</b> ${s.total}`;
         document.getElementById("passed").innerHTML = `<b>Success:</b> ${s.success}`;
@@ -73,20 +76,19 @@ class RunPageUpdater {
         });
     }
 
-    private static setTestsList(tests: Array<ITestRun>): void {
+    private static setTestsList(tests: Array<TestRunDto>): void {
         let list = "";
         const c = tests.length;
         for (let i = 0; i < c; i++) {
             const t = tests[i];
-            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFile=${t.testInfo.fileName}">${t.name}</a></li>`;
+            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFinishDate=${t.testInfo.finish}">${t.name}</a></li>`;
         }
         document.getElementById("all-tests").innerHTML = list;
     }
 
-    private static addTest(t: ITestRun, c: number, i: number): void {
-        //console.log(`adding ${i} of ${c}`);
+    private static addTest(t: TestRunDto, c: number, i: number): void {
         const ti = t.testInfo;
-        const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
+        const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFinishDate=${ti.finish}`;
         const testLi = `<li id="test-${ti.guid}" style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
             <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
@@ -194,47 +196,43 @@ class RunPageUpdater {
         }
     }
     
-    private static updateRunPage(runGuid: string): IRun {
-        let run: IRun;
-        this.loader.loadRunJson(runGuid, (response: string) => {
-            run = JSON.parse(response, JsonLoader.reviveRun);
-            if (run.name === "") {
-                run.name = `${DateFormatter.format(run.runInfo.start)} - ${DateFormatter.format(run.runInfo.finish)}`;
-            }
-            UrlHelper.insertParam("runGuid", run.runInfo.guid);
-            this.updateRunInformation(run);
-            this.updateSummary(run);
-            this.updateTitle(run);
-            this.updateTestFilterButtons();
-            this.updateTestsList(run);
-            this.updateCopyright();
+    private static updateRunPage(runGuid: string): void {
+        Controller.init(PageType.TestRunPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
+            dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto: RunDto) => {
+                UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
+                this.updateRunInformation(runDto);
+                this.updateSummary(runDto);
+                this.updateTitle(runDto);
+                this.updateTestFilterButtons();
+                this.updateTestsList(runDto);
+                this.updateCopyright(reportSettings.coreVersion);
+            });
         });
-        return run;
     }
 
-    static updateTestsList(run: IRun): void {
+    static updateTestsList(run: RunDto): void {
         const paths: Array<string> = new Array();
-        var test: ITestRun;
+        var test: TestRun;
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
         document.getElementById("all-tests").innerHTML = "";
-        const files = run.testRunFiles;
+        const files = run.testsInfo;
         for (let i = 0; i < files.length; i++) {
             paths[i] = `./../tests/${files[i]}`;
         }
         var index = 0;
-        this.loader.loadJsons(paths, 0, (response: string, c: number, i: number) => {
-            test = JSON.parse(response, JsonLoader.reviveRun);
+        this.loader.loadJsonsByPaths(paths, 0, new Array(), true, true, (response: string, c: number, i: number) => {
+            test = JSON.parse(response, this.reviveRun);
             this.addTest(test, c, i);
-            if(i === c - 1) this.makeCollapsible();
+            if (i === c - 1) this.makeCollapsible();
             index++;
         });
     }
     
     private static loadRun(index: number): void {
-        let runInfos: Array<IItemInfo>;
+        let runInfos: Array<ItemInfo>;
         this.loader.loadRunsJson((response: string) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            runInfos = JSON.parse(response, this.reviveRun);
+            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = 0;
@@ -256,10 +254,10 @@ class RunPageUpdater {
             this.loadRun(undefined);
             return;
         }
-        let runInfos: Array<IItemInfo>;
+        let runInfos: Array<ItemInfo>;
         this.loader.loadRunsJson((response: string) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            runInfos = JSON.parse(response, this.reviveRun);
+            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             const runInfo = runInfos.find((r) => r.guid === guid);
             if (runInfo != undefined) {

@@ -6,6 +6,20 @@ Color.failed = "#ef5350";
 Color.ignored = "#81d4fa";
 Color.inconclusive = "#D6FAF7";
 Color.unknown = "#bdbdbd";
+class ReportSettingsDto {
+}
+class RunSummaryDto {
+}
+class ItemInfoDto {
+}
+class TestDataDto {
+}
+class RunDto {
+}
+class TestEventDto {
+}
+class TestScreenshotDto {
+}
 var TestResult;
 (function (TestResult) {
     TestResult[TestResult["Passed"] = 0] = "Passed";
@@ -15,12 +29,343 @@ var TestResult;
     TestResult[TestResult["Inconclusive"] = 4] = "Inconclusive";
     TestResult[TestResult["Unknown"] = 5] = "Unknown";
 })(TestResult || (TestResult = {}));
+class TestRunDto {
+}
+class ReportSettings {
+}
+class RunSummary {
+}
+class ItemInfo {
+}
+class TestData {
+}
+class Run {
+}
+class TestEvent {
+}
+class TestScreenshot {
+}
+class TestRun {
+}
+class ItemInfoDtoMapper {
+    static map(itemInfo) {
+        let itemIntoDto = new ItemInfoDto();
+        itemIntoDto.guid = itemInfo.guid;
+        itemIntoDto.start = itemInfo.start;
+        itemIntoDto.finish = itemInfo.finish;
+        return itemIntoDto;
+    }
+}
+class TestRunDtoMapper {
+    static map(testRun) {
+        let eventDtos = new Array(testRun.events.length);
+        let screenshotDtos = new Array(testRun.screenshots.length);
+        let testDataDtos = new Array(testRun.testData.length);
+        for (let i = 0; i < testRun.events.length; i++) {
+            let event = testRun.events[i];
+            let eventDto = new TestEventDto();
+            eventDto.name = event.name;
+            eventDto.started = event.started;
+            eventDto.finished = event.finished;
+            eventDtos[i] = eventDto;
+        }
+        for (let i = 0; i < testRun.screenshots.length; i++) {
+            let screenshot = testRun.screenshots[i];
+            let screenshotDto = new TestScreenshotDto();
+            screenshotDto.date = screenshot.date;
+            screenshotDto.data = screenshot.data;
+            screenshotDto.testGuid = screenshot.testGuid;
+            screenshotDtos[i] = screenshotDto;
+        }
+        for (let i = 0; i < testRun.events.length; i++) {
+            let event = testRun.events[i];
+            let eventDto = new TestEventDto();
+            eventDto.name = event.name;
+            eventDto.started = event.started;
+            eventDto.finished = event.finished;
+            eventDtos[i] = eventDto;
+        }
+        let testRunDto = new TestRunDto();
+        testRunDto.name = testRun.name;
+        testRunDto.categories = testRun.categories;
+        testRunDto.description = testRunDto.description;
+        testRunDto.duration = testRun.duration;
+        testRunDto.events = eventDtos;
+        testRunDto.fullName = testRun.fullName;
+        testRunDto.output = testRun.output;
+        testRunDto.priority = testRun.priority;
+        testRunDto.result = testRun.result;
+        testRunDto.testInfo = ItemInfoDtoMapper.map(testRun.testInfo);
+        testRunDto.testMessage = testRun.testMessage;
+        testRunDto.testStackTrace = testRun.testStackTrace;
+        testRunDto.runGuid = testRun.runGuid;
+        testRunDto.testType = testRun.testType;
+        testRunDto.screenshots = screenshotDtos;
+        testRunDto.testData = testDataDtos;
+        return testRunDto;
+    }
+}
+class RunDtoMapper {
+    static map(run) {
+        let runSummaryDto = new RunSummaryDto();
+        runSummaryDto.errors = run.summary.errors;
+        runSummaryDto.failures = run.summary.failures;
+        runSummaryDto.ignored = run.summary.ignored;
+        runSummaryDto.inconclusive = run.summary.inconclusive;
+        runSummaryDto.success = run.summary.success;
+        runSummaryDto.unknown = run.summary.unknown;
+        runSummaryDto.total = run.summary.total;
+        let files = run.testRunFiles;
+        let testInfoDtos = new Array(files.length);
+        for (let i = 0; i < files.length; i++) {
+            let testRunFile = files[i];
+            let testInfoDto = new ItemInfoDto();
+            testInfoDto.guid = testRunFile.split("\\")[0];
+            let date = testRunFile.split("\\")[1].split(".")[0].split("_")[1];
+            let time = testRunFile.split("\\")[1].split(".")[0].split("_")[2];
+            testInfoDto.finish = new Date(+date.substr(0, 4), +date.substr(4, 2), +date.substr(6, 2), +time.substr(0, 2), +time.substr(2, 2), +time.substr(4, 2), +time.substr(6, 3));
+            testInfoDto.start = new Date();
+            testInfoDtos[i] = testInfoDto;
+        }
+        let runDto = new RunDto();
+        runDto.name = run.name;
+        runDto.runInfo = ItemInfoDtoMapper.map(run.runInfo);
+        runDto.sprint = run.sprint;
+        runDto.summary = runSummaryDto;
+        runDto.testsInfo = testInfoDtos;
+        return runDto;
+    }
+}
 var PageType;
 (function (PageType) {
     PageType[PageType["TestRunsPage"] = 0] = "TestRunsPage";
     PageType[PageType["TestRunPage"] = 1] = "TestRunPage";
     PageType[PageType["TestPage"] = 2] = "TestPage";
 })(PageType || (PageType = {}));
+class UrlHelper {
+    static insertParam(key, value) {
+        const paramsPart = document.location.search.substr(1);
+        window.history.pushState("", "", "");
+        const p = `${key}=${value}`;
+        if (paramsPart === "") {
+            window.history.pushState("", "", `?${p}`);
+        }
+        else {
+            let params = paramsPart.split("&");
+            const paramToChange = params.find((par) => par.split("=")[0] === key);
+            if (paramToChange != undefined) {
+                if (params.length === 1) {
+                    params = [p];
+                }
+                else {
+                    const index = params.indexOf(paramToChange);
+                    params.splice(index, 1);
+                    params.push(p);
+                }
+            }
+            else {
+                params.push(p);
+            }
+            window.history.pushState("", "", `?${params.join("&")}`);
+        }
+    }
+    static getParam(key) {
+        const paramsPart = document.location.search.substr(1);
+        if (paramsPart === "") {
+            return "";
+        }
+        else {
+            const params = paramsPart.split("&");
+            const paramToGet = params.find((par) => par.split("=")[0] === key);
+            if (paramToGet != undefined) {
+                return paramToGet.split("=")[1];
+            }
+            else {
+                return "";
+            }
+        }
+    }
+    static removeParam(key) {
+        const paramsPart = document.location.search.substr(1);
+        window.history.pushState("", "", "");
+        if (paramsPart === "") {
+            return;
+        }
+        else {
+            let params = paramsPart.split("&");
+            const paramToRemove = params.find((par) => par.split("=")[0] === key);
+            if (paramToRemove != undefined) {
+                const index = params.indexOf(paramToRemove);
+                params.splice(index, 1);
+            }
+            window.history.pushState("", "", `?${params.join("&")}`);
+        }
+    }
+}
+class TabsHelper {
+    static showTab(idToShow, caller, pageTabsIds) {
+        if (pageTabsIds.indexOf(idToShow) <= -1) {
+            return;
+        }
+        UrlHelper.insertParam("currentTab", idToShow);
+        const tabs = document.getElementsByClassName("tabnav-tab");
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove("selected");
+        }
+        caller.className += " selected";
+        pageTabsIds.forEach((id) => {
+            document.getElementById(id).style.display = "none";
+        });
+        document.getElementById(idToShow).style.display = "";
+    }
+}
+class ProgressBar {
+    constructor(total) {
+        this.barId = "progress-bar";
+        this.barDivId = "progress-bar-div";
+        this.barTextId = "progress-bar-line";
+        this.reset(total);
+    }
+    reset(total) {
+        this.total = total;
+        this.current = 0;
+    }
+    show() {
+        document.getElementById(this.barId).style.display = "";
+        document.getElementById(this.barId).innerHTML = `<div id="${this.barDivId}"><div id="${this.barTextId}"></div></div>`;
+        document.getElementById(this.barId).style.position = "relative";
+        document.getElementById(this.barId).style.width = "100%";
+        document.getElementById(this.barId).style.height = "20px";
+        document.getElementById(this.barId).style.backgroundColor = Color.unknown;
+        document.getElementById(this.barDivId).style.position = "absolute";
+        document.getElementById(this.barDivId).style.width = "10%";
+        document.getElementById(this.barDivId).style.height = "100%";
+        document.getElementById(this.barDivId).style.backgroundColor = Color.passed;
+        document.getElementById(this.barTextId).style.textAlign = "center";
+        document.getElementById(this.barTextId).style.lineHeight = "20px";
+        document.getElementById(this.barTextId).style.color = "white";
+    }
+    onLoaded(count) {
+        this.current += count;
+        const percentage = 100 * this.current / this.total;
+        const pString = percentage.toString().split(".")[0] + "%";
+        document.getElementById(this.barDivId).style.width = pString;
+        document.getElementById(this.barTextId).innerHTML = pString;
+    }
+    hide() {
+        document.getElementById(this.barId).innerHTML = "";
+        document.getElementById(this.barId).style.display = "none";
+    }
+}
+class JsonParser {
+    static reviveRun(key, value) {
+        if (key === "start" || key === "finish" || key === "date")
+            return new Date(value);
+        return value;
+    }
+}
+class LocalFileSystemDataService {
+    constructor() {
+        this.reviveRun = JsonParser.reviveRun;
+    }
+    fromPage(pageType) {
+        this.currentPage = pageType;
+        return this;
+    }
+    getRun(runGuid, callback) {
+        const path = LocalFileSystemPathsHelper.getRunPath(this.currentPage, runGuid);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, (response) => {
+            const run = JSON.parse(response, this.reviveRun);
+            const runDto = RunDtoMapper.map(run);
+            if (runDto.name === "") {
+                runDto.name = `${DateFormatter.format(runDto.runInfo.start)} - ${DateFormatter.format(runDto.runInfo.finish)}`;
+            }
+            callback(runDto);
+        });
+    }
+    getLatestRuns(callback) {
+        const path = LocalFileSystemPathsHelper.getRunsPath(this.currentPage);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, (response) => {
+            let runInfos = JSON.parse(response, this.reviveRun);
+            runInfos = runInfos.sort(Sorter.itemInfoByFinishDateDesc);
+            let totalCount = runInfos.length;
+            const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
+            let runInfosDto = new Array(runsToLoad);
+            for (let i = 0; i < runsToLoad; i++) {
+                runInfosDto[i] = ItemInfoDtoMapper.map(runInfos[i]);
+            }
+            const paths = new Array();
+            for (let i = 0; i < runsToLoad; i++) {
+                paths[i] = `runs/run_${runInfosDto[i].guid}.json`;
+            }
+            const runs = new Array();
+            this.loadJsonsByPaths(paths, 0, new Array(), false, false, (responses) => {
+                for (let i = 0; i < responses.length; i++) {
+                    const loadedRun = JSON.parse(responses[i], this.reviveRun);
+                    if (loadedRun.name === "") {
+                        loadedRun.name = `${DateFormatter.format(loadedRun.runInfo.start)} - ${DateFormatter.format(loadedRun.runInfo.finish)}`;
+                    }
+                    runs[i] = RunDtoMapper.map(loadedRun);
+                }
+                callback(runs, totalCount);
+            });
+        });
+    }
+    getLatestTest(testGuid, start, finish, callback) {
+        throw new Error("Not implemented");
+    }
+    getLatestTests(testGuid, count, callback) {
+        throw new Error("Not implemented");
+    }
+    getRunTests(runGuid, start, finish, callback) {
+        throw new Error("Not implemented");
+    }
+    loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback) {
+        const count = paths.length;
+        if (showProgressBar) {
+            this.progressBar.reset(count);
+            if (ind === 0) {
+                this.progressBar.show();
+            }
+            if (ind >= count) {
+                this.progressBar.hide();
+                return;
+            }
+        }
+        if (!callbackForEach && ind >= count) {
+            callback(responses, count, ind);
+        }
+        if (ind >= count) {
+            return;
+        }
+        const req = new XMLHttpRequest();
+        req.overrideMimeType("application/json");
+        req.open("get", paths[ind], true);
+        req.onreadystatechange = () => {
+            if (req.readyState === 4)
+                if (req.status !== 200 && req.status !== 0) {
+                    console
+                        .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
+                }
+                else {
+                    responses[ind] = req.responseText;
+                    if (callbackForEach) {
+                        callback(req.responseText, count, ind);
+                    }
+                    if (showProgressBar) {
+                        this.progressBar.onLoaded(ind);
+                    }
+                    ind++;
+                    this.loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback);
+                }
+        };
+        req.timeout = 2000;
+        req.ontimeout = () => {
+            console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
+        };
+        req.send(null);
+    }
+}
 class TestRunHelper {
     static getColorByResult(result) {
         switch (result) {
@@ -453,67 +798,7 @@ class Differ {
     }
 }
 Differ.separators = [" ", "<", ">", "/", ".", "?", "!"];
-class UrlHelper {
-    static insertParam(key, value) {
-        const paramsPart = document.location.search.substr(1);
-        window.history.pushState("", "", "");
-        const p = `${key}=${value}`;
-        if (paramsPart === "") {
-            window.history.pushState("", "", `?${p}`);
-        }
-        else {
-            let params = paramsPart.split("&");
-            const paramToChange = params.find((par) => par.split("=")[0] === key);
-            if (paramToChange != undefined) {
-                if (params.length === 1) {
-                    params = [p];
-                }
-                else {
-                    const index = params.indexOf(paramToChange);
-                    params.splice(index, 1);
-                    params.push(p);
-                }
-            }
-            else {
-                params.push(p);
-            }
-            window.history.pushState("", "", `?${params.join("&")}`);
-        }
-    }
-    static getParam(key) {
-        const paramsPart = document.location.search.substr(1);
-        if (paramsPart === "") {
-            return "";
-        }
-        else {
-            const params = paramsPart.split("&");
-            const paramToGet = params.find((par) => par.split("=")[0] === key);
-            if (paramToGet != undefined) {
-                return paramToGet.split("=")[1];
-            }
-            else {
-                return "";
-            }
-        }
-    }
-    static removeParam(key) {
-        const paramsPart = document.location.search.substr(1);
-        window.history.pushState("", "", "");
-        if (paramsPart === "") {
-            return;
-        }
-        else {
-            let params = paramsPart.split("&");
-            const paramToRemove = params.find((par) => par.split("=")[0] === key);
-            if (paramToRemove != undefined) {
-                const index = params.indexOf(paramToRemove);
-                params.splice(index, 1);
-            }
-            window.history.pushState("", "", `?${params.join("&")}`);
-        }
-    }
-}
-class PathsHelper {
+class LocalFileSystemPathsHelper {
     static getRunPath(pt, guid) {
         switch (pt) {
             case PageType.TestRunsPage:
@@ -575,110 +860,47 @@ class PathsHelper {
         }
     }
 }
-class TabsHelper {
-    static showTab(idToShow, caller, pageTabsIds) {
-        if (pageTabsIds.indexOf(idToShow) <= -1) {
-            return;
-        }
-        UrlHelper.insertParam("currentTab", idToShow);
-        const tabs = document.getElementsByClassName("tabnav-tab");
-        for (let i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove("selected");
-        }
-        caller.className += " selected";
-        pageTabsIds.forEach((id) => {
-            document.getElementById(id).style.display = "none";
-        });
-        document.getElementById(idToShow).style.display = "";
-    }
-}
-class ProgressBar {
-    constructor(total) {
-        this.barId = "progress-bar";
-        this.barDivId = "progress-bar-div";
-        this.barTextId = "progress-bar-line";
-        this.reset(total);
-    }
-    reset(total) {
-        this.total = total;
-        this.current = 0;
-    }
-    show() {
-        document.getElementById(this.barId).style.display = "";
-        document.getElementById(this.barId).innerHTML = `<div id="${this.barDivId}"><div id="${this.barTextId}"></div></div>`;
-        document.getElementById(this.barId).style.position = "relative";
-        document.getElementById(this.barId).style.width = "100%";
-        document.getElementById(this.barId).style.height = "20px";
-        document.getElementById(this.barId).style.backgroundColor = Color.unknown;
-        document.getElementById(this.barDivId).style.position = "absolute";
-        document.getElementById(this.barDivId).style.width = "10%";
-        document.getElementById(this.barDivId).style.height = "100%";
-        document.getElementById(this.barDivId).style.backgroundColor = Color.passed;
-        document.getElementById(this.barTextId).style.textAlign = "center";
-        document.getElementById(this.barTextId).style.lineHeight = "20px";
-        document.getElementById(this.barTextId).style.color = "white";
-    }
-    onLoaded(count) {
-        this.current += count;
-        const percentage = 100 * this.current / this.total;
-        const pString = percentage.toString().split(".")[0] + "%";
-        document.getElementById(this.barDivId).style.width = pString;
-        document.getElementById(this.barTextId).innerHTML = pString;
-    }
-    hide() {
-        document.getElementById(this.barId).innerHTML = "";
-        document.getElementById(this.barId).style.display = "none";
-    }
-}
 class JsonLoader {
     constructor(pt) {
         this.pageType = pt;
         this.progressBar = new ProgressBar(1);
     }
     loadRunJson(runGuid, callback) {
-        const path = PathsHelper.getRunPath(this.pageType, runGuid);
-        this.loadJson(path, callback);
+        const path = LocalFileSystemPathsHelper.getRunPath(this.pageType, runGuid);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
     }
     loadRunsJson(callback) {
-        const path = PathsHelper.getRunsPath(this.pageType);
-        this.loadJson(path, callback);
+        const path = LocalFileSystemPathsHelper.getRunsPath(this.pageType);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
     }
     loadReportSettingsJson(callback) {
-        const path = PathsHelper.getReportSettingsPath(this.pageType);
-        this.loadJson(path, callback);
+        const path = LocalFileSystemPathsHelper.getReportSettingsPath(this.pageType);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
     }
     loadTestJson(testGuid, testFileName, callback) {
-        const path = PathsHelper.getTestPath(testGuid, testFileName, this.pageType);
-        this.loadJson(path, callback);
+        const path = LocalFileSystemPathsHelper.getTestPath(testGuid, testFileName, this.pageType);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
     }
     loadTestsJson(testGuid, callback) {
-        const path = PathsHelper.getTestsPath(testGuid, this.pageType);
-        this.loadJson(path, callback);
+        const path = LocalFileSystemPathsHelper.getTestsPath(testGuid, this.pageType);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
     }
-    loadJson(path, callback) {
-        const req = new XMLHttpRequest();
-        req.overrideMimeType("application/json");
-        req.open("get", path, true);
-        req.onreadystatechange = () => {
-            if (req.readyState === 4)
-                if (req.status !== 200 && req.status !== 0) {
-                    console
-                        .log(`Error while loading .json data: '${path}'! Request status: ${req.status} : ${req.statusText}`);
-                }
-                else {
-                    callback(req.responseText);
-                }
-        };
-        req.timeout = 2000;
-        req.ontimeout = () => {
-            console.log(`Timeout while loading .json data: '${path}'! Request status: ${req.status} : ${req.statusText}`);
-        };
-        req.send(null);
-    }
-    loadAllJsons(paths, ind, resps, callback) {
+    loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback) {
         const count = paths.length;
+        if (showProgressBar) {
+            this.progressBar.reset(count);
+            if (ind === 0) {
+                this.progressBar.show();
+            }
+            if (ind >= count) {
+                this.progressBar.hide();
+                return;
+            }
+        }
+        if (!callbackForEach && ind >= count) {
+            callback(responses, count, ind);
+        }
         if (ind >= count) {
-            callback(resps);
             return;
         }
         const req = new XMLHttpRequest();
@@ -691,9 +913,15 @@ class JsonLoader {
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 }
                 else {
-                    resps[ind] = req.responseText;
+                    responses[ind] = req.responseText;
+                    if (callbackForEach) {
+                        callback(req.responseText, count, ind);
+                    }
+                    if (showProgressBar) {
+                        this.progressBar.onLoaded(ind);
+                    }
                     ind++;
-                    this.loadAllJsons(paths, ind, resps, callback);
+                    this.loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback);
                 }
         };
         req.timeout = 2000;
@@ -702,42 +930,34 @@ class JsonLoader {
         };
         req.send(null);
     }
-    loadJsons(paths, ind, callback) {
-        const count = paths.length;
-        this.progressBar.reset(count);
-        if (ind === 0) {
-            this.progressBar.show();
-        }
-        if (ind >= count) {
-            this.progressBar.hide();
-            return;
-        }
+}
+class Controller {
+    static init(pagetype, callback) {
+        const settingsPath = LocalFileSystemPathsHelper.getReportSettingsPath(pagetype);
         const req = new XMLHttpRequest();
         req.overrideMimeType("application/json");
-        req.open("get", paths[ind], true);
+        req.open("get", settingsPath, true);
         req.onreadystatechange = () => {
-            if (req.readyState === 4)
+            if (req.readyState === 4) {
                 if (req.status !== 200 && req.status !== 0) {
                     console
-                        .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
+                        .log(`Error while loading .json data: '${settingsPath}'! Status: ${req.status} : ${req
+                        .statusText}`);
                 }
                 else {
-                    callback(req.responseText, count, ind);
-                    this.progressBar.onLoaded(ind);
-                    ind++;
-                    this.loadJsons(paths, ind, callback);
+                    const reportSettings = JSON.parse(req.responseText);
+                    this.reportSettings = reportSettings;
+                    this.dataService = new LocalFileSystemDataService();
+                    this.dataService.reportSettings = reportSettings;
+                    callback(this.dataService, this.reportSettings);
                 }
+            }
         };
         req.timeout = 2000;
         req.ontimeout = () => {
-            console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
+            console.log(`Timeout while loading .json data: '${settingsPath}'! Status: ${req.status} : ${req.statusText}`);
         };
         req.send(null);
-    }
-    static reviveRun(key, value) {
-        if (key === "start" || key === "finish" || key === "date")
-            return new Date(value);
-        return value;
     }
 }
 class DateFormatter {
@@ -780,8 +1000,8 @@ class DateFormatter {
     }
 }
 class RunPageUpdater {
-    static updateCopyright() {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+    static updateCopyright(coreVersion) {
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
     static updateRunInformation(run) {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
@@ -835,13 +1055,13 @@ class RunPageUpdater {
         const c = tests.length;
         for (let i = 0; i < c; i++) {
             const t = tests[i];
-            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFile=${t.testInfo.fileName}">${t.name}</a></li>`;
+            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFinishDate=${t.testInfo.finish}">${t.name}</a></li>`;
         }
         document.getElementById("all-tests").innerHTML = list;
     }
     static addTest(t, c, i) {
         const ti = t.testInfo;
-        const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFile=${ti.fileName}`;
+        const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFinishDate=${ti.finish}`;
         const testLi = `<li id="test-${ti.guid}" style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
             <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
@@ -948,34 +1168,30 @@ class RunPageUpdater {
         }
     }
     static updateRunPage(runGuid) {
-        let run;
-        this.loader.loadRunJson(runGuid, (response) => {
-            run = JSON.parse(response, JsonLoader.reviveRun);
-            if (run.name === "") {
-                run.name = `${DateFormatter.format(run.runInfo.start)} - ${DateFormatter.format(run.runInfo.finish)}`;
-            }
-            UrlHelper.insertParam("runGuid", run.runInfo.guid);
-            this.updateRunInformation(run);
-            this.updateSummary(run);
-            this.updateTitle(run);
-            this.updateTestFilterButtons();
-            this.updateTestsList(run);
-            this.updateCopyright();
+        Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
+            dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto) => {
+                UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
+                this.updateRunInformation(runDto);
+                this.updateSummary(runDto);
+                this.updateTitle(runDto);
+                this.updateTestFilterButtons();
+                this.updateTestsList(runDto);
+                this.updateCopyright(reportSettings.coreVersion);
+            });
         });
-        return run;
     }
     static updateTestsList(run) {
         const paths = new Array();
         var test;
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
         document.getElementById("all-tests").innerHTML = "";
-        const files = run.testRunFiles;
+        const files = run.testsInfo;
         for (let i = 0; i < files.length; i++) {
             paths[i] = `./../tests/${files[i]}`;
         }
         var index = 0;
-        this.loader.loadJsons(paths, 0, (response, c, i) => {
-            test = JSON.parse(response, JsonLoader.reviveRun);
+        this.loader.loadJsonsByPaths(paths, 0, new Array(), true, true, (response, c, i) => {
+            test = JSON.parse(response, this.reviveRun);
             this.addTest(test, c, i);
             if (i === c - 1)
                 this.makeCollapsible();
@@ -985,8 +1201,8 @@ class RunPageUpdater {
     static loadRun(index) {
         let runInfos;
         this.loader.loadRunsJson((response) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            runInfos = JSON.parse(response, this.reviveRun);
+            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = 0;
@@ -1009,8 +1225,8 @@ class RunPageUpdater {
         }
         let runInfos;
         this.loader.loadRunsJson((response) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            runInfos = JSON.parse(response, this.reviveRun);
+            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
             const runInfo = runInfos.find((r) => r.guid === guid);
             if (runInfo != undefined) {
@@ -1094,6 +1310,7 @@ class RunPageUpdater {
     }
 }
 RunPageUpdater.loader = new JsonLoader(PageType.TestRunPage);
+RunPageUpdater.reviveRun = JsonParser.reviveRun;
 RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list"];
 class ReportPageUpdater {
     static updateLatestRunInfo(latestRun) {
@@ -1101,8 +1318,8 @@ class ReportPageUpdater {
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
-    static updateCopyright() {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+    static updateCopyright(coreVersion) {
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
     static updateRunsList(runs) {
         let list = "";
@@ -1181,46 +1398,25 @@ class ReportPageUpdater {
         });
     }
     static updatePage() {
-        let runInfos;
-        const paths = new Array();
-        const r = new Array();
-        const runs = new Array();
-        this.loader.loadRunsJson((response) => {
-            runInfos = JSON.parse(response, JsonLoader.reviveRun);
-            runInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
-            const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
-            for (let i = 0; i < runsToLoad; i++) {
-                paths[i] = `runs/run_${runInfos[i].guid}.json`;
-            }
-            this.loader.loadAllJsons(paths, 0, r, (responses) => {
-                for (let i = 0; i < responses.length; i++) {
-                    const loadedRun = JSON.parse(responses[i], JsonLoader.reviveRun);
-                    if (loadedRun.name === "") {
-                        loadedRun.name = `${DateFormatter.format(loadedRun.runInfo.start)} - ${DateFormatter.format(loadedRun.runInfo.finish)}`;
-                    }
-                    runs[i] = loadedRun;
-                }
+        Controller.init(PageType.TestRunsPage, (dataService, reportSettings) => {
+            dataService.fromPage(PageType.TestRunsPage).getLatestRuns((runs, total) => {
                 const latestRun = runs[0];
                 this.updateLatestRunInfo(latestRun);
                 this.updatePlotlyBars(runs);
-                this.updateRunsInfo(runs, runInfos.length);
+                this.updateRunsInfo(runs, total);
                 this.updateRunsList(runs);
-                this.updateCopyright();
+                this.updateCopyright(reportSettings.coreVersion);
             });
         });
     }
     static initializePage() {
-        this.loader.loadReportSettingsJson((response) => {
-            this.reportSettings = JSON.parse(response);
-            this.updatePage();
-        });
+        this.updatePage();
         this.showTab("runs-stats", document.getElementById("tab-runs-stats"));
     }
     static showTab(idToShow, caller) {
         TabsHelper.showTab(idToShow, caller, this.reportPageTabsIds);
     }
 }
-ReportPageUpdater.loader = new JsonLoader(PageType.TestRunsPage);
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
 class TestPageUpdater {
     static updateCopyright() {
@@ -1331,7 +1527,7 @@ class TestPageUpdater {
     static updateTestPage(testGuid, fileName) {
         let t;
         this.loader.loadTestJson(testGuid, fileName, (response) => {
-            t = JSON.parse(response, JsonLoader.reviveRun);
+            t = JSON.parse(response, this.reviveRun);
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
             UrlHelper.insertParam("testFile", t.testInfo.fileName);
             this.updateMainInformation(t);
@@ -1352,14 +1548,14 @@ class TestPageUpdater {
         const guid = UrlHelper.getParam("testGuid");
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
-            testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            testInfos = JSON.parse(response, this.reviveRun);
+            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
             for (let i = 0; i < this.testVersionsCount; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
-            this.loader.loadAllJsons(paths, 0, testStrings, (responses) => {
+            this.loader.loadJsonsByPaths(paths, 0, testStrings, false, false, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
-                    tests[i] = JSON.parse(responses[i], JsonLoader.reviveRun);
+                    tests[i] = JSON.parse(responses[i], this.reviveRun);
                 }
                 this.setTestHistory(tests);
             });
@@ -1369,8 +1565,8 @@ class TestPageUpdater {
         const guid = UrlHelper.getParam("testGuid");
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
-            testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            testInfos = JSON.parse(response, this.reviveRun);
+            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = 0;
@@ -1395,8 +1591,8 @@ class TestPageUpdater {
         const fileName = UrlHelper.getParam("testFile");
         let testInfos;
         this.loader.loadTestsJson(guid, (response) => {
-            testInfos = JSON.parse(response, JsonLoader.reviveRun);
-            testInfos.sort(Sorter.itemInfoSorterByFinishDateFuncDesc);
+            testInfos = JSON.parse(response, this.reviveRun);
+            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
             this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {
@@ -1484,9 +1680,10 @@ class TestPageUpdater {
     }
 }
 TestPageUpdater.loader = new JsonLoader(PageType.TestPage);
+TestPageUpdater.reviveRun = JsonParser.reviveRun;
 TestPageUpdater.runPageTabsIds = ["test-history", "test-output", "test-failure", "test-screenshots", "test-data"];
 class Sorter {
-    static itemInfoSorterByFinishDateFunc(a, b) {
+    static itemInfoByFinishDate(a, b) {
         if (a.finish > b.finish) {
             return 1;
         }
@@ -1495,7 +1692,7 @@ class Sorter {
         }
         return 0;
     }
-    static itemInfoSorterByFinishDateFuncDesc(a, b) {
+    static itemInfoByFinishDateDesc(a, b) {
         if (a.finish < b.finish) {
             return 1;
         }
@@ -1504,7 +1701,5 @@ class Sorter {
         }
         return 0;
     }
-}
-function loadRun1(guid) {
 }
 //# sourceMappingURL=ghpr.controller.js.map
