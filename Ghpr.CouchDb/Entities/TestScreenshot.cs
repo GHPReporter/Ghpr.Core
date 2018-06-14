@@ -14,5 +14,8 @@ namespace Ghpr.CouchDb.Entities
 
         [JsonProperty(PropertyName = "base64Data")]
         public string Base64Data { get; set; }
+
+        [JsonProperty(PropertyName = "format")]
+        public string Format { get; set; }
     }
 }

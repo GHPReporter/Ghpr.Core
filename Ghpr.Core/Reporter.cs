@@ -88,7 +88,7 @@ namespace Ghpr.Core
             }
         }
 
-        public void SaveScreenshot(byte[] screenshotBytes)
+        public void SaveScreenshot(byte[] screenshotBytes, string format = "png")
         {
             var now = DateTime.Now;
             while (!TestRunStarted && (DateTime.Now - now).TotalSeconds < 1)
@@ -97,7 +97,13 @@ namespace Ghpr.Core
             }
             var guid = TestDataProvider.GetCurrentTestRunGuid();
             var base64String = Convert.ToBase64String(screenshotBytes);
-            var testScreenshot = new TestScreenshotDto{TestGuid = guid, Base64Data =  base64String, Date = DateTime.Now};
+            var testScreenshot = new TestScreenshotDto
+            {
+                TestGuid = guid,
+                Base64Data =  base64String,
+                Date = DateTime.Now,
+                Format = format
+            };
             Logger.Info($"Saving screenshot (Test guid: {testScreenshot.TestGuid})");
             DataService.SaveScreenshot(testScreenshot);
         }

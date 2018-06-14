@@ -15,6 +15,9 @@ namespace Ghpr.LocalFileSystem.Entities
         [JsonProperty(PropertyName = "base64Data")]
         public string Base64Data { get; set; }
 
+        [JsonProperty(PropertyName = "format")]
+        public string Format { get; set; }
+
         public Guid TestGuid { get; set; }
     }
 }

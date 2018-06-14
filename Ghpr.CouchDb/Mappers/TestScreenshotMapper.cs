@@ -11,7 +11,8 @@ namespace Ghpr.CouchDb.Mappers
             {
                 Date = testScreenshotDto.Date,
                 Base64Data = testScreenshotDto.Base64Data,
-                TestGuid = testScreenshotDto.TestGuid
+                TestGuid = testScreenshotDto.TestGuid,
+                Format = testScreenshotDto.Format
             };
             var entity = new DatabaseEntity<TestScreenshot>
             {

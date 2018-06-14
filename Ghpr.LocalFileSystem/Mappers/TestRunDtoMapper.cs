@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.LocalFileSystem.Entities;
-using Ghpr.LocalFileSystem.Providers;
 
 namespace Ghpr.LocalFileSystem.Mappers
 {
@@ -25,11 +24,7 @@ namespace Ghpr.LocalFileSystem.Mappers
                 Priority = testRunDto.Priority,
                 Result = testRunDto.Result,
                 RunGuid = testRunDto.RunGuid,
-                Screenshots = testRunDto.Screenshots.Select(sDto => new TestScreenshot
-                {
-                    Date = sDto.Date,
-                    Name = LocationsProvider.GetScreenshotFileName(sDto.Date)
-                }).ToList(),
+                Screenshots = testRunDto.Screenshots.Select(sDto => sDto.Map()).ToList(),
                 TestInfo = testRunDto.TestInfo.MapTestRunInfo(),
                 TestDuration = (testRunDto.TestInfo.Finish - testRunDto.TestInfo.Start).TotalSeconds,
                 TestMessage = testRunDto.TestMessage,

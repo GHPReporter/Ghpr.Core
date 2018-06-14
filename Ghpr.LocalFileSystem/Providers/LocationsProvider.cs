@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing.Imaging;
 using System.IO;
 using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Interfaces;
@@ -49,10 +48,9 @@ namespace Ghpr.LocalFileSystem.Providers
             return fileName;
         }
 
-        public static string GetScreenshotFileName(DateTime creationDateTime)
+        public static string GetScreenshotFileName(DateTime creationDateTime, string format)
         {
-            var format = ImageFormat.Png;
-            return $"img_{creationDateTime:yyyyMMdd_HHmmssfff}.{format.ToString().ToLower()}";
+            return $"img_{creationDateTime:yyyyMMdd_HHmmssfff}.{format.Replace(".", "").ToLower()}";
         }
     }
 }

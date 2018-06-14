@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using Ghpr.Core;
 using Ghpr.Core.Common;
@@ -44,10 +43,10 @@ namespace Ghpr.LocalFileSystem.Services
             {
                 var screenPath = _locationsProvider.GetScreenshotPath(testScreenshot.TestGuid.ToString());
                 screenPath.Create();
-                var screenName = LocationsProvider.GetScreenshotFileName(testScreenshot.Date);
+                var screenName = LocationsProvider.GetScreenshotFileName(testScreenshot.Date, testScreenshot.Format);
                 var file = Path.Combine(screenPath, screenName);
                 var screen = new Bitmap(image);
-                screen.Save(file, ImageFormat.Png);
+                screen.Save(file);
                 var fileInfo = new FileInfo(file);
                 fileInfo.Refresh();
                 fileInfo.CreationTime = testScreenshot.Date;
@@ -68,7 +67,7 @@ namespace Ghpr.LocalFileSystem.Services
             var imgFolder = _locationsProvider.GetScreenshotPath(testRun.TestInfo.Guid.ToString());
             if (Directory.Exists(imgFolder))
             {
-                var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.png");
+                var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.*");
                 foreach (var imgFile in imgFiles)
                 {
                     if (imgFile.CreationTime > testRun.TestInfo.Start)
@@ -76,7 +75,8 @@ namespace Ghpr.LocalFileSystem.Services
                         testRun.Screenshots.Add(new TestScreenshot
                         {
                             Date = imgFile.CreationTime,
-                            Name = LocationsProvider.GetScreenshotFileName(imgFile.CreationTime)
+                            Name = LocationsProvider.GetScreenshotFileName(imgFile.CreationTime, imgFile.Extension),
+                            Format = imgFile.Extension.Replace(".", "").ToLower()
                         });
                     }
                 }
