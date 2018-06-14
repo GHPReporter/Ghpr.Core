@@ -12,8 +12,9 @@ namespace Ghpr.LocalFileSystem.Entities
         [JsonProperty(PropertyName = "date")]
         public DateTime Date { get; set; }
 
-        public byte[] Data { get; set; }
-        public Guid TestGuid { get; set; }
+        [JsonProperty(PropertyName = "base64Data")]
+        public string Base64Data { get; set; }
 
+        public Guid TestGuid { get; set; }
     }
 }

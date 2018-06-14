@@ -12,7 +12,7 @@ namespace Ghpr.CouchDb.Entities
         [JsonProperty(PropertyName = "date")]
         public DateTime Date { get; set; }
 
-        [JsonProperty(PropertyName = "data")]
-        public byte[] Data { get; set; }
+        [JsonProperty(PropertyName = "base64Data")]
+        public string Base64Data { get; set; }
     }
 }

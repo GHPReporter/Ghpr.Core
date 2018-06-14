@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using Ghpr.Core;
@@ -38,7 +39,8 @@ namespace Ghpr.LocalFileSystem.Services
         public void SaveScreenshot(TestScreenshotDto screenshotDto)
         {
             var testScreenshot = screenshotDto.Map();
-            using (var image = Image.FromStream(new MemoryStream(testScreenshot.Data)))
+            using (var ms = new MemoryStream(Convert.FromBase64String(testScreenshot.Base64Data)))
+            using (var image = Image.FromStream(ms))
             {
                 var screenPath = _locationsProvider.GetScreenshotPath(testScreenshot.TestGuid.ToString());
                 screenPath.Create();

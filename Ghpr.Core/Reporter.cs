@@ -96,7 +96,8 @@ namespace Ghpr.Core
                 Thread.Sleep(50);
             }
             var guid = TestDataProvider.GetCurrentTestRunGuid();
-            var testScreenshot = new TestScreenshotDto{TestGuid = guid, Data =  screenshotBytes, Date = DateTime.Now};
+            var base64String = Convert.ToBase64String(screenshotBytes);
+            var testScreenshot = new TestScreenshotDto{TestGuid = guid, Base64Data =  base64String, Date = DateTime.Now};
             Logger.Info($"Saving screenshot (Test guid: {testScreenshot.TestGuid})");
             DataService.SaveScreenshot(testScreenshot);
         }

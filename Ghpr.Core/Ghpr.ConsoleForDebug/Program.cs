@@ -43,7 +43,7 @@ namespace Ghpr.ConsoleForDebug
             var screen = new TestScreenshotDto
             {
                 Date = DateTime.Now,
-                Data = new byte[]{1, 2, 0, 3},
+                Base64Data = "ASDJasdkajasdfas==",
                 TestGuid = testGuid
             };
             var test = new TestRunDto(testGuid, "Test", "Test.FullName");
