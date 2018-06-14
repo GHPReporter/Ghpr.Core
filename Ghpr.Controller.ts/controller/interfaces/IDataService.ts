@@ -1,12 +1,16 @@
 ﻿///<reference path="./../dto/RunDto.ts"/>
 ///<reference path="./../dto/TestRunDto.ts"/>
 ///<reference path="./../dto/ReportSettingsDto.ts"/>
+///<reference path="./../enums/PageType.ts"/>
 
 interface IDataService {
-
     reportSettings: ReportSettingsDto;
 
-    getRunDto(guid: string, start: Date, finish: Date, callback: Function): RunDto;
-    getTestRunDto(guid: string, start: Date, finish: Date, callback: Function): TestRunDto;
-    getReportSettingsDto(callback: Function) : ReportSettingsDto;
+    fromPage(pageType: PageType): IDataService;
+
+    getRun(runGuid: string, callback: Function): void;
+    getLatestRuns(callback: Function): void;
+    getLatestTest(testGuid: string, start: Date, finish: Date, callback: Function): void;
+    getLatestTests(testGuid: string, count: number, callback: Function): void;
+    getRunTests(runGuid: string, start: Date, finish: Date, callback: Function): void;
 }

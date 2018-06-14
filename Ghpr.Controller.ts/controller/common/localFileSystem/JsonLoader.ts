@@ -67,7 +67,6 @@ class JsonLoader {
                 } else {
                     responses[ind] = req.responseText;
                     if (callbackForEach) {
-                        console.log(`TEST: '${req.responseText}' PATH: '${paths[ind]}'`);
                         callback(req.responseText, count, ind);
                     }
                     if (showProgressBar) {

@@ -142,37 +142,223 @@ var PageType;
     PageType[PageType["TestRunPage"] = 1] = "TestRunPage";
     PageType[PageType["TestPage"] = 2] = "TestPage";
 })(PageType || (PageType = {}));
+class UrlHelper {
+    static insertParam(key, value) {
+        const paramsPart = document.location.search.substr(1);
+        window.history.pushState("", "", "");
+        const p = `${key}=${value}`;
+        if (paramsPart === "") {
+            window.history.pushState("", "", `?${p}`);
+        }
+        else {
+            let params = paramsPart.split("&");
+            const paramToChange = params.find((par) => par.split("=")[0] === key);
+            if (paramToChange != undefined) {
+                if (params.length === 1) {
+                    params = [p];
+                }
+                else {
+                    const index = params.indexOf(paramToChange);
+                    params.splice(index, 1);
+                    params.push(p);
+                }
+            }
+            else {
+                params.push(p);
+            }
+            window.history.pushState("", "", `?${params.join("&")}`);
+        }
+    }
+    static getParam(key) {
+        const paramsPart = document.location.search.substr(1);
+        if (paramsPart === "") {
+            return "";
+        }
+        else {
+            const params = paramsPart.split("&");
+            const paramToGet = params.find((par) => par.split("=")[0] === key);
+            if (paramToGet != undefined) {
+                return paramToGet.split("=")[1];
+            }
+            else {
+                return "";
+            }
+        }
+    }
+    static removeParam(key) {
+        const paramsPart = document.location.search.substr(1);
+        window.history.pushState("", "", "");
+        if (paramsPart === "") {
+            return;
+        }
+        else {
+            let params = paramsPart.split("&");
+            const paramToRemove = params.find((par) => par.split("=")[0] === key);
+            if (paramToRemove != undefined) {
+                const index = params.indexOf(paramToRemove);
+                params.splice(index, 1);
+            }
+            window.history.pushState("", "", `?${params.join("&")}`);
+        }
+    }
+}
+class TabsHelper {
+    static showTab(idToShow, caller, pageTabsIds) {
+        if (pageTabsIds.indexOf(idToShow) <= -1) {
+            return;
+        }
+        UrlHelper.insertParam("currentTab", idToShow);
+        const tabs = document.getElementsByClassName("tabnav-tab");
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove("selected");
+        }
+        caller.className += " selected";
+        pageTabsIds.forEach((id) => {
+            document.getElementById(id).style.display = "none";
+        });
+        document.getElementById(idToShow).style.display = "";
+    }
+}
+class ProgressBar {
+    constructor(total) {
+        this.barId = "progress-bar";
+        this.barDivId = "progress-bar-div";
+        this.barTextId = "progress-bar-line";
+        this.reset(total);
+    }
+    reset(total) {
+        this.total = total;
+        this.current = 0;
+    }
+    show() {
+        document.getElementById(this.barId).style.display = "";
+        document.getElementById(this.barId).innerHTML = `<div id="${this.barDivId}"><div id="${this.barTextId}"></div></div>`;
+        document.getElementById(this.barId).style.position = "relative";
+        document.getElementById(this.barId).style.width = "100%";
+        document.getElementById(this.barId).style.height = "20px";
+        document.getElementById(this.barId).style.backgroundColor = Color.unknown;
+        document.getElementById(this.barDivId).style.position = "absolute";
+        document.getElementById(this.barDivId).style.width = "10%";
+        document.getElementById(this.barDivId).style.height = "100%";
+        document.getElementById(this.barDivId).style.backgroundColor = Color.passed;
+        document.getElementById(this.barTextId).style.textAlign = "center";
+        document.getElementById(this.barTextId).style.lineHeight = "20px";
+        document.getElementById(this.barTextId).style.color = "white";
+    }
+    onLoaded(count) {
+        this.current += count;
+        const percentage = 100 * this.current / this.total;
+        const pString = percentage.toString().split(".")[0] + "%";
+        document.getElementById(this.barDivId).style.width = pString;
+        document.getElementById(this.barTextId).innerHTML = pString;
+    }
+    hide() {
+        document.getElementById(this.barId).innerHTML = "";
+        document.getElementById(this.barId).style.display = "none";
+    }
+}
+class JsonParser {
+    static reviveRun(key, value) {
+        if (key === "start" || key === "finish" || key === "date")
+            return new Date(value);
+        return value;
+    }
+}
 class LocalFileSystemDataService {
+    constructor() {
+        this.reviveRun = JsonParser.reviveRun;
+    }
     fromPage(pageType) {
         this.currentPage = pageType;
         return this;
     }
-    getRunDto(guid, start, finish, callback) {
+    getRun(runGuid, callback) {
+        const path = LocalFileSystemPathsHelper.getRunPath(this.currentPage, runGuid);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, (response) => {
+            const run = JSON.parse(response, this.reviveRun);
+            const runDto = RunDtoMapper.map(run);
+            callback(runDto);
+        });
+    }
+    getLatestRuns(callback) {
+        const path = LocalFileSystemPathsHelper.getRunsPath(this.currentPage);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, (response) => {
+            let runInfos = JSON.parse(response, this.reviveRun);
+            runInfos = runInfos.sort(Sorter.itemInfoByFinishDateDesc);
+            let totalCount = runInfos.length;
+            const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
+            let runInfosDto = new Array(runsToLoad);
+            for (let i = 0; i < runsToLoad; i++) {
+                runInfosDto[i] = ItemInfoDtoMapper.map(runInfos[i]);
+            }
+            const paths = new Array();
+            for (let i = 0; i < runsToLoad; i++) {
+                paths[i] = `runs/run_${runInfosDto[i].guid}.json`;
+            }
+            const runs = new Array();
+            this.loadJsonsByPaths(paths, 0, new Array(), false, false, (responses) => {
+                for (let i = 0; i < responses.length; i++) {
+                    const loadedRun = JSON.parse(responses[i], this.reviveRun);
+                    if (loadedRun.name === "") {
+                        loadedRun.name = `${DateFormatter.format(loadedRun.runInfo.start)} - ${DateFormatter.format(loadedRun.runInfo.finish)}`;
+                    }
+                    runs[i] = RunDtoMapper.map(loadedRun);
+                }
+                callback(runs, totalCount);
+            });
+        });
+    }
+    getLatestTest(testGuid, start, finish, callback) {
         throw new Error("Not implemented");
     }
-    getTestRunDto(guid, start, finish, callback) {
+    getLatestTests(testGuid, count, callback) {
         throw new Error("Not implemented");
     }
-    getReportSettingsDto(callback) {
+    getRunTests(runGuid, start, finish, callback) {
         throw new Error("Not implemented");
     }
-    loadJson(path, callback) {
+    loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback) {
+        const count = paths.length;
+        if (showProgressBar) {
+            this.progressBar.reset(count);
+            if (ind === 0) {
+                this.progressBar.show();
+            }
+            if (ind >= count) {
+                this.progressBar.hide();
+                return;
+            }
+        }
+        if (!callbackForEach && ind >= count) {
+            callback(responses, count, ind);
+        }
+        if (ind >= count) {
+            return;
+        }
         const req = new XMLHttpRequest();
         req.overrideMimeType("application/json");
-        req.open("get", path, true);
+        req.open("get", paths[ind], true);
         req.onreadystatechange = () => {
             if (req.readyState === 4)
                 if (req.status !== 200 && req.status !== 0) {
                     console
-                        .log(`Error while loading .json data: '${path}'! Request status: ${req.status} : ${req.statusText}`);
+                        .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 }
                 else {
-                    callback(req.responseText);
+                    responses[ind] = req.responseText;
+                    if (callbackForEach) {
+                        callback(req.responseText, count, ind);
+                    }
+                    if (showProgressBar) {
+                        this.progressBar.onLoaded(ind);
+                    }
+                    ind++;
+                    this.loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback);
                 }
         };
         req.timeout = 2000;
         req.ontimeout = () => {
-            console.log(`Timeout while loading .json data: '${path}'! Request status: ${req.status} : ${req.statusText}`);
+            console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
         };
         req.send(null);
     }
@@ -609,66 +795,6 @@ class Differ {
     }
 }
 Differ.separators = [" ", "<", ">", "/", ".", "?", "!"];
-class UrlHelper {
-    static insertParam(key, value) {
-        const paramsPart = document.location.search.substr(1);
-        window.history.pushState("", "", "");
-        const p = `${key}=${value}`;
-        if (paramsPart === "") {
-            window.history.pushState("", "", `?${p}`);
-        }
-        else {
-            let params = paramsPart.split("&");
-            const paramToChange = params.find((par) => par.split("=")[0] === key);
-            if (paramToChange != undefined) {
-                if (params.length === 1) {
-                    params = [p];
-                }
-                else {
-                    const index = params.indexOf(paramToChange);
-                    params.splice(index, 1);
-                    params.push(p);
-                }
-            }
-            else {
-                params.push(p);
-            }
-            window.history.pushState("", "", `?${params.join("&")}`);
-        }
-    }
-    static getParam(key) {
-        const paramsPart = document.location.search.substr(1);
-        if (paramsPart === "") {
-            return "";
-        }
-        else {
-            const params = paramsPart.split("&");
-            const paramToGet = params.find((par) => par.split("=")[0] === key);
-            if (paramToGet != undefined) {
-                return paramToGet.split("=")[1];
-            }
-            else {
-                return "";
-            }
-        }
-    }
-    static removeParam(key) {
-        const paramsPart = document.location.search.substr(1);
-        window.history.pushState("", "", "");
-        if (paramsPart === "") {
-            return;
-        }
-        else {
-            let params = paramsPart.split("&");
-            const paramToRemove = params.find((par) => par.split("=")[0] === key);
-            if (paramToRemove != undefined) {
-                const index = params.indexOf(paramToRemove);
-                params.splice(index, 1);
-            }
-            window.history.pushState("", "", `?${params.join("&")}`);
-        }
-    }
-}
 class LocalFileSystemPathsHelper {
     static getRunPath(pt, guid) {
         switch (pt) {
@@ -731,68 +857,6 @@ class LocalFileSystemPathsHelper {
         }
     }
 }
-class TabsHelper {
-    static showTab(idToShow, caller, pageTabsIds) {
-        if (pageTabsIds.indexOf(idToShow) <= -1) {
-            return;
-        }
-        UrlHelper.insertParam("currentTab", idToShow);
-        const tabs = document.getElementsByClassName("tabnav-tab");
-        for (let i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove("selected");
-        }
-        caller.className += " selected";
-        pageTabsIds.forEach((id) => {
-            document.getElementById(id).style.display = "none";
-        });
-        document.getElementById(idToShow).style.display = "";
-    }
-}
-class ProgressBar {
-    constructor(total) {
-        this.barId = "progress-bar";
-        this.barDivId = "progress-bar-div";
-        this.barTextId = "progress-bar-line";
-        this.reset(total);
-    }
-    reset(total) {
-        this.total = total;
-        this.current = 0;
-    }
-    show() {
-        document.getElementById(this.barId).style.display = "";
-        document.getElementById(this.barId).innerHTML = `<div id="${this.barDivId}"><div id="${this.barTextId}"></div></div>`;
-        document.getElementById(this.barId).style.position = "relative";
-        document.getElementById(this.barId).style.width = "100%";
-        document.getElementById(this.barId).style.height = "20px";
-        document.getElementById(this.barId).style.backgroundColor = Color.unknown;
-        document.getElementById(this.barDivId).style.position = "absolute";
-        document.getElementById(this.barDivId).style.width = "10%";
-        document.getElementById(this.barDivId).style.height = "100%";
-        document.getElementById(this.barDivId).style.backgroundColor = Color.passed;
-        document.getElementById(this.barTextId).style.textAlign = "center";
-        document.getElementById(this.barTextId).style.lineHeight = "20px";
-        document.getElementById(this.barTextId).style.color = "white";
-    }
-    onLoaded(count) {
-        this.current += count;
-        const percentage = 100 * this.current / this.total;
-        const pString = percentage.toString().split(".")[0] + "%";
-        document.getElementById(this.barDivId).style.width = pString;
-        document.getElementById(this.barTextId).innerHTML = pString;
-    }
-    hide() {
-        document.getElementById(this.barId).innerHTML = "";
-        document.getElementById(this.barId).style.display = "none";
-    }
-}
-class JsonParser {
-    static reviveRun(key, value) {
-        if (key === "start" || key === "finish" || key === "date")
-            return new Date(value);
-        return value;
-    }
-}
 class JsonLoader {
     constructor(pt) {
         this.pageType = pt;
@@ -848,7 +912,6 @@ class JsonLoader {
                 else {
                     responses[ind] = req.responseText;
                     if (callbackForEach) {
-                        console.log(`TEST: '${req.responseText}' PATH: '${paths[ind]}'`);
                         callback(req.responseText, count, ind);
                     }
                     if (showProgressBar) {
@@ -866,7 +929,8 @@ class JsonLoader {
     }
 }
 class Controller {
-    static init(settingsPath, callback) {
+    static init(pagetype, callback) {
+        const settingsPath = LocalFileSystemPathsHelper.getReportSettingsPath(pagetype);
         const req = new XMLHttpRequest();
         req.overrideMimeType("application/json");
         req.open("get", settingsPath, true);
@@ -878,9 +942,11 @@ class Controller {
                         .statusText}`);
                 }
                 else {
-                    this.reportSettings = JSON.parse(req.responseText);
+                    const reportSettings = JSON.parse(req.responseText);
+                    this.reportSettings = reportSettings;
                     this.dataService = new LocalFileSystemDataService();
-                    callback(this.reportSettings, this.dataService);
+                    this.dataService.reportSettings = reportSettings;
+                    callback(this.dataService, this.reportSettings);
                 }
             }
         };
@@ -1253,8 +1319,8 @@ class ReportPageUpdater {
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
-    static updateCopyright() {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+    static updateCopyright(coreVersion) {
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
     static updateRunsList(runs) {
         let list = "";
@@ -1333,46 +1399,25 @@ class ReportPageUpdater {
         });
     }
     static updatePage() {
-        let runInfos;
-        const paths = new Array();
-        const r = new Array();
-        const runs = new Array();
-        this.loader.loadRunsJson((response) => {
-            runInfos = JSON.parse(response, this.reviveRun);
-            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
-            const runsToLoad = this.reportSettings.runsToDisplay >= 1 ? Math.min(this.reportSettings.runsToDisplay, runInfos.length) : runInfos.length;
-            for (let i = 0; i < runsToLoad; i++) {
-                paths[i] = `runs/run_${runInfos[i].guid}.json`;
-            }
-            this.loader.loadJsonsByPaths(paths, 0, r, false, false, (responses) => {
-                for (let i = 0; i < responses.length; i++) {
-                    const loadedRun = JSON.parse(responses[i], this.reviveRun);
-                    if (loadedRun.name === "") {
-                        loadedRun.name = `${DateFormatter.format(loadedRun.runInfo.start)} - ${DateFormatter.format(loadedRun.runInfo.finish)}`;
-                    }
-                    runs[i] = loadedRun;
-                }
+        Controller.init(PageType.TestRunsPage, (dataService, reportSettings) => {
+            dataService.fromPage(PageType.TestRunsPage).getLatestRuns((runs, total) => {
                 const latestRun = runs[0];
                 this.updateLatestRunInfo(latestRun);
                 this.updatePlotlyBars(runs);
-                this.updateRunsInfo(runs, runInfos.length);
+                this.updateRunsInfo(runs, total);
                 this.updateRunsList(runs);
-                this.updateCopyright();
+                this.updateCopyright(reportSettings.coreVersion);
             });
         });
     }
     static initializePage() {
-        this.loader.loadReportSettingsJson((response) => {
-            this.reportSettings = JSON.parse(response);
-            this.updatePage();
-        });
+        this.updatePage();
         this.showTab("runs-stats", document.getElementById("tab-runs-stats"));
     }
     static showTab(idToShow, caller) {
         TabsHelper.showTab(idToShow, caller, this.reportPageTabsIds);
     }
 }
-ReportPageUpdater.loader = new JsonLoader(PageType.TestRunsPage);
 ReportPageUpdater.reviveRun = JsonParser.reviveRun;
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
 class TestPageUpdater {
