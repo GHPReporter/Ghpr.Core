@@ -1166,6 +1166,10 @@ class RunPageUpdater {
     }
     static updateRunPage(runGuid) {
         let run;
+        Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
+            dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto) => {
+            });
+        });
         this.loader.loadRunJson(runGuid, (response) => {
             run = JSON.parse(response, this.reviveRun);
             if (run.name === "") {
@@ -1418,7 +1422,6 @@ class ReportPageUpdater {
         TabsHelper.showTab(idToShow, caller, this.reportPageTabsIds);
     }
 }
-ReportPageUpdater.reviveRun = JsonParser.reviveRun;
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
 class TestPageUpdater {
     static updateCopyright() {

@@ -12,8 +12,6 @@
 
 class ReportPageUpdater {
 
-    static reviveRun = JsonParser.reviveRun;
-
     private static updateLatestRunInfo(latestRun: RunDto): void {
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;

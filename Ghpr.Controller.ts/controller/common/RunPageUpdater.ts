@@ -10,6 +10,7 @@
 ///<reference path="./PlotlyJs.ts"/>
 ///<reference path="./TestRunHelper.ts"/>
 ///<reference path="./TabsHelper.ts"/>
+///<reference path="./../Controller.ts"/>
 
 class RunPageUpdater {
 
@@ -198,6 +199,11 @@ class RunPageUpdater {
     
     private static updateRunPage(runGuid: string): Run {
         let run: Run;
+        Controller.init(PageType.TestRunPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
+            dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto: RunDto) => {
+                    
+            });
+        });
         this.loader.loadRunJson(runGuid, (response: string) => {
             run = JSON.parse(response, this.reviveRun);
             if (run.name === "") {
