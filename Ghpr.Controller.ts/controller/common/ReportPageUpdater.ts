@@ -123,7 +123,7 @@ class ReportPageUpdater {
             for (let i = 0; i < runsToLoad; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
             }
-            this.loader.loadAllJsons(paths, 0, r, (responses: Array<string>) => {
+            this.loader.loadJsonsByPaths(paths, 0, r, false, false, (responses: Array<string>) => {
                 for (let i = 0; i < responses.length; i++) {
                     const loadedRun: Run = JSON.parse(responses[i], this.reviveRun);
                     if (loadedRun.name === "") {

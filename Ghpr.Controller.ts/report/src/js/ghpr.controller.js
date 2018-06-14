@@ -838,11 +838,20 @@ class JsonLoader {
         };
         req.send(null);
     }
-    loadAllJsons(paths, ind, resps, callback) {
+    loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback) {
         const count = paths.length;
-        if (ind >= count) {
-            callback(resps);
-            return;
+        if (showProgressBar) {
+            this.progressBar.reset(count);
+            if (ind === 0) {
+                this.progressBar.show();
+            }
+            if (ind >= count) {
+                this.progressBar.hide();
+                return;
+            }
+        }
+        if (!callbackForEach && ind >= count) {
+            callback(responses, count, ind);
         }
         const req = new XMLHttpRequest();
         req.overrideMimeType("application/json");
@@ -854,41 +863,15 @@ class JsonLoader {
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 }
                 else {
-                    resps[ind] = req.responseText;
+                    responses[ind] = req.responseText;
+                    if (callbackForEach) {
+                        callback(req.responseText, count, ind);
+                    }
+                    if (showProgressBar) {
+                        this.progressBar.onLoaded(ind);
+                    }
                     ind++;
-                    this.loadAllJsons(paths, ind, resps, callback);
-                }
-        };
-        req.timeout = 2000;
-        req.ontimeout = () => {
-            console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
-        };
-        req.send(null);
-    }
-    loadJsons(paths, ind, callback) {
-        const count = paths.length;
-        this.progressBar.reset(count);
-        if (ind === 0) {
-            this.progressBar.show();
-        }
-        if (ind >= count) {
-            this.progressBar.hide();
-            return;
-        }
-        const req = new XMLHttpRequest();
-        req.overrideMimeType("application/json");
-        req.open("get", paths[ind], true);
-        req.onreadystatechange = () => {
-            if (req.readyState === 4)
-                if (req.status !== 200 && req.status !== 0) {
-                    console
-                        .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
-                }
-                else {
-                    callback(req.responseText, count, ind);
-                    this.progressBar.onLoaded(ind);
-                    ind++;
-                    this.loadJsons(paths, ind, callback);
+                    this.loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback);
                 }
         };
         req.timeout = 2000;
@@ -1158,7 +1141,7 @@ class RunPageUpdater {
             paths[i] = `./../tests/${files[i]}`;
         }
         var index = 0;
-        this.loader.loadJsons(paths, 0, (response, c, i) => {
+        this.loader.loadJsonsByPaths(paths, 0, new Array(), true, true, (response, c, i) => {
             test = JSON.parse(response, this.reviveRun);
             this.addTest(test, c, i);
             if (i === c - 1)
@@ -1377,7 +1360,7 @@ class ReportPageUpdater {
             for (let i = 0; i < runsToLoad; i++) {
                 paths[i] = `runs/run_${runInfos[i].guid}.json`;
             }
-            this.loader.loadAllJsons(paths, 0, r, (responses) => {
+            this.loader.loadJsonsByPaths(paths, 0, r, false, false, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
                     const loadedRun = JSON.parse(responses[i], this.reviveRun);
                     if (loadedRun.name === "") {
@@ -1543,7 +1526,7 @@ class TestPageUpdater {
             for (let i = 0; i < this.testVersionsCount; i++) {
                 paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
             }
-            this.loader.loadAllJsons(paths, 0, testStrings, (responses) => {
+            this.loader.loadJsonsByPaths(paths, 0, testStrings, false, false, (responses) => {
                 for (let i = 0; i < responses.length; i++) {
                     tests[i] = JSON.parse(responses[i], this.reviveRun);
                 }

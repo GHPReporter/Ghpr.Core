@@ -224,10 +224,10 @@ class RunPageUpdater {
             paths[i] = `./../tests/${files[i]}`;
         }
         var index = 0;
-        this.loader.loadJsons(paths, 0, (response: string, c: number, i: number) => {
+        this.loader.loadJsonsByPaths(paths, 0, new Array(), true, true, (response: string, c: number, i: number) => {
             test = JSON.parse(response, this.reviveRun);
             this.addTest(test, c, i);
-            if(i === c - 1) this.makeCollapsible();
+            if (i === c - 1) this.makeCollapsible();
             index++;
         });
     }

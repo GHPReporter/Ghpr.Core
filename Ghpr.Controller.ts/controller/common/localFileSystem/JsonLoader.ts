@@ -58,11 +58,20 @@ class JsonLoader {
         req.send(null);
     }
 
-    loadAllJsons(paths: Array<string>, ind: number, resps: Array<string>, callback: Function): void {
+    loadJsonsByPaths(paths: Array<string>, ind: number, responses: Array<string>, showProgressBar: boolean, callbackForEach: boolean, callback: Function): void {
         const count = paths.length;
-        if (ind >= count) {
-            callback(resps);
-            return;
+        if (showProgressBar) {
+            this.progressBar.reset(count);
+            if (ind === 0) {
+                this.progressBar.show();
+            }
+            if (ind >= count) {
+                this.progressBar.hide();
+                return;
+            }
+        }
+        if (!callbackForEach && ind >= count) {
+            callback(responses, count, ind);
         }
         const req = new XMLHttpRequest();
         req.overrideMimeType("application/json");
@@ -73,41 +82,15 @@ class JsonLoader {
                     console
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
-                    resps[ind] = req.responseText;
+                    responses[ind] = req.responseText;
+                    if (callbackForEach) {
+                        callback(req.responseText, count, ind);
+                    }
+                    if (showProgressBar) {
+                        this.progressBar.onLoaded(ind);
+                    }
                     ind++;
-                    this.loadAllJsons(paths, ind, resps, callback);
-                }
-        }
-        req.timeout = 2000;
-        req.ontimeout = () => {
-            console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
-        };
-        req.send(null);
-    }
-
-    loadJsons(paths: Array<string>, ind: number, callback: Function): void {
-        const count = paths.length;
-        this.progressBar.reset(count);
-        if (ind === 0) {
-            this.progressBar.show();
-        }
-        if (ind >= count) {
-            this.progressBar.hide();
-            return;
-        }
-        const req = new XMLHttpRequest();
-        req.overrideMimeType("application/json");
-        req.open("get", paths[ind], true);
-        req.onreadystatechange = () => {
-            if (req.readyState === 4)
-                if (req.status !== 200 && req.status !== 0) {
-                    console
-                        .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
-                } else {
-                    callback(req.responseText, count, ind);
-                    this.progressBar.onLoaded(ind);
-                    ind++;
-                    this.loadJsons(paths, ind, callback);
+                    this.loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback);
                 }
         }
         req.timeout = 2000;
