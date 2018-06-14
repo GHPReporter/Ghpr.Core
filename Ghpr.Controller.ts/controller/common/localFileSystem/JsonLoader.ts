@@ -15,47 +15,27 @@ class JsonLoader {
 
     loadRunJson(runGuid: string, callback: Function): void {
         const path = LocalFileSystemPathsHelper.getRunPath(this.pageType, runGuid);
-        this.loadJson(path, callback);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
     }
 
     loadRunsJson(callback: Function): void {
         const path = LocalFileSystemPathsHelper.getRunsPath(this.pageType);
-        this.loadJson(path, callback);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
     }
 
     loadReportSettingsJson(callback: Function): void {
         const path = LocalFileSystemPathsHelper.getReportSettingsPath(this.pageType);
-        this.loadJson(path, callback);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
     }
 
     loadTestJson(testGuid: string, testFileName: string, callback: Function): void {
         const path = LocalFileSystemPathsHelper.getTestPath(testGuid, testFileName, this.pageType);
-        this.loadJson(path, callback);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
     }
 
     loadTestsJson(testGuid: string, callback: Function): void {
         const path = LocalFileSystemPathsHelper.getTestsPath(testGuid, this.pageType);
-        this.loadJson(path, callback);
-    }
-
-    loadJson(path: string, callback: Function): void {
-        const req = new XMLHttpRequest();
-        req.overrideMimeType("application/json");
-        req.open("get", path, true);
-        req.onreadystatechange = () => {
-            if (req.readyState === 4)
-                if (req.status !== 200 && req.status !== 0) {
-                    console
-                        .log(`Error while loading .json data: '${path}'! Request status: ${req.status} : ${req.statusText}`);
-                } else {
-                    callback(req.responseText);
-                }
-        }
-        req.timeout = 2000;
-        req.ontimeout = () => {
-            console.log(`Timeout while loading .json data: '${path}'! Request status: ${req.status} : ${req.statusText}`);
-        };
-        req.send(null);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
     }
 
     loadJsonsByPaths(paths: Array<string>, ind: number, responses: Array<string>, showProgressBar: boolean, callbackForEach: boolean, callback: Function): void {
@@ -73,6 +53,9 @@ class JsonLoader {
         if (!callbackForEach && ind >= count) {
             callback(responses, count, ind);
         }
+        if (ind >= count) {
+            return;
+        }
         const req = new XMLHttpRequest();
         req.overrideMimeType("application/json");
         req.open("get", paths[ind], true);
@@ -84,6 +67,7 @@ class JsonLoader {
                 } else {
                     responses[ind] = req.responseText;
                     if (callbackForEach) {
+                        console.log(`TEST: '${req.responseText}' PATH: '${paths[ind]}'`);
                         callback(req.responseText, count, ind);
                     }
                     if (showProgressBar) {
