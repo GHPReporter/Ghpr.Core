@@ -81,7 +81,8 @@ class RunPageUpdater {
         const c = tests.length;
         for (let i = 0; i < c; i++) {
             const t = tests[i];
-            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFinishDate=${t.testInfo.finish}">${t.name}</a></li>`;
+            const href = `./../tests/index.html?testGuid=${t.testInfo.guid}&testFinishDate=${t.testInfo.finish}`;
+            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="${href}">${t.name}</a></li>`;
         }
         document.getElementById("all-tests").innerHTML = list;
     }
@@ -211,20 +212,16 @@ class RunPageUpdater {
     }
 
     static updateTestsList(run: RunDto): void {
-        const paths: Array<string> = new Array();
-        var test: TestRun;
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
         document.getElementById("all-tests").innerHTML = "";
-        const files = run.testsInfo;
-        for (let i = 0; i < files.length; i++) {
-            paths[i] = `./../tests/${files[i]}`;
-        }
         var index = 0;
-        this.loader.loadJsonsByPaths(paths, 0, new Array(), true, true, (response: string, c: number, i: number) => {
-            test = JSON.parse(response, this.reviveRun);
-            this.addTest(test, c, i);
-            if (i === c - 1) this.makeCollapsible();
-            index++;
+        Controller.init(PageType.TestRunPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
+            dataService.fromPage(PageType.TestRunPage).getRunTests(run, (testRunDto: TestRunDto, c: number, i: number) => {
+                console.log("TEST IN THE REPORT: " + testRunDto);
+                this.addTest(testRunDto, c, i);
+                if (i === c - 1) this.makeCollapsible();
+                index++;
+            });
         });
     }
     

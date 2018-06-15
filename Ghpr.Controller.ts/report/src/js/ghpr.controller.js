@@ -267,6 +267,7 @@ class JsonParser {
 class LocalFileSystemDataService {
     constructor() {
         this.reviveRun = JsonParser.reviveRun;
+        this.progressBar = new ProgressBar(1);
     }
     fromPage(pageType) {
         this.currentPage = pageType;
@@ -317,8 +318,21 @@ class LocalFileSystemDataService {
     getLatestTests(testGuid, count, callback) {
         throw new Error("Not implemented");
     }
-    getRunTests(runGuid, start, finish, callback) {
-        throw new Error("Not implemented");
+    getRunTests(runDto, callback) {
+        const paths = new Array();
+        var test;
+        var testDto;
+        const testsInfo = runDto.testsInfo;
+        for (let j = 0; j < testsInfo.length; j++) {
+            paths[j] = `./tests/${testsInfo[j].guid}/${TestRunHelper.getFileName(testsInfo[j])}`;
+        }
+        console.log("PATHS: " + paths);
+        this.loadJsonsByPaths(paths, 0, new Array(), true, true, (response, c, i) => {
+            console.log("RESP1: " + response);
+            test = JSON.parse(response, this.reviveRun);
+            testDto = TestRunDtoMapper.map(test);
+            callback(testDto, c, i);
+        });
     }
     loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback) {
         const count = paths.length;
@@ -342,6 +356,7 @@ class LocalFileSystemDataService {
         req.overrideMimeType("application/json");
         req.open("get", paths[ind], true);
         req.onreadystatechange = () => {
+            console.log("PATH: " + paths[ind]);
             if (req.readyState === 4)
                 if (req.status !== 200 && req.status !== 0) {
                     console
@@ -349,6 +364,9 @@ class LocalFileSystemDataService {
                 }
                 else {
                     responses[ind] = req.responseText;
+                    console.log("RESP2: " + req.responseText);
+                    console.log("COUNT: " + count);
+                    console.log("INDEX: " + ind);
                     if (callbackForEach) {
                         callback(req.responseText, count, ind);
                     }
@@ -364,6 +382,75 @@ class LocalFileSystemDataService {
             console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
         };
         req.send(null);
+    }
+}
+class DateFormatter {
+    static format(date) {
+        if (date < new Date(2000, 1)) {
+            return "-";
+        }
+        const year = `${date.getFullYear()}`;
+        const month = this.correctString(`${date.getMonth() + 1}`);
+        const day = this.correctString(`${date.getDate()}`);
+        const hour = this.correctString(`${date.getHours()}`);
+        const minute = this.correctString(`${date.getMinutes()}`);
+        const second = this.correctString(`${date.getSeconds()}`);
+        return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+    }
+    static formatWithMs(date) {
+        if (date < new Date(2000, 1)) {
+            return "-";
+        }
+        const ms = this.correctMs(date.getMilliseconds());
+        return this.format(date) + "." + ms;
+    }
+    static toFileFormat(date) {
+        if (date < new Date(2000, 1)) {
+            return "-";
+        }
+        const year = `${date.getFullYear()}`;
+        const month = this.correctString(`${date.getMonth() + 1}`);
+        const day = this.correctString(`${date.getDate()}`);
+        const hour = this.correctString(`${date.getHours()}`);
+        const minute = this.correctString(`${date.getMinutes()}`);
+        const second = this.correctString(`${date.getSeconds()}`);
+        const ms = this.correctMs(date.getMilliseconds());
+        return year + month + day + "_" + hour + minute + second + ms;
+    }
+    static diff(start, finish) {
+        const timeDifference = (finish.getTime() - start.getTime());
+        const dDate = new Date(timeDifference);
+        const dHours = dDate.getUTCHours();
+        const dMins = dDate.getUTCMinutes();
+        const dSecs = dDate.getUTCSeconds();
+        const dMilliSecs = dDate.getUTCMilliseconds();
+        const readableDifference = this.correctNumber(dHours) + ":" + this.correctNumber(dMins) + ":"
+            + this.correctNumber(dSecs) + "." + this.correctNumber(dMilliSecs);
+        return readableDifference;
+    }
+    static correctString(s) {
+        if (s.length === 1) {
+            return `0${s}`;
+        }
+        else
+            return s;
+    }
+    static correctNumber(n) {
+        if (n >= 0 && n < 10) {
+            return `0${n}`;
+        }
+        else
+            return `${n}`;
+    }
+    static correctMs(n) {
+        if (n >= 0 && n < 10) {
+            return `00${n}`;
+        }
+        else if (n >= 10 && n < 100) {
+            return `0${n}`;
+        }
+        else
+            return `${n}`;
     }
 }
 class TestRunHelper {
@@ -388,6 +475,9 @@ class TestRunHelper {
     static getColor(t) {
         const result = this.getResult(t);
         return this.getColorByResult(result);
+    }
+    static getFileName(t) {
+        return `test_${DateFormatter.toFileFormat(t.finish)}.json`;
     }
     static getResult(t) {
         if (t.result.indexOf("Passed") > -1) {
@@ -960,45 +1050,6 @@ class Controller {
         req.send(null);
     }
 }
-class DateFormatter {
-    static format(date) {
-        if (date < new Date(2000, 1)) {
-            return "-";
-        }
-        const year = `${date.getFullYear()}`;
-        const month = this.correctString(`${date.getMonth() + 1}`);
-        const day = this.correctString(`${date.getDate()}`);
-        const hour = this.correctString(`${date.getHours()}`);
-        const minute = this.correctString(`${date.getMinutes()}`);
-        const second = this.correctString(`${date.getSeconds()}`);
-        return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
-    }
-    static diff(start, finish) {
-        const timeDifference = (finish.getTime() - start.getTime());
-        const dDate = new Date(timeDifference);
-        const dHours = dDate.getUTCHours();
-        const dMins = dDate.getUTCMinutes();
-        const dSecs = dDate.getUTCSeconds();
-        const dMilliSecs = dDate.getUTCMilliseconds();
-        const readableDifference = this.correctNumber(dHours) + ":" + this.correctNumber(dMins) + ":"
-            + this.correctNumber(dSecs) + "." + this.correctNumber(dMilliSecs);
-        return readableDifference;
-    }
-    static correctString(s) {
-        if (s.length === 1) {
-            return `0${s}`;
-        }
-        else
-            return s;
-    }
-    static correctNumber(n) {
-        if (n >= 0 && n < 10) {
-            return `0${n}`;
-        }
-        else
-            return `${n}`;
-    }
-}
 class RunPageUpdater {
     static updateCopyright(coreVersion) {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
@@ -1055,7 +1106,8 @@ class RunPageUpdater {
         const c = tests.length;
         for (let i = 0; i < c; i++) {
             const t = tests[i];
-            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="./../tests/index.html?testGuid=${t.testInfo.guid}&testFinishDate=${t.testInfo.finish}">${t.name}</a></li>`;
+            const href = `./../tests/index.html?testGuid=${t.testInfo.guid}&testFinishDate=${t.testInfo.finish}`;
+            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="${href}">${t.name}</a></li>`;
         }
         document.getElementById("all-tests").innerHTML = list;
     }
@@ -1181,21 +1233,16 @@ class RunPageUpdater {
         });
     }
     static updateTestsList(run) {
-        const paths = new Array();
-        var test;
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
         document.getElementById("all-tests").innerHTML = "";
-        const files = run.testsInfo;
-        for (let i = 0; i < files.length; i++) {
-            paths[i] = `./../tests/${files[i]}`;
-        }
         var index = 0;
-        this.loader.loadJsonsByPaths(paths, 0, new Array(), true, true, (response, c, i) => {
-            test = JSON.parse(response, this.reviveRun);
-            this.addTest(test, c, i);
-            if (i === c - 1)
-                this.makeCollapsible();
-            index++;
+        Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
+            dataService.fromPage(PageType.TestRunPage).getRunTests(run, (testRunDto, c, i) => {
+                this.addTest(testRunDto, c, i);
+                if (i === c - 1)
+                    this.makeCollapsible();
+                index++;
+            });
         });
     }
     static loadRun(index) {

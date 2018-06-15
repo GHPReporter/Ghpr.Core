@@ -1,6 +1,7 @@
 ﻿///<reference path="./../dto/TestRunDto.ts"/>
 ///<reference path="./../enums/TestResult.ts"/>
 ///<reference path="./Color.ts"/>
+///<reference path="./DateFormatter.ts"/>
 
 class TestRunHelper {
     static getColorByResult(result: TestResult): string {
@@ -25,6 +26,10 @@ class TestRunHelper {
     static getColor(t: TestRunDto): string {
         const result = this.getResult(t);
         return this.getColorByResult(result);
+    }
+    
+    static getFileName(t: ItemInfoDto): string {
+        return `test_${DateFormatter.toFileFormat(t.finish)}.json`;
     }
 
     static getResult(t: TestRunDto): TestResult {

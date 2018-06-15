@@ -41,6 +41,7 @@
     "controller/common/localFileSystem/JsonLoader.ts",
     "controller/Controller.ts",
     "controller/common/DateFormatter.ts",
+    "controller/common/TestRunHelper.ts",
     "controller/common/RunPageUpdater.ts",
     "controller/common/ReportPageUpdater.ts",
     "controller/common/TestPageUpdater.ts",

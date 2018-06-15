@@ -18,6 +18,10 @@ class LocalFileSystemDataService implements IDataService {
     reportSettings: ReportSettingsDto;
     reviveRun = JsonParser.reviveRun;
 
+    constructor() {
+        this.progressBar = new ProgressBar(1);
+    }
+
     fromPage(pageType: PageType): IDataService {
         this.currentPage = pageType;
         return this;
@@ -72,8 +76,21 @@ class LocalFileSystemDataService implements IDataService {
          throw new Error("Not implemented");
     }
 
-    getRunTests(runGuid: string, start: Date, finish: Date, callback: Function): void {
-        throw new Error("Not implemented");
+    getRunTests(runDto: RunDto, callback: (testRunDto: TestRunDto, c: number, i: number) => void): void {
+        const paths: Array<string> = new Array();
+        var test: TestRun;
+        var testDto: TestRunDto;
+        const testsInfo = runDto.testsInfo;
+        for (let j = 0; j < testsInfo.length; j++) {
+            paths[j] = `./tests/${testsInfo[j].guid}/${TestRunHelper.getFileName(testsInfo[j])}`;
+        }
+        console.log("PATHS: " + paths);
+        this.loadJsonsByPaths(paths, 0, new Array(), true, true, (response: string, c: number, i: number) => {
+            console.log("RESP1: " + response);
+            test = JSON.parse(response, this.reviveRun);
+            testDto = TestRunDtoMapper.map(test);
+            callback(testDto, c, i);
+        });
     }
 
     loadJsonsByPaths(paths: Array<string>, ind: number, responses: Array<string>, showProgressBar: boolean, callbackForEach: boolean, callback: Function): void {
@@ -98,12 +115,16 @@ class LocalFileSystemDataService implements IDataService {
         req.overrideMimeType("application/json");
         req.open("get", paths[ind], true);
         req.onreadystatechange = () => {
+            console.log("PATH: " + paths[ind]);
             if (req.readyState === 4)
                 if (req.status !== 200 && req.status !== 0) {
                     console
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
                     responses[ind] = req.responseText;
+                    console.log("RESP2: " + req.responseText);
+                    console.log("COUNT: " + count);
+                    console.log("INDEX: " + ind);
                     if (callbackForEach) {
                         callback(req.responseText, count, ind);
                     }
