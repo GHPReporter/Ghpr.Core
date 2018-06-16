@@ -21,10 +21,10 @@
     }
 
     static toFileFormat(date: Date): string {
-        if (date < new Date(2000, 1)) {
-            return "-";
+        if (date.getFullYear() === 1) {
+            return "00010101_000000000";
         }
-        const year = `${date.getFullYear()}`;
+        const year = this.correctYear(date.getFullYear());
         const month = this.correctString(`${date.getMonth() + 1}`);
         const day = this.correctString(`${date.getDate()}`);
         const hour = this.correctString(`${date.getHours()}`);
@@ -62,6 +62,16 @@
         if (n >= 0 && n < 10) {
             return `00${n}`;
         } else if (n >= 10 && n < 100) {
+            return `0${n}`;
+        } else return `${n}`;
+    }
+
+    static correctYear(n: number): string {
+        if (n >= 0 && n < 10) {
+            return `000${n}`;
+        } else if (n >= 10 && n < 100) {
+            return `00${n}`;
+        } else if (n >= 100 && n < 1000) {
             return `0${n}`;
         } else return `${n}`;
     }

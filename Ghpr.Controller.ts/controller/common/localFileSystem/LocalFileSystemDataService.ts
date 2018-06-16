@@ -81,12 +81,12 @@ class LocalFileSystemDataService implements IDataService {
         var test: TestRun;
         var testDto: TestRunDto;
         const testsInfo = runDto.testsInfo;
+        console.log(runDto);
         for (let j = 0; j < testsInfo.length; j++) {
-            paths[j] = `./tests/${testsInfo[j].guid}/${TestRunHelper.getFileName(testsInfo[j])}`;
+            paths[j] = `./../tests/${testsInfo[j].guid}/${TestRunHelper.getFileName(testsInfo[j])}`;
         }
-        console.log("PATHS: " + paths);
         this.loadJsonsByPaths(paths, 0, new Array(), true, true, (response: string, c: number, i: number) => {
-            console.log("RESP1: " + response);
+            console.log("RESP getRunTests: " + response);
             test = JSON.parse(response, this.reviveRun);
             testDto = TestRunDtoMapper.map(test);
             callback(testDto, c, i);
@@ -121,8 +121,10 @@ class LocalFileSystemDataService implements IDataService {
                     console
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
+                    console.log(`DONE: Request status: ${req.status} : ${req.statusText}`);
+                    console.log(req);
                     responses[ind] = req.responseText;
-                    console.log("RESP2: " + req.responseText);
+                    console.log("RESP loadJsonsByPaths: " + req.responseText);
                     console.log("COUNT: " + count);
                     console.log("INDEX: " + ind);
                     if (callbackForEach) {

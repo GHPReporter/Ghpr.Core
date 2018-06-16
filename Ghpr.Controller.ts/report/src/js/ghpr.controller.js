@@ -123,7 +123,12 @@ class RunDtoMapper {
             testInfoDto.guid = testRunFile.split("\\")[0];
             let date = testRunFile.split("\\")[1].split(".")[0].split("_")[1];
             let time = testRunFile.split("\\")[1].split(".")[0].split("_")[2];
-            testInfoDto.finish = new Date(+date.substr(0, 4), +date.substr(4, 2), +date.substr(6, 2), +time.substr(0, 2), +time.substr(2, 2), +time.substr(4, 2), +time.substr(6, 3));
+            if (date.substr(0, 4) !== "0001") {
+                testInfoDto.finish = new Date(+date.substr(0, 4), +date.substr(4, 2) - 1, +date.substr(6, 2), +time.substr(0, 2), +time.substr(2, 2), +time.substr(4, 2), +time.substr(6, 3));
+            }
+            else {
+                testInfoDto.finish = new Date("0001-01-01");
+            }
             testInfoDto.start = new Date();
             testInfoDtos[i] = testInfoDto;
         }
@@ -323,12 +328,12 @@ class LocalFileSystemDataService {
         var test;
         var testDto;
         const testsInfo = runDto.testsInfo;
+        console.log(runDto);
         for (let j = 0; j < testsInfo.length; j++) {
-            paths[j] = `./tests/${testsInfo[j].guid}/${TestRunHelper.getFileName(testsInfo[j])}`;
+            paths[j] = `./../tests/${testsInfo[j].guid}/${TestRunHelper.getFileName(testsInfo[j])}`;
         }
-        console.log("PATHS: " + paths);
         this.loadJsonsByPaths(paths, 0, new Array(), true, true, (response, c, i) => {
-            console.log("RESP1: " + response);
+            console.log("RESP getRunTests: " + response);
             test = JSON.parse(response, this.reviveRun);
             testDto = TestRunDtoMapper.map(test);
             callback(testDto, c, i);
@@ -363,8 +368,10 @@ class LocalFileSystemDataService {
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 }
                 else {
+                    console.log(`DONE: Request status: ${req.status} : ${req.statusText}`);
+                    console.log(req);
                     responses[ind] = req.responseText;
-                    console.log("RESP2: " + req.responseText);
+                    console.log("RESP loadJsonsByPaths: " + req.responseText);
                     console.log("COUNT: " + count);
                     console.log("INDEX: " + ind);
                     if (callbackForEach) {
@@ -405,10 +412,10 @@ class DateFormatter {
         return this.format(date) + "." + ms;
     }
     static toFileFormat(date) {
-        if (date < new Date(2000, 1)) {
-            return "-";
+        if (date.getFullYear() === 1) {
+            return "00010101_000000000";
         }
-        const year = `${date.getFullYear()}`;
+        const year = this.correctYear(date.getFullYear());
         const month = this.correctString(`${date.getMonth() + 1}`);
         const day = this.correctString(`${date.getDate()}`);
         const hour = this.correctString(`${date.getHours()}`);
@@ -447,6 +454,19 @@ class DateFormatter {
             return `00${n}`;
         }
         else if (n >= 10 && n < 100) {
+            return `0${n}`;
+        }
+        else
+            return `${n}`;
+    }
+    static correctYear(n) {
+        if (n >= 0 && n < 10) {
+            return `000${n}`;
+        }
+        else if (n >= 10 && n < 100) {
+            return `00${n}`;
+        }
+        else if (n >= 100 && n < 1000) {
             return `0${n}`;
         }
         else
@@ -1238,6 +1258,7 @@ class RunPageUpdater {
         var index = 0;
         Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunPage).getRunTests(run, (testRunDto, c, i) => {
+                console.log("TEST IN THE REPORT: " + testRunDto);
                 this.addTest(testRunDto, c, i);
                 if (i === c - 1)
                     this.makeCollapsible();
