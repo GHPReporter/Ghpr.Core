@@ -23,8 +23,8 @@ class RunDtoMapper {
             let testInfoDto = new ItemInfoDto();
             testInfoDto.guid = testRunFile.split("\\")[0];
             let temp = testRunFile.split("\\")[1].split(".")[0].split("_");
+            console.log("MAPPER: ");
             testInfoDto.finish = DateFormatter.fromFileFormat(temp[1] + "_" + temp[2]);
-            testInfoDto.start = new Date();
             testInfoDtos[i] = testInfoDto;
         }
 

@@ -21,33 +21,43 @@
     }
 
     static toFileFormat(date: Date): string {
+        console.log("TO FILE FORMAT 1");
+        console.log(date);
         if (date.getFullYear() === 1) {
             return "00010101_000000000";
         }
-        const year = this.correctYear(date.getFullYear());
-        const month = this.correctString(`${date.getMonth() + 1}`);
-        const day = this.correctString(`${date.getDate()}`);
-        const hour = this.correctString(`${date.getHours()}`);
-        const minute = this.correctString(`${date.getMinutes()}`);
-        const second = this.correctString(`${date.getSeconds()}`);
-        const ms = this.correctMs(date.getMilliseconds());
-        return year + month + day + "_" + hour + minute + second + ms;
+        const year = this.correctYear(date.getUTCFullYear());
+        const month = this.correctString(`${date.getUTCMonth() + 1}`);
+        const day = this.correctString(`${date.getUTCDate()}`);
+        const hour = this.correctString(`${date.getUTCHours()}`);
+        const minute = this.correctString(`${date.getUTCMinutes()}`);
+        const second = this.correctString(`${date.getUTCSeconds()}`);
+        const ms = this.correctMs(date.getUTCMilliseconds());
+        let result = year + month + day + "_" + hour + minute + second + ms;
+        console.log("TO FILE FORMAT 2");
+        console.log(result);
+        return result;
     }
 
     static fromFileFormat(fileFormatDate: string): Date {
+        console.log("FROM FILE FORMAT 1");
+        console.log(fileFormatDate);
         //fileFormatDate: yyyyMMdd_hhmmssfff
         if (fileFormatDate === "00010101_000000000") {
             return new Date("0001-01-01");
         }
         let date = fileFormatDate.split("_")[0];
         let time = fileFormatDate.split("_")[1];
-        return new Date(+date.substr(0, 4),
+        let dateFromFile = new Date(Date.UTC(+date.substr(0, 4),
             +date.substr(4, 2) - 1,
             +date.substr(6, 2),
             +time.substr(0, 2),
             +time.substr(2, 2),
             +time.substr(4, 2),
-            +time.substr(6, 3));
+            +time.substr(6, 3)));
+        console.log("FROM FILE FORMAT 2");
+        console.log(dateFromFile);
+        return dateFromFile;
     }
 
     static diff(start: Date, finish: Date): string {

@@ -53,16 +53,29 @@ class LocalFileSystemPathsHelper {
         }
     }
 
+    static getTestPathByDate(testGuid: string, finish: Date, pt: PageType): string {
+        switch (pt) {
+        case PageType.TestRunsPage:
+            return `./tests/${testGuid}/test_${DateFormatter.toFileFormat(finish)}.json`;
+        case PageType.TestRunPage:
+                return `./../tests/${testGuid}/test_${DateFormatter.toFileFormat(finish)}.json`;
+        case PageType.TestPage:
+                return `./${testGuid}/test_${DateFormatter.toFileFormat(finish)}.json`;
+        default:
+            return "";
+        }
+    }
+
     static getTestPath(testGuid: string, testFileName: string, pt: PageType): string {
         switch (pt) {
-            case PageType.TestRunsPage:
-                return `./tests/${testGuid}/${testFileName}`;
-            case PageType.TestRunPage:
-                return `./../tests/${testGuid}/${testFileName}`;
-            case PageType.TestPage:
-                return `./${testGuid}/${testFileName}`;
-            default:
-                return "";
+        case PageType.TestRunsPage:
+            return `./tests/${testGuid}/${testFileName}`;
+        case PageType.TestRunPage:
+            return `./../tests/${testGuid}/${testFileName}`;
+        case PageType.TestPage:
+            return `./${testGuid}/${testFileName}`;
+        default:
+            return "";
         }
     }
 }

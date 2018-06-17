@@ -15,21 +15,21 @@
 ///<reference path="./TestRunHelper.ts"/>
 ///<reference path="./../Controller.ts"/>
 ///<reference path="./../dto/ReportSettingsDto.ts"/>
+///<reference path="./../dto/TestRunDto.ts"/>
 ///<reference path="./../interfaces/IDataService.ts"/>
 
 class TestPageUpdater {
 
     static currentTest: number;
     static testVersionsCount: number;
-    static loader = new JsonLoader(PageType.TestPage);
-    //static reportSettings: ReportSettings;
+    //static loader = new JsonLoader(PageType.TestPage);
     static reviveRun = JsonParser.reviveRun;
         
     private static updateCopyright(coreVersion: string): void {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
 
-    private static updateMainInformation(t: TestRun): void {
+    private static updateMainInformation(t: TestRunDto): void {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
         document.getElementById("name").innerHTML = `<b>Test name:</b> ${t.name}`;
         document.getElementById("full-name").innerHTML = `<b>Full name:</b> ${t.fullName}`;
@@ -44,24 +44,24 @@ class TestPageUpdater {
         document.getElementById("message").innerHTML = `<b>Message:</b> ${TestRunHelper.getMessage(t)}`;
     }
 
-    private static updateOutput(t: TestRun): void {
+    private static updateOutput(t: TestRunDto): void {
         document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
 		<div style="word-wrap: break-word;  white-space: pre-wrap;">${Differ.safeTagsReplace(TestRunHelper.getOutput(t))}</div>`;
     }
 
-    private static updateTestData(t: TestRun): void {
+    private static updateTestData(t: TestRunDto): void {
         let res = "";
-        t.testData.forEach((td: TestData) => {
+        t.testData.forEach((td: TestDataDto) => {
             res += `<li>${DateFormatter.format(td.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}<br></li>`;
         });
         document.getElementById("test-data-list").innerHTML = `${res}`;
     }
 
-    private static updateScreenshots(t: TestRun): void {
+    private static updateScreenshots(t: TestRunDto): void {
         let screenshots = ""; 
         for (let i = 0; i < t.screenshots.length; i++) {
             const s = t.screenshots[i];
-            const src = `./${t.testInfo.guid}/img/${s.name}`;
+            const src = `./${t.testInfo.guid}/img/${s.data}`;
             screenshots += `<li><b>Screenshot ${DateFormatter.format(s.date)}:</b><a href="${src}"><img src="${src}" alt="${src}" style="width: 100%;"></img></a></li>`;
         }
         if (screenshots === "") {
@@ -70,12 +70,12 @@ class TestPageUpdater {
         document.getElementById("screenshots").innerHTML = screenshots;
     }
 
-    private static updateFailure(t: TestRun): void {
+    private static updateFailure(t: TestRunDto): void {
         document.getElementById("test-message").innerHTML = `<b>Message:</b><br> ${TestRunHelper.getMessage(t)}`;
         document.getElementById("test-stack-trace").innerHTML = `<b>Stack trace:</b><br> ${TestRunHelper.getStackTrace(t)}`;
     }
 
-    private static setTestHistory(tests: Array<TestRun>): void {
+    private static setTestHistory(tests: Array<TestRunDto>): void {
         const historyDiv = document.getElementById("test-history-chart");
         let plotlyData = new Array();
         const dataX: Array<Date> = new Array();
@@ -139,12 +139,10 @@ class TestPageUpdater {
         Plotly.newPlot(historyDiv, plotlyData, layout);      
     }
 
-    private static updateTestPage(testGuid: string, fileName: string): TestRun {
-        let t: TestRun;
-        this.loader.loadTestJson(testGuid, fileName, (response: string) => {
-            t = JSON.parse(response, this.reviveRun);
+    private static updateTestPage(testGuid: string, testFinish: Date): void {
+        Controller.dataService.fromPage(PageType.TestPage).getLatestTest(testGuid, testFinish, (t: TestRunDto) => {
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
-            UrlHelper.insertParam("testFile", t.testInfo.fileName);
+            UrlHelper.insertParam("testFinishDate", DateFormatter.toFileFormat(t.testInfo.finish));
             this.updateMainInformation(t);
             this.updateOutput(t);
             this.updateFailure(t);
@@ -154,38 +152,20 @@ class TestPageUpdater {
             this.updateTestHistory();
             this.updateCopyright(Controller.reportSettings.coreVersion);
         });
-        return t;
     }
 
     static updateTestHistory(): void {
-        const paths: Array<string> = new Array();
-        const testStrings: Array<string> = new Array();
-        const tests: Array<TestRun> = new Array();
         const guid = UrlHelper.getParam("testGuid");
-        let testInfos: Array<ItemInfo>;
-        this.loader.loadTestsJson(guid, (response: string) => {
-            testInfos = JSON.parse(response, this.reviveRun);
-            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
-            for (let i = 0; i < this.testVersionsCount; i++) {
-                paths[i] = `./${testInfos[i].guid}/${testInfos[i].fileName}`;
-            }
-            this.loader.loadJsonsByPaths(paths, 0, testStrings, false, false, (responses: Array<string>) => {
-                for (let i = 0; i < responses.length; i++) {
-                    tests[i] = JSON.parse(responses[i], this.reviveRun);
-                }
-                this.setTestHistory(tests);
-            });
+        Controller.dataService.fromPage(PageType.TestPage).getLatestTests(guid, (testRunDtos: Array<TestRunDto>, total: number) => {
+            this.setTestHistory(testRunDtos);
         });
     }
 
     private static loadTest(index: number): void {
         const guid = UrlHelper.getParam("testGuid");
-        let testInfos: Array<ItemInfo>;
-        this.loader.loadTestsJson(guid, (response: string) => {
-            testInfos = JSON.parse(response, this.reviveRun);
-            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
+        Controller.dataService.fromPage(PageType.TestPage).getTestInfos(guid, (testInfoDtos: ItemInfoDto[]) => {
             let testsToDisplay = Controller.reportSettings.testsToDisplay;
-            this.testVersionsCount = testsToDisplay >= 1 ? Math.min(testInfos.length, testsToDisplay) : testInfos.length;
+            this.testVersionsCount = testsToDisplay >= 1 ? Math.min(testInfoDtos.length, testsToDisplay) : testInfoDtos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = 0;
             }
@@ -200,23 +180,20 @@ class TestPageUpdater {
                 this.disableBtn("btn-prev");
             }
             this.currentTest = index;
-            this.updateTestPage(testInfos[index].guid, testInfos[index].fileName);
+            this.updateTestPage(testInfoDtos[index].guid, testInfoDtos[index].finish);
         });
     }
 
     private static tryLoadTestByGuid(): void {
         const guid = UrlHelper.getParam("testGuid");
-        const fileName = UrlHelper.getParam("testFile");
-        let testInfos: Array<ItemInfo>;
-        this.loader.loadTestsJson(guid, (response: string) => {
-            testInfos = JSON.parse(response, this.reviveRun);
-            testInfos.sort(Sorter.itemInfoByFinishDateDesc);
+        const testFinishDate = UrlHelper.getParam("testFinishDate");
+        Controller.dataService.fromPage(PageType.TestPage).getTestInfos(guid, (testInfoDtos: ItemInfoDto[]) => {
             let testsToDisplay = Controller.reportSettings.testsToDisplay;
-            this.testVersionsCount = testsToDisplay >= 1 ? Math.min(testInfos.length, testsToDisplay) : testInfos.length;
-            const testInfo = testInfos.find((t) => t.fileName === fileName);
+            this.testVersionsCount = testsToDisplay >= 1 ? Math.min(testInfoDtos.length, testsToDisplay) : testInfoDtos.length;
+            const testInfo = testInfoDtos.find((t) => t.finish === DateFormatter.fromFileFormat(testFinishDate));
             if (testInfo != undefined) {
                 this.enableBtns();
-                let index = testInfos.indexOf(testInfo);
+                let index = testInfoDtos.indexOf(testInfo);
                 if (index <= 0) {
                     index = 0;
                     this.disableBtn("btn-next");

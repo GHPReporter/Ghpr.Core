@@ -9,6 +9,7 @@
   },
   "files": [
     "controller/common/Color.ts",
+    "controller/common/DateFormatter.ts",
     "controller/dto/ReportSettingsDto.ts",
     "controller/dto/RunSummaryDto.ts",
     "controller/dto/ItemInfoDto.ts",
@@ -40,7 +41,6 @@
     "controller/common/JsonParser.ts",
     "controller/common/localFileSystem/JsonLoader.ts",
     "controller/Controller.ts",
-    "controller/common/DateFormatter.ts",
     "controller/common/TestRunHelper.ts",
     "controller/common/RunPageUpdater.ts",
     "controller/common/ReportPageUpdater.ts",
