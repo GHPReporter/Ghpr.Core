@@ -34,6 +34,22 @@
         return year + month + day + "_" + hour + minute + second + ms;
     }
 
+    static fromFileFormat(fileFormatDate: string): Date {
+        //fileFormatDate: yyyyMMdd_hhmmssfff
+        if (fileFormatDate === "00010101_000000000") {
+            return new Date("0001-01-01");
+        }
+        let date = fileFormatDate.split("_")[0];
+        let time = fileFormatDate.split("_")[1];
+        return new Date(+date.substr(0, 4),
+            +date.substr(4, 2) - 1,
+            +date.substr(6, 2),
+            +time.substr(0, 2),
+            +time.substr(2, 2),
+            +time.substr(4, 2),
+            +time.substr(6, 3));
+    }
+
     static diff(start: Date, finish: Date): string {
         const timeDifference = (finish.getTime() - start.getTime());
         const dDate = new Date(timeDifference);

@@ -3,6 +3,7 @@
 ///<reference path="./../entities/RunSummary.ts"/>
 ///<reference path="./../../../dto/RunSummaryDto.ts"/>
 ///<reference path="./ItemInfoDtoMapper.ts"/>
+///<reference path="./../../DateFormatter.ts"/>
 
 class RunDtoMapper {
     static map(run: Run): RunDto {
@@ -21,19 +22,8 @@ class RunDtoMapper {
             let testRunFile = files[i];
             let testInfoDto = new ItemInfoDto();
             testInfoDto.guid = testRunFile.split("\\")[0];
-            let date = testRunFile.split("\\")[1].split(".")[0].split("_")[1];
-            let time = testRunFile.split("\\")[1].split(".")[0].split("_")[2];
-            if (date.substr(0, 4) !== "0001") {
-                testInfoDto.finish = new Date(+date.substr(0, 4),
-                    +date.substr(4, 2) - 1,
-                    +date.substr(6, 2),
-                    +time.substr(0, 2),
-                    +time.substr(2, 2),
-                    +time.substr(4, 2),
-                    +time.substr(6, 3));
-            } else {
-                testInfoDto.finish = new Date("0001-01-01");
-            }
+            let temp = testRunFile.split("\\")[1].split(".")[0].split("_");
+            testInfoDto.finish = DateFormatter.fromFileFormat(temp[1] + "_" + temp[2]);
             testInfoDto.start = new Date();
             testInfoDtos[i] = testInfoDto;
         }

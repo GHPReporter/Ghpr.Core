@@ -105,6 +105,96 @@ class TestRunDtoMapper {
         return testRunDto;
     }
 }
+class DateFormatter {
+    static format(date) {
+        if (date < new Date(2000, 1)) {
+            return "-";
+        }
+        const year = `${date.getFullYear()}`;
+        const month = this.correctString(`${date.getMonth() + 1}`);
+        const day = this.correctString(`${date.getDate()}`);
+        const hour = this.correctString(`${date.getHours()}`);
+        const minute = this.correctString(`${date.getMinutes()}`);
+        const second = this.correctString(`${date.getSeconds()}`);
+        return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+    }
+    static formatWithMs(date) {
+        if (date < new Date(2000, 1)) {
+            return "-";
+        }
+        const ms = this.correctMs(date.getMilliseconds());
+        return this.format(date) + "." + ms;
+    }
+    static toFileFormat(date) {
+        if (date.getFullYear() === 1) {
+            return "00010101_000000000";
+        }
+        const year = this.correctYear(date.getFullYear());
+        const month = this.correctString(`${date.getMonth() + 1}`);
+        const day = this.correctString(`${date.getDate()}`);
+        const hour = this.correctString(`${date.getHours()}`);
+        const minute = this.correctString(`${date.getMinutes()}`);
+        const second = this.correctString(`${date.getSeconds()}`);
+        const ms = this.correctMs(date.getMilliseconds());
+        return year + month + day + "_" + hour + minute + second + ms;
+    }
+    static fromFileFormat(fileFormatDate) {
+        if (fileFormatDate === "00010101_000000000") {
+            return new Date("0001-01-01");
+        }
+        let date = fileFormatDate.split("_")[0];
+        let time = fileFormatDate.split("_")[1];
+        return new Date(+date.substr(0, 4), +date.substr(4, 2) - 1, +date.substr(6, 2), +time.substr(0, 2), +time.substr(2, 2), +time.substr(4, 2), +time.substr(6, 3));
+    }
+    static diff(start, finish) {
+        const timeDifference = (finish.getTime() - start.getTime());
+        const dDate = new Date(timeDifference);
+        const dHours = dDate.getUTCHours();
+        const dMins = dDate.getUTCMinutes();
+        const dSecs = dDate.getUTCSeconds();
+        const dMilliSecs = dDate.getUTCMilliseconds();
+        const readableDifference = this.correctNumber(dHours) + ":" + this.correctNumber(dMins) + ":"
+            + this.correctNumber(dSecs) + "." + this.correctNumber(dMilliSecs);
+        return readableDifference;
+    }
+    static correctString(s) {
+        if (s.length === 1) {
+            return `0${s}`;
+        }
+        else
+            return s;
+    }
+    static correctNumber(n) {
+        if (n >= 0 && n < 10) {
+            return `0${n}`;
+        }
+        else
+            return `${n}`;
+    }
+    static correctMs(n) {
+        if (n >= 0 && n < 10) {
+            return `00${n}`;
+        }
+        else if (n >= 10 && n < 100) {
+            return `0${n}`;
+        }
+        else
+            return `${n}`;
+    }
+    static correctYear(n) {
+        if (n >= 0 && n < 10) {
+            return `000${n}`;
+        }
+        else if (n >= 10 && n < 100) {
+            return `00${n}`;
+        }
+        else if (n >= 100 && n < 1000) {
+            return `0${n}`;
+        }
+        else
+            return `${n}`;
+    }
+}
 class RunDtoMapper {
     static map(run) {
         let runSummaryDto = new RunSummaryDto();
@@ -121,14 +211,8 @@ class RunDtoMapper {
             let testRunFile = files[i];
             let testInfoDto = new ItemInfoDto();
             testInfoDto.guid = testRunFile.split("\\")[0];
-            let date = testRunFile.split("\\")[1].split(".")[0].split("_")[1];
-            let time = testRunFile.split("\\")[1].split(".")[0].split("_")[2];
-            if (date.substr(0, 4) !== "0001") {
-                testInfoDto.finish = new Date(+date.substr(0, 4), +date.substr(4, 2) - 1, +date.substr(6, 2), +time.substr(0, 2), +time.substr(2, 2), +time.substr(4, 2), +time.substr(6, 3));
-            }
-            else {
-                testInfoDto.finish = new Date("0001-01-01");
-            }
+            let temp = testRunFile.split("\\")[1].split(".")[0].split("_");
+            testInfoDto.finish = DateFormatter.fromFileFormat(temp[1] + "_" + temp[2]);
             testInfoDto.start = new Date();
             testInfoDtos[i] = testInfoDto;
         }
@@ -389,88 +473,6 @@ class LocalFileSystemDataService {
             console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
         };
         req.send(null);
-    }
-}
-class DateFormatter {
-    static format(date) {
-        if (date < new Date(2000, 1)) {
-            return "-";
-        }
-        const year = `${date.getFullYear()}`;
-        const month = this.correctString(`${date.getMonth() + 1}`);
-        const day = this.correctString(`${date.getDate()}`);
-        const hour = this.correctString(`${date.getHours()}`);
-        const minute = this.correctString(`${date.getMinutes()}`);
-        const second = this.correctString(`${date.getSeconds()}`);
-        return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
-    }
-    static formatWithMs(date) {
-        if (date < new Date(2000, 1)) {
-            return "-";
-        }
-        const ms = this.correctMs(date.getMilliseconds());
-        return this.format(date) + "." + ms;
-    }
-    static toFileFormat(date) {
-        if (date.getFullYear() === 1) {
-            return "00010101_000000000";
-        }
-        const year = this.correctYear(date.getFullYear());
-        const month = this.correctString(`${date.getMonth() + 1}`);
-        const day = this.correctString(`${date.getDate()}`);
-        const hour = this.correctString(`${date.getHours()}`);
-        const minute = this.correctString(`${date.getMinutes()}`);
-        const second = this.correctString(`${date.getSeconds()}`);
-        const ms = this.correctMs(date.getMilliseconds());
-        return year + month + day + "_" + hour + minute + second + ms;
-    }
-    static diff(start, finish) {
-        const timeDifference = (finish.getTime() - start.getTime());
-        const dDate = new Date(timeDifference);
-        const dHours = dDate.getUTCHours();
-        const dMins = dDate.getUTCMinutes();
-        const dSecs = dDate.getUTCSeconds();
-        const dMilliSecs = dDate.getUTCMilliseconds();
-        const readableDifference = this.correctNumber(dHours) + ":" + this.correctNumber(dMins) + ":"
-            + this.correctNumber(dSecs) + "." + this.correctNumber(dMilliSecs);
-        return readableDifference;
-    }
-    static correctString(s) {
-        if (s.length === 1) {
-            return `0${s}`;
-        }
-        else
-            return s;
-    }
-    static correctNumber(n) {
-        if (n >= 0 && n < 10) {
-            return `0${n}`;
-        }
-        else
-            return `${n}`;
-    }
-    static correctMs(n) {
-        if (n >= 0 && n < 10) {
-            return `00${n}`;
-        }
-        else if (n >= 10 && n < 100) {
-            return `0${n}`;
-        }
-        else
-            return `${n}`;
-    }
-    static correctYear(n) {
-        if (n >= 0 && n < 10) {
-            return `000${n}`;
-        }
-        else if (n >= 10 && n < 100) {
-            return `00${n}`;
-        }
-        else if (n >= 100 && n < 1000) {
-            return `0${n}`;
-        }
-        else
-            return `${n}`;
     }
 }
 class TestRunHelper {
