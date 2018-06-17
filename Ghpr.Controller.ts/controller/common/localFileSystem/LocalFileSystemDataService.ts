@@ -39,6 +39,20 @@ class LocalFileSystemDataService implements IDataService {
         });
     }
 
+    getRunInfos(callback: (runInfoDtos: ItemInfoDto[]) => void): void {
+        const path = LocalFileSystemPathsHelper.getRunsPath(this.currentPage);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, (response: string) => {
+            const runInfos: Array<ItemInfo> = JSON.parse(response, this.reviveRun);
+            const len = runInfos.length;
+            let runInfoDtos: Array<ItemInfoDto> = new Array(len);
+            for (let i = 0; i < len; i++) {
+                runInfoDtos[i] = ItemInfoDtoMapper.map(runInfos[i]);
+            }
+            runInfoDtos.sort(Sorter.itemInfoByFinishDateDesc);
+            callback(runInfoDtos);
+        });
+    }
+
     getLatestRuns(callback: (runDtos: Array<RunDto>, total: number) => void): void {
         const path = LocalFileSystemPathsHelper.getRunsPath(this.currentPage);
         this.loadJsonsByPaths([path], 0, new Array(), false, true, (response: string) => {

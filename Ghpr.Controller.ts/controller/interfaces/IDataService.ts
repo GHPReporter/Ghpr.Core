@@ -9,6 +9,7 @@ interface IDataService {
     fromPage(pageType: PageType): IDataService;
 
     getRun(runGuid: string, callback: Function): void;
+    getRunInfos(callback: (runInfoDtos: ItemInfoDto[]) => void): void;
     getLatestRuns(callback: Function): void;
     getLatestTest(testGuid: string, start: Date, finish: Date, callback: Function): void;
     getLatestTests(testGuid: string, count: number, callback: Function): void;

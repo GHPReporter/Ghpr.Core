@@ -16,8 +16,6 @@ class RunPageUpdater {
 
     static currentRunIndex: number;
     static runsToShow: number; 
-    static loader = new JsonLoader(PageType.TestRunPage);
-    static reportSettings: ReportSettings;
     static reviveRun = JsonParser.reviveRun;
 
     private static updateCopyright(coreVersion: string): void {
@@ -226,11 +224,9 @@ class RunPageUpdater {
     }
     
     private static loadRun(index: number): void {
-        let runInfos: Array<ItemInfo>;
-        this.loader.loadRunsJson((response: string) => {
-            runInfos = JSON.parse(response, this.reviveRun);
-            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
-            this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
+        Controller.dataService.fromPage(PageType.TestRunPage).getRunInfos((runInfoDtos: ItemInfoDto[]) => {
+            let runsToDisplay = Controller.reportSettings.runsToDisplay;
+            this.runsToShow = runsToDisplay >= 1 ? Math.min(runInfoDtos.length, runsToDisplay) : runInfoDtos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = 0;
             }
@@ -241,7 +237,7 @@ class RunPageUpdater {
                 this.disableBtn("btn-prev");
             }
             this.currentRunIndex = index;
-            this.updateRunPage(runInfos[index].guid);
+            this.updateRunPage(runInfoDtos[index].guid);
         });
     }
 
@@ -251,26 +247,25 @@ class RunPageUpdater {
             this.loadRun(undefined);
             return;
         }
-        let runInfos: Array<ItemInfo>;
-        this.loader.loadRunsJson((response: string) => {
-            runInfos = JSON.parse(response, this.reviveRun);
-            runInfos.sort(Sorter.itemInfoByFinishDateDesc);
-            this.runsToShow = this.reportSettings.runsToDisplay >= 1 ? Math.min(runInfos.length, this.reportSettings.runsToDisplay) : runInfos.length;
-            const runInfo = runInfos.find((r) => r.guid === guid);
-            if (runInfo != undefined) {
-                this.enableBtns();
-                let index = runInfos.indexOf(runInfo);
-                if (index === 0) {
-                    this.disableBtn("btn-next");
+        Controller.dataService.fromPage(PageType.TestRunPage).getRunInfos((runInfoDtos: ItemInfoDto[]) => {
+            let runsToDisplay = Controller.reportSettings.runsToDisplay;
+            this.runsToShow = runsToDisplay >= 1
+                    ? Math.min(runInfoDtos.length, runsToDisplay) : runInfoDtos.length;
+                const runInfo = runInfoDtos.find((r) => r.guid === guid);
+                if (runInfo != undefined) {
+                    this.enableBtns();
+                    let index = runInfoDtos.indexOf(runInfo);
+                    if (index === 0) {
+                        this.disableBtn("btn-next");
+                    }
+                    if (index >= this.runsToShow - 1) {
+                        index = this.runsToShow - 1;
+                        this.disableBtn("btn-prev");
+                    }
+                    this.loadRun(index);
+                } else {
+                    this.loadRun(undefined);
                 }
-                if (index >= this.runsToShow - 1) {
-                    index = this.runsToShow - 1;
-                    this.disableBtn("btn-prev");
-                }
-                this.loadRun(index);
-            } else {
-                this.loadRun(undefined);
-            }
         });
     }
 
@@ -321,8 +316,7 @@ class RunPageUpdater {
     }
 
     static initializePage(): void {
-        this.loader.loadReportSettingsJson((response: string) => {
-            this.reportSettings = JSON.parse(response);
+        Controller.init(PageType.TestRunPage, (dateService: IDataService, reportSettings: ReportSettingsDto) => {
             const isLatest = UrlHelper.getParam("loadLatest");
             if (isLatest !== "true") {
                 UrlHelper.removeParam("loadLatest");
