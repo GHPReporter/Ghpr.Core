@@ -27,8 +27,6 @@ class DateFormatter {
         return this.format(date) + "." + ms;
     }
     static toFileFormat(date) {
-        console.log("TO FILE FORMAT 1");
-        console.log(date);
         if (date.getFullYear() === 1) {
             return "00010101_000000000";
         }
@@ -40,21 +38,15 @@ class DateFormatter {
         const second = this.correctString(`${date.getUTCSeconds()}`);
         const ms = this.correctMs(date.getUTCMilliseconds());
         let result = year + month + day + "_" + hour + minute + second + ms;
-        console.log("TO FILE FORMAT 2");
-        console.log(result);
         return result;
     }
     static fromFileFormat(fileFormatDate) {
-        console.log("FROM FILE FORMAT 1");
-        console.log(fileFormatDate);
         if (fileFormatDate === "00010101_000000000") {
             return new Date("0001-01-01");
         }
         let date = fileFormatDate.split("_")[0];
         let time = fileFormatDate.split("_")[1];
         let dateFromFile = new Date(Date.UTC(+date.substr(0, 4), +date.substr(4, 2) - 1, +date.substr(6, 2), +time.substr(0, 2), +time.substr(2, 2), +time.substr(4, 2), +time.substr(6, 3)));
-        console.log("FROM FILE FORMAT 2");
-        console.log(dateFromFile);
         return dateFromFile;
     }
     static diff(start, finish) {
@@ -224,7 +216,6 @@ class RunDtoMapper {
             let temp = testRunFile.split("\\")[1].split(".")[0].split("_");
             console.log("MAPPER: ");
             testInfoDto.finish = DateFormatter.fromFileFormat(temp[1] + "_" + temp[2]);
-            testInfoDto.start = new Date();
             testInfoDtos[i] = testInfoDto;
         }
         let runDto = new RunDto();
@@ -508,15 +499,12 @@ class LocalFileSystemDataService {
         req.overrideMimeType("application/json");
         req.open("get", paths[ind], true);
         req.onreadystatechange = () => {
-            console.log("PATH: " + paths[ind]);
             if (req.readyState === 4)
                 if (req.status !== 200 && req.status !== 0) {
                     console
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 }
                 else {
-                    console.log(`DONE: Request status: ${req.status} : ${req.statusText}`);
-                    console.log(req);
                     responses[ind] = req.responseText;
                     if (callbackForEach) {
                         callback(req.responseText, count, ind);
@@ -1044,77 +1032,6 @@ class LocalFileSystemPathsHelper {
         }
     }
 }
-class JsonLoader {
-    constructor(pt) {
-        this.pageType = pt;
-        this.progressBar = new ProgressBar(1);
-    }
-    loadRunJson(runGuid, callback) {
-        const path = LocalFileSystemPathsHelper.getRunPath(this.pageType, runGuid);
-        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
-    }
-    loadRunsJson(callback) {
-        const path = LocalFileSystemPathsHelper.getRunsPath(this.pageType);
-        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
-    }
-    loadReportSettingsJson(callback) {
-        const path = LocalFileSystemPathsHelper.getReportSettingsPath(this.pageType);
-        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
-    }
-    loadTestJson(testGuid, testFileName, callback) {
-        const path = LocalFileSystemPathsHelper.getTestPath(testGuid, testFileName, this.pageType);
-        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
-    }
-    loadTestsJson(testGuid, callback) {
-        const path = LocalFileSystemPathsHelper.getTestsPath(testGuid, this.pageType);
-        this.loadJsonsByPaths([path], 0, new Array(), false, true, callback);
-    }
-    loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback) {
-        const count = paths.length;
-        if (showProgressBar) {
-            this.progressBar.reset(count);
-            if (ind === 0) {
-                this.progressBar.show();
-            }
-            if (ind >= count) {
-                this.progressBar.hide();
-                return;
-            }
-        }
-        if (!callbackForEach && ind >= count) {
-            callback(responses, count, ind);
-        }
-        if (ind >= count) {
-            return;
-        }
-        const req = new XMLHttpRequest();
-        req.overrideMimeType("application/json");
-        req.open("get", paths[ind], true);
-        req.onreadystatechange = () => {
-            if (req.readyState === 4)
-                if (req.status !== 200 && req.status !== 0) {
-                    console
-                        .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
-                }
-                else {
-                    responses[ind] = req.responseText;
-                    if (callbackForEach) {
-                        callback(req.responseText, count, ind);
-                    }
-                    if (showProgressBar) {
-                        this.progressBar.onLoaded(ind);
-                    }
-                    ind++;
-                    this.loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback);
-                }
-        };
-        req.timeout = 2000;
-        req.ontimeout = () => {
-            console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
-        };
-        req.send(null);
-    }
-}
 class Controller {
     static init(pagetype, callback) {
         const settingsPath = LocalFileSystemPathsHelper.getReportSettingsPath(pagetype);
@@ -1332,7 +1249,6 @@ class RunPageUpdater {
         var index = 0;
         Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunPage).getRunTests(run, (testRunDto, c, i) => {
-                console.log("TEST IN THE REPORT: " + testRunDto);
                 this.addTest(testRunDto, c, i);
                 if (i === c - 1)
                     this.makeCollapsible();

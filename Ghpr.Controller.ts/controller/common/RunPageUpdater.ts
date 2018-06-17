@@ -2,7 +2,6 @@
 ///<reference path="./localFileSystem/entities/ReportSettings.ts"/>
 ///<reference path="./localFileSystem/entities/Run.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
-///<reference path="./localFileSystem/JsonLoader.ts"/>
 ///<reference path="./JsonParser.ts"/>
 ///<reference path="./UrlHelper.ts"/>
 ///<reference path="./DateFormatter.ts"/>
@@ -215,7 +214,6 @@ class RunPageUpdater {
         var index = 0;
         Controller.init(PageType.TestRunPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
             dataService.fromPage(PageType.TestRunPage).getRunTests(run, (testRunDto: TestRunDto, c: number, i: number) => {
-                console.log("TEST IN THE REPORT: " + testRunDto);
                 this.addTest(testRunDto, c, i);
                 if (i === c - 1) this.makeCollapsible();
                 index++;

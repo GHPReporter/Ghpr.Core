@@ -169,14 +169,11 @@ class LocalFileSystemDataService implements IDataService {
         req.overrideMimeType("application/json");
         req.open("get", paths[ind], true);
         req.onreadystatechange = () => {
-            console.log("PATH: " + paths[ind]);
             if (req.readyState === 4)
                 if (req.status !== 200 && req.status !== 0) {
                     console
                         .log(`Error while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
                 } else {
-                    console.log(`DONE: Request status: ${req.status} : ${req.statusText}`);
-                    console.log(req);
                     responses[ind] = req.responseText;
                     if (callbackForEach) {
                         callback(req.responseText, count, ind);

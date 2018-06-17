@@ -54,7 +54,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="controller\common\Color.ts" />
     <TypeScriptCompile Include="controller\common\DateFormatter.ts" />
-    <TypeScriptCompile Include="controller\common\localFileSystem\JsonLoader.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\LocalFileSystemDataService.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\LocalFileSystemPathsHelper.ts" />
     <TypeScriptCompile Include="controller\common\PlotlyJs.ts" />

@@ -4,7 +4,6 @@
 ///<reference path="./localFileSystem/entities/TestRun.ts"/>
 ///<reference path="./localFileSystem/entities/TestData.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
-///<reference path="./localFileSystem/JsonLoader.ts"/>
 ///<reference path="./JsonParser.ts"/>
 ///<reference path="./UrlHelper.ts"/>
 ///<reference path="./DateFormatter.ts"/>
@@ -22,7 +21,6 @@ class TestPageUpdater {
 
     static currentTest: number;
     static testVersionsCount: number;
-    //static loader = new JsonLoader(PageType.TestPage);
     static reviveRun = JsonParser.reviveRun;
         
     private static updateCopyright(coreVersion: string): void {

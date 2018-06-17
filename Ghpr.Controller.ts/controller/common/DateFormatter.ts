@@ -21,8 +21,6 @@
     }
 
     static toFileFormat(date: Date): string {
-        console.log("TO FILE FORMAT 1");
-        console.log(date);
         if (date.getFullYear() === 1) {
             return "00010101_000000000";
         }
@@ -34,14 +32,10 @@
         const second = this.correctString(`${date.getUTCSeconds()}`);
         const ms = this.correctMs(date.getUTCMilliseconds());
         let result = year + month + day + "_" + hour + minute + second + ms;
-        console.log("TO FILE FORMAT 2");
-        console.log(result);
         return result;
     }
 
     static fromFileFormat(fileFormatDate: string): Date {
-        console.log("FROM FILE FORMAT 1");
-        console.log(fileFormatDate);
         //fileFormatDate: yyyyMMdd_hhmmssfff
         if (fileFormatDate === "00010101_000000000") {
             return new Date("0001-01-01");
@@ -55,8 +49,6 @@
             +time.substr(2, 2),
             +time.substr(4, 2),
             +time.substr(6, 3)));
-        console.log("FROM FILE FORMAT 2");
-        console.log(dateFromFile);
         return dateFromFile;
     }
 

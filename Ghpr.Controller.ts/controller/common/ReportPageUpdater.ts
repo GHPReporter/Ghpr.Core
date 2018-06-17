@@ -2,7 +2,6 @@
 ///<reference path="./localFileSystem/entities/ReportSettings.ts"/>
 ///<reference path="./localFileSystem/entities/Run.ts"/>
 ///<reference path="./../enums/PageType.ts"/>
-///<reference path="./localFileSystem/JsonLoader.ts"/>
 ///<reference path="./JsonParser.ts"/>
 ///<reference path="./UrlHelper.ts"/>
 ///<reference path="./DateFormatter.ts"/>
