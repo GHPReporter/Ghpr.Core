@@ -13,17 +13,20 @@
 ///<reference path="./Differ.ts"/>
 ///<reference path="./TabsHelper.ts"/>
 ///<reference path="./TestRunHelper.ts"/>
+///<reference path="./../Controller.ts"/>
+///<reference path="./../dto/ReportSettingsDto.ts"/>
+///<reference path="./../interfaces/IDataService.ts"/>
 
 class TestPageUpdater {
 
     static currentTest: number;
     static testVersionsCount: number;
     static loader = new JsonLoader(PageType.TestPage);
-    static reportSettings: ReportSettings;
+    //static reportSettings: ReportSettings;
     static reviveRun = JsonParser.reviveRun;
-
-    private static updateCopyright(): void {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${this.reportSettings.coreVersion})`;
+        
+    private static updateCopyright(coreVersion: string): void {
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
 
     private static updateMainInformation(t: TestRun): void {
@@ -149,7 +152,7 @@ class TestPageUpdater {
             this.updateTestData(t);
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
-            this.updateCopyright();
+            this.updateCopyright(Controller.reportSettings.coreVersion);
         });
         return t;
     }
@@ -181,7 +184,8 @@ class TestPageUpdater {
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, this.reviveRun);
             testInfos.sort(Sorter.itemInfoByFinishDateDesc);
-            this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
+            let testsToDisplay = Controller.reportSettings.testsToDisplay;
+            this.testVersionsCount = testsToDisplay >= 1 ? Math.min(testInfos.length, testsToDisplay) : testInfos.length;
             if (index === undefined || index.toString() === "NaN") {
                 index = 0;
             }
@@ -207,7 +211,8 @@ class TestPageUpdater {
         this.loader.loadTestsJson(guid, (response: string) => {
             testInfos = JSON.parse(response, this.reviveRun);
             testInfos.sort(Sorter.itemInfoByFinishDateDesc);
-            this.testVersionsCount = this.reportSettings.testsToDisplay >= 1 ? Math.min(testInfos.length, this.reportSettings.testsToDisplay) : testInfos.length;
+            let testsToDisplay = Controller.reportSettings.testsToDisplay;
+            this.testVersionsCount = testsToDisplay >= 1 ? Math.min(testInfos.length, testsToDisplay) : testInfos.length;
             const testInfo = testInfos.find((t) => t.fileName === fileName);
             if (testInfo != undefined) {
                 this.enableBtns();
@@ -278,8 +283,7 @@ class TestPageUpdater {
     }
 
     static initializePage(): void {
-        this.loader.loadReportSettingsJson((response: string) => {
-            this.reportSettings = JSON.parse(response);
+        Controller.init(PageType.TestPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
             const isLatest = UrlHelper.getParam("loadLatest");
             if (isLatest !== "true") {
                 UrlHelper.removeParam("loadLatest");
