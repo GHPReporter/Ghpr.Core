@@ -137,10 +137,10 @@ class TestPageUpdater {
         Plotly.newPlot(historyDiv, plotlyData, layout);      
     }
 
-    private static updateTestPage(testGuid: string, testFinish: Date): void {
-        Controller.dataService.fromPage(PageType.TestPage).getLatestTest(testGuid, testFinish, (t: TestRunDto) => {
+    private static updateTestPage(testGuid: string, itemName: string): void {
+        Controller.dataService.fromPage(PageType.TestPage).getLatestTest(testGuid, itemName, (t: TestRunDto) => {
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
-            UrlHelper.insertParam("testFinishDate", DateFormatter.toFileFormat(t.testInfo.finish));
+            UrlHelper.insertParam("itemName", t.testInfo.itemName);
             this.updateMainInformation(t);
             this.updateOutput(t);
             this.updateFailure(t);
@@ -178,17 +178,17 @@ class TestPageUpdater {
                 this.disableBtn("btn-prev");
             }
             this.currentTest = index;
-            this.updateTestPage(testInfoDtos[index].guid, testInfoDtos[index].finish);
+            this.updateTestPage(testInfoDtos[index].guid, testInfoDtos[index].itemName);
         });
     }
 
     private static tryLoadTestByGuid(): void {
         const guid = UrlHelper.getParam("testGuid");
-        const testFinishDate = UrlHelper.getParam("testFinishDate");
+        const itemName = UrlHelper.getParam("itemName");
         Controller.dataService.fromPage(PageType.TestPage).getTestInfos(guid, (testInfoDtos: ItemInfoDto[]) => {
             let testsToDisplay = Controller.reportSettings.testsToDisplay;
             this.testVersionsCount = testsToDisplay >= 1 ? Math.min(testInfoDtos.length, testsToDisplay) : testInfoDtos.length;
-            const testInfo = testInfoDtos.find((t) => t.finish === DateFormatter.fromFileFormat(testFinishDate));
+            const testInfo = testInfoDtos.find((t) => t.itemName === itemName);
             if (testInfo != undefined) {
                 this.enableBtns();
                 let index = testInfoDtos.indexOf(testInfo);

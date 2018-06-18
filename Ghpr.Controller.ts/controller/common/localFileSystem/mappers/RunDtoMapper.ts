@@ -16,16 +16,11 @@ class RunDtoMapper {
         runSummaryDto.unknown = run.summary.unknown;
         runSummaryDto.total = run.summary.total;
 
-        let files = run.testRunFiles;
-        let testInfoDtos = new Array<ItemInfoDto>(files.length);
-        for (let i = 0; i < files.length; i++) {
-            let testRunFile = files[i];
-            let testInfoDto = new ItemInfoDto();
-            testInfoDto.guid = testRunFile.split("\\")[0];
-            let temp = testRunFile.split("\\")[1].split(".")[0].split("_");
-            console.log("MAPPER: ");
-            testInfoDto.finish = DateFormatter.fromFileFormat(temp[1] + "_" + temp[2]);
-            testInfoDtos[i] = testInfoDto;
+        let testRuns = run.testRuns;
+        let len = testRuns.length;
+        let testInfoDtos = new Array<ItemInfoDto>(len);
+        for (let i = 0; i < len; i++) {
+            testInfoDtos[i] = ItemInfoDtoMapper.map(testRuns[i]);
         }
 
         let runDto = new RunDto();

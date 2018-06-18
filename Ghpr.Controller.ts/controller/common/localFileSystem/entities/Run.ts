@@ -2,7 +2,7 @@
 ///<reference path="./ItemInfo.ts"/>
 
 class Run {
-    testRunFiles: Array<string>;
+    testRuns: Array<ItemInfo>;
     runInfo: ItemInfo;
     summary: RunSummary;
     name: string;

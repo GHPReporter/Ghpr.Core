@@ -2,5 +2,5 @@
     guid: string;
     start: Date;
     finish: Date;
-    fileName: string;
+    itemName: string;
 }

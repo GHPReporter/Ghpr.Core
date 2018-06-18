@@ -109,7 +109,7 @@ class LocalFileSystemDataService implements IDataService {
             }
             const paths: Array<string> = new Array();
             for (let i = 0; i < testsToLoad; i++) {
-                paths[i] = LocalFileSystemPathsHelper.getTestPathByDate(testGuid, testInfosDto[i].finish, this.currentPage);
+                paths[i] = LocalFileSystemPathsHelper.getTestPath(testInfosDto[i].itemName, testInfosDto[i].guid, this.currentPage);
             }
             const testRuns: Array<TestRunDto> = new Array();
             this.loadJsonsByPaths(paths, 0, new Array(), false, false, (responses: Array<string>) => {
@@ -122,11 +122,8 @@ class LocalFileSystemDataService implements IDataService {
         });
     }
 
-    getLatestTest(testGuid: string, finish: Date, callback: Function): void {
-        const path = LocalFileSystemPathsHelper.getTestPathByDate(testGuid, finish, this.currentPage);
-        console.log(path);
-        console.log(testGuid);
-        console.log(finish);
+    getLatestTest(testGuid: string, itemName: string, callback: Function): void {
+        const path = LocalFileSystemPathsHelper.getTestPath(itemName, testGuid, this.currentPage);
         this.loadJsonsByPaths([path], 0, new Array(), false, true, (response: string) => {
             const testRun: TestRun = JSON.parse(response, this.reviveRun);
             const testRunDto = TestRunDtoMapper.map(testRun);
@@ -141,7 +138,7 @@ class LocalFileSystemDataService implements IDataService {
         const testsInfo = runDto.testsInfo;
         console.log(runDto);
         for (let j = 0; j < testsInfo.length; j++) {
-            paths[j] = `./../tests/${testsInfo[j].guid}/${TestRunHelper.getFileName(testsInfo[j])}`;
+            paths[j] = `./../tests/${testsInfo[j].guid}/${testsInfo[j].itemName}`;
         }
         this.loadJsonsByPaths(paths, 0, new Array(), true, true, (response: string, c: number, i: number) => {
             test = JSON.parse(response, this.reviveRun);

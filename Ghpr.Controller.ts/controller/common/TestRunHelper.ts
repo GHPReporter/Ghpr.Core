@@ -28,10 +28,6 @@ class TestRunHelper {
         return this.getColorByResult(result);
     }
     
-    static getFileName(t: ItemInfoDto): string {
-        return `test_${DateFormatter.toFileFormat(t.finish)}.json`;
-    }
-
     static getResult(t: TestRunDto): TestResult {
         if (t.result.indexOf("Passed") > -1) {
             return TestResult.Passed;

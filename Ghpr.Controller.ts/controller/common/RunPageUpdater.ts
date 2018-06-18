@@ -78,7 +78,7 @@ class RunPageUpdater {
         const c = tests.length;
         for (let i = 0; i < c; i++) {
             const t = tests[i];
-            const href = `./../tests/index.html?testGuid=${t.testInfo.guid}&testFinishDate=${DateFormatter.toFileFormat(t.testInfo.finish)}`;
+            const href = `./../tests/index.html?testGuid=${t.testInfo.guid}&itemName=${t.testInfo.itemName}`;
             list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="${href}">${t.name}</a></li>`;
         }
         document.getElementById("all-tests").innerHTML = list;
@@ -86,7 +86,7 @@ class RunPageUpdater {
 
     private static addTest(t: TestRunDto, c: number, i: number): void {
         const ti = t.testInfo;
-        const testHref = `./../tests/index.html?testGuid=${ti.guid}&testFinishDate=${DateFormatter.toFileFormat(ti.finish)}`;
+        const testHref = `./../tests/index.html?testGuid=${ti.guid}&itemName=${t.testInfo.itemName}`;
         const testLi = `<li id="test-${ti.guid}" style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
             <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;

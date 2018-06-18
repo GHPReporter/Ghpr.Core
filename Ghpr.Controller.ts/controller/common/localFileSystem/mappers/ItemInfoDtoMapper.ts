@@ -7,6 +7,7 @@ class ItemInfoDtoMapper {
         itemIntoDto.guid = itemInfo.guid;
         itemIntoDto.start = itemInfo.start;
         itemIntoDto.finish = itemInfo.finish;
+        itemIntoDto.itemName = itemInfo.itemName;
         return itemIntoDto;
     }
 }
