@@ -9,8 +9,7 @@ namespace Ghpr.LocalFileSystem.Comparers
         {
             return x.Guid.Equals(y.Guid) && 
                 x.Start.Equals(y.Start) &&
-                x.Finish.Equals(y.Finish) &&
-                x.FileName.Equals(y.FileName);
+                x.Finish.Equals(y.Finish);
         }
 
         public int GetHashCode(ItemInfo obj)

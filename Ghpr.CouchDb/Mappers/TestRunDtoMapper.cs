@@ -9,6 +9,9 @@ namespace Ghpr.CouchDb.Mappers
     {
         public static DatabaseEntity<TestRun> Map(this TestRunDto testRunDto)
         {
+            var id = $"test_run_{testRunDto.TestInfo.Guid}" +
+                     $"-{testRunDto.TestInfo.Start:yyyyMMdd_HHmmssfff}" +
+                     $"-{testRunDto.TestInfo.Finish:yyyyMMdd_HHmmssfff}";
             var testRun = new TestRun
             {
                 Categories = testRunDto.Categories,
@@ -26,7 +29,7 @@ namespace Ghpr.CouchDb.Mappers
                 Result = testRunDto.Result,
                 RunGuid = testRunDto.RunGuid,
                 Screenshots = new List<TestScreenshotInfo>(),
-                TestInfo = testRunDto.TestInfo.MapTestRunInfo(),
+                TestInfo = testRunDto.TestInfo.MapTestRunInfo(id),
                 TestDuration = (testRunDto.TestInfo.Finish - testRunDto.TestInfo.Start).TotalSeconds,
                 TestMessage = testRunDto.TestMessage,
                 TestStackTrace = testRunDto.TestStackTrace,
@@ -42,7 +45,7 @@ namespace Ghpr.CouchDb.Mappers
             var entity = new DatabaseEntity<TestRun>
             {
                 Data = testRun,
-                Id = $"test_run_{testRun.TestInfo.Guid}-{testRun.TestInfo.Start:yyyyMMdd_HHmmssfff}-{testRun.TestInfo.Finish:yyyyMMdd_HHmmssfff}",
+                Id = id,
                 Rev = $"1-{testRun.TestInfo.Start:yyyyMMdd_HHmmssfff}-{testRun.TestInfo.Finish:yyyyMMdd_HHmmssfff}",
                 Type = EntityType.TestRunType
             };

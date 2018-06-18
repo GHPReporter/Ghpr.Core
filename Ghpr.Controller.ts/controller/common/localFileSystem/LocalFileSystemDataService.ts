@@ -124,6 +124,9 @@ class LocalFileSystemDataService implements IDataService {
 
     getLatestTest(testGuid: string, finish: Date, callback: Function): void {
         const path = LocalFileSystemPathsHelper.getTestPathByDate(testGuid, finish, this.currentPage);
+        console.log(path);
+        console.log(testGuid);
+        console.log(finish);
         this.loadJsonsByPaths([path], 0, new Array(), false, true, (response: string) => {
             const testRun: TestRun = JSON.parse(response, this.reviveRun);
             const testRunDto = TestRunDtoMapper.map(testRun);

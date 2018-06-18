@@ -8,10 +8,11 @@ namespace Ghpr.CouchDb.Mappers
     {
         public static DatabaseEntity<Run> Map(this RunDto runDto)
         {
+            var id = $"run_{runDto.RunInfo.Guid}";
             var run = new Run
             {
                 Name = runDto.Name,
-                RunInfo = runDto.RunInfo.MapRunInfo(),
+                RunInfo = runDto.RunInfo.MapRunInfo(id),
                 RunSummary = runDto.RunSummary.Map(),
                 Sprint = runDto.Sprint,
                 TestRuns = runDto.TestsInfo.Select(ti => new ItemInfo
@@ -24,7 +25,7 @@ namespace Ghpr.CouchDb.Mappers
             var entity = new DatabaseEntity<Run>
             {
                 Data = run,
-                Id = $"run_{run.RunInfo.Guid}",
+                Id = id,
                 Type = EntityType.RunType
             };
             return entity;

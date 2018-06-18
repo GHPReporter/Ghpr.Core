@@ -15,7 +15,7 @@ namespace Ghpr.LocalFileSystem.Entities
         [JsonProperty(PropertyName = "finish")]
         public DateTime Finish { get; set; }
 
-        [JsonProperty(PropertyName = "fileName")]
-        public string FileName { get; set; }
+        [JsonProperty(PropertyName = "itemName")]
+        public string ItemName { get; set; }
     }
 }

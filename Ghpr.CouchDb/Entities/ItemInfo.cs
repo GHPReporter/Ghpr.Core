@@ -6,6 +6,9 @@ namespace Ghpr.CouchDb.Entities
     [JsonObject(MemberSerialization.OptIn)]
     public class ItemInfo
     {
+        [JsonProperty(PropertyName = "itemName")]
+        public string ItemName { get; set; }
+
         [JsonProperty(PropertyName = "guid")]
         public Guid Guid { get; set; }
 

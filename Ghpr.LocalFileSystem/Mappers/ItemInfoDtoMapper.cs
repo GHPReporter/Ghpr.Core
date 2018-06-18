@@ -13,7 +13,7 @@ namespace Ghpr.LocalFileSystem.Mappers
                 Guid = itemInfoDto.Guid,
                 Start = itemInfoDto.Start,
                 Finish = itemInfoDto.Finish,
-                FileName = LocationsProvider.GetTestRunFileName(itemInfoDto.Finish)
+                ItemName = LocationsProvider.GetTestRunFileName(itemInfoDto.Finish)
             };
             return run;
         }
@@ -25,7 +25,7 @@ namespace Ghpr.LocalFileSystem.Mappers
                 Guid = itemInfoDto.Guid,
                 Start = itemInfoDto.Start,
                 Finish = itemInfoDto.Finish,
-                FileName = LocationsProvider.GetRunFileName(itemInfoDto.Guid)
+                ItemName = LocationsProvider.GetRunFileName(itemInfoDto.Guid)
             };
             return run;
         }

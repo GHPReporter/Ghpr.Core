@@ -6,8 +6,8 @@ namespace Ghpr.LocalFileSystem.Entities
     [JsonObject(MemberSerialization.OptIn)]
     public class Run
     {
-        [JsonProperty(PropertyName = "testRunFiles")]
-        public List<string> TestRunFiles { get; set; }
+        [JsonProperty(PropertyName = "testRuns")]
+        public List<ItemInfo> TestRuns { get; set; }
 
         [JsonProperty(PropertyName = "runInfo")]
         public ItemInfo RunInfo { get; set; }

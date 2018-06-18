@@ -11,7 +11,7 @@ namespace Ghpr.LocalFileSystem.Extensions
         public static string Save(this Run run, string path)
         {
             var fileName = LocationsProvider.GetRunFileName(run.RunInfo.Guid);
-            run.RunInfo.FileName = fileName;
+            run.RunInfo.ItemName = fileName;
             path.Create();
             var fullRunPath = Path.Combine(path, fileName);
             using (var file = File.CreateText(fullRunPath))

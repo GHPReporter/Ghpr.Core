@@ -456,6 +456,9 @@ class LocalFileSystemDataService {
     }
     getLatestTest(testGuid, finish, callback) {
         const path = LocalFileSystemPathsHelper.getTestPathByDate(testGuid, finish, this.currentPage);
+        console.log(path);
+        console.log(testGuid);
+        console.log(finish);
         this.loadJsonsByPaths([path], 0, new Array(), false, true, (response) => {
             const testRun = JSON.parse(response, this.reviveRun);
             const testRunDto = TestRunDtoMapper.map(testRun);
