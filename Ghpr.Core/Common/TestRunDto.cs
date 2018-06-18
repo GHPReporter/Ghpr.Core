@@ -20,12 +20,12 @@ namespace Ghpr.Core.Common
             TestStackTrace = "";
             TestMessage = "";
             Result = "";
-            Output = "";
+            Output = new SimpleItemInfoDto();
             Priority = "";
             TestType = "";
             Categories = new string[] { };
             RunGuid = Guid.Empty;
-            Screenshots = new List<TestScreenshotDto>();
+            Screenshots = new List<SimpleItemInfoDto>();
             Events = new List<TestEventDto>();
             TestData = new List<TestDataDto>();
         }
@@ -44,12 +44,12 @@ namespace Ghpr.Core.Common
             TestStackTrace = "";
             TestMessage = "";
             Result = "";
-            Output = "";
+            Output = new SimpleItemInfoDto();
             Priority = "";
             TestType = "";
             Categories = new string[] { };
             RunGuid = Guid.Empty;
-            Screenshots = new List<TestScreenshotDto>();
+            Screenshots = new List<SimpleItemInfoDto>();
             Events = new List<TestEventDto>();
             TestData = new List<TestDataDto>();
         }
@@ -61,12 +61,12 @@ namespace Ghpr.Core.Common
         public string TestMessage { get; set; }
         public string Result { get; set; }
         public string TestType { get; set; }
-        public string Output { get; set; }
+        public SimpleItemInfoDto Output { get; set; }
         public string Priority { get; set; }
         public string[] Categories { get; set; }
         public ItemInfoDto TestInfo { get; set; }
         public Guid RunGuid { get; set; }
-        public List<TestScreenshotDto> Screenshots { get; set; }
+        public List<SimpleItemInfoDto> Screenshots { get; set; }
         public List<TestEventDto> Events { get; set; }
         public List<TestDataDto> TestData { get; set; }
 

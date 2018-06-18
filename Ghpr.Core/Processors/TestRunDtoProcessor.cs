@@ -20,7 +20,7 @@ namespace Ghpr.Core.Processors
                     s => !finalTestRunDto.Screenshots.Any(ts => ts.Date.Equals(s.Date))));
             finalTestRunDto.Events.
                 AddRange(testRunDtoWhenStated.Events.Where(
-                    e => !finalTestRunDto.Events.Any(te => te.Name.Equals(e.Name))));
+                    e => !finalTestRunDto.Events.Any(te => te.Comment.Equals(e.Comment))));
             finalTestRunDto.TestInfo.Start = testRunDtoWhenStated.TestInfo.Start;
             finalTestRunDto.TestInfo.Finish = finalTestRunDto.TestInfo.Finish.Equals(default(DateTime))
                 ? DateTime.Now

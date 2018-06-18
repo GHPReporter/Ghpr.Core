@@ -20,11 +20,12 @@ namespace Ghpr.CouchDb.Mappers
                 {
                     Started = teDto.Started,
                     Finished = teDto.Finished,
-                    Name = teDto.Name
+                    Name = teDto.Comment
                 }).ToList(),
                 FullName = testRunDto.FullName,
                 Name = testRunDto.Name,
-                Output = testRunDto.Output,
+                //TODO: fix
+                //Output = testRunDto.Output,
                 Priority = testRunDto.Priority,
                 Result = testRunDto.Result,
                 RunGuid = testRunDto.RunGuid,
@@ -39,7 +40,7 @@ namespace Ghpr.CouchDb.Mappers
                     Actual = tdDto.Actual,
                     Expected = tdDto.Expected,
                     Comment = tdDto.Comment,
-                    Date = tdDto.Date
+                    //Date = tdDto.Date
                 }).ToList()
             };
             var entity = new DatabaseEntity<TestRun>
