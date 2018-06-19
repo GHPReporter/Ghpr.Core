@@ -53,9 +53,9 @@ namespace Ghpr.LocalFileSystem.Providers
             return fileName;
         }
 
-        public static string GetScreenshotFileName(DateTime creationDateTime, string format)
+        public static string GetScreenshotFileName(DateTime creationDateTime)
         {
-            return $"img_{creationDateTime:yyyyMMdd_HHmmssfff}.{format.Replace(".", "").ToLower()}";
+            return $"img_{creationDateTime:yyyyMMdd_HHmmssfff}.json";
         }
     }
 }

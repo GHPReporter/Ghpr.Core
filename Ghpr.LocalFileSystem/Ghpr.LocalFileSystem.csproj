@@ -57,6 +57,7 @@
     <Compile Include="Entities\TestScreenshot.cs" />
     <Compile Include="Extensions\ItemInfoExtensions.cs" />
     <Compile Include="Extensions\RunExtensions.cs" />
+    <Compile Include="Extensions\TestScreenshotExtensions.cs" />
     <Compile Include="Extensions\TestOutputExtensions.cs" />
     <Compile Include="Extensions\TestRunExtensions.cs" />
     <Compile Include="Interfaces\ILocationsProvider.cs" />
