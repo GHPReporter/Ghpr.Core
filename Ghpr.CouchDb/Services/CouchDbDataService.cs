@@ -36,8 +36,9 @@ namespace Ghpr.CouchDb.Services
             Database.SaveReportSettings(reportSettingsEntity);
         }
 
-        public void SaveTestRun(TestRunDto testRunDto)
+        public void SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)
         {
+            //TODO: SAVE testOutputDto correctly!
             var testRunEntity = testRunDto.Map();
             Database.SaveTestRun(testRunEntity);
         }

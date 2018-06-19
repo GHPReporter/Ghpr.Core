@@ -9,6 +9,9 @@ namespace Ghpr.CouchDb.Entities
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
+        [JsonProperty(PropertyName = "eventInfo")]
+        public SimpleItemInfo EventInfo { get; set; }
+
         [JsonProperty(PropertyName = "start")]
         public DateTime Started { get; set; }
 

@@ -72,15 +72,15 @@ namespace Ghpr.Core
             });
         }
 
-        public void AddCompleteTestRun(TestRunDto testRun)
+        public void AddCompleteTestRun(TestRunDto testRun, TestOutputDto testOutputDto)
         {
-            OnTestFinish(testRun);
+            OnTestFinish(testRun, testOutputDto);
             Logger.Info($"Test '{testRun.Name}' (Guid: {testRun.TestInfo.Guid}) was added");
         }
 
-        public void TestFinished(TestRunDto testRun)
+        public void TestFinished(TestRunDto testRun, TestOutputDto testOutputDto)
         {
-            OnTestFinish(testRun);
+            OnTestFinish(testRun, testOutputDto);
             Logger.Info($"Test '{testRun.Name}' (Guid: {testRun.TestInfo.Guid}) finished");
             if (ReporterSettings.RealTimeGeneration)
             {
@@ -101,14 +101,18 @@ namespace Ghpr.Core
             {
                 TestGuid = guid,
                 Base64Data =  base64String,
-                Date = DateTime.Now,
+                TestScreenshotInfo = new SimpleItemInfoDto
+                {
+                    Date = DateTime.Now,
+                    ItemName = string.Empty
+                },
                 Format = format
             };
             Logger.Info($"Saving screenshot (Test guid: {testScreenshot.TestGuid})");
             DataService.SaveScreenshot(testScreenshot);
         }
 
-        private void OnTestFinish(TestRunDto testDtoWhenFinished)
+        private void OnTestFinish(TestRunDto testDtoWhenFinished, TestOutputDto testOutputDto)
         {
             Action.Safe(() =>
             {
@@ -116,22 +120,22 @@ namespace Ghpr.Core
                 var testDtoWhenStarted = TestRunsRepository.ExtractCorrespondingTestRun(testDtoWhenFinished);
                 var finalTest = TestRunProcessor.Process(testDtoWhenStarted, testDtoWhenFinished, RunRepository.RunGuid);
                 Logger.Debug($"Saving test run '{finalTest.Name}' (Guid: {finalTest.TestInfo.Guid})");
-                DataService.SaveTestRun(finalTest);
+                DataService.SaveTestRun(finalTest, testOutputDto);
             });
         }
 
-        public void GenerateFullReport(List<TestRunDto> testRuns)
+        public void GenerateFullReport(List<KeyValuePair<TestRunDto, TestOutputDto>> testRuns)
         {
             GenerateFullReport(testRuns, testRuns.GetRunStartDateTime(), testRuns.GetRunFinishDateTime());
         }
 
-        public void GenerateFullReport(List<TestRunDto> testRuns, DateTime start, DateTime finish)
+        public void GenerateFullReport(List<KeyValuePair<TestRunDto, TestOutputDto>> testRuns, DateTime start, DateTime finish)
         {
             Logger.Debug($"Generating full report from the list of test runs ({testRuns.Count} test runs in total)");
             InitializeOnRunStarted(start);
             foreach (var testRun in testRuns)
             {
-                AddCompleteTestRun(testRun);
+                AddCompleteTestRun(testRun.Key, testRun.Value);
             }
             GenerateReport(finish);
             Logger.Debug("Generating full report from the list of test runs: Done");

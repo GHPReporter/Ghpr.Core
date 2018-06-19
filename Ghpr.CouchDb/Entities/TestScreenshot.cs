@@ -9,8 +9,8 @@ namespace Ghpr.CouchDb.Entities
         [JsonProperty(PropertyName = "testGuid")]
         public Guid TestGuid { get; set; }
 
-        [JsonProperty(PropertyName = "date")]
-        public DateTime Date { get; set; }
+        [JsonProperty(PropertyName = "testScreenshotInfo")]
+        public SimpleItemInfo TestScreenshotInfo { get; set; }
 
         [JsonProperty(PropertyName = "base64Data")]
         public string Base64Data { get; set; }

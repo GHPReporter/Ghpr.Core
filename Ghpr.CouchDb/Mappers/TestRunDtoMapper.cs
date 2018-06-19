@@ -20,12 +20,13 @@ namespace Ghpr.CouchDb.Mappers
                 {
                     Started = teDto.Started,
                     Finished = teDto.Finished,
-                    Name = teDto.Comment
+                    Name = teDto.Comment,
+                    EventInfo = teDto.EventInfo.MapSimpleItemInfo()
                 }).ToList(),
                 FullName = testRunDto.FullName,
                 Name = testRunDto.Name,
-                //TODO: fix
-                //Output = testRunDto.Output,
+                //TODO: Insert correct itemName here
+                Output = testRunDto.Output.MapSimpleItemInfo(""),
                 Priority = testRunDto.Priority,
                 Result = testRunDto.Result,
                 RunGuid = testRunDto.RunGuid,
@@ -40,7 +41,7 @@ namespace Ghpr.CouchDb.Mappers
                     Actual = tdDto.Actual,
                     Expected = tdDto.Expected,
                     Comment = tdDto.Comment,
-                    //Date = tdDto.Date
+                    Date = tdDto.TestDataInfo.Date
                 }).ToList()
             };
             var entity = new DatabaseEntity<TestRun>

@@ -7,9 +7,11 @@ namespace Ghpr.CouchDb.Mappers
     {
         public static DatabaseEntity<TestScreenshot> Map(this TestScreenshotDto testScreenshotDto)
         {
+            var id = $"screenshot-{testScreenshotDto.TestGuid.ToString()}" +
+                     $"-{testScreenshotDto.TestScreenshotInfo.Date:yyyyMMdd_HHmmssfff}";
             var testScreenshot = new TestScreenshot
             {
-                Date = testScreenshotDto.Date,
+                TestScreenshotInfo = testScreenshotDto.TestScreenshotInfo.MapSimpleItemInfo(id),
                 Base64Data = testScreenshotDto.Base64Data,
                 TestGuid = testScreenshotDto.TestGuid,
                 Format = testScreenshotDto.Format
@@ -17,7 +19,7 @@ namespace Ghpr.CouchDb.Mappers
             var entity = new DatabaseEntity<TestScreenshot>
             {
                 Data = testScreenshot,
-                Id = $"screenshot-{testScreenshot.TestGuid.ToString()}-{testScreenshot.Date:yyyyMMdd_HHmmssfff}",
+                Id = id,
                 Type = EntityType.ScreenshotType
             };
             return entity;

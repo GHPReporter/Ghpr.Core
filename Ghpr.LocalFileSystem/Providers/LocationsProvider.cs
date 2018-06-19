@@ -41,6 +41,11 @@ namespace Ghpr.LocalFileSystem.Providers
         {
             return $"test_{finishDateTime:yyyyMMdd_HHmmssfff}.json";
         }
+        
+        public static string GetTestOutputFileName(DateTime finishDateTime)
+        {
+            return $"test_output_{finishDateTime:yyyyMMdd_HHmmssfff}.json";
+        }
 
         public static string GetRunFileName(Guid runGuid)
         {

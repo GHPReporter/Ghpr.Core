@@ -73,11 +73,11 @@ namespace Ghpr.Core
             }
         }
 
-        public static void TestFinished(TestRunDto testRun)
+        public static void TestFinished(TestRunDto testRun, TestOutputDto testOutputDto)
         {
             lock (Lock)
             {
-                _reporter.TestFinished(testRun);
+                _reporter.TestFinished(testRun, testOutputDto);
             }
         }
     }

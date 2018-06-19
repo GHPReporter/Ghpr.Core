@@ -32,7 +32,7 @@ namespace Ghpr.CouchDb.Entities
         public string TestType { get; set; }
 
         [JsonProperty(PropertyName = "output")]
-        public string Output { get; set; }
+        public SimpleItemInfo Output { get; set; }
 
         [JsonProperty(PropertyName = "priority")]
         public string Priority { get; set; }

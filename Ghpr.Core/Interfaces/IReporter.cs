@@ -22,13 +22,13 @@ namespace Ghpr.Core.Interfaces
         void RunFinished();
 
         void TestStarted(TestRunDto testRun);
-        void AddCompleteTestRun(TestRunDto testRun);
-        void TestFinished(TestRunDto testRun);
+        void AddCompleteTestRun(TestRunDto testRun, TestOutputDto testOutputDto);
+        void TestFinished(TestRunDto testRun, TestOutputDto testOutputDto);
 
         void SaveScreenshot(byte[] screnshotBytes, string format);
 
-        void GenerateFullReport(List<TestRunDto> testRuns);
-        void GenerateFullReport(List<TestRunDto> testRuns, DateTime start, DateTime finish);
+        void GenerateFullReport(List<KeyValuePair<TestRunDto, TestOutputDto>> testRuns);
+        void GenerateFullReport(List<KeyValuePair<TestRunDto, TestOutputDto>> testRuns, DateTime start, DateTime finish);
 
         void TearDown();
     }

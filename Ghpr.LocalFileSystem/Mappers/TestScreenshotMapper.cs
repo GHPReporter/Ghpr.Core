@@ -8,10 +8,10 @@ namespace Ghpr.LocalFileSystem.Mappers
     {
         public static TestScreenshot Map(this TestScreenshotDto testScreenshotDto)
         {
+            var name = LocationsProvider.GetScreenshotFileName(testScreenshotDto.TestScreenshotInfo.Date, testScreenshotDto.Format);
             var testScreenshot = new TestScreenshot
             {
-                Date = testScreenshotDto.Date,
-                Name = LocationsProvider.GetScreenshotFileName(testScreenshotDto.Date, testScreenshotDto.Format),
+                TestScreenshotInfo = testScreenshotDto.TestScreenshotInfo.MapSimpleItemInfo(name),
                 Base64Data = testScreenshotDto.Base64Data,
                 TestGuid = testScreenshotDto.TestGuid,
                 Format = testScreenshotDto.Format

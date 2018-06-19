@@ -49,7 +49,7 @@ namespace Ghpr.CouchDb
         {
             var settingsContent = _contentBuilder.GetContent(screenshotEntity);
             var postResult = _client.Put($"/{_ghprDatabaseName}/{screenshotEntity.Id}?new_edits?=false", settingsContent);
-            _messageProcessor.ProcessScreenshotSavedMessage(postResult, screenshotEntity.Data.TestGuid.ToString(), screenshotEntity.Data.Date);
+            _messageProcessor.ProcessScreenshotSavedMessage(postResult, screenshotEntity.Data.TestGuid.ToString(), screenshotEntity.Data.TestScreenshotInfo.Date);
             _logger.Debug($"Screenshot was saved: {JsonConvert.SerializeObject(screenshotEntity, Formatting.Indented)}");
         }
 
@@ -62,7 +62,7 @@ namespace Ghpr.CouchDb
             var screenshots = findResult.ContentAsJObject().SelectToken("docs").ToObject<List<DatabaseEntity<TestScreenshot>>>();
             testRunEntity.Data.Screenshots.AddRange(screenshots.Select(screenshotEntity => new TestScreenshotInfo
             {
-                Date = screenshotEntity.Data.Date,
+                Date = screenshotEntity.Data.TestScreenshotInfo.Date,
                 Id = screenshotEntity.Id,
                 Revision = screenshotEntity.Rev
             }));

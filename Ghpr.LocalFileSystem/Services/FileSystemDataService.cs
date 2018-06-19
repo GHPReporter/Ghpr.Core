@@ -43,13 +43,13 @@ namespace Ghpr.LocalFileSystem.Services
             {
                 var screenPath = _locationsProvider.GetScreenshotPath(testScreenshot.TestGuid.ToString());
                 screenPath.Create();
-                var screenName = LocationsProvider.GetScreenshotFileName(testScreenshot.Date, testScreenshot.Format);
+                var screenName = LocationsProvider.GetScreenshotFileName(testScreenshot.TestScreenshotInfo.Date, testScreenshot.Format);
                 var file = Path.Combine(screenPath, screenName);
                 var screen = new Bitmap(image);
                 screen.Save(file);
                 var fileInfo = new FileInfo(file);
                 fileInfo.Refresh();
-                fileInfo.CreationTime = testScreenshot.Date;
+                fileInfo.CreationTime = testScreenshot.TestScreenshotInfo.Date;
                 _logger.Info($"Screenshot was saved: '{file}'");
             }
         }
@@ -61,7 +61,7 @@ namespace Ghpr.LocalFileSystem.Services
             _logger.Info($"Report settings were saved: '{fullPath}'");
         }
 
-        public void SaveTestRun(TestRunDto testRunDto)
+        public void SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)
         {
             var testRun = testRunDto.Map();
             var imgFolder = _locationsProvider.GetScreenshotPath(testRun.TestInfo.Guid.ToString());
@@ -74,8 +74,11 @@ namespace Ghpr.LocalFileSystem.Services
                     {
                         testRun.Screenshots.Add(new TestScreenshot
                         {
-                            Date = imgFile.CreationTime,
-                            Name = LocationsProvider.GetScreenshotFileName(imgFile.CreationTime, imgFile.Extension),
+                            TestScreenshotInfo = new SimpleItemInfo()
+                            {
+                                Date = imgFile.CreationTime,
+                                ItemName = LocationsProvider.GetScreenshotFileName(imgFile.CreationTime, imgFile.Extension)
+                            },
                             Format = imgFile.Extension.Replace(".", "").ToLower()
                         });
                     }
