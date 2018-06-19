@@ -42,7 +42,11 @@ namespace Ghpr.ConsoleForDebug
             var testGuid = Guid.NewGuid();
             var screen = new TestScreenshotDto
             {
-                Date = DateTime.Now,
+                TestScreenshotInfo = new SimpleItemInfoDto
+                {
+                    Date = DateTime.Now,
+                    ItemName = "Screenshot"
+                },
                 Base64Data = "ASDJasdkajasdfas==",
                 TestGuid = testGuid
             };
@@ -55,7 +59,7 @@ namespace Ghpr.ConsoleForDebug
             };
             test.TestInfo = testInfo;
             reporter.DataService.SaveScreenshot(screen);
-            reporter.DataService.SaveTestRun(test);
+            reporter.DataService.SaveTestRun(test, new TestOutputDto());
 
             reporter.Logger.Info("DONE");
             reporter.TearDown();
