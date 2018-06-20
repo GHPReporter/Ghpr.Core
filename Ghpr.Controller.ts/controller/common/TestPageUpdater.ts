@@ -50,7 +50,7 @@ class TestPageUpdater {
     private static updateTestData(t: TestRunDto): void {
         let res = "";
         t.testData.forEach((td: TestDataDto) => {
-            res += `<li>${DateFormatter.format(td.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}<br></li>`;
+            res += `<li>${DateFormatter.format(td.testDataInfo.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}<br></li>`;
         });
         document.getElementById("test-data-list").innerHTML = `${res}`;
     }

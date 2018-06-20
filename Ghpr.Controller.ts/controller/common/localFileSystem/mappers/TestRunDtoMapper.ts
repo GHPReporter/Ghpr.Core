@@ -21,6 +21,7 @@ class TestRunDtoMapper {
             eventDto.name = event.name;
             eventDto.started = event.started;
             eventDto.finished = event.finished;
+            eventDto.eventInfo = SimpleItemInfoDtoMapper.map(event.eventInfo);
             eventDtos[i] = eventDto;
         }
 
@@ -28,13 +29,14 @@ class TestRunDtoMapper {
             screenshotDtos[i] = SimpleItemInfoDtoMapper.map(testRun.screenshots[i]);
         }
 
-        for (let i = 0; i < testRun.events.length; i++) {
-            let event = testRun.events[i];
-            let eventDto = new TestEventDto();
-            eventDto.name = event.name;
-            eventDto.started = event.started;
-            eventDto.finished = event.finished;
-            eventDtos[i] = eventDto;
+        for (let i = 0; i < testRun.testData.length; i++) {
+            let testData = testRun.testData[i];
+            let testDataDto = new TestDataDto();
+            testDataDto.actual = testData.actual;
+            testDataDto.expected = testData.expected;
+            testDataDto.comment = testData.comment;
+            testDataDto.testDataInfo = SimpleItemInfoDtoMapper.map(testData.testDataInfo);
+            testDataDtos[i] = testDataDto;
         }
 
         let testRunDto = new TestRunDto();

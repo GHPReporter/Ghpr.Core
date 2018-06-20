@@ -124,6 +124,14 @@ class TestScreenshot {
 }
 class TestRun {
 }
+class SimpleItemInfoDtoMapper {
+    static map(simpleItemInfo) {
+        let simpleItemIntoDto = new SimpleItemInfoDto();
+        simpleItemIntoDto.date = simpleItemInfo.date;
+        simpleItemIntoDto.itemName = simpleItemInfo.itemName;
+        return simpleItemIntoDto;
+    }
+}
 class ItemInfoDtoMapper {
     static map(itemInfo) {
         let itemIntoDto = new ItemInfoDto();
@@ -132,14 +140,6 @@ class ItemInfoDtoMapper {
         itemIntoDto.finish = itemInfo.finish;
         itemIntoDto.itemName = itemInfo.itemName;
         return itemIntoDto;
-    }
-}
-class SimpleItemInfoDtoMapper {
-    static map(simpleItemInfo) {
-        let simpleItemIntoDto = new SimpleItemInfoDto();
-        simpleItemIntoDto.date = simpleItemInfo.date;
-        simpleItemIntoDto.itemName = simpleItemInfo.itemName;
-        return simpleItemIntoDto;
     }
 }
 class TestOutputDtoMapper {
@@ -162,18 +162,20 @@ class TestRunDtoMapper {
             eventDto.name = event.name;
             eventDto.started = event.started;
             eventDto.finished = event.finished;
+            eventDto.eventInfo = SimpleItemInfoDtoMapper.map(event.eventInfo);
             eventDtos[i] = eventDto;
         }
         for (let i = 0; i < testRun.screenshots.length; i++) {
             screenshotDtos[i] = SimpleItemInfoDtoMapper.map(testRun.screenshots[i]);
         }
-        for (let i = 0; i < testRun.events.length; i++) {
-            let event = testRun.events[i];
-            let eventDto = new TestEventDto();
-            eventDto.name = event.name;
-            eventDto.started = event.started;
-            eventDto.finished = event.finished;
-            eventDtos[i] = eventDto;
+        for (let i = 0; i < testRun.testData.length; i++) {
+            let testData = testRun.testData[i];
+            let testDataDto = new TestDataDto();
+            testDataDto.actual = testData.actual;
+            testDataDto.expected = testData.expected;
+            testDataDto.comment = testData.comment;
+            testDataDto.testDataInfo = SimpleItemInfoDtoMapper.map(testData.testDataInfo);
+            testDataDtos[i] = testDataDto;
         }
         let testRunDto = new TestRunDto();
         testRunDto.name = testRun.name;
@@ -1474,7 +1476,7 @@ class TestPageUpdater {
     static updateTestData(t) {
         let res = "";
         t.testData.forEach((td) => {
-            res += `<li>${DateFormatter.format(td.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}<br></li>`;
+            res += `<li>${DateFormatter.format(td.testDataInfo.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}<br></li>`;
         });
         document.getElementById("test-data-list").innerHTML = `${res}`;
     }

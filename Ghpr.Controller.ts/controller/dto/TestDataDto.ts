@@ -1,6 +1,8 @@
-﻿class TestDataDto {
+﻿///<reference path="./SimpleItemInfoDto.ts"/>
+
+class TestDataDto {
     comment: string;
-    date: Date;
+    testDataInfo: SimpleItemInfoDto;
     actual: string;
     expected: string;
 }
