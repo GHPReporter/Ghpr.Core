@@ -51,8 +51,8 @@ namespace Ghpr.LocalFileSystem.Services
 
         public void SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)
         {
-            var testRun = testRunDto.Map();
             var testOutput = testOutputDto.Map();
+            var testRun = testRunDto.Map(testOutput.TestOutputInfo);
             var imgFolder = _locationsProvider.GetScreenshotPath(testRun.TestInfo.Guid.ToString());
             if (Directory.Exists(imgFolder))
             {

@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.LocalFileSystem.Entities;
-using Ghpr.LocalFileSystem.Providers;
 
 namespace Ghpr.LocalFileSystem.Mappers
 {
     public static class TestRunDtoMapper
     {
-        public static TestRun Map(this TestRunDto testRunDto)
+        public static TestRun Map(this TestRunDto testRunDto, SimpleItemInfo testOutputInfo)
         {
             var testRun = new TestRun
             {
@@ -22,7 +21,7 @@ namespace Ghpr.LocalFileSystem.Mappers
                 }).ToList(),
                 FullName = testRunDto.FullName,
                 Name = testRunDto.Name,
-                Output = testRunDto.Output.MapSimpleItemInfo(LocationsProvider.GetTestOutputFileName(testRunDto.Output.Date)),
+                Output = testOutputInfo,
                 Priority = testRunDto.Priority,
                 Result = testRunDto.Result,
                 RunGuid = testRunDto.RunGuid,
