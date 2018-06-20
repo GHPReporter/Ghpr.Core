@@ -1,6 +1,8 @@
-﻿class TestData {
+﻿///<reference path="./SimpleItemInfo.ts"/>
+
+class TestData {
     comment: string;
-    date: Date;
+    testDataInfo: SimpleItemInfo;
     actual: string;
     expected: string;
 }

@@ -6,8 +6,11 @@ namespace Ghpr.LocalFileSystem.Entities
     [JsonObject(MemberSerialization.OptIn)]
     public class TestEvent
     {
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
+        [JsonProperty(PropertyName = "eventInfo")]
+        public SimpleItemInfo EventInfo { get; set; }
+
+        [JsonProperty(PropertyName = "comment")]
+        public string Comment { get; set; }
 
         [JsonProperty(PropertyName = "start")]
         public DateTime Started { get; set; }
@@ -20,16 +23,18 @@ namespace Ghpr.LocalFileSystem.Entities
 
         public TestEvent()
         {
-            Name = "";
+            Comment = "";
             Started = default(DateTime);
             Finished = default(DateTime);
+            EventInfo = new SimpleItemInfo();
         }
 
-        public TestEvent(string eventName = "", DateTime started = default(DateTime), DateTime finished = default(DateTime))
+        public TestEvent(string comment = "", DateTime started = default(DateTime), DateTime finished = default(DateTime))
         {
-            Name = eventName;
+            Comment = comment;
             Started = started;
             Finished = finished;
+            EventInfo = new SimpleItemInfo();
         }
     }
 }

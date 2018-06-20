@@ -67,6 +67,7 @@
     <Compile Include="Mappers\TestRunDtoMapper.cs" />
     <Compile Include="Mappers\ReportSettingsDtoMapper.cs" />
     <Compile Include="Mappers\RunDtoMapper.cs" />
+    <Compile Include="Mappers\TestOutputMapper.cs" />
     <Compile Include="Mappers\TestScreenshotMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\LocationsProvider.cs" />

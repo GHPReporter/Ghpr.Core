@@ -7,11 +7,12 @@
 ///<reference path="./../../../dto/TestScreenshotDto.ts"/>
 ///<reference path="./../../../dto/TestDataDto.ts"/>
 ///<reference path="./ItemInfoDtoMapper.ts"/>
+///<reference path="./SimpleItemInfoDtoMapper.ts"/>
 
 class TestRunDtoMapper {
     static map(testRun: TestRun): TestRunDto {
         let eventDtos = new Array<TestEventDto>(testRun.events.length);
-        let screenshotDtos = new Array<TestScreenshotDto>(testRun.screenshots.length);
+        let screenshotDtos = new Array<SimpleItemInfoDto>(testRun.screenshots.length);
         let testDataDtos = new Array<TestDataDto>(testRun.testData.length);
 
         for (let i = 0; i < testRun.events.length; i++) {
@@ -24,12 +25,7 @@ class TestRunDtoMapper {
         }
 
         for (let i = 0; i < testRun.screenshots.length; i++) {
-            let screenshot = testRun.screenshots[i];
-            let screenshotDto = new TestScreenshotDto();
-            screenshotDto.date = screenshot.date;
-            screenshotDto.data = screenshot.data;
-            screenshotDto.testGuid = screenshot.testGuid;
-            screenshotDtos[i] = screenshotDto;
+            screenshotDtos[i] = SimpleItemInfoDtoMapper.map(testRun.screenshots[i]);
         }
 
         for (let i = 0; i < testRun.events.length; i++) {
@@ -48,7 +44,7 @@ class TestRunDtoMapper {
         testRunDto.duration = testRun.duration;
         testRunDto.events = eventDtos;
         testRunDto.fullName = testRun.fullName;
-        testRunDto.output = testRun.output;
+        testRunDto.output = SimpleItemInfoDtoMapper.map(testRun.output);
         testRunDto.priority = testRun.priority;
         testRunDto.result = testRun.result;
         testRunDto.testInfo = ItemInfoDtoMapper.map(testRun.testInfo);

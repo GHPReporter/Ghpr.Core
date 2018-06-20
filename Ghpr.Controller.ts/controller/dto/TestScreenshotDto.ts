@@ -1,5 +1,7 @@
-﻿class TestScreenshotDto {
-    data: string;
-    date: Date;
-    testGuid: string;
+﻿///<reference path="SimpleItemInfoDto.ts"/>
+
+class TestOutputDto {
+    testOutputInfo: SimpleItemInfoDto;
+    output: string;
+    featureOutput: string;
 }

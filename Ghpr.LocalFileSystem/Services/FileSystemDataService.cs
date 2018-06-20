@@ -1,10 +1,8 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
+﻿using System.IO;
 using Ghpr.Core;
 using Ghpr.Core.Common;
-using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
@@ -41,6 +39,7 @@ namespace Ghpr.LocalFileSystem.Services
             var path = _locationsProvider.GetScreenshotPath(testScreenshot.TestGuid.ToString());
             testScreenshot.Save(path);
             _logger.Info($"Screenshot was saved: '{path}'");
+            _logger.Debug($"Screenshot data was saved correctly: {JsonConvert.SerializeObject(testScreenshot, Formatting.Indented)}");
         }
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
@@ -53,26 +52,23 @@ namespace Ghpr.LocalFileSystem.Services
         public void SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)
         {
             var testRun = testRunDto.Map();
+            var testOutput = testOutputDto.Map();
             var imgFolder = _locationsProvider.GetScreenshotPath(testRun.TestInfo.Guid.ToString());
             if (Directory.Exists(imgFolder))
             {
                 var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.*");
                 foreach (var imgFile in imgFiles)
                 {
+                    var img = imgFolder.LoadTestScreenshot(imgFile.Name);
                     if (imgFile.CreationTime > testRun.TestInfo.Start)
                     {
-                        testRun.Screenshots.Add(new TestScreenshot
-                        {
-                            TestScreenshotInfo = new SimpleItemInfo
-                            {
-                                Date = imgFile.CreationTime,
-                                ItemName = LocationsProvider.GetScreenshotFileName(imgFile.CreationTime)
-                            },
-                            Format = imgFile.Extension.Replace(".", "").ToLower()
-                        });
+                        testRun.Screenshots.Add(img.TestScreenshotInfo);
                     }
                 }
             }
+            var testOutputFullPath = testOutput.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
+            _logger.Info($"Test output was saved: '{testOutputFullPath}'");
+            _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testOutput, Formatting.Indented)}");
             var testRunFullPath = testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
             _logger.Info($"Test run was saved: '{testRunFullPath}'");
             var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);

@@ -10,7 +10,7 @@ namespace Ghpr.CouchDb.Services
     {
         public void Initialize(ReporterSettings settings, ILogger logger)
         {
-            var couchDbSettings = "Ghpr.CouchDb.Settings.json".LoadAs<CouchDbSettings>();
+            var couchDbSettings = "Ghpr.CouchDb.Settings.json".LoadSettingsAs<CouchDbSettings>();
             Database = new CouchDbDatabase(couchDbSettings, logger);
             Database.CreateDb();
             Database.ValidateConnection();

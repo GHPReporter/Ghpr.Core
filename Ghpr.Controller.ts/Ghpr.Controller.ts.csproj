@@ -45,10 +45,16 @@
     </Content>
     <Content Include="web.config" />
     <TypeScriptCompile Include="controller\common\JsonParser.ts" />
+    <TypeScriptCompile Include="controller\common\localFileSystem\entities\SimpleItemInfo.ts" />
+    <TypeScriptCompile Include="controller\common\localFileSystem\entities\TestOutput.ts" />
+    <TypeScriptCompile Include="controller\common\localFileSystem\mappers\TestOutputDtoMapper.ts" />
+    <TypeScriptCompile Include="controller\common\localFileSystem\mappers\SimpleItemInfoDtoMapper.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\mappers\ItemInfoDtoMapper.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\mappers\RunDtoMapper.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\mappers\TestRunDtoMapper.ts" />
     <TypeScriptCompile Include="controller\Controller.ts" />
+    <TypeScriptCompile Include="controller\dto\SimpleItemInfoDto.ts" />
+    <TypeScriptCompile Include="controller\dto\TestOutputDto.ts" />
     <TypeScriptCompile Include="controller\interfaces\IDataService.ts" />
   </ItemGroup>
   <ItemGroup>

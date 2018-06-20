@@ -6,7 +6,7 @@ namespace Ghpr.Core.Utils
 {
     public static class SettingsLoader
     {
-        public static T LoadAs<T>(this string fileName)
+        public static T LoadSettingsAs<T>(this string fileName)
         {
             var uri = new Uri(typeof(T).Assembly.CodeBase);
             var settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", fileName);

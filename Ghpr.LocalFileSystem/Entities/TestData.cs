@@ -9,8 +9,8 @@ namespace Ghpr.LocalFileSystem.Entities
         [JsonProperty(PropertyName = "comment")]
         public string Comment { get; set; }
 
-        [JsonProperty(PropertyName = "date")]
-        public DateTime Date { get; set; }
+        [JsonProperty(PropertyName = "testDataInfo")]
+        public SimpleItemInfo TestDataInfo { get; set; }
 
         [JsonProperty(PropertyName = "actual")]
         public string Actual { get; set; }

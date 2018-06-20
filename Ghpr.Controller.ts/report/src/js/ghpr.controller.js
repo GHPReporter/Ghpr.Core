@@ -81,11 +81,15 @@ class RunSummaryDto {
 }
 class ItemInfoDto {
 }
+class SimpleItemInfoDto {
+}
 class TestDataDto {
 }
 class RunDto {
 }
 class TestEventDto {
+}
+class TestOutputDto {
 }
 class TestScreenshotDto {
 }
@@ -106,11 +110,15 @@ class RunSummary {
 }
 class ItemInfo {
 }
+class SimpleItemInfo {
+}
 class TestData {
 }
 class Run {
 }
 class TestEvent {
+}
+class TestOutput {
 }
 class TestScreenshot {
 }
@@ -124,6 +132,23 @@ class ItemInfoDtoMapper {
         itemIntoDto.finish = itemInfo.finish;
         itemIntoDto.itemName = itemInfo.itemName;
         return itemIntoDto;
+    }
+}
+class SimpleItemInfoDtoMapper {
+    static map(simpleItemInfo) {
+        let simpleItemIntoDto = new SimpleItemInfoDto();
+        simpleItemIntoDto.date = simpleItemInfo.date;
+        simpleItemIntoDto.itemName = simpleItemInfo.itemName;
+        return simpleItemIntoDto;
+    }
+}
+class TestOutputDtoMapper {
+    static map(testOutput) {
+        let testOutputDto = new TestOutputDto();
+        testOutputDto.output = testOutput.output;
+        testOutputDto.featureOutput = testOutput.featureOutput;
+        testOutputDto.testOutputInfo = SimpleItemInfoDtoMapper.map(testOutput.testOutputInfo);
+        return testOutputDto;
     }
 }
 class TestRunDtoMapper {
@@ -140,12 +165,7 @@ class TestRunDtoMapper {
             eventDtos[i] = eventDto;
         }
         for (let i = 0; i < testRun.screenshots.length; i++) {
-            let screenshot = testRun.screenshots[i];
-            let screenshotDto = new TestScreenshotDto();
-            screenshotDto.date = screenshot.date;
-            screenshotDto.data = screenshot.data;
-            screenshotDto.testGuid = screenshot.testGuid;
-            screenshotDtos[i] = screenshotDto;
+            screenshotDtos[i] = SimpleItemInfoDtoMapper.map(testRun.screenshots[i]);
         }
         for (let i = 0; i < testRun.events.length; i++) {
             let event = testRun.events[i];
@@ -162,7 +182,7 @@ class TestRunDtoMapper {
         testRunDto.duration = testRun.duration;
         testRunDto.events = eventDtos;
         testRunDto.fullName = testRun.fullName;
-        testRunDto.output = testRun.output;
+        testRunDto.output = SimpleItemInfoDtoMapper.map(testRun.output);
         testRunDto.priority = testRun.priority;
         testRunDto.result = testRun.result;
         testRunDto.testInfo = ItemInfoDtoMapper.map(testRun.testInfo);
@@ -547,7 +567,7 @@ class TestRunHelper {
         return `<del class="p-0" style= "background-color: ${Color.failed};text-decoration: none;" >${v}</del>`;
     }
     static getOutput(t) {
-        return t.output === "" ? "-" : t.output;
+        return t.output.itemName === "" ? "-" : t.output.itemName;
     }
     static getMessage(t) {
         return t.testMessage === "" ? "-" : t.testMessage;
@@ -1462,7 +1482,7 @@ class TestPageUpdater {
         let screenshots = "";
         for (let i = 0; i < t.screenshots.length; i++) {
             const s = t.screenshots[i];
-            const src = `./${t.testInfo.guid}/img/${s.data}`;
+            const src = `./${t.testInfo.guid}/img/${s.itemName}`;
             screenshots += `<li><b>Screenshot ${DateFormatter.format(s.date)}:</b><a href="${src}"><img src="${src}" alt="${src}" style="width: 100%;"></img></a></li>`;
         }
         if (screenshots === "") {

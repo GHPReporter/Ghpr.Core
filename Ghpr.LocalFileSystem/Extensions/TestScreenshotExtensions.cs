@@ -23,7 +23,7 @@ namespace Ghpr.LocalFileSystem.Extensions
             return fullPath;
         }
 
-        public static TestScreenshot LoadTestOutput(this string path, string name)
+        public static TestScreenshot LoadTestScreenshot(this string path, string name)
         {
             TestScreenshot testScreenshot;
             var fullPath = Path.Combine(path, name);

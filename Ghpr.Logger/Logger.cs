@@ -17,7 +17,7 @@ namespace Ghpr.SimpleFileLogger
         
         public void SetUp(ReporterSettings reporterSettings)
         {
-            var settings = "Ghpr.SimpleFileLogger.Settings.json".LoadAs<LoggerSettings>();
+            var settings = "Ghpr.SimpleFileLogger.Settings.json".LoadSettingsAs<LoggerSettings>();
             _outputPath = settings.OutputPath ?? reporterSettings.OutputPath;
             _fileName = settings.FileName ?? "GhprLog.txt";
             var success = Enum.TryParse(settings.LogLevel, out _loggerLogLevel);

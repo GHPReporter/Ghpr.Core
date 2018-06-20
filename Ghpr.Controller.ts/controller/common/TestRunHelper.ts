@@ -60,7 +60,7 @@ class TestRunHelper {
     }
 
     static getOutput(t: TestRunDto): string {
-        return t.output === "" ? "-" : t.output;
+        return t.output.itemName === "" ? "-" : t.output.itemName;
     }
 
     static getMessage(t: TestRunDto): string {

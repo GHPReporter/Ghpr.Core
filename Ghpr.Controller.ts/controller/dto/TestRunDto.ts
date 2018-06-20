@@ -2,6 +2,7 @@
 ///<reference path="./TestDataDto.ts"/>
 ///<reference path="./TestEventDto.ts"/>
 ///<reference path="./ItemInfoDto.ts"/>
+///<reference path="./SimpleItemInfoDto.ts"/>
 ///<reference path="./../enums/TestResult.ts"/>
 
 class TestRunDto {
@@ -13,12 +14,12 @@ class TestRunDto {
     testStackTrace: string;
     testMessage: string;
     result: string;
-    output: string;
+    output: SimpleItemInfoDto;
     runGuid: string;
     testType: string;
     priority: string;
     categories: Array<string>;
-    screenshots: Array<TestScreenshotDto>;
+    screenshots: Array<SimpleItemInfoDto>;
     testData: Array<TestDataDto>;
     events: Array<TestEventDto>;
 

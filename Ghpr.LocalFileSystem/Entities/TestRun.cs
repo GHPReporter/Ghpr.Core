@@ -21,12 +21,12 @@ namespace Ghpr.LocalFileSystem.Entities
             TestStackTrace = "";
             TestMessage = "";
             Result = "";
-            Output = "";
+            Output = new SimpleItemInfo();
             Priority = "";
             TestType = "";
             Categories = new string[] { };
             RunGuid = Guid.Empty;
-            Screenshots = new List<TestScreenshot>();
+            Screenshots = new List<SimpleItemInfo>();
             Events = new List<TestEvent>();
             TestData = new List<TestData>();
         }
@@ -45,12 +45,12 @@ namespace Ghpr.LocalFileSystem.Entities
             TestStackTrace = "";
             TestMessage = "";
             Result = "";
-            Output = "";
+            Output = new SimpleItemInfo();
             Priority = "";
             TestType = "";
             Categories = new string[] { };
             RunGuid = Guid.Empty;
-            Screenshots = new List<TestScreenshot>();
+            Screenshots = new List<SimpleItemInfo>();
             Events = new List<TestEvent>();
             TestData = new List<TestData>();
         }
@@ -80,7 +80,7 @@ namespace Ghpr.LocalFileSystem.Entities
         public string TestType { get; set; }
 
         [JsonProperty(PropertyName = "output")]
-        public string Output { get; set; }
+        public SimpleItemInfo Output { get; set; }
 
         [JsonProperty(PropertyName = "priority")]
         public string Priority { get; set; }
@@ -95,7 +95,7 @@ namespace Ghpr.LocalFileSystem.Entities
         public Guid RunGuid { get; set; }
 
         [JsonProperty(PropertyName = "screenshots")]
-        public List<TestScreenshot> Screenshots { get; set; }
+        public List<SimpleItemInfo> Screenshots { get; set; }
 
         [JsonProperty(PropertyName = "events")]
         public List<TestEvent> Events { get; set; }

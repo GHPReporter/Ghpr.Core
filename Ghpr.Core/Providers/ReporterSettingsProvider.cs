@@ -32,7 +32,7 @@ namespace Ghpr.Core.Providers
 
         public static ReporterSettings Load(string fileName)
         {
-            return fileName.LoadAs<ReporterSettings>();
+            return fileName.LoadSettingsAs<ReporterSettings>();
         }
     }
 }

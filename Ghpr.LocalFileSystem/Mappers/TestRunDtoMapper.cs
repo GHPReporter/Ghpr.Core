@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.LocalFileSystem.Entities;
+using Ghpr.LocalFileSystem.Providers;
 
 namespace Ghpr.LocalFileSystem.Mappers
 {
@@ -16,16 +17,16 @@ namespace Ghpr.LocalFileSystem.Mappers
                 {
                     Started = teDto.Started,
                     Finished = teDto.Finished,
-                    Name = teDto.Comment
+                    Comment = teDto.Comment,
+                    EventInfo = teDto.EventInfo.MapSimpleItemInfo()
                 }).ToList(),
                 FullName = testRunDto.FullName,
                 Name = testRunDto.Name,
-                //TODO: fix
-                //Output = testRunDto.Output,
+                Output = testRunDto.Output.MapSimpleItemInfo(LocationsProvider.GetTestOutputFileName(testRunDto.Output.Date)),
                 Priority = testRunDto.Priority,
                 Result = testRunDto.Result,
                 RunGuid = testRunDto.RunGuid,
-                //Screenshots = testRunDto.Screenshots.Select(sDto => sDto.Map()).ToList(),
+                Screenshots = testRunDto.Screenshots.Select(sDto => sDto.MapSimpleItemInfo()).ToList(),
                 TestInfo = testRunDto.TestInfo.MapTestRunInfo(),
                 TestDuration = (testRunDto.TestInfo.Finish - testRunDto.TestInfo.Start).TotalSeconds,
                 TestMessage = testRunDto.TestMessage,
@@ -36,7 +37,7 @@ namespace Ghpr.LocalFileSystem.Mappers
                     Actual = tdDto.Actual,
                     Expected = tdDto.Expected,
                     Comment = tdDto.Comment,
-                    //Date = tdDto.Date
+                    TestDataInfo = tdDto.TestDataInfo.MapSimpleItemInfo()
                 }).ToList()
             };
             return testRun;
