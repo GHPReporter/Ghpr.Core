@@ -1,4 +1,5 @@
 ﻿///<reference path="./../dto/TestRunDto.ts"/>
+///<reference path="./../dto/TestOutputDto.ts"/>
 ///<reference path="./../enums/TestResult.ts"/>
 ///<reference path="./Color.ts"/>
 ///<reference path="./DateFormatter.ts"/>
@@ -59,8 +60,8 @@ class TestRunHelper {
         return `<del class="p-0" style= "background-color: ${Color.failed};text-decoration: none;" >${v}</del>`;
     }
 
-    static getOutput(t: TestRunDto): string {
-        return t.output.itemName === "" ? "-" : t.output.itemName;
+    static getOutput(t: TestOutputDto): string {
+        return t.output === "" ? "-" : t.output;
     }
 
     static getMessage(t: TestRunDto): string {

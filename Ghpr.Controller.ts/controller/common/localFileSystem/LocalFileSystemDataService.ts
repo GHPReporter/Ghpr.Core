@@ -109,7 +109,7 @@ class LocalFileSystemDataService implements IDataService {
             }
             const paths: Array<string> = new Array();
             for (let i = 0; i < testsToLoad; i++) {
-                paths[i] = LocalFileSystemPathsHelper.getTestPath(testInfosDto[i].itemName, testInfosDto[i].guid, this.currentPage);
+                paths[i] = LocalFileSystemPathsHelper.getTestItemPath(testInfosDto[i].itemName, testInfosDto[i].guid, this.currentPage);
             }
             const testRuns: Array<TestRunDto> = new Array();
             this.loadJsonsByPaths(paths, 0, new Array(), false, false, (responses: Array<string>) => {
@@ -123,7 +123,7 @@ class LocalFileSystemDataService implements IDataService {
     }
 
     getLatestTest(testGuid: string, itemName: string, callback: Function): void {
-        const path = LocalFileSystemPathsHelper.getTestPath(itemName, testGuid, this.currentPage);
+        const path = LocalFileSystemPathsHelper.getTestItemPath(itemName, testGuid, this.currentPage);
         this.loadJsonsByPaths([path], 0, new Array(), false, true, (response: string) => {
             const testRun: TestRun = JSON.parse(response, this.reviveRun);
             const testRunDto = TestRunDtoMapper.map(testRun);
@@ -131,6 +131,15 @@ class LocalFileSystemDataService implements IDataService {
         });
     }
     
+    getTestOutput(t: TestRunDto, callback: Function): void {
+        const path = LocalFileSystemPathsHelper.getTestItemPath(t.output.itemName, t.testInfo.guid, this.currentPage);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, (response: string) => {
+            const testRun: TestOutput = JSON.parse(response, this.reviveRun);
+            const testRunDto = TestOutputDtoMapper.map(testRun);
+            callback(testRunDto);
+        });
+    }
+
     getRunTests(runDto: RunDto, callback: (testRunDto: TestRunDto, c: number, i: number) => void): void {
         const paths: Array<string> = new Array();
         var test: TestRun;

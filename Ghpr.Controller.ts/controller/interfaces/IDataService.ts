@@ -12,6 +12,7 @@ interface IDataService {
     getRunInfos(callback: (runInfoDtos: ItemInfoDto[]) => void): void;
     getLatestRuns(callback: Function): void;
     getLatestTest(testGuid: string, itemName: string, callback: Function): void;
+    getTestOutput(t: TestRunDto, callback: Function): void;
     getTestInfos(testGuid: string, callback: (testInfoDtos: ItemInfoDto[]) => void): void;
     getLatestTests(testGuid: string, callback: Function): void;
     getRunTests(runDto: RunDto, callback: (testRunDto: TestRunDto, c: number, i: number) => void): void;

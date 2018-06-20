@@ -437,7 +437,7 @@ class LocalFileSystemDataService {
             }
             const paths = new Array();
             for (let i = 0; i < testsToLoad; i++) {
-                paths[i] = LocalFileSystemPathsHelper.getTestPath(testInfosDto[i].itemName, testInfosDto[i].guid, this.currentPage);
+                paths[i] = LocalFileSystemPathsHelper.getTestItemPath(testInfosDto[i].itemName, testInfosDto[i].guid, this.currentPage);
             }
             const testRuns = new Array();
             this.loadJsonsByPaths(paths, 0, new Array(), false, false, (responses) => {
@@ -450,10 +450,18 @@ class LocalFileSystemDataService {
         });
     }
     getLatestTest(testGuid, itemName, callback) {
-        const path = LocalFileSystemPathsHelper.getTestPath(itemName, testGuid, this.currentPage);
+        const path = LocalFileSystemPathsHelper.getTestItemPath(itemName, testGuid, this.currentPage);
         this.loadJsonsByPaths([path], 0, new Array(), false, true, (response) => {
             const testRun = JSON.parse(response, this.reviveRun);
             const testRunDto = TestRunDtoMapper.map(testRun);
+            callback(testRunDto);
+        });
+    }
+    getTestOutput(t, callback) {
+        const path = LocalFileSystemPathsHelper.getTestItemPath(t.output.itemName, t.testInfo.guid, this.currentPage);
+        this.loadJsonsByPaths([path], 0, new Array(), false, true, (response) => {
+            const testRun = JSON.parse(response, this.reviveRun);
+            const testRunDto = TestOutputDtoMapper.map(testRun);
             callback(testRunDto);
         });
     }
@@ -569,7 +577,7 @@ class TestRunHelper {
         return `<del class="p-0" style= "background-color: ${Color.failed};text-decoration: none;" >${v}</del>`;
     }
     static getOutput(t) {
-        return t.output.itemName === "" ? "-" : t.output.itemName;
+        return t.output === "" ? "-" : t.output;
     }
     static getMessage(t) {
         return t.testMessage === "" ? "-" : t.testMessage;
@@ -999,7 +1007,7 @@ class LocalFileSystemPathsHelper {
                 return "";
         }
     }
-    static getTestPath(itemName, guid, pt) {
+    static getTestItemPath(itemName, guid, pt) {
         switch (pt) {
             case PageType.TestRunsPage:
                 return `./tests/${guid}/${itemName}`;
@@ -1470,8 +1478,11 @@ class TestPageUpdater {
         document.getElementById("message").innerHTML = `<b>Message:</b> ${TestRunHelper.getMessage(t)}`;
     }
     static updateOutput(t) {
-        document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
-		<div style="word-wrap: break-word;  white-space: pre-wrap;">${Differ.safeTagsReplace(TestRunHelper.getOutput(t))}</div>`;
+        Controller.dataService.fromPage(PageType.TestPage).getTestOutput(t, (to) => {
+            let o = Differ.safeTagsReplace(TestRunHelper.getOutput(to));
+            document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
+    		<div style="word-wrap: break-word;  white-space: pre-wrap;">${o}</div>`;
+        });
     }
     static updateTestData(t) {
         let res = "";

@@ -14,6 +14,7 @@
 ///<reference path="./TestRunHelper.ts"/>
 ///<reference path="./../Controller.ts"/>
 ///<reference path="./../dto/ReportSettingsDto.ts"/>
+///<reference path="./../dto/TestOutputDto.ts"/>
 ///<reference path="./../dto/TestRunDto.ts"/>
 ///<reference path="./../interfaces/IDataService.ts"/>
 
@@ -43,8 +44,11 @@ class TestPageUpdater {
     }
 
     private static updateOutput(t: TestRunDto): void {
-        document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
-		<div style="word-wrap: break-word;  white-space: pre-wrap;">${Differ.safeTagsReplace(TestRunHelper.getOutput(t))}</div>`;
+        Controller.dataService.fromPage(PageType.TestPage).getTestOutput(t, (to: TestOutputDto) => {
+            let o = Differ.safeTagsReplace(TestRunHelper.getOutput(to));
+            document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
+    		<div style="word-wrap: break-word;  white-space: pre-wrap;">${o}</div>`;
+        });
     }
 
     private static updateTestData(t: TestRunDto): void {

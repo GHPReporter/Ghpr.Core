@@ -53,7 +53,7 @@ class LocalFileSystemPathsHelper {
         }
     }
 
-    static getTestPath(itemName: string, guid: string, pt: PageType): string {
+    static getTestItemPath(itemName: string, guid: string, pt: PageType): string {
         switch (pt) {
         case PageType.TestRunsPage:
                 return `./tests/${guid}/${itemName}`;
