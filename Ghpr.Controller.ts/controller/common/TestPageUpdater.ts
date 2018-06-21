@@ -46,8 +46,11 @@ class TestPageUpdater {
     private static updateOutput(t: TestRunDto): void {
         Controller.dataService.fromPage(PageType.TestPage).getTestOutput(t, (to: TestOutputDto) => {
             let o = Differ.safeTagsReplace(TestRunHelper.getOutput(to));
+            let eo = Differ.safeTagsReplace(TestRunHelper.getExtraOutput(to));
             document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
     		<div style="word-wrap: break-word;  white-space: pre-wrap;">${o}</div>`;
+            document.getElementById("test-extra-output-string").innerHTML = `<b>Additional log:</b><br>
+    		<div style="word-wrap: break-word;  white-space: pre-wrap;">${eo}</div>`;
         });
     }
 
@@ -56,6 +59,9 @@ class TestPageUpdater {
         t.testData.forEach((td: TestDataDto) => {
             res += `<li>${DateFormatter.format(td.testDataInfo.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}<br></li>`;
         });
+        if (res === "") {
+            res = "-";
+        }
         document.getElementById("test-data-list").innerHTML = `${res}`;
     }
 
@@ -281,7 +287,7 @@ class TestPageUpdater {
         this.showTab(tab === "" ? "test-history" : tab, document.getElementById(`tab-${tab}`));
     }
 
-    private static runPageTabsIds: Array<string> = ["test-history", "test-output", "test-failure", "test-screenshots", "test-data"];
+    private static runPageTabsIds: Array<string> = ["test-history", "test-output", "test-extra-output", "test-failure", "test-screenshots", "test-data"];
 
     static showTab(idToShow: string, caller: HTMLElement): void {
         TabsHelper.showTab(idToShow, caller, this.runPageTabsIds);

@@ -19,6 +19,7 @@ namespace Ghpr.Core.Interfaces
         ILogger Logger { get; }
 
         void RunStarted();
+        void SetRunName(string runName);
         void RunFinished();
 
         void TestStarted(TestRunDto testRun);

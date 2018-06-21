@@ -41,11 +41,15 @@
             <nav class="tabnav-tabs">
                 <a id="tab-test-history" onclick="TestPageUpdater.showTab('test-history', this);" class="tabnav-tab selected">
                     <span class="octicon octicon-graph"></span>
-                    Test history
+                    Main
                 </a>
                 <a id="tab-test-output" onclick="TestPageUpdater.showTab('test-output', this);" class="tabnav-tab">
                     <span class="octicon octicon-file-text"></span>
                     Output
+                </a>
+                <a id="tab-test-extra-output" onclick="TestPageUpdater.showTab('test-extra-output', this);" class="tabnav-tab">
+                    <span class="octicon octicon-file-text"></span>
+                    Extra output
                 </a>
                 <a id="tab-test-failure" onclick="TestPageUpdater.showTab('test-failure', this);" class="tabnav-tab">
                     <span class="octicon octicon-stop"></span>
@@ -96,12 +100,18 @@
                 </div>
             </div>
         </div>
-	    <div class="columns border" id="test-output" style="margin-top: -16px; display: none">
-		    <h2 class="border-bottom p-3 mb-3">
-			    Test output:
-		    </h2>
-			<ul id="test-output-string"></ul>
-	    </div>
+        <div class="columns border" id="test-output" style="margin-top: -16px; display: none">
+            <h2 class="border-bottom p-3 mb-3">
+                Test output:
+            </h2>
+            <ul id="test-output-string"></ul>
+        </div>
+        <div class="columns border" id="test-extra-output" style="margin-top: -16px; display: none">
+            <h2 class="border-bottom p-3 mb-3">
+                Extra output:
+            </h2>
+            <ul id="test-extra-output-string"></ul>
+        </div>
         <div class="columns border" id="test-failure" style="margin-top: -16px; display: none">
             <h2 class="border-bottom p-3 mb-3">
                 Test failure:

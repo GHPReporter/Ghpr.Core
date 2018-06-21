@@ -56,6 +56,11 @@ namespace Ghpr.Core
             }
         }
 
+        public void SetRunName(string runName)
+        {
+            RunRepository.SetRunName(runName);
+        }
+
         public void RunFinished()
         {
             var finish = DateTime.Now;

@@ -602,6 +602,9 @@ class TestRunHelper {
     static getOutput(t) {
         return t.output === "" ? "-" : t.output;
     }
+    static getExtraOutput(t) {
+        return t.featureOutput === "" ? "-" : t.featureOutput;
+    }
     static getMessage(t) {
         return t.testMessage === "" ? "-" : t.testMessage;
     }
@@ -1503,8 +1506,11 @@ class TestPageUpdater {
     static updateOutput(t) {
         Controller.dataService.fromPage(PageType.TestPage).getTestOutput(t, (to) => {
             let o = Differ.safeTagsReplace(TestRunHelper.getOutput(to));
+            let eo = Differ.safeTagsReplace(TestRunHelper.getExtraOutput(to));
             document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
     		<div style="word-wrap: break-word;  white-space: pre-wrap;">${o}</div>`;
+            document.getElementById("test-extra-output-string").innerHTML = `<b>Additional log:</b><br>
+    		<div style="word-wrap: break-word;  white-space: pre-wrap;">${eo}</div>`;
         });
     }
     static updateTestData(t) {
@@ -1512,6 +1518,9 @@ class TestPageUpdater {
         t.testData.forEach((td) => {
             res += `<li>${DateFormatter.format(td.testDataInfo.date)}: ${td.comment} <br>${Differ.getHtml(td.actual, td.expected)}<br></li>`;
         });
+        if (res === "") {
+            res = "-";
+        }
         document.getElementById("test-data-list").innerHTML = `${res}`;
     }
     static updateScreenshots(t) {
@@ -1729,7 +1738,7 @@ class TestPageUpdater {
     }
 }
 TestPageUpdater.reviveRun = JsonParser.reviveRun;
-TestPageUpdater.runPageTabsIds = ["test-history", "test-output", "test-failure", "test-screenshots", "test-data"];
+TestPageUpdater.runPageTabsIds = ["test-history", "test-output", "test-extra-output", "test-failure", "test-screenshots", "test-data"];
 class Sorter {
     static itemInfoByFinishDate(a, b) {
         if (a.finish > b.finish) {

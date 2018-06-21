@@ -64,6 +64,10 @@ class TestRunHelper {
         return t.output === "" ? "-" : t.output;
     }
 
+    static getExtraOutput(t: TestOutputDto): string {
+        return t.featureOutput === "" ? "-" : t.featureOutput;
+    }
+
     static getMessage(t: TestRunDto): string {
         return t.testMessage === "" ? "-" : t.testMessage;
     }
