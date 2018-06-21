@@ -72,6 +72,14 @@ class TestRunHelper {
         return t.testMessage === "" ? "-" : t.testMessage;
     }
 
+    static getPriority(t: TestRunDto): string {
+        return t.priority === "" || t.priority === undefined || t.priority === null ? "-" : t.priority;
+    }
+    
+    static getTestType(t: TestRunDto): string {
+        return t.testType === "" || t.testType === undefined || t.testType === null ? "-" : t.testType;
+    }
+
     static getDescription(t: TestRunDto): string {
         return (t.description === "" || t.description === undefined) ? "-" : t.description;
     }
