@@ -1,6 +1,7 @@
-﻿class TestScreenshot {
-    data: string;
-    testGuid: string;
-    name: string;
-    date: Date;
+﻿///<reference path="./SimpleItemInfo.ts"/>
+
+class TestScreenshot {
+    testScreenshotInfo: SimpleItemInfo;
+    format: string;
+    base64Data: string;
 }

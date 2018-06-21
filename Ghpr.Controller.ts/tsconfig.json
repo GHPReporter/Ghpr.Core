@@ -34,6 +34,7 @@
     "controller/common/localFileSystem/mappers/ItemInfoDtoMapper.ts",
     "controller/common/localFileSystem/mappers/TestOutputDtoMapper.ts",
     "controller/common/localFileSystem/mappers/TestRunDtoMapper.ts",
+    "controller/common/localFileSystem/mappers/TestScreenshotDtoMapper.ts",
     "controller/common/localFileSystem/mappers/RunDtoMapper.ts",
     "controller/interfaces/IDataService.ts",
     "controller/common/localFileSystem/LocalFileSystemDataService.ts",

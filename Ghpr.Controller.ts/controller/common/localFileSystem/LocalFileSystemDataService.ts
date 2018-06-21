@@ -3,10 +3,12 @@
 ///<reference path="./../../dto/ReportSettingsDto.ts"/>
 ///<reference path="./../../dto/TestRunDto.ts"/>
 ///<reference path="./../../dto/ItemInfoDto.ts"/>
+///<reference path="./../../dto/TestScreenshotDto.ts"/>
 ///<reference path="./entities/Run.ts"/>
 ///<reference path="./entities/ItemInfo.ts"/>
 ///<reference path="./mappers/RunDtoMapper.ts"/>
 ///<reference path="./mappers/ItemInfoDtoMapper.ts"/>
+///<reference path="./mappers/TestScreenshotDtoMapper.ts"/>
 ///<reference path="./../../enums/PageType.ts"/>
 ///<reference path="./../ProgressBar.ts"/>
 ///<reference path="./../JsonParser.ts"/>
@@ -140,12 +142,27 @@ class LocalFileSystemDataService implements IDataService {
         });
     }
 
+    getTestScreenshots(testRunDto: TestRunDto, callback: (screenshotDto: Array<TestScreenshotDto>) => void): void {
+        const paths: Array<string> = new Array();
+        const screensInfo = testRunDto.screenshots;
+        for (let j = 0; j < screensInfo.length; j++) {
+            paths[j] = `./../tests/${testRunDto.testInfo.guid}/img/${screensInfo[j].itemName}`;
+        }
+        const testScreenshots: Array<TestScreenshot> = new Array();
+        this.loadJsonsByPaths(paths, 0, new Array(), false, false, (responses: Array<string>) => {
+            for (let i = 0; i < responses.length; i++) {
+                const loadedScreenshot: TestScreenshot = JSON.parse(responses[i], this.reviveRun);
+                testScreenshots[i] = TestScreenshotDtoMapper.map(loadedScreenshot);
+            }
+            callback(testScreenshots);
+        });
+    }
+
     getRunTests(runDto: RunDto, callback: (testRunDto: TestRunDto, c: number, i: number) => void): void {
         const paths: Array<string> = new Array();
         var test: TestRun;
         var testDto: TestRunDto;
         const testsInfo = runDto.testsInfo;
-        console.log(runDto);
         for (let j = 0; j < testsInfo.length; j++) {
             paths[j] = `./../tests/${testsInfo[j].guid}/${testsInfo[j].itemName}`;
         }

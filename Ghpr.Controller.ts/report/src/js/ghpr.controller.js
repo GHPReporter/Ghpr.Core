@@ -89,9 +89,9 @@ class RunDto {
 }
 class TestEventDto {
 }
-class TestOutputDto {
-}
 class TestScreenshotDto {
+}
+class TestOutputDto {
 }
 var TestResult;
 (function (TestResult) {
@@ -195,6 +195,15 @@ class TestRunDtoMapper {
         testRunDto.screenshots = screenshotDtos;
         testRunDto.testData = testDataDtos;
         return testRunDto;
+    }
+}
+class TestScreenshotDtoMapper {
+    static map(testScreenshot) {
+        let testScreenshotDto = new TestScreenshotDto();
+        testScreenshotDto.base64Data = testScreenshot.base64Data;
+        testScreenshotDto.format = testScreenshot.format;
+        testScreenshotDto.testScreenshotInfo = SimpleItemInfoDtoMapper.map(testScreenshot.testScreenshotInfo);
+        return testScreenshotDto;
     }
 }
 class RunDtoMapper {
@@ -465,12 +474,26 @@ class LocalFileSystemDataService {
             callback(testRunDto);
         });
     }
+    getTestScreenshots(testRunDto, callback) {
+        const paths = new Array();
+        const screensInfo = testRunDto.screenshots;
+        for (let j = 0; j < screensInfo.length; j++) {
+            paths[j] = `./../tests/${testRunDto.testInfo.guid}/img/${screensInfo[j].itemName}`;
+        }
+        const testScreenshots = new Array();
+        this.loadJsonsByPaths(paths, 0, new Array(), false, false, (responses) => {
+            for (let i = 0; i < responses.length; i++) {
+                const loadedScreenshot = JSON.parse(responses[i], this.reviveRun);
+                testScreenshots[i] = TestScreenshotDtoMapper.map(loadedScreenshot);
+            }
+            callback(testScreenshots);
+        });
+    }
     getRunTests(runDto, callback) {
         const paths = new Array();
         var test;
         var testDto;
         const testsInfo = runDto.testsInfo;
-        console.log(runDto);
         for (let j = 0; j < testsInfo.length; j++) {
             paths[j] = `./../tests/${testsInfo[j].guid}/${testsInfo[j].itemName}`;
         }
@@ -1492,16 +1515,20 @@ class TestPageUpdater {
         document.getElementById("test-data-list").innerHTML = `${res}`;
     }
     static updateScreenshots(t) {
-        let screenshots = "";
-        for (let i = 0; i < t.screenshots.length; i++) {
-            const s = t.screenshots[i];
-            const src = `./${t.testInfo.guid}/img/${s.itemName}`;
-            screenshots += `<li><b>Screenshot ${DateFormatter.format(s.date)}:</b><a href="${src}"><img src="${src}" alt="${src}" style="width: 100%;"></img></a></li>`;
-        }
-        if (screenshots === "") {
-            screenshots = "-";
-        }
-        document.getElementById("screenshots").innerHTML = screenshots;
+        Controller.dataService.fromPage(PageType.TestPage).getTestScreenshots(t, (screenshotDtos) => {
+            let screenshots = "";
+            for (let i = 0; i < screenshotDtos.length; i++) {
+                const s = screenshotDtos[i];
+                const src = `data:image/${s.format};base64, ${s.base64Data}`;
+                const date = DateFormatter.format(s.testScreenshotInfo.date);
+                const alt = s.testScreenshotInfo.itemName;
+                screenshots += `<li><b>Screenshot ${date}:</b><a href="${src}" target="_blank"><img src="${src}" alt="${alt}" style="width: 100%;"></img></a></li>`;
+            }
+            if (screenshots === "") {
+                screenshots = "-";
+            }
+            document.getElementById("screenshots").innerHTML = screenshots;
+        });
     }
     static updateFailure(t) {
         document.getElementById("test-message").innerHTML = `<b>Message:</b><br> ${TestRunHelper.getMessage(t)}`;

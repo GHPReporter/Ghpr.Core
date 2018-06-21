@@ -60,16 +60,20 @@ class TestPageUpdater {
     }
 
     private static updateScreenshots(t: TestRunDto): void {
-        let screenshots = ""; 
-        for (let i = 0; i < t.screenshots.length; i++) {
-            const s = t.screenshots[i];
-            const src = `./${t.testInfo.guid}/img/${s.itemName}`;
-            screenshots += `<li><b>Screenshot ${DateFormatter.format(s.date)}:</b><a href="${src}"><img src="${src}" alt="${src}" style="width: 100%;"></img></a></li>`;
-        }
-        if (screenshots === "") {
-            screenshots = "-";
-        }
-        document.getElementById("screenshots").innerHTML = screenshots;
+        Controller.dataService.fromPage(PageType.TestPage).getTestScreenshots(t, (screenshotDtos: Array<TestScreenshotDto>) => {
+            let screenshots = "";
+            for (let i = 0; i < screenshotDtos.length; i++) {
+                const s = screenshotDtos[i];
+                const src = `data:image/${s.format};base64, ${s.base64Data}`;
+                const date = DateFormatter.format(s.testScreenshotInfo.date);
+                const alt = s.testScreenshotInfo.itemName;
+                screenshots += `<li><b>Screenshot ${date}:</b><a href="${src}" target="_blank"><img src="${src}" alt="${alt}" style="width: 100%;"></img></a></li>`;
+            }
+            if (screenshots === "") {
+                screenshots = "-";
+            }
+            document.getElementById("screenshots").innerHTML = screenshots;
+        });
     }
 
     private static updateFailure(t: TestRunDto): void {
