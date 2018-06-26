@@ -65,7 +65,7 @@ class TestRunHelper {
     }
 
     static getExtraOutput(t: TestOutputDto): string {
-        return t.featureOutput === "" ? "-" : t.featureOutput;
+        return t.suiteOutput === "" ? "-" : t.suiteOutput;
     }
 
     static getMessage(t: TestRunDto): string {

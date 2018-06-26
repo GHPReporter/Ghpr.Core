@@ -3,5 +3,5 @@
 class TestOutputDto {
     testOutputInfo: SimpleItemInfoDto;
     output: string;
-    featureOutput: string;
+    suiteOutput: string;
 }

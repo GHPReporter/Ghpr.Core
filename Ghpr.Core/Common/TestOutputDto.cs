@@ -4,6 +4,6 @@
     {
         public SimpleItemInfoDto TestOutputInfo { get; set; }
         public string Output { get; set; }
-        public string FeatureOutput { get; set; }
+        public string SuiteOutput { get; set; }
     }
 }

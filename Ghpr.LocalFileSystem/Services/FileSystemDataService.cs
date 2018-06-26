@@ -83,7 +83,7 @@ namespace Ghpr.LocalFileSystem.Services
             var outputName = LocationsProvider.GetTestOutputFileName(testInfo.Finish);
             var existingOutput = outputPath.LoadTestOutput(outputName);
             _logger.Debug($"Loaded existing output: {JsonConvert.SerializeObject(existingOutput, Formatting.Indented)}");
-            existingOutput.FeatureOutput = testOutput.FeatureOutput;
+            existingOutput.SuiteOutput = testOutput.SuiteOutput;
             existingOutput.Output = testOutput.Output;
             File.Delete(Path.Combine(outputPath, outputName));
             _logger.Debug("Deleted old output");

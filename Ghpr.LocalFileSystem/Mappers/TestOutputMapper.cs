@@ -11,7 +11,7 @@ namespace Ghpr.LocalFileSystem.Mappers
             var name = LocationsProvider.GetTestOutputFileName(testOutputDto.TestOutputInfo.Date);
             var testOutput = new TestOutput
             {
-                FeatureOutput = testOutputDto.FeatureOutput,
+                SuiteOutput = testOutputDto.SuiteOutput,
                 Output = testOutputDto.Output,
                 TestOutputInfo = testOutputDto.TestOutputInfo.MapSimpleItemInfo(name)
             };

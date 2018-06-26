@@ -146,7 +146,7 @@ class TestOutputDtoMapper {
     static map(testOutput) {
         let testOutputDto = new TestOutputDto();
         testOutputDto.output = testOutput.output;
-        testOutputDto.featureOutput = testOutput.featureOutput;
+        testOutputDto.suiteOutput = testOutput.suiteOutput;
         testOutputDto.testOutputInfo = SimpleItemInfoDtoMapper.map(testOutput.testOutputInfo);
         return testOutputDto;
     }
@@ -603,7 +603,7 @@ class TestRunHelper {
         return t.output === "" ? "-" : t.output;
     }
     static getExtraOutput(t) {
-        return t.featureOutput === "" ? "-" : t.featureOutput;
+        return t.suiteOutput === "" ? "-" : t.suiteOutput;
     }
     static getMessage(t) {
         return t.testMessage === "" ? "-" : t.testMessage;

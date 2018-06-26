@@ -6,7 +6,7 @@ class TestOutputDtoMapper {
     static map(testOutput: TestOutput): TestOutputDto {
         let testOutputDto = new TestOutputDto();
         testOutputDto.output = testOutput.output;
-        testOutputDto.featureOutput = testOutput.featureOutput;
+        testOutputDto.suiteOutput = testOutput.suiteOutput;
         testOutputDto.testOutputInfo = SimpleItemInfoDtoMapper.map(testOutput.testOutputInfo);
         return testOutputDto;
     }

@@ -11,7 +11,7 @@ namespace Ghpr.LocalFileSystem.Entities
         [JsonProperty(PropertyName = "output")]
         public string Output { get; set; }
 
-        [JsonProperty(PropertyName = "featureOutput")]
-        public string FeatureOutput { get; set; }
+        [JsonProperty(PropertyName = "suiteOutput")]
+        public string SuiteOutput { get; set; }
     }
 }
