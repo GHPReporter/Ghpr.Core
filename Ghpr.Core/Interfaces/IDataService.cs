@@ -7,6 +7,7 @@ namespace Ghpr.Core.Interfaces
         void Initialize(ReporterSettings settings, ILogger logger);
         void SaveReportSettings(ReportSettingsDto reportSettings);
         void SaveTestRun(TestRunDto testRun, TestOutputDto testOutput);
+        void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput);
         void SaveRun(RunDto run);
         void SaveScreenshot(TestScreenshotDto testScreenshot);
     }

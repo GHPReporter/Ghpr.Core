@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Ghpr.Core;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
@@ -22,7 +23,7 @@ namespace Ghpr.LocalFileSystem.Services
             _locationsProvider = new LocationsProvider(settings.OutputPath);
             _logger = logger;
         }
-
+        
         public void SaveRun(RunDto runDto)
         {
             var run = runDto.Map();
@@ -74,6 +75,24 @@ namespace Ghpr.LocalFileSystem.Services
             var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);
             _logger.Info($"Test runs Info was saved: '{testRunsInfoFullPath}'");
             _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testRun, Formatting.Indented)}");
+        }
+
+        public void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput)
+        {
+            var outputPath = _locationsProvider.GetTestPath(testInfo.Guid.ToString());
+            var outputName = LocationsProvider.GetTestOutputFileName(testInfo.Finish);
+            var existingOutput = outputPath.LoadTestOutput(outputName);
+            _logger.Debug($"Loaded existing output: {JsonConvert.SerializeObject(existingOutput, Formatting.Indented)}");
+            existingOutput.FeatureOutput = existingOutput.FeatureOutput.Equals("")
+                ? testOutput.FeatureOutput
+                : existingOutput.FeatureOutput + Environment.NewLine + testOutput.FeatureOutput;
+            existingOutput.Output = existingOutput.Output.Equals("")
+                ? testOutput.Output
+                : existingOutput.Output + Environment.NewLine + testOutput.Output;
+            File.Delete(Path.Combine(outputPath, outputName));
+            _logger.Debug("Deleted old output");
+            existingOutput.Save(outputPath);
+            _logger.Debug($"Saved updated output: {JsonConvert.SerializeObject(existingOutput, Formatting.Indented)}");
         }
     }
 }

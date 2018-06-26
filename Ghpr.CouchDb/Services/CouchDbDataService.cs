@@ -17,7 +17,13 @@ namespace Ghpr.CouchDb.Services
         }
 
         public CouchDbDatabase Database { get; private set; }
-        
+
+        public void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput)
+        {
+            //TODO: implement later!
+            throw new System.NotImplementedException();
+        }
+
         public void SaveRun(RunDto runDto)
         {
             var runEntity = runDto.Map();

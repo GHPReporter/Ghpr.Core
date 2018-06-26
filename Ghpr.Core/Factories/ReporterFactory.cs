@@ -29,8 +29,12 @@ namespace Ghpr.Core.Factories
             return InitializeReporter(ReporterSettingsProvider.Load(framework), testDataProvider);
         }
 
-        private static T CreateInstanceFromFile<T>(string fileName) where T : class
+        private static T CreateInstanceFromFile<T>(string fileName, T defaultImplementation = null) where T : class
         {
+            if (fileName.Equals("") && defaultImplementation != null)
+            {
+                return defaultImplementation;
+            }
             var uri = new Uri(typeof(ReporterFactory).Assembly.CodeBase);
             var instanceAssemblyFullPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", fileName);
             var instanceAssembly = Assembly.LoadFrom(instanceAssemblyFullPath);
@@ -58,7 +62,7 @@ namespace Ghpr.Core.Factories
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
 
-            var logger = CreateInstanceFromFile<ILogger>(settings.LoggerFile);
+            var logger = CreateInstanceFromFile<ILogger>(settings.LoggerFile, new EmptyLogger());
             logger.SetUp(settings);
 
             var dataService = CreateInstanceFromFile<IDataService>(settings.DataServiceFile);
