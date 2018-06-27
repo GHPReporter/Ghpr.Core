@@ -55,7 +55,7 @@
     - master
 	
   install:
-	- appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+	- ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     
   before_build:
     - nuget restore Ghpr.Core.sln
