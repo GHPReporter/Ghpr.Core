@@ -23,6 +23,31 @@
       secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
     artifact: nupkg
+-
+  branches:
+    only:
+    - nuget-localfilesystem  
+  
+  before_build:
+    - nuget restore Ghpr.Core/Ghpr.Core.sln
+
+  build_script: 
+    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
+
+  after_build:
+    - nuget pack "Ghpr.LocalFileSystem/Ghpr.LocalFileSystem.csproj" -Prop Configuration=Release;OutDir=bin\Release
+
+  artifacts:
+    - path: '*.nupkg'
+      name: nupkg
+
+  deploy:
+    provider: NuGet
+    server: 
+    api_key:
+      secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
+    skip_symbols: false
+    artifact: nupkg
     
 -
   branches:

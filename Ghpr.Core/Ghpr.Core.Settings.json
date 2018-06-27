@@ -1,7 +1,7 @@
 ﻿{
   "outputPath": "C:\\_GHPReporter_Core_Report",
-  "dataServiceFile": "Ghpr.CouchDb.dll",
-  "loggerFile": "Ghpr.SerilogToSeqLogger.dll",
+  "dataServiceFile": "Ghpr.LocalFileSystem.dll",
+  "loggerFile": "",
   "sprint": "",
   "runName": "",
   "runGuid": "",
