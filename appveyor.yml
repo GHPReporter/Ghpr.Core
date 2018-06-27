@@ -4,10 +4,10 @@
     - nuget  
   
   before_build:
-    - nuget restore Ghpr.Core/Ghpr.Core.sln
+    - nuget restore Ghpr.Core.sln
 
   build_script: 
-    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
+    - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   after_build:
     - nuget pack "Ghpr.Core/Ghpr.Core.csproj" -Prop Configuration=Release;OutDir=bin\Release
@@ -29,10 +29,10 @@
     - nuget-localfilesystem  
   
   before_build:
-    - nuget restore Ghpr.Core/Ghpr.Core.sln
+    - nuget restore Ghpr.Core.sln
 
   build_script: 
-    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
+    - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   after_build:
     - nuget pack "Ghpr.LocalFileSystem/Ghpr.LocalFileSystem.csproj" -Prop Configuration=Release;OutDir=bin\Release;Platform=AnyCPU
@@ -55,7 +55,7 @@
     - nuget 
     
   before_build:
-    - nuget restore Ghpr.Core/Ghpr.Core.sln
+    - nuget restore Ghpr.Core.sln
 
   build_script: 
-    - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
+    - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
