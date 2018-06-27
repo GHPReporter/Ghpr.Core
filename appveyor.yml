@@ -35,7 +35,7 @@
     - msbuild Ghpr.Core/Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   after_build:
-    - nuget pack "Ghpr.LocalFileSystem/Ghpr.LocalFileSystem.csproj" -Prop Configuration=Release;OutDir=bin\Release
+    - nuget pack "Ghpr.LocalFileSystem/Ghpr.LocalFileSystem.csproj" -Prop Configuration=Release;OutDir=bin\Release;Platform=AnyCPU
 
   artifacts:
     - path: '*.nupkg'
