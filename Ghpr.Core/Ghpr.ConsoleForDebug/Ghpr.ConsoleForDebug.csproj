@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ghpr.LocalFileSystem">
-      <HintPath>..\..\..\Ghpr.NUnit\dlls\Ghpr.LocalFileSystem.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,6 +53,10 @@
     <ProjectReference Include="..\..\Ghpr.CouchDb\Ghpr.CouchDb.csproj">
       <Project>{e1e7d3a7-8991-4a14-9c73-8672662ab913}</Project>
       <Name>Ghpr.CouchDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ghpr.LocalFileSystem\Ghpr.LocalFileSystem.csproj">
+      <Project>{40be674c-5954-4aba-b1ed-a890621ad306}</Project>
+      <Name>Ghpr.LocalFileSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Ghpr.LocalFileSystem\Ghpr.LocalFileSystem.csproj">
       <Project>{40be674c-5954-4aba-b1ed-a890621ad306}</Project>
