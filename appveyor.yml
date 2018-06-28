@@ -27,6 +27,7 @@
       secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
     artifact: nupkg
+    
 -
   branches:
     only:
@@ -56,6 +57,7 @@
       secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
     artifact: nupkg
+    
  -
   branches:
     only:
@@ -85,6 +87,7 @@
       secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
     artifact: nupkg
+    
  -
   branches:
     only:
