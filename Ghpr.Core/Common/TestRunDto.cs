@@ -11,7 +11,7 @@ namespace Ghpr.Core.Common
             TestInfo = new ItemInfoDto
             {
                 Guid = guid,
-                Start = DateTime.Now,
+                Start = default(DateTime),
                 Finish = default(DateTime)
             };
             Name = name;
@@ -35,7 +35,7 @@ namespace Ghpr.Core.Common
             TestInfo = new ItemInfoDto
             {
                 Guid = guid.Equals("") ? Guid.Empty : Guid.Parse(guid),
-                Start = DateTime.Now,
+                Start = default(DateTime),
                 Finish = default(DateTime)
             };
             Name = name;
