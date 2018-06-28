@@ -21,7 +21,9 @@ namespace Ghpr.Core.Processors
             finalTestRunDto.Events.
                 AddRange(testRunDtoWhenStated.Events.Where(
                     e => !finalTestRunDto.Events.Any(te => te.Comment.Equals(e.Comment))));
-            finalTestRunDto.TestInfo.Start = testRunDtoWhenStated.TestInfo.Start;
+            finalTestRunDto.TestInfo.Start = testRunDtoWhenStated.TestInfo.Start.Equals(default(DateTime))
+                ? finalTestRunDto.TestInfo.Start
+                : testRunDtoWhenStated.TestInfo.Start;
             finalTestRunDto.TestInfo.Finish = finalTestRunDto.TestInfo.Finish.Equals(default(DateTime))
                 ? DateTime.Now
                 : finalTestRunDto.TestInfo.Finish;
