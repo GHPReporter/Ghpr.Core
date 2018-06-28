@@ -8,7 +8,7 @@ namespace Ghpr.Core.Processors
 {
     public class TestRunDtoProcessor : ITestRunDtoProcessor
     {
-        public TestRunDto Process(TestRunDto testRunDtoWhenStated, TestRunDto testRunDtoWhenFinished, Guid runGuid)
+        public TestRunDto Process(TestRunDto testRunDtoWhenStarted, TestRunDto testRunDtoWhenFinished, Guid runGuid)
         {
             var finalTestRunDto = testRunDtoWhenFinished;
             if (finalTestRunDto.TestInfo.Guid.Equals(Guid.Empty))
@@ -16,14 +16,14 @@ namespace Ghpr.Core.Processors
                 finalTestRunDto.TestInfo.Guid = finalTestRunDto.FullName.ToMd5HashGuid();
             }
             finalTestRunDto.Screenshots
-                .AddRange(testRunDtoWhenStated.Screenshots.Where(
+                .AddRange(testRunDtoWhenStarted.Screenshots.Where(
                     s => !finalTestRunDto.Screenshots.Any(ts => ts.Date.Equals(s.Date))));
             finalTestRunDto.Events.
-                AddRange(testRunDtoWhenStated.Events.Where(
+                AddRange(testRunDtoWhenStarted.Events.Where(
                     e => !finalTestRunDto.Events.Any(te => te.Comment.Equals(e.Comment))));
-            finalTestRunDto.TestInfo.Start = testRunDtoWhenStated.TestInfo.Start.Equals(default(DateTime))
+            finalTestRunDto.TestInfo.Start = testRunDtoWhenStarted.TestInfo.Start.Equals(default(DateTime))
                 ? finalTestRunDto.TestInfo.Start
-                : testRunDtoWhenStated.TestInfo.Start;
+                : testRunDtoWhenStarted.TestInfo.Start;
             finalTestRunDto.TestInfo.Finish = finalTestRunDto.TestInfo.Finish.Equals(default(DateTime))
                 ? DateTime.Now
                 : finalTestRunDto.TestInfo.Finish;
