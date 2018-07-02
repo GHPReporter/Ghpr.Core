@@ -14,3 +14,14 @@ Now extra test output will be displayed in a separate Tab on Test Run page.
 The idea is that in the future several ways of working with data will be supported (some work with Couch DB is already in progress).
  - Some extra packages ([1](https://www.nuget.org/packages/Ghpr.SimpleFileLogger/), [2](https://www.nuget.org/packages/Ghpr.SerilogToSeqLogger/)) were created to use internal Ghpr logging to diagnose some issues with the tool itself.
  - Small changes in the title font size on the report pages.
+
+## v0.8 and earlier
+
+Previous releases included such feature as:
+
+ - Test history
+ - Runs history
+ - Hierarchical test list
+ - Test scresnshots
+ - Real-time test report generation
+ - All other features
