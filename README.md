@@ -40,6 +40,10 @@ Easy-to-use .NET test reporting tool for several testing frameworks
 
 You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
 
+# Release notes
+
+You can find it [here](https://github.com/GHPReporter/Ghpr.Core/blob/master/RELEASE_NOTES.md) for all packages.
+
 # About Settings file
 
 Standard settings file is .json file with the following structure:
