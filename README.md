@@ -50,6 +50,8 @@ Standard settings file is .json file with the following structure:
 ``` json
 {
    "outputPath":"C:\\_GHPReporter_Core_Report",
+   "dataServiceFile": "Ghpr.LocalFileSystem.dll",
+   "loggerFile": "",
    "sprint":"",
    "runName":"",
    "runGuid":"",
@@ -60,9 +62,10 @@ Standard settings file is .json file with the following structure:
 ```
 For Ghpr.Core it is called `Ghpr.Core.Settings.json`. This file is included in NuGet package. For different testing frameworks (MSTest, NUnit, SpecFlow) there are separate settings files. Separate files are needed to let Ghpr.Core use different settings for different testing frameworks. 
 
-Parameter `runsToDisplay`: if >0 the reporter will load only this specified number of the latest runs on test run page.
-
-Parameter `testsToDisplay`: if >0 the reporter will load only this specified number of the latest test runs on test history page.
+Parameter `runsToDisplay`: if > 0 the reporter will load only this specified number of the latest runs on test run page.
+Parameter `testsToDisplay`: if > 0 the reporter will load only this specified number of the latest test runs on test history page.
+Parameter `dataServiceFile`: the name of the library which contains implementation of IDataService, will be distributed as a separate NuGet package will you should include as a dependency in your solution with tests. Can't be empty.
+Parameter `loggerFile`: the name the library that will be used for internal logging of Ghpr itself.
 
 # View report locally
 
