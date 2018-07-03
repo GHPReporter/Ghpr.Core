@@ -31,6 +31,9 @@ namespace Ghpr.CouchDb.Entities
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; }
 
+        [JsonProperty(PropertyName = "duration")]
+        public double Duration { get; set; }
+
         [JsonProperty(PropertyName = "output")]
         public SimpleItemInfo Output { get; set; }
 

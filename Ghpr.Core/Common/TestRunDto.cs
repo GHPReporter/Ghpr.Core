@@ -20,6 +20,7 @@ namespace Ghpr.Core.Common
             TestStackTrace = "";
             TestMessage = "";
             Result = "";
+            Duration = 0.0;
             Output = new SimpleItemInfoDto();
             Priority = "";
             TestType = "";
@@ -44,6 +45,7 @@ namespace Ghpr.Core.Common
             TestStackTrace = "";
             TestMessage = "";
             Result = "";
+            Duration = 0.0;
             Output = new SimpleItemInfoDto();
             Priority = "";
             TestType = "";
@@ -61,6 +63,7 @@ namespace Ghpr.Core.Common
         public string TestMessage { get; set; }
         public string Result { get; set; }
         public string TestType { get; set; }
+        public double Duration { get; set; }
         public SimpleItemInfoDto Output { get; set; }
         public string Priority { get; set; }
         public string[] Categories { get; set; }

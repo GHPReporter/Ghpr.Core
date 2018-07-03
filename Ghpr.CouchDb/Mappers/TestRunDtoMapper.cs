@@ -36,6 +36,7 @@ namespace Ghpr.CouchDb.Mappers
                 TestMessage = testRunDto.TestMessage,
                 TestStackTrace = testRunDto.TestStackTrace,
                 TestType = testRunDto.TestType,
+                Duration = testRunDto.Duration,
                 TestData = testRunDto.TestData.Select(tdDto => new TestData
                 {
                     Actual = tdDto.Actual,

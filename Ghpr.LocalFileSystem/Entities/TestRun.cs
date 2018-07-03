@@ -65,7 +65,7 @@ namespace Ghpr.LocalFileSystem.Entities
         public string Description { get; set; }
 
         [JsonProperty(PropertyName = "duration")]
-        public double TestDuration { get; set; }
+        public double Duration { get; set; }
         
         [JsonProperty(PropertyName = "testStackTrace")]
         public string TestStackTrace { get; set; }

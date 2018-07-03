@@ -27,7 +27,9 @@ namespace Ghpr.LocalFileSystem.Mappers
                 RunGuid = testRunDto.RunGuid,
                 Screenshots = testRunDto.Screenshots.Select(sDto => sDto.MapSimpleItemInfo()).ToList(),
                 TestInfo = testRunDto.TestInfo.MapTestRunInfo(),
-                TestDuration = (testRunDto.TestInfo.Finish - testRunDto.TestInfo.Start).TotalSeconds,
+                Duration = testRunDto.Duration.Equals(0.0) 
+                    ? (testRunDto.TestInfo.Finish - testRunDto.TestInfo.Start).TotalSeconds 
+                    : testRunDto.Duration,
                 TestMessage = testRunDto.TestMessage,
                 TestStackTrace = testRunDto.TestStackTrace,
                 TestType = testRunDto.TestType,
