@@ -1,5 +1,4 @@
-﻿using System;
-using Ghpr.Core.Common;
+﻿using Ghpr.Core.Common;
 
 namespace Ghpr.Core.Interfaces
 {
@@ -7,7 +6,6 @@ namespace Ghpr.Core.Interfaces
     {
         void OnRunStarted();
         TestRunDto ExtractCorrespondingTestRun(TestRunDto finishedTestRun);
-        void UpdateCorrespondingTestRunWithScreenshot(Guid testGuid, string testFullName, TestScreenshotDto screenshotDto);
         void AddNewTestRun(TestRunDto testRun);
     }
 }

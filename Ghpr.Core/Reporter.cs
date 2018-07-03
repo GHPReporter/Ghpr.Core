@@ -101,7 +101,6 @@ namespace Ghpr.Core
                 Thread.Sleep(50);
             }
             var testGuid = TestDataProvider.GetCurrentTestRunGuid();
-            var testFullName = TestDataProvider.GetCurrentTestRunFullName();
             var base64String = Convert.ToBase64String(screenshotBytes);
             var testScreenshot = new TestScreenshotDto
             {
@@ -115,7 +114,6 @@ namespace Ghpr.Core
                 Format = format
             };
             Logger.Info($"Saving screenshot (Test guid: {testScreenshot.TestGuid})");
-            //TestRunsRepository.UpdateCorrespondingTestRunWithScreenshot(testGuid, testFullName, testScreenshot);
             DataService.SaveScreenshot(testScreenshot);
         }
 
