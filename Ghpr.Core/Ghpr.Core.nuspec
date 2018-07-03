@@ -11,7 +11,7 @@
     <iconUrl>https://github.com/GHPReporter/GHPReporter.github.io/blob/master/img/logo-small.png?raw=true</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Ghpr.Core: Core package for test run reporter (NUnit, SpecFlow, MSTest)</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>https://github.com/GHPReporter/Ghpr.Core/blob/master/RELEASE_NOTES.md</releaseNotes>
     <copyright>Copyright Evgeniy Kosjakov © 2016-2018</copyright>
     <tags>.NET QA package HTML report reporting testing tool framework NUnit SpecFlow MSTest</tags>
     <dependencies>
