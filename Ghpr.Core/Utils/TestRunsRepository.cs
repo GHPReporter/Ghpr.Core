@@ -36,6 +36,29 @@ namespace Ghpr.Core.Utils
             return testRun;
         }
 
+        public void UpdateCorrespondingTestRunWithScreenshot(Guid testGuid, string testFullName, TestScreenshotDto screenshotDto)
+        {
+            var testRun = new TestRunDto(testGuid, "", testFullName);
+            var testRunByGuid = _currentTests.FirstOrDefault(t => t.TestInfo.Guid.Equals(testGuid) && !t.TestInfo.Guid.Equals(Guid.Empty));
+            if (testRunByGuid != null)
+            {
+                testRunByGuid.Screenshots.Add(screenshotDto.TestScreenshotInfo);
+            }
+            else
+            {
+                var testRunByFullName = _currentTests.FirstOrDefault(t => t.FullName.Equals(testFullName));
+                if (testRunByFullName != null)
+                {
+                    testRunByFullName.Screenshots.Add(screenshotDto.TestScreenshotInfo);
+                }
+                else
+                {
+                    testRun.Screenshots.Add(screenshotDto.TestScreenshotInfo);
+                    _currentTests.Add(testRun);
+                }
+            }
+        }
+
         public void AddNewTestRun(TestRunDto testRun)
         {
             _currentTests.Add(testRun);

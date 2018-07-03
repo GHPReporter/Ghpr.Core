@@ -57,12 +57,14 @@ namespace Ghpr.LocalFileSystem.Services
             var imgFolder = _locationsProvider.GetScreenshotPath(testRun.TestInfo.Guid.ToString());
             if (Directory.Exists(imgFolder))
             {
-                var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.*");
+                var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.json");
+                _logger.Info($"Checking unassigned img files: {imgFiles.Length} file found");
                 foreach (var imgFile in imgFiles)
                 {
                     var img = imgFolder.LoadTestScreenshot(imgFile.Name);
                     if (imgFile.CreationTime > testRun.TestInfo.Start)
                     {
+                        _logger.Info($"New img file found: {imgFile.CreationTime}, {imgFile.Name}");
                         testRun.Screenshots.Add(img.TestScreenshotInfo);
                     }
                 }
