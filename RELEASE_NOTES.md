@@ -1,8 +1,15 @@
 # Release notes
 
+## v0.9.1
+
+This includes some small fixes/improvements comparing to v0.9.
+
+ - Fixed bug with NUnit screenshots when the report is generated from `.xml` file with NUnit test results.
+ - Added Test Duration to Test Run Dto to be able to set it in different ways for different testing frameworks.
+ 
 ## v0.9
 
-This version includes some breaking changes and new features. Please use v0.9.0.3 as it contains some bug fixes
+This version includes some breaking changes and new features. Please use v0.9.0.5 as it contains some bug fixes.
 
  - Test screenshots are now stored in a separate `.json` files. This speeds up loading of test list in the report.
  - Test output is now stored in a separate `.json` file: [Related issue](https://github.com/GHPReporter/Ghpr.Core/issues/40). This speeds up loading of test list in the report.
