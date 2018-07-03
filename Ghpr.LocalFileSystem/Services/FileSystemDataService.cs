@@ -24,7 +24,7 @@ namespace Ghpr.LocalFileSystem.Services
             _logger = logger;
         }
         
-        public void SaveRun(RunDto runDto)
+        public ItemInfoDto SaveRun(RunDto runDto)
         {
             var run = runDto.Map();
             var runFullPath = run.Save(_locationsProvider.RunsPath);
@@ -32,15 +32,17 @@ namespace Ghpr.LocalFileSystem.Services
             var runsInfoFullPath = run.RunInfo.SaveRunInfo(_locationsProvider);
             _logger.Info($"Runs Info was saved: '{runsInfoFullPath}'");
             _logger.Debug($"Run data was saved correctly: {JsonConvert.SerializeObject(run, Formatting.Indented)}");
+            return run.RunInfo.ToDto();
         }
 
-        public void SaveScreenshot(TestScreenshotDto screenshotDto)
+        public SimpleItemInfoDto SaveScreenshot(TestScreenshotDto screenshotDto)
         {
             var testScreenshot = screenshotDto.Map();
             var path = _locationsProvider.GetScreenshotPath(testScreenshot.TestGuid.ToString());
             testScreenshot.Save(path);
             _logger.Info($"Screenshot was saved: '{path}'");
             _logger.Debug($"Screenshot data was saved correctly: {JsonConvert.SerializeObject(testScreenshot, Formatting.Indented)}");
+            return testScreenshot.TestScreenshotInfo.ToDto();
         }
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
@@ -50,7 +52,7 @@ namespace Ghpr.LocalFileSystem.Services
             _logger.Info($"Report settings were saved: '{fullPath}'");
         }
 
-        public void SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)
+        public ItemInfoDto SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)
         {
             var testOutput = testOutputDto.Map();
             var testRun = testRunDto.Map(testOutput.TestOutputInfo);
@@ -77,6 +79,7 @@ namespace Ghpr.LocalFileSystem.Services
             var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);
             _logger.Info($"Test runs Info was saved: '{testRunsInfoFullPath}'");
             _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testRun, Formatting.Indented)}");
+            return testRun.TestInfo.ToDto();
         }
 
         public void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput)

@@ -29,5 +29,17 @@ namespace Ghpr.LocalFileSystem.Mappers
             };
             return run;
         }
+
+        public static ItemInfoDto ToDto(this ItemInfo itemInfoDto)
+        {
+            var res = new ItemInfoDto
+            {
+                Guid = itemInfoDto.Guid,
+                Start = itemInfoDto.Start,
+                Finish = itemInfoDto.Finish,
+                ItemName = itemInfoDto.ItemName
+            };
+            return res;
+        }
     }
 }

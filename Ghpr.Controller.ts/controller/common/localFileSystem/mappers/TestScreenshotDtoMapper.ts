@@ -7,7 +7,7 @@ class TestScreenshotDtoMapper {
         let testScreenshotDto = new TestScreenshotDto();
         testScreenshotDto.base64Data = testScreenshot.base64Data;
         testScreenshotDto.format = testScreenshot.format;
-        testScreenshotDto.testScreenshotInfo= SimpleItemInfoDtoMapper.map(testScreenshot.testScreenshotInfo);
+        testScreenshotDto.testScreenshotInfo = SimpleItemInfoDtoMapper.map(testScreenshot.testScreenshotInfo);
         return testScreenshotDto;
     }
 }

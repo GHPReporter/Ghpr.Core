@@ -28,5 +28,17 @@ namespace Ghpr.CouchDb.Mappers
             };
             return run;
         }
+
+        public static ItemInfoDto ToDto(this ItemInfo itemInfo)
+        {
+            var dto = new ItemInfoDto
+            {
+                ItemName = itemInfo.ItemName,
+                Guid = itemInfo.Guid,
+                Start = itemInfo.Start,
+                Finish = itemInfo.Finish
+            };
+            return dto;
+        }
     }
 }

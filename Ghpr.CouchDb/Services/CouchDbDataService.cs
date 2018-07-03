@@ -24,16 +24,18 @@ namespace Ghpr.CouchDb.Services
             throw new System.NotImplementedException();
         }
 
-        public void SaveRun(RunDto runDto)
+        public ItemInfoDto SaveRun(RunDto runDto)
         {
             var runEntity = runDto.Map();
             Database.SaveRun(runEntity);
+            return runEntity.Data.RunInfo.ToDto();
         }
         
-        public void SaveScreenshot(TestScreenshotDto testScreenshot)
+        public SimpleItemInfoDto SaveScreenshot(TestScreenshotDto testScreenshot)
         {
             var screenshotEntity = testScreenshot.Map();
             Database.SaveScreenshot(screenshotEntity);
+            return screenshotEntity.Data.TestScreenshotInfo.ToDto();
         }
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
@@ -42,11 +44,12 @@ namespace Ghpr.CouchDb.Services
             Database.SaveReportSettings(reportSettingsEntity);
         }
 
-        public void SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)
+        public ItemInfoDto SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)
         {
             //TODO: SAVE testOutputDto correctly!
             var testRunEntity = testRunDto.Map();
             Database.SaveTestRun(testRunEntity);
+            return testRunEntity.Data.TestInfo.ToDto();
         }
     }
 }

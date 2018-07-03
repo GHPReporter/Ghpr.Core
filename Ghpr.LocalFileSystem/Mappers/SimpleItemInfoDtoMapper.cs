@@ -14,5 +14,15 @@ namespace Ghpr.LocalFileSystem.Mappers
             };
             return simpleItemInfo;
         }
+
+        public static SimpleItemInfoDto ToDto(this SimpleItemInfo simpleItemInfo)
+        {
+            var dto = new SimpleItemInfoDto
+            {
+                ItemName = simpleItemInfo.ItemName,
+                Date = simpleItemInfo.Date
+            };
+            return dto;
+        }
     }
 }

@@ -14,5 +14,15 @@ namespace Ghpr.CouchDb.Mappers
             };
             return simpleItemInfo;
         }
+
+        public static SimpleItemInfoDto ToDto(this SimpleItemInfo entity)
+        {
+            var dto = new SimpleItemInfoDto
+            {
+                ItemName = entity.ItemName,
+                Date = entity.Date
+            };
+            return dto;
+        }
     }
 }
