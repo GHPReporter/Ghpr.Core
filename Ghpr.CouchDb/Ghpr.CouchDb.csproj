@@ -70,7 +70,8 @@
     <Compile Include="Processors\HttpResponseMessageProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CouchDbSettings.cs" />
-    <Compile Include="Services\CouchDbDataService.cs" />
+    <Compile Include="Services\CouchDbDataReaderService.cs" />
+    <Compile Include="Services\CouchDbDataWriterService.cs" />
     <Compile Include="Utils\StringContentBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 namespace Ghpr.Core.Interfaces
 {
-    public interface IDataService
+    public interface IDataWriterService
     {
         void Initialize(ReporterSettings settings, ILogger logger);
         void SaveReportSettings(ReportSettingsDto reportSettings);

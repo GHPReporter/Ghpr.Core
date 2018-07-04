@@ -17,9 +17,9 @@ namespace Ghpr.ConsoleForDebug
             reporter.Logger.Info("STARTED");
 
             var reportSettings = new ReportSettingsDto(5, 7);
-            reporter.DataService.SaveReportSettings(reportSettings);
-            reporter.DataService.SaveReportSettings(reportSettings);
-            reporter.DataService.SaveReportSettings(reportSettings);
+            reporter.DataWriterService.SaveReportSettings(reportSettings);
+            reporter.DataWriterService.SaveReportSettings(reportSettings);
+            reporter.DataWriterService.SaveReportSettings(reportSettings);
 
             var run = new RunDto
             {
@@ -34,8 +34,8 @@ namespace Ghpr.ConsoleForDebug
                 Sprint = "Sprint 1",
                 TestsInfo = new List<ItemInfoDto>()
             };
-            reporter.DataService.SaveRun(run);
-            reporter.DataService.SaveRun(run);
+            reporter.DataWriterService.SaveRun(run);
+            reporter.DataWriterService.SaveRun(run);
 
             reporter.Logger.Info("RUN SAVED");
 
@@ -58,8 +58,8 @@ namespace Ghpr.ConsoleForDebug
                 Guid = testGuid
             };
             test.TestInfo = testInfo;
-            reporter.DataService.SaveScreenshot(screen);
-            reporter.DataService.SaveTestRun(test, new TestOutputDto());
+            reporter.DataWriterService.SaveScreenshot(screen);
+            reporter.DataWriterService.SaveTestRun(test, new TestOutputDto());
 
             reporter.Logger.Info("DONE");
             reporter.TearDown();
