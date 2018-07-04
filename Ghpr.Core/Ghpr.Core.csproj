@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Common\SimpleItemInfoDto.cs" />
     <Compile Include="Common\TestOutputDto.cs" />
+    <Compile Include="Services\DataReaderService.cs" />
     <Compile Include="Extensions\TestRunDtoListExtensions.cs" />
     <Compile Include="Factories\ReporterFactory.cs" />
     <Compile Include="Interfaces\IActionHelper.cs" />
