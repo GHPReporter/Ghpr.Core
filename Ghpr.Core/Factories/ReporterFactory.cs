@@ -8,6 +8,7 @@ using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Processors;
 using Ghpr.Core.Providers;
+using Ghpr.Core.Services;
 using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.Factories
@@ -79,7 +80,7 @@ namespace Ghpr.Core.Factories
                 ReporterSettings = settings,
                 ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay),
                 DataWriterService = dataWriterService,
-                DataReaderService = dataReaderService,
+                DataReaderService = new DataReaderService(dataReaderService),
                 RunRepository = new RunDtoRepository(),
                 TestRunsRepository = new TestRunsRepository(),
                 TestRunProcessor = new TestRunDtoProcessor(),
