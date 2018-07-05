@@ -9,17 +9,22 @@ namespace Ghpr.CouchDb.Services
 {
     public class CouchDbDataReaderService : IDataReaderService
     {
-        public void Initialize(ReporterSettings settings, ILogger logger)
+        public void InitializeDataReader(ReporterSettings settings, ILogger logger)
         {
             var couchDbSettings = "Ghpr.CouchDb.Settings.json".LoadSettingsAs<CouchDbSettings>();
             Database = new CouchDbDatabase(couchDbSettings, logger);
             Database.CreateDb();
             Database.ValidateConnection();
         }
-
+        
         public CouchDbDatabase Database { get; private set; }
 
         //TODO: implement later!
+
+        public ReportSettingsDto GetReportSettings()
+        {
+            throw new NotImplementedException();
+        }
 
         public TestRunDto GetLatestTestRun(Guid testGuid)
         {
@@ -41,7 +46,7 @@ namespace Ghpr.CouchDb.Services
             throw new NotImplementedException();
         }
 
-        public List<TestOutputDto> GetTestOutput(ItemInfoDto testInfo)
+        public TestOutputDto GetTestOutput(ItemInfoDto testInfo)
         {
             throw new NotImplementedException();
         }

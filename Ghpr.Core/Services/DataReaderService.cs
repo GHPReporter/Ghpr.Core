@@ -8,15 +8,23 @@ namespace Ghpr.Core.Services
     public class DataReaderService : IDataReaderService
     {
         private readonly IDataReaderService _dataReaderService;
+        private ICommonCache _cache;
 
-        public DataReaderService(IDataReaderService dataReaderService)
+        public DataReaderService(IDataReaderService dataReaderService, ICommonCache cache)
         {
             _dataReaderService = dataReaderService;
+            _cache = cache;
         }
 
-        public void Initialize(ReporterSettings settings, ILogger logger)
+        public void InitializeDataReader(ReporterSettings settings, ILogger logger)
         {
-            _dataReaderService.Initialize(settings, logger);
+            _dataReaderService.InitializeDataReader(settings, logger);
+            _cache.InitializeDataWriter(settings, logger);
+        }
+
+        public ReportSettingsDto GetReportSettings()
+        {
+            return _dataReaderService.GetReportSettings();
         }
 
         public TestRunDto GetLatestTestRun(Guid testGuid)
@@ -39,7 +47,7 @@ namespace Ghpr.Core.Services
             return _dataReaderService.GetTestScreenshots(testInfo);
         }
 
-        public List<TestOutputDto> GetTestOutput(ItemInfoDto testInfo)
+        public TestOutputDto GetTestOutput(ItemInfoDto testInfo)
         {
             return _dataReaderService.GetTestOutput(testInfo);
         }

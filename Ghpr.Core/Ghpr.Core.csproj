@@ -40,6 +40,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -50,13 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\CommonCache.cs" />
     <Compile Include="Common\SimpleItemInfoDto.cs" />
     <Compile Include="Common\TestOutputDto.cs" />
+    <Compile Include="Comparers\SimpleItemInfoDtoComparer.cs" />
+    <Compile Include="Interfaces\ICommonCache.cs" />
+    <Compile Include="Services\DataWriterService.cs" />
     <Compile Include="Services\DataReaderService.cs" />
     <Compile Include="Extensions\TestRunDtoListExtensions.cs" />
     <Compile Include="Factories\ReporterFactory.cs" />
     <Compile Include="Interfaces\IActionHelper.cs" />
-    <Compile Include="Interfaces\IDataReaderService.cs" />
+    <Compile Include="Interfaces\IDataWriterService.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\ITestDataProvider.cs" />
     <Compile Include="Interfaces\ITestRunDtoProcessor.cs" />
@@ -78,7 +83,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\IRunDtoRepository.cs" />
     <Compile Include="Providers\ReporterSettingsProvider.cs" />
-    <Compile Include="Interfaces\IDataWriterService.cs" />
+    <Compile Include="Interfaces\IDataReaderService.cs" />
     <Compile Include="Interfaces\IEmbeddedResource.cs" />
     <Compile Include="Interfaces\IReporter.cs" />
     <Compile Include="Reporter.cs" />

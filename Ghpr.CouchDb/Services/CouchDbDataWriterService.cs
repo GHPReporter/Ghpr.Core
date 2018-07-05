@@ -8,7 +8,7 @@ namespace Ghpr.CouchDb.Services
 {
     public class CouchDbDataWriterService : IDataWriterService
     {
-        public void Initialize(ReporterSettings settings, ILogger logger)
+        public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
         {
             var couchDbSettings = "Ghpr.CouchDb.Settings.json".LoadSettingsAs<CouchDbSettings>();
             Database = new CouchDbDatabase(couchDbSettings, logger);

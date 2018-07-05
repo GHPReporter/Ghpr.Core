@@ -13,10 +13,15 @@ namespace Ghpr.LocalFileSystem.Services
         private ILocationsProvider _locationsProvider;
         private ILogger _logger;
 
-        public void Initialize(ReporterSettings settings, ILogger logger)
+        public void InitializeDataReader(ReporterSettings settings, ILogger logger)
         {
             _locationsProvider = new LocationsProvider(settings.OutputPath);
             _logger = logger;
+        }
+
+        public ReportSettingsDto GetReportSettings()
+        {
+            throw new NotImplementedException();
         }
 
         public TestRunDto GetLatestTestRun(Guid testGuid)
@@ -39,7 +44,7 @@ namespace Ghpr.LocalFileSystem.Services
             throw new NotImplementedException();
         }
 
-        public List<TestOutputDto> GetTestOutput(ItemInfoDto testInfo)
+        public TestOutputDto GetTestOutput(ItemInfoDto testInfo)
         {
             throw new NotImplementedException();
         }

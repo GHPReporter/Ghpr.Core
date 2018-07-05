@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Ghpr.Core.Common;
+﻿using Ghpr.Core.Common;
 
 namespace Ghpr.Core.Interfaces
 {
-    public interface IDataReaderService
+    public interface IDataWriterService
     {
-        void Initialize(ReporterSettings settings, ILogger logger);
-
-        TestRunDto GetLatestTestRun(Guid testGuid);
-        TestRunDto GetTestRun(ItemInfoDto testInfo);
-        List<TestRunDto> GetTestRuns(Guid testGuid);
-        List<TestScreenshotDto> GetTestScreenshots(ItemInfoDto testInfo);
-        List<TestOutputDto> GetTestOutput(ItemInfoDto testInfo);
-
-        RunDto GetRun(Guid runGuid);
-        List<RunDto> GetRuns();
-        List<TestRunDto> GetTestRunsFromRun(Guid runGuid);
+        void InitializeDataWriter(ReporterSettings settings, ILogger logger);
+        void SaveReportSettings(ReportSettingsDto reportSettings);
+        ItemInfoDto SaveTestRun(TestRunDto testRun, TestOutputDto testOutput);
+        void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput);
+        ItemInfoDto SaveRun(RunDto run);
+        SimpleItemInfoDto SaveScreenshot(TestScreenshotDto testScreenshot);
     }
 }

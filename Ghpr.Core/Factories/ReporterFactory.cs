@@ -67,11 +67,11 @@ namespace Ghpr.Core.Factories
             logger.SetUp(settings);
 
             var dataWriterService = CreateInstanceFromFile<IDataWriterService>(settings.DataServiceFile);
-            dataWriterService.Initialize(settings, logger);
+            dataWriterService.InitializeDataWriter(settings, logger);
 
             var dataReaderService = CreateInstanceFromFile<IDataReaderService>(settings.DataServiceFile);
-            dataReaderService.Initialize(settings, logger);
-
+            dataReaderService.InitializeDataReader(settings, logger);
+            
             var reporter = new Reporter
             {
                 Action = new ActionHelper(logger),
@@ -79,8 +79,8 @@ namespace Ghpr.Core.Factories
                 TestDataProvider = testDataProvider,
                 ReporterSettings = settings,
                 ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay),
-                DataWriterService = dataWriterService,
-                DataReaderService = new DataReaderService(dataReaderService),
+                DataWriterService = new DataWriterService(dataWriterService, CommonCache.Instance),
+                DataReaderService = new DataReaderService(dataReaderService, CommonCache.Instance),
                 RunRepository = new RunDtoRepository(),
                 TestRunsRepository = new TestRunsRepository(),
                 TestRunProcessor = new TestRunDtoProcessor(),
