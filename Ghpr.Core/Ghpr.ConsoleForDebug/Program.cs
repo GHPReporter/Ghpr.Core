@@ -59,7 +59,16 @@ namespace Ghpr.ConsoleForDebug
             };
             test.TestInfo = testInfo;
             reporter.DataWriterService.SaveScreenshot(screen);
-            reporter.DataWriterService.SaveTestRun(test, new TestOutputDto());
+            reporter.DataWriterService.SaveTestRun(test, new TestOutputDto
+            {
+                TestOutputInfo = new SimpleItemInfoDto
+                {
+                    Date = DateTime.Now,
+                    ItemName = "Some output"
+                },
+                Output = "output",
+                SuiteOutput = "suite output"
+            });
 
             reporter.Logger.Info("DONE");
             reporter.TearDown();

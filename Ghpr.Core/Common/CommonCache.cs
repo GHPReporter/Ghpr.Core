@@ -24,7 +24,8 @@ namespace Ghpr.Core.Common
         private List<TestOutputDto> AllTestOutputDtos => _cache.Get(AllTestOutputDtosKey) as List<TestOutputDto>;
         private List<TestScreenshotDto> AllTestScreenshotDtos => _cache.Get(AllTestScreenshotDtosKey) as List<TestScreenshotDto>;
 
-        private DateTimeOffset Offset => new DateTimeOffset(DateTime.Now, TimeSpan.FromMinutes(10));
+        private DateTimeOffset Offset => new DateTimeOffset(
+            DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Unspecified), TimeSpan.FromMinutes(10));
 
         private static readonly Lazy<ICommonCache> Lazy =
             new Lazy<ICommonCache>(() => new CommonCache());
@@ -103,12 +104,12 @@ namespace Ghpr.Core.Common
         {
             _cache.Set(testRun.TestInfo.Guid.ToString(), testRun, Offset);
 
-            var tests = AllTestRunDtos;
+            var tests = AllTestRunDtos ?? new List<TestRunDto>();
             tests.RemoveAll(tr => tr.TestInfo.Guid.Equals(testRun.TestInfo.Guid) && tr.TestInfo.Finish.Equals(testRun.TestInfo.Finish));
             tests.Add(testRun);
             _cache.Set(AllTestRunDtosKey, tests, Offset);
 
-            var outputs = AllTestOutputDtos;
+            var outputs = AllTestOutputDtos ?? new List<TestOutputDto>();
             outputs.RemoveAll(o => o.TestOutputInfo.Date.Equals(testOutput.TestOutputInfo.Date)
                                    && o.TestOutputInfo.ItemName.Equals(testOutput.TestOutputInfo.ItemName));
             outputs.Add(testOutput);
@@ -128,7 +129,7 @@ namespace Ghpr.Core.Common
         public ItemInfoDto SaveRun(RunDto run)
         {
             _cache.Set(run.RunInfo.Guid.ToString(), run, Offset);
-            var runs = AllRunDtos;
+            var runs = AllRunDtos ?? new List<RunDto>();
             runs.RemoveAll(r => r.RunInfo.Guid.Equals(run.RunInfo.Guid));
             runs.Add(run);
             _cache.Set(AllRunDtosKey, runs, Offset);
@@ -137,7 +138,7 @@ namespace Ghpr.Core.Common
 
         public SimpleItemInfoDto SaveScreenshot(TestScreenshotDto testScreenshot)
         {
-            var screens = AllTestScreenshotDtos;
+            var screens = AllTestScreenshotDtos ?? new List<TestScreenshotDto>();
             screens.RemoveAll(s => s.TestGuid.Equals(testScreenshot.TestGuid)
                                    && s.TestScreenshotInfo.Date.Equals(testScreenshot.TestScreenshotInfo.Date)
                                    && s.TestScreenshotInfo.ItemName.Equals(testScreenshot.TestScreenshotInfo.ItemName));
