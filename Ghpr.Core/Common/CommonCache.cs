@@ -39,69 +39,82 @@ namespace Ghpr.Core.Common
         public void InitializeDataReader(ReporterSettings settings, ILogger logger)
         {
             _dataReaderLogger = logger;
+            _dataReaderLogger.Debug("Data reader initialized in Common cache");
         }
 
         public ReportSettingsDto GetReportSettings()
         {
+            _dataReaderLogger.Debug("Getting report settings from Common cache");
             return _cache.Get(ReportSettingsKey) as ReportSettingsDto;
         }
-
-        public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
-        {
-            _dataWriterLogger = logger;
-        }
-
+        
         public TestRunDto GetLatestTestRun(Guid testGuid)
         {
+            _dataReaderLogger.Debug("Getting latest test run from Common cache");
             return _cache.Get(testGuid.ToString()) as TestRunDto;
         }
 
         public TestRunDto GetTestRun(ItemInfoDto testInfo)
         {
+            _dataReaderLogger.Debug("Getting test run from Common cache");
             return _cache.Get(testInfo.Guid.ToString()) as TestRunDto;
         }
 
         public List<TestRunDto> GetTestRuns(Guid testGuid)
         {
+            _dataReaderLogger.Debug("Getting test runs by Guid from Common cache");
             return AllTestRunDtos?.Where(t => t.TestInfo.Guid.Equals(testGuid)).ToList();
         }
 
         public List<TestScreenshotDto> GetTestScreenshots(ItemInfoDto testInfo)
         {
+            _dataReaderLogger.Debug("Getting test screenshots from Common cache");
             return AllTestScreenshotDtos?.Where(s => s.TestGuid.Equals(testInfo.Guid) 
                 && s.TestScreenshotInfo.Date >= testInfo.Start && s.TestScreenshotInfo.Date <= testInfo.Finish).ToList();
         }
 
         public TestOutputDto GetTestOutput(ItemInfoDto testInfo)
         {
+            _dataReaderLogger.Debug("Getting test output from Common cache");
             var test = GetTestRun(testInfo);
             return test == null ? null : AllTestOutputDtos?.FirstOrDefault(to => to.TestOutputInfo.Equals(test.Output));
         }
 
         public RunDto GetRun(Guid runGuid)
         {
+            _dataReaderLogger.Debug("Getting run by Guid from Common cache");
             return _cache.Get(runGuid.ToString()) as RunDto;
         }
 
         public List<RunDto> GetRuns()
         {
+            _dataReaderLogger.Debug("Getting all runs from Common cache");
             return AllRunDtos;
         }
 
         public List<TestRunDto> GetTestRunsFromRun(Guid runGuid)
         {
+            _dataReaderLogger.Debug("Getting run's test runs from Common cache");
             var run = GetRun(runGuid);
             var res = run?.TestsInfo.Select(GetTestRun).ToList();
             return res == null ? null : res.Any(t => t == null) ? null : res;
         }
-        
+
+        public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
+        {
+            _dataWriterLogger = logger;
+            _dataWriterLogger.Debug("Data writer initialized in Common cache");
+        }
+
         public void SaveReportSettings(ReportSettingsDto reportSettings)
         {
+            _dataWriterLogger.Debug("Saving report settings in Common cache");
             _cache.Set(ReportSettingsKey, reportSettings, Offset);
         }
 
         public ItemInfoDto SaveTestRun(TestRunDto testRun, TestOutputDto testOutput)
         {
+            _dataWriterLogger.Debug("Saving test run and output in Common cache");
             _cache.Set(testRun.TestInfo.Guid.ToString(), testRun, Offset);
 
             var tests = AllTestRunDtos ?? new List<TestRunDto>();
@@ -119,6 +132,7 @@ namespace Ghpr.Core.Common
 
         public void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput)
         {
+            _dataWriterLogger.Debug("Updating test output in Common cache");
             var test = GetTestRun(testInfo);
             if (test != null)
             {
@@ -128,6 +142,7 @@ namespace Ghpr.Core.Common
 
         public ItemInfoDto SaveRun(RunDto run)
         {
+            _dataWriterLogger.Debug("Saving run in Common cache");
             _cache.Set(run.RunInfo.Guid.ToString(), run, Offset);
             var runs = AllRunDtos ?? new List<RunDto>();
             runs.RemoveAll(r => r.RunInfo.Guid.Equals(run.RunInfo.Guid));
@@ -138,6 +153,7 @@ namespace Ghpr.Core.Common
 
         public SimpleItemInfoDto SaveScreenshot(TestScreenshotDto testScreenshot)
         {
+            _dataWriterLogger.Debug("Saving test screenshot in Common cache");
             var screens = AllTestScreenshotDtos ?? new List<TestScreenshotDto>();
             screens.RemoveAll(s => s.TestGuid.Equals(testScreenshot.TestGuid)
                                    && s.TestScreenshotInfo.Date.Equals(testScreenshot.TestScreenshotInfo.Date)

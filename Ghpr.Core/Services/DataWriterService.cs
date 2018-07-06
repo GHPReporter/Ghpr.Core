@@ -22,32 +22,35 @@ namespace Ghpr.Core.Services
 
         public void SaveReportSettings(ReportSettingsDto reportSettings)
         {
-            _cache.SaveReportSettings(reportSettings);
             _dataWriterService.SaveReportSettings(reportSettings);
+            _cache.SaveReportSettings(reportSettings);
         }
 
         public ItemInfoDto SaveTestRun(TestRunDto testRun, TestOutputDto testOutput)
         {
+            var res = _dataWriterService.SaveTestRun(testRun, testOutput);
             _cache.SaveTestRun(testRun, testOutput);
-            return _dataWriterService.SaveTestRun(testRun, testOutput);
+            return res;
         }
 
         public void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput)
         {
-            _cache.UpdateTestOutput(testInfo, testOutput);
             _dataWriterService.UpdateTestOutput(testInfo, testOutput);
+            _cache.UpdateTestOutput(testInfo, testOutput);
         }
 
         public ItemInfoDto SaveRun(RunDto run)
         {
+            var res = _dataWriterService.SaveRun(run);
             _cache.SaveRun(run);
-            return _dataWriterService.SaveRun(run);
+            return res;
         }
 
         public SimpleItemInfoDto SaveScreenshot(TestScreenshotDto testScreenshot)
         {
+            var res = _dataWriterService.SaveScreenshot(testScreenshot);
             _cache.SaveScreenshot(testScreenshot);
-            return _dataWriterService.SaveScreenshot(testScreenshot);
+            return res;
         }
     }
 }
