@@ -7,6 +7,14 @@ namespace Ghpr.Core.Comparers
     {
         public bool Equals(ItemInfoDto x, ItemInfoDto y)
         {
+            if (x == null && y == null)
+            {
+                return true;
+            }
+            if (x == null || y == null)
+            {
+                return false;
+            }
             return x.Guid.Equals(y.Guid) && 
                 x.Start.Equals(y.Start) && 
                 x.Finish.Equals(y.Finish);

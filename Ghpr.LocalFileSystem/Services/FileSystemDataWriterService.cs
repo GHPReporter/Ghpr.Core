@@ -1,10 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Ghpr.Core;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
-using Ghpr.Core.Utils;
-using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
 using Ghpr.LocalFileSystem.Mappers;
@@ -13,12 +10,12 @@ using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Services
 {
-    public class FileSystemDataService : IDataService
+    public class FileSystemDataWriterService : IDataWriterService
     {
         private ILocationsProvider _locationsProvider;
         private ILogger _logger;
 
-        public void Initialize(ReporterSettings settings, ILogger logger)
+        public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
         {
             _locationsProvider = new LocationsProvider(settings.OutputPath);
             _logger = logger;

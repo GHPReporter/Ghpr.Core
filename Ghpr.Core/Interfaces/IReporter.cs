@@ -13,7 +13,8 @@ namespace Ghpr.Core.Interfaces
         IRunDtoRepository RunRepository { get; }
         ITestRunsRepository TestRunsRepository { get; }
         ITestRunDtoProcessor TestRunProcessor { get; }
-        IDataService DataService { get; }
+        IDataWriterService DataWriterService { get; }
+        IDataReaderService DataReaderService { get; }
         IActionHelper Action { get; }
         ITestDataProvider TestDataProvider { get; }
         ILogger Logger { get; }

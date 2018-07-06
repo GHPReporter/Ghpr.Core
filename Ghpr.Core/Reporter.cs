@@ -13,7 +13,8 @@ namespace Ghpr.Core
         public IRunDtoRepository RunRepository { get; internal set; }
         public ITestRunsRepository TestRunsRepository { get; internal set; }
         public ITestRunDtoProcessor TestRunProcessor { get; internal set; }
-        public IDataService DataService { get; internal set; }
+        public IDataWriterService DataWriterService { get; internal set; }
+        public IDataReaderService DataReaderService { get; internal set; }
         public bool TestRunStarted { get; internal set; }
         public ReportSettingsDto ReportSettings { get; internal set; }
         public ReporterSettings ReporterSettings { get; internal set; }
@@ -29,7 +30,7 @@ namespace Ghpr.Core
                 RunRepository.OnRunStarted(ReporterSettings, startDateTime);
                 TestRunsRepository.OnRunStarted();
                 ResourceExtractor.ExtractReportBase(ReporterSettings.OutputPath);
-                DataService.SaveReportSettings(ReportSettings);
+                DataWriterService.SaveReportSettings(ReportSettings);
                 Logger.Debug($"Reporter initializing done. Output folder is '{ReporterSettings.OutputPath}'. " +
                              $"Data service file: '{ReporterSettings.DataServiceFile}', Logger file: '{ReporterSettings.LoggerFile}'");
             });
@@ -40,7 +41,7 @@ namespace Ghpr.Core
             Action.Safe(() =>
             {
                 RunRepository.OnRunFinished(finishDateTime);
-                DataService.SaveRun(RunRepository.CurrentRun);
+                DataWriterService.SaveRun(RunRepository.CurrentRun);
                 Logger.Info($"Report generated at {finishDateTime:yyyy-MM-dd HH:mm:ss.fff}");
             });
         }
@@ -114,7 +115,7 @@ namespace Ghpr.Core
                 Format = format
             };
             Logger.Info($"Saving screenshot (Test guid: {testScreenshot.TestGuid})");
-            DataService.SaveScreenshot(testScreenshot);
+            DataWriterService.SaveScreenshot(testScreenshot);
         }
 
         private void OnTestFinish(TestRunDto testDtoWhenFinished, TestOutputDto testOutputDto)
@@ -125,7 +126,7 @@ namespace Ghpr.Core
                 var testDtoWhenStarted = TestRunsRepository.ExtractCorrespondingTestRun(testDtoWhenFinished);
                 var finalTest = TestRunProcessor.Process(testDtoWhenStarted, testDtoWhenFinished, RunRepository.RunGuid);
                 Logger.Debug($"Saving test run '{finalTest.Name}' (Guid: {finalTest.TestInfo.Guid})");
-                DataService.SaveTestRun(finalTest, testOutputDto);
+                DataWriterService.SaveTestRun(finalTest, testOutputDto);
             });
         }
 
