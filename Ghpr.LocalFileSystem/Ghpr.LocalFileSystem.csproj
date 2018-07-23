@@ -72,7 +72,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\LocationsProvider.cs" />
     <Compile Include="Providers\ReportSettingsProvider.cs" />
-    <Compile Include="Services\FileSystemDataService.cs" />
+    <Compile Include="Services\FileSystemDataReaderService.cs" />
+    <Compile Include="Services\FileSystemDataWriterService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Ghpr.LocalFileSystem.nuspec" />
