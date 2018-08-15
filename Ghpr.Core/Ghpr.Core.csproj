@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Common\CommonCache.cs" />
     <Compile Include="Common\SimpleItemInfoDto.cs" />
+    <Compile Include="Common\TestCaseFullDto.cs" />
     <Compile Include="Common\TestOutputDto.cs" />
     <Compile Include="Comparers\SimpleItemInfoDtoComparer.cs" />
     <Compile Include="Interfaces\ICommonCache.cs" />
