@@ -27,7 +27,7 @@ namespace Ghpr.Core.Interfaces
         void AddCompleteTestRun(TestRunDto testRun, TestOutputDto testOutputDto);
         void TestFinished(TestRunDto testRun, TestOutputDto testOutputDto);
 
-        void SaveScreenshot(byte[] screnshotBytes, string format);
+        void SaveScreenshot(byte[] screenshotBytes, string format);
 
         void GenerateFullReport(List<KeyValuePair<TestRunDto, TestOutputDto>> testRuns);
         void GenerateFullReport(List<KeyValuePair<TestRunDto, TestOutputDto>> testRuns, DateTime start, DateTime finish);

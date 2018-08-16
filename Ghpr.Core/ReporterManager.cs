@@ -1,4 +1,5 @@
-﻿using Ghpr.Core.Common;
+﻿using System;
+using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Factories;
 using Ghpr.Core.Interfaces;
@@ -78,6 +79,22 @@ namespace Ghpr.Core
             lock (Lock)
             {
                 _reporter.TestFinished(testRun, testOutputDto);
+            }
+        }
+
+        public static void SaveScreenshot(byte[] screenBytes, string format)
+        {
+            lock (Lock)
+            {
+                _reporter.SaveScreenshot(screenBytes, format);
+            }
+        }
+
+        public static void Action(Action<IReporter> action)
+        {
+            lock (Lock)
+            {
+                action.Invoke(_reporter);
             }
         }
     }
