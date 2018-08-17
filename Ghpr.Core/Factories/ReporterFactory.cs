@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Helpers;
@@ -39,8 +40,32 @@ namespace Ghpr.Core.Factories
             var uri = new Uri(typeof(ReporterFactory).Assembly.CodeBase);
             var instanceAssemblyFullPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", fileName);
             var instanceAssembly = Assembly.LoadFrom(instanceAssemblyFullPath);
-            var implementationType = instanceAssembly.GetTypes()
-                .FirstOrDefault(t => typeof(T).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+            Type implementationType;
+            try
+            {
+                implementationType = instanceAssembly.GetTypes().FirstOrDefault(t => typeof(T).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                var sb = new StringBuilder();
+                foreach (var exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    var exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                var errorMessage = sb.ToString();
+                //Display or log the error based on your application.
+                throw new Exception(errorMessage);
+            }
             if (implementationType == null)
             {
                 throw new NullReferenceException($"Can't find implementation of {nameof(T)} in {fileName} file. " +
