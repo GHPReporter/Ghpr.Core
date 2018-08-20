@@ -90,6 +90,11 @@ namespace Ghpr.Core
             }
         }
 
+        public static void SetTestDataProvider(ITestDataProvider testDataProvider)
+        {
+            _reporter.SetTestDataProvider(testDataProvider);
+        }
+
         public static void Action(Action<IReporter> action)
         {
             lock (Lock)

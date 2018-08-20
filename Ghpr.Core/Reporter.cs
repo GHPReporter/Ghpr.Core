@@ -94,6 +94,11 @@ namespace Ghpr.Core
             }
         }
 
+        public void SetTestDataProvider(ITestDataProvider testDataProvider)
+        {
+            TestDataProvider = testDataProvider;
+        }
+
         public void SaveScreenshot(byte[] screenshotBytes, string format = "png")
         {
             var now = DateTime.Now;
