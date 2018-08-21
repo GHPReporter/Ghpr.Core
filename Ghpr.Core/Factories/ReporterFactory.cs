@@ -96,7 +96,10 @@ namespace Ghpr.Core.Factories
 
             var dataReaderService = CreateInstanceFromFile<IDataReaderService>(settings.DataServiceFile);
             dataReaderService.InitializeDataReader(settings, logger);
-            
+
+            CommonCache.Instance.InitializeDataReader(settings, logger);
+            CommonCache.Instance.InitializeDataWriter(settings, logger);
+
             var reporter = new Reporter
             {
                 Action = new ActionHelper(logger),

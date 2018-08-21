@@ -154,6 +154,7 @@ namespace Ghpr.Core
 
         public void TearDown()
         {
+            Logger.Debug("TearDown called for Reporter");
             Logger.TearDown();
         }
     }
