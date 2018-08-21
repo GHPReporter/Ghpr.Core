@@ -68,13 +68,13 @@ namespace Ghpr.Core.Factories
             }
             if (implementationType == null)
             {
-                throw new NullReferenceException($"Can't find implementation of {nameof(T)} in {fileName} file. " +
+                throw new NullReferenceException($"Can't find implementation of {typeof(T)} in {fileName} file. " +
                                                  "Please fix your .json settings file.");
             }
             var instance = Activator.CreateInstance(implementationType) as T;
             if (instance == null)
             {
-                throw new NullReferenceException($"Can't find create instance of type {nameof(implementationType)} from {fileName} file. " +
+                throw new NullReferenceException($"Can't find create instance of type {implementationType} from {fileName} file. " +
                                                  "Please fix your .json settings file.");
             }
             return instance;
