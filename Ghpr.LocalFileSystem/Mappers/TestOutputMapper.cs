@@ -8,7 +8,7 @@ namespace Ghpr.LocalFileSystem.Mappers
     {
         public static TestOutput Map(this TestOutputDto testOutputDto)
         {
-            var name = LocationsProvider.GetTestOutputFileName(testOutputDto.TestOutputInfo.Date);
+            var name = NamesProvider.GetTestOutputFileName(testOutputDto.TestOutputInfo.Date);
             var testOutput = new TestOutput
             {
                 SuiteOutput = testOutputDto.SuiteOutput,

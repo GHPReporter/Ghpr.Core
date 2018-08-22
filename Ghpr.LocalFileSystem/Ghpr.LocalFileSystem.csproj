@@ -71,6 +71,7 @@
     <Compile Include="Mappers\TestScreenshotMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\LocationsProvider.cs" />
+    <Compile Include="Providers\NamesProvider.cs" />
     <Compile Include="Providers\ReportSettingsProvider.cs" />
     <Compile Include="Services\FileSystemDataReaderService.cs" />
     <Compile Include="Services\FileSystemDataWriterService.cs" />

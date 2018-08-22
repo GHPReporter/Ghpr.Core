@@ -11,7 +11,7 @@ namespace Ghpr.LocalFileSystem.Extensions
         public static string Save(this TestScreenshot testScreenshot, string path)
         {
             path.Create();
-            var fullPath = Path.Combine(path, LocationsProvider.GetScreenshotFileName(testScreenshot.TestScreenshotInfo.Date));
+            var fullPath = Path.Combine(path, NamesProvider.GetScreenshotFileName(testScreenshot.TestScreenshotInfo.Date));
             using (var file = File.CreateText(fullPath))
             {
                 var serializer = new JsonSerializer();

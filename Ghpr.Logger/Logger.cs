@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
-using Ghpr.Core;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;

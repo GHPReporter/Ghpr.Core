@@ -163,5 +163,13 @@ namespace Ghpr.Core.Common
             _cache.Set(AllTestScreenshotDtosKey, screens, Offset);
             return testScreenshot.TestScreenshotInfo;
         }
+
+        public void DeleteRun(Guid runGuid)
+        {
+            _dataWriterLogger.Debug($"Deleting run with guid = {runGuid}");
+            var runs = AllRunDtos ?? new List<RunDto>();
+            runs.RemoveAll(r => r.RunInfo.Guid.Equals(runGuid));
+            _cache.Set(AllRunDtosKey, runs, Offset);
+        }
     }
 }

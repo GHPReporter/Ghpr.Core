@@ -1,4 +1,4 @@
-﻿using Ghpr.Core;
+﻿using System;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
@@ -37,6 +37,12 @@ namespace Ghpr.CouchDb.Services
             var screenshotEntity = testScreenshot.Map();
             Database.SaveScreenshot(screenshotEntity);
             return screenshotEntity.Data.TestScreenshotInfo.ToDto();
+        }
+
+        public void DeleteRun(Guid runGuid)
+        {
+            //TODO: implement later
+            throw new NotImplementedException();
         }
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)

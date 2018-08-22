@@ -1,4 +1,5 @@
-﻿using Ghpr.Core.Common;
+﻿using System;
+using Ghpr.Core.Common;
 using Ghpr.Core.Settings;
 
 namespace Ghpr.Core.Interfaces
@@ -11,5 +12,7 @@ namespace Ghpr.Core.Interfaces
         void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput);
         ItemInfoDto SaveRun(RunDto run);
         SimpleItemInfoDto SaveScreenshot(TestScreenshotDto testScreenshot);
+
+        void DeleteRun(Guid runGuid);
     }
 }

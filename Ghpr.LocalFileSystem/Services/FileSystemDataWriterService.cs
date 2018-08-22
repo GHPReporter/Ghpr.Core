@@ -1,6 +1,7 @@
-﻿using System.IO;
-using Ghpr.Core;
+﻿using System;
+using System.IO;
 using Ghpr.Core.Common;
+using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 using Ghpr.LocalFileSystem.Extensions;
@@ -25,8 +26,16 @@ namespace Ghpr.LocalFileSystem.Services
         public ItemInfoDto SaveRun(RunDto runDto)
         {
             var run = runDto.Map();
-            var runFullPath = run.Save(_locationsProvider.RunsPath);
-            _logger.Info($"Run was saved: '{runFullPath}'");
+            var fileName = NamesProvider.GetRunFileName(run.RunInfo.Guid);
+            run.RunInfo.ItemName = fileName;
+            _locationsProvider.RunsPath.Create();
+            var fullRunPath = Path.Combine(_locationsProvider.RunsPath, fileName);
+            using (var file = File.CreateText(fullRunPath))
+            {
+                var serializer = new JsonSerializer();
+                serializer.Serialize(file, run);
+            }
+            _logger.Info($"Run was saved: '{fullRunPath}'");
             var runsInfoFullPath = run.RunInfo.SaveRunInfo(_locationsProvider);
             _logger.Info($"Runs Info was saved: '{runsInfoFullPath}'");
             _logger.Debug($"Run data was saved correctly: {JsonConvert.SerializeObject(run, Formatting.Indented)}");
@@ -41,6 +50,11 @@ namespace Ghpr.LocalFileSystem.Services
             _logger.Info($"Screenshot was saved: '{path}'");
             _logger.Debug($"Screenshot data was saved correctly: {JsonConvert.SerializeObject(testScreenshot, Formatting.Indented)}");
             return testScreenshot.TestScreenshotInfo.ToDto();
+        }
+
+        public void DeleteRun(Guid runGuid)
+        {
+            throw new NotImplementedException();
         }
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
@@ -83,7 +97,7 @@ namespace Ghpr.LocalFileSystem.Services
         public void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput)
         {
             var outputPath = _locationsProvider.GetTestPath(testInfo.Guid.ToString());
-            var outputName = LocationsProvider.GetTestOutputFileName(testInfo.Finish);
+            var outputName = NamesProvider.GetTestOutputFileName(testInfo.Finish);
             var existingOutput = outputPath.LoadTestOutput(outputName);
             _logger.Debug($"Loaded existing output: {JsonConvert.SerializeObject(existingOutput, Formatting.Indented)}");
             existingOutput.SuiteOutput = testOutput.SuiteOutput;

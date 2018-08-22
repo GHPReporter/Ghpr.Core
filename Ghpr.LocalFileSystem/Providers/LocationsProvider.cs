@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Interfaces;
 
@@ -35,27 +34,6 @@ namespace Ghpr.LocalFileSystem.Providers
         public string GetScreenshotPath(string testGuid)
         {
             return Path.Combine(TestsPath, testGuid, Paths.Folder.Img);
-        }
-
-        public static string GetTestRunFileName(DateTime finishDateTime)
-        {
-            return $"test_{finishDateTime:yyyyMMdd_HHmmssfff}.json";
-        }
-        
-        public static string GetTestOutputFileName(DateTime finishDateTime)
-        {
-            return $"test_output_{finishDateTime:yyyyMMdd_HHmmssfff}.json";
-        }
-
-        public static string GetRunFileName(Guid runGuid)
-        {
-            var fileName = $"run_{runGuid.ToString().ToLower()}.json";
-            return fileName;
-        }
-
-        public static string GetScreenshotFileName(DateTime creationDateTime)
-        {
-            return $"img_{creationDateTime:yyyyMMdd_HHmmssfff}.json";
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Ghpr.LocalFileSystem.Extensions
         public static string Save(this TestOutput testOutput, string path)
         {
             path.Create();
-            var fullPath = Path.Combine(path, LocationsProvider.GetTestOutputFileName(testOutput.TestOutputInfo.Date));
+            var fullPath = Path.Combine(path, NamesProvider.GetTestOutputFileName(testOutput.TestOutputInfo.Date));
             using (var file = File.CreateText(fullPath))
             {
                 var serializer = new JsonSerializer();

@@ -1,4 +1,5 @@
-﻿using Ghpr.Core.Common;
+﻿using System;
+using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 
@@ -52,6 +53,12 @@ namespace Ghpr.Core.Services
             var res = _dataWriterService.SaveScreenshot(testScreenshot);
             _cache.SaveScreenshot(testScreenshot);
             return res;
+        }
+
+        public void DeleteRun(Guid runGuid)
+        {
+            _dataWriterService.DeleteRun(runGuid);
+            _cache.DeleteRun(runGuid);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Ghpr.Core;
 using Ghpr.Core.Settings;
 using Serilog;
 using ILogger = Ghpr.Core.Interfaces.ILogger;
