@@ -1,4 +1,5 @@
 ﻿using System;
+using Ghpr.Core.Settings;
 
 namespace Ghpr.Core.Interfaces
 {

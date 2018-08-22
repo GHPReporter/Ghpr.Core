@@ -5,6 +5,7 @@ using Ghpr.Core.Common;
 using Ghpr.Core.EmbeddedResources;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 
 namespace Ghpr.Core
 {
@@ -150,6 +151,11 @@ namespace Ghpr.Core
             }
             GenerateReport(finish);
             Logger.Debug("Generating full report from the list of test runs: Done");
+        }
+
+        public void CleanUpJob()
+        {
+            throw new NotImplementedException();
         }
 
         public void TearDown()

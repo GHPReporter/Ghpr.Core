@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 
 namespace Ghpr.Core.Services
 {

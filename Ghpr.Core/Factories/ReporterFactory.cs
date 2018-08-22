@@ -10,6 +10,7 @@ using Ghpr.Core.Interfaces;
 using Ghpr.Core.Processors;
 using Ghpr.Core.Providers;
 using Ghpr.Core.Services;
+using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.Factories

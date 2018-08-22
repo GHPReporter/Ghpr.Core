@@ -4,6 +4,7 @@ using System.Threading;
 using Ghpr.Core;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 
 namespace Ghpr.SimpleFileLogger

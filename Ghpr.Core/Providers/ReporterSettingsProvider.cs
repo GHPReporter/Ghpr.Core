@@ -1,4 +1,5 @@
 ﻿using Ghpr.Core.Enums;
+using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.Providers

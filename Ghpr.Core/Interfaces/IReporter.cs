@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ghpr.Core.Common;
+using Ghpr.Core.Settings;
 
 namespace Ghpr.Core.Interfaces
 {
@@ -32,6 +33,8 @@ namespace Ghpr.Core.Interfaces
 
         void GenerateFullReport(List<KeyValuePair<TestRunDto, TestOutputDto>> testRuns);
         void GenerateFullReport(List<KeyValuePair<TestRunDto, TestOutputDto>> testRuns, DateTime start, DateTime finish);
+
+        void CleanUpJob();
 
         void TearDown();
     }

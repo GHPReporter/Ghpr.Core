@@ -68,7 +68,7 @@
     <Compile Include="Interfaces\ITestRunDtoProcessor.cs" />
     <Compile Include="Interfaces\ITestRunsRepository.cs" />
     <Compile Include="Processors\TestRunDtoProcessor.cs" />
-    <Compile Include="ReporterSettings.cs" />
+    <Compile Include="Settings\ReporterSettings.cs" />
     <Compile Include="Common\ReportSettingsDto.cs" />
     <Compile Include="Common\RunDto.cs" />
     <Compile Include="Common\ItemInfoDto.cs" />
@@ -93,6 +93,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\ActionHelper.cs" />
     <Compile Include="ReporterManager.cs" />
+    <Compile Include="Settings\RetentionSettings.cs" />
     <Compile Include="Utils\EmptyLogger.cs" />
     <Compile Include="Utils\Paths.cs" />
     <Compile Include="Utils\SettingsLoader.cs" />

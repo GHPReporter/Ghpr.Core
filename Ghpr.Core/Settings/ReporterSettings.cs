@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Ghpr.Core
+namespace Ghpr.Core.Settings
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class ReporterSettings
@@ -31,5 +31,8 @@ namespace Ghpr.Core
 
         [JsonProperty(PropertyName = "testsToDisplay")]
         public int TestsToDisplay { get; set; }
+
+        [JsonProperty(PropertyName = "retention")]
+        public RetentionSettings Retention { get; set; }
     }
 }

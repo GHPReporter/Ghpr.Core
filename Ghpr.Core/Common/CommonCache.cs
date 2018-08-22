@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 
 namespace Ghpr.Core.Common
 {

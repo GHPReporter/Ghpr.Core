@@ -1,6 +1,7 @@
 ﻿using Ghpr.Core;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 using Ghpr.CouchDb.Mappers;
 

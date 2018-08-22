@@ -2,6 +2,7 @@
 using Ghpr.Core;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
 using Ghpr.LocalFileSystem.Mappers;
