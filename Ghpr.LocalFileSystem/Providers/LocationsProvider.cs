@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Interfaces;
 
@@ -21,9 +22,14 @@ namespace Ghpr.LocalFileSystem.Providers
         public string OutputPath { get; }
         public Paths Paths { get; }
 
-        public string GetTestPath(string testGuid)
+        public string GetTestPath(Guid testGuid)
         {
-            return Path.Combine(TestsPath, testGuid);
+            return Path.Combine(TestsPath, testGuid.ToString());
+        }
+
+        public string GetRunFullPath(Guid runGuid)
+        {
+            return Path.Combine(RunsPath, NamesProvider.GetRunFileName(runGuid));
         }
 
         public string GetRelativeTestRunPath(string testGuid, string testFileName)

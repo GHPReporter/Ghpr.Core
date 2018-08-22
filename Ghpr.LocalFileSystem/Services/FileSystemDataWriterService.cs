@@ -26,10 +26,11 @@ namespace Ghpr.LocalFileSystem.Services
         public ItemInfoDto SaveRun(RunDto runDto)
         {
             var run = runDto.Map();
-            var fileName = NamesProvider.GetRunFileName(run.RunInfo.Guid);
+            var runGuid = run.RunInfo.Guid;
+            var fileName = NamesProvider.GetRunFileName(runGuid);
             run.RunInfo.ItemName = fileName;
             _locationsProvider.RunsPath.Create();
-            var fullRunPath = Path.Combine(_locationsProvider.RunsPath, fileName);
+            var fullRunPath = _locationsProvider.GetRunFullPath(runGuid);
             using (var file = File.CreateText(fullRunPath))
             {
                 var serializer = new JsonSerializer();
@@ -83,10 +84,10 @@ namespace Ghpr.LocalFileSystem.Services
                     }
                 }
             }
-            var testOutputFullPath = testOutput.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
+            var testOutputFullPath = testOutput.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid));
             _logger.Info($"Test output was saved: '{testOutputFullPath}'");
             _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testOutput, Formatting.Indented)}");
-            var testRunFullPath = testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid.ToString()));
+            var testRunFullPath = testRun.Save(_locationsProvider.GetTestPath(testRun.TestInfo.Guid));
             _logger.Info($"Test run was saved: '{testRunFullPath}'");
             var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);
             _logger.Info($"Test runs Info was saved: '{testRunsInfoFullPath}'");
@@ -96,7 +97,7 @@ namespace Ghpr.LocalFileSystem.Services
 
         public void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput)
         {
-            var outputPath = _locationsProvider.GetTestPath(testInfo.Guid.ToString());
+            var outputPath = _locationsProvider.GetTestPath(testInfo.Guid);
             var outputName = NamesProvider.GetTestOutputFileName(testInfo.Finish);
             var existingOutput = outputPath.LoadTestOutput(outputName);
             _logger.Debug($"Loaded existing output: {JsonConvert.SerializeObject(existingOutput, Formatting.Indented)}");

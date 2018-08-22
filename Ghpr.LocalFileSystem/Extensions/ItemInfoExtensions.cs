@@ -18,7 +18,7 @@ namespace Ghpr.LocalFileSystem.Extensions
 
         public static string SaveTestInfo(this ItemInfo testInfo, ILocationsProvider locationsProvider)
         {
-            return testInfo.SaveItemInfo(locationsProvider.GetTestPath(testInfo.Guid.ToString()), locationsProvider.Paths.File.Tests, false);
+            return testInfo.SaveItemInfo(locationsProvider.GetTestPath(testInfo.Guid), locationsProvider.Paths.File.Tests, false);
         }
 
         public static string SaveItemInfo(this ItemInfo itemInfo, string path, string filename, bool removeExisting = true)

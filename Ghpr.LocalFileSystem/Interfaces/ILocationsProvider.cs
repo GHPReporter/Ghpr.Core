@@ -1,4 +1,5 @@
-﻿using Ghpr.Core.Utils;
+﻿using System;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.LocalFileSystem.Interfaces
 {
@@ -10,7 +11,8 @@ namespace Ghpr.LocalFileSystem.Interfaces
         string OutputPath { get; }
         Paths Paths { get; }
 
-        string GetTestPath(string testGuid);
+        string GetTestPath(Guid testGuid);
+        string GetRunFullPath(Guid runGuid);
         string GetRelativeTestRunPath(string testGuid, string testFileName);
         string GetScreenshotPath(string testGuid);
     }
