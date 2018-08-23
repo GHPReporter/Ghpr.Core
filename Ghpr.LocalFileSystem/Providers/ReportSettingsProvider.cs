@@ -11,7 +11,7 @@ namespace Ghpr.LocalFileSystem.Providers
     {
         public static string Save(this ReportSettings reportSettings, ILocationsProvider locationsProvider)
         {
-            var folder = locationsProvider.SrcPath;
+            var folder = locationsProvider.SrcFolderPath;
             var serializer = new JsonSerializer();
             folder.Create();
             var fullPath = Path.Combine(folder, Paths.Files.ReportSettings);
@@ -28,7 +28,7 @@ namespace Ghpr.LocalFileSystem.Providers
         public static ReportSettings LoadReportSettings(ILocationsProvider locationsProvider)
         {
             ReportSettings settings;
-            var folder = locationsProvider.SrcPath;
+            var folder = locationsProvider.SrcFolderPath;
             var serializer = new JsonSerializer();
             var fullPath = Path.Combine(folder, Paths.Files.ReportSettings);    
             using (var file = File.OpenText(fullPath))

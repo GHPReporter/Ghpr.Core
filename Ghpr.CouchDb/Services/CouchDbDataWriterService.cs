@@ -45,6 +45,21 @@ namespace Ghpr.CouchDb.Services
             throw new NotImplementedException();
         }
 
+        public void DeleteTest(TestRunDto testRun)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteTestOutput(TestRunDto testRun, TestOutputDto testOutput)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteTestScreenshot(TestRunDto testRun, TestScreenshotDto testScreenshot)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
         {
             var reportSettingsEntity = reportSettingsDto.Map();

@@ -13,12 +13,12 @@ namespace Ghpr.LocalFileSystem.Extensions
     {
         public static string SaveRunInfo(this ItemInfo runInfo, ILocationsProvider locationsProvider)
         {
-            return runInfo.SaveItemInfo(locationsProvider.RunsPath, locationsProvider.Paths.File.Runs);
+            return runInfo.SaveItemInfo(locationsProvider.RunsFolderPath, locationsProvider.Paths.File.Runs);
         }
 
         public static string SaveTestInfo(this ItemInfo testInfo, ILocationsProvider locationsProvider)
         {
-            return testInfo.SaveItemInfo(locationsProvider.GetTestPath(testInfo.Guid), locationsProvider.Paths.File.Tests, false);
+            return testInfo.SaveItemInfo(locationsProvider.GetTestFolderPath(testInfo.Guid), locationsProvider.Paths.File.Tests, false);
         }
 
         public static string SaveItemInfo(this ItemInfo itemInfo, string path, string filename, bool removeExisting = true)

@@ -11,35 +11,56 @@ namespace Ghpr.LocalFileSystem.Providers
         {
             Paths = new Paths();
             OutputPath = outputPath;
-            TestsPath = Path.Combine(outputPath, Paths.Folder.Tests);
-            RunsPath = Path.Combine(outputPath, Paths.Folder.Runs);
-            SrcPath = Path.Combine(outputPath, Paths.Folder.Src);
+            TestsFolderPath = Path.Combine(outputPath, Paths.Folder.Tests);
+            RunsFolderPath = Path.Combine(outputPath, Paths.Folder.Runs);
+            SrcFolderPath = Path.Combine(outputPath, Paths.Folder.Src);
         }
 
-        public string SrcPath { get; }
-        public string TestsPath { get; }
-        public string RunsPath { get; }
+        public string SrcFolderPath { get; }
+        public string TestsFolderPath { get; }
+        public string RunsFolderPath { get; }
         public string OutputPath { get; }
         public Paths Paths { get; }
-
-        public string GetTestPath(Guid testGuid)
+        
+        public string GetTestFolderPath(Guid testGuid)
         {
-            return Path.Combine(TestsPath, testGuid.ToString());
+            return Path.Combine(TestsFolderPath, testGuid.ToString());
         }
+
+        public string GetTestOutputFolderPath(Guid testGuid)
+        {
+            return Path.Combine(TestsFolderPath, testGuid.ToString());
+        }
+
+        public string GetScreenshotFolderPath(string testGuid)
+        {
+            return Path.Combine(TestsFolderPath, testGuid, Paths.Folder.Img);
+        }
+
 
         public string GetRunFullPath(Guid runGuid)
         {
-            return Path.Combine(RunsPath, NamesProvider.GetRunFileName(runGuid));
+            return Path.Combine(RunsFolderPath, NamesProvider.GetRunFileName(runGuid));
         }
 
-        public string GetRelativeTestRunPath(string testGuid, string testFileName)
+        public string GetRunsFullPath()
         {
-            return $"{testGuid}\\{testFileName}";
+            throw new NotImplementedException();
         }
 
-        public string GetScreenshotPath(string testGuid)
+        public string GetTestFullPath()
         {
-            return Path.Combine(TestsPath, testGuid, Paths.Folder.Img);
+            throw new NotImplementedException();
+        }
+
+        public string GetTestOutputFullPath()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetTestScreenshotFullPath()
+        {
+            throw new NotImplementedException();
         }
     }
 }

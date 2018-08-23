@@ -171,5 +171,35 @@ namespace Ghpr.Core.Common
             runs.RemoveAll(r => r.RunInfo.Guid.Equals(runGuid));
             _cache.Set(AllRunDtosKey, runs, Offset);
         }
+
+        public void DeleteTest(TestRunDto testRun)
+        {
+            _dataWriterLogger.Debug($"Deleting test run with guid = {testRun.TestInfo.Guid}");
+            var tests = AllTestRunDtos ?? new List<TestRunDto>();
+            tests.RemoveAll(tr => tr.TestInfo.Guid.Equals(testRun.TestInfo.Guid) && tr.TestInfo.Finish.Equals(testRun.TestInfo.Finish));
+            tests.Add(testRun);
+            _cache.Set(AllTestRunDtosKey, tests, Offset);
+        }
+
+        public void DeleteTestOutput(TestRunDto testRun, TestOutputDto testOutput)
+        {
+            _dataWriterLogger.Debug($"Deleting test run output with guid = {testRun.TestInfo.Guid}");
+            var outputs = AllTestOutputDtos ?? new List<TestOutputDto>();
+            outputs.RemoveAll(o => o.TestOutputInfo.Date.Equals(testOutput.TestOutputInfo.Date)
+                                   && o.TestOutputInfo.ItemName.Equals(testOutput.TestOutputInfo.ItemName));
+            outputs.Add(testOutput);
+            _cache.Set(AllTestOutputDtosKey, outputs, Offset);
+        }
+
+        public void DeleteTestScreenshot(TestRunDto testRun, TestScreenshotDto testScreenshot)
+        {
+            _dataWriterLogger.Debug($"Deleting test run screenshot with guid = {testRun.TestInfo.Guid}");
+            var screens = AllTestScreenshotDtos ?? new List<TestScreenshotDto>();
+            screens.RemoveAll(s => s.TestGuid.Equals(testScreenshot.TestGuid)
+                                   && s.TestScreenshotInfo.Date.Equals(testScreenshot.TestScreenshotInfo.Date)
+                                   && s.TestScreenshotInfo.ItemName.Equals(testScreenshot.TestScreenshotInfo.ItemName));
+            screens.Add(testScreenshot);
+            _cache.Set(AllTestScreenshotDtosKey, screens, Offset);
+        }
     }
 }

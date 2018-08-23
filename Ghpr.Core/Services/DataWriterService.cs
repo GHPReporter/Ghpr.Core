@@ -60,5 +60,23 @@ namespace Ghpr.Core.Services
             _dataWriterService.DeleteRun(runGuid);
             _cache.DeleteRun(runGuid);
         }
+
+        public void DeleteTest(TestRunDto testRun)
+        {
+            _dataWriterService.DeleteTest(testRun);
+            _cache.DeleteTest(testRun);
+        }
+
+        public void DeleteTestOutput(TestRunDto testRun, TestOutputDto testOutput)
+        {
+            _dataWriterService.DeleteTestOutput(testRun, testOutput);
+            _cache.DeleteTestOutput(testRun, testOutput);
+        }
+
+        public void DeleteTestScreenshot(TestRunDto testRun, TestScreenshotDto testScreenshot)
+        {
+            _dataWriterService.DeleteTestScreenshot(testRun, testScreenshot);
+            _cache.DeleteTestScreenshot(testRun, testScreenshot);
+        }
     }
 }
