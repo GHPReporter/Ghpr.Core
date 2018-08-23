@@ -46,7 +46,7 @@ namespace Ghpr.LocalFileSystem.Services
         public SimpleItemInfoDto SaveScreenshot(TestScreenshotDto screenshotDto)
         {
             var testScreenshot = screenshotDto.Map();
-            var path = _locationsProvider.GetScreenshotFolderPath(testScreenshot.TestGuid.ToString());
+            var path = _locationsProvider.GetScreenshotFolderPath(testScreenshot.TestGuid);
             testScreenshot.Save(path);
             _logger.Info($"Screenshot was saved: '{path}'");
             _logger.Debug($"Screenshot data was saved correctly: {JsonConvert.SerializeObject(testScreenshot, Formatting.Indented)}");
@@ -55,23 +55,29 @@ namespace Ghpr.LocalFileSystem.Services
 
         public void DeleteRun(Guid runGuid)
         {
-            var runToDelete = _locationsProvider.GetRunFullPath(runGuid);
-            File.Delete(runToDelete);
+            var runFullPath = _locationsProvider.GetRunFullPath(runGuid);
+            File.Delete(runFullPath);
         }
 
         public void DeleteTest(TestRunDto testRun)
         {
-            throw new NotImplementedException();
+            var testFullPath = _locationsProvider.GetTestFullPath(testRun.TestInfo.Guid, 
+                testRun.TestInfo.Finish);
+            File.Delete(testFullPath);
         }
 
         public void DeleteTestOutput(TestRunDto testRun, TestOutputDto testOutput)
         {
-            throw new NotImplementedException();
+            var testOutputFullPath = _locationsProvider.GetTestOutputFullPath(testRun.TestInfo.Guid, 
+                testRun.TestInfo.Finish);
+            File.Delete(testOutputFullPath);
         }
 
         public void DeleteTestScreenshot(TestRunDto testRun, TestScreenshotDto testScreenshot)
         {
-            throw new NotImplementedException();
+            var testScreenshotFullPath = _locationsProvider
+                .GetTestScreenshotFullPath(testRun.TestInfo.Guid, testScreenshot.TestScreenshotInfo.Date);
+            File.Delete(testScreenshotFullPath);
         }
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
@@ -85,7 +91,7 @@ namespace Ghpr.LocalFileSystem.Services
         {
             var testOutput = testOutputDto.Map();
             var testRun = testRunDto.Map(testOutput.TestOutputInfo);
-            var imgFolder = _locationsProvider.GetScreenshotFolderPath(testRun.TestInfo.Guid.ToString());
+            var imgFolder = _locationsProvider.GetScreenshotFolderPath(testRun.TestInfo.Guid);
             if (Directory.Exists(imgFolder))
             {
                 var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.json");

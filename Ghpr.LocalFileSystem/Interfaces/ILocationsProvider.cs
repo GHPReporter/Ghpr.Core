@@ -13,12 +13,12 @@ namespace Ghpr.LocalFileSystem.Interfaces
 
         string GetRunFullPath(Guid runGuid);
         string GetRunsFullPath();
-        string GetTestFullPath();
-        string GetTestOutputFullPath();
-        string GetTestScreenshotFullPath();
+        string GetTestFullPath(Guid testGuid, DateTime testFinishDateTime);
+        string GetTestOutputFullPath(Guid testGuid, DateTime testFinishDateTime);
+        string GetTestScreenshotFullPath(Guid testGuid, DateTime creationDateTime);
 
         string GetTestFolderPath(Guid testGuid);
-        string GetScreenshotFolderPath(string testGuid);
+        string GetScreenshotFolderPath(Guid testGuid);
         string GetTestOutputFolderPath(Guid testGuid);
     }
 }

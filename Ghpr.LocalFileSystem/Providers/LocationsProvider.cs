@@ -32,9 +32,9 @@ namespace Ghpr.LocalFileSystem.Providers
             return Path.Combine(TestsFolderPath, testGuid.ToString());
         }
 
-        public string GetScreenshotFolderPath(string testGuid)
+        public string GetScreenshotFolderPath(Guid testGuid)
         {
-            return Path.Combine(TestsFolderPath, testGuid, Paths.Folder.Img);
+            return Path.Combine(TestsFolderPath, testGuid.ToString(), Paths.Folder.Img);
         }
 
 
@@ -45,22 +45,25 @@ namespace Ghpr.LocalFileSystem.Providers
 
         public string GetRunsFullPath()
         {
-            throw new NotImplementedException();
+            return Path.Combine(RunsFolderPath, Paths.File.Runs);
         }
 
-        public string GetTestFullPath()
+        public string GetTestFullPath(Guid testGuid, DateTime testFinishDateTime)
         {
-            throw new NotImplementedException();
+            return Path.Combine(GetTestFolderPath(testGuid), 
+                NamesProvider.GetTestRunFileName(testFinishDateTime));
         }
 
-        public string GetTestOutputFullPath()
+        public string GetTestOutputFullPath(Guid testGuid, DateTime testFinishDateTime)
         {
-            throw new NotImplementedException();
+            return Path.Combine(GetTestOutputFolderPath(testGuid),
+                NamesProvider.GetTestOutputFileName(testFinishDateTime));
         }
 
-        public string GetTestScreenshotFullPath()
+        public string GetTestScreenshotFullPath(Guid testGuid, DateTime creationDateTime)
         {
-            throw new NotImplementedException();
+            return Path.Combine(GetScreenshotFolderPath(testGuid),
+                NamesProvider.GetScreenshotFileName(creationDateTime));
         }
     }
 }
