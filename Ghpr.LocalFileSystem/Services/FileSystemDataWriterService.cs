@@ -57,6 +57,7 @@ namespace Ghpr.LocalFileSystem.Services
         public void DeleteRun(Guid runGuid)
         {
             var runFullPath = _locationsProvider.GetRunFullPath(runGuid);
+            _logger.Debug($"Deleting Run: {runFullPath}");
             File.Delete(runFullPath);
         }
 
@@ -64,6 +65,7 @@ namespace Ghpr.LocalFileSystem.Services
         {
             var testFullPath = _locationsProvider.GetTestFullPath(testRun.TestInfo.Guid, 
                 testRun.TestInfo.Finish);
+            _logger.Debug($"Deleting Test: {testFullPath}");
             File.Delete(testFullPath);
         }
 
@@ -71,6 +73,7 @@ namespace Ghpr.LocalFileSystem.Services
         {
             var testOutputFullPath = _locationsProvider.GetTestOutputFullPath(testRun.TestInfo.Guid, 
                 testRun.TestInfo.Finish);
+            _logger.Debug($"Deleting Test Output: {testOutputFullPath}");
             File.Delete(testOutputFullPath);
         }
 
@@ -78,6 +81,7 @@ namespace Ghpr.LocalFileSystem.Services
         {
             var testScreenshotFullPath = _locationsProvider
                 .GetTestScreenshotFullPath(testRun.TestInfo.Guid, testScreenshot.TestScreenshotInfo.Date);
+            _logger.Debug($"Deleting Test screenshot: {testScreenshotFullPath}");
             File.Delete(testScreenshotFullPath);
         }
 
