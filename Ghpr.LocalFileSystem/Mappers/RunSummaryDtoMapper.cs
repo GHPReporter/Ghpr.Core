@@ -19,5 +19,20 @@ namespace Ghpr.LocalFileSystem.Mappers
             };
             return runSummary;
         }
+
+        public static RunSummaryDto ToDto(this RunSummary runSummary)
+        {
+            var runSummaryDto = new RunSummaryDto
+            {
+                Total = runSummary.Total,
+                Errors = runSummary.Errors,
+                Ignored = runSummary.Ignored,
+                Failures = runSummary.Failures,
+                Inconclusive = runSummary.Inconclusive,
+                Success = runSummary.Success,
+                Unknown = runSummary.Unknown
+            };
+            return runSummaryDto;
+        }
     }
 }

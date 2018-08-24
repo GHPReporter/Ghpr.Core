@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
+using Ghpr.LocalFileSystem.Entities;
+using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
+using Ghpr.LocalFileSystem.Mappers;
 using Ghpr.LocalFileSystem.Providers;
 
 namespace Ghpr.LocalFileSystem.Services
@@ -21,42 +25,58 @@ namespace Ghpr.LocalFileSystem.Services
 
         public ReportSettingsDto GetReportSettings()
         {
-            throw new NotImplementedException();
+            var reportSettings = _locationsProvider.GetReportSettingsFullPath().LoadReportSettings();
+            return reportSettings.ToDto();
         }
 
         public TestRunDto GetLatestTestRun(Guid testGuid)
         {
-            throw new NotImplementedException();
+            var testRuns = GetTestInfos(testGuid);
+            return GetTestRun(testRuns.OrderByDescending(t => t.Finish).First());
         }
 
         public TestRunDto GetTestRun(ItemInfoDto testInfo)
         {
-            throw new NotImplementedException();
+            var test = _locationsProvider.GetTestFullPath(testInfo.Guid, testInfo.Finish).LoadTestRun();
+            return test.ToDto(test.Output);
         }
 
-        public List<TestRunDto> GetTestRuns(Guid testGuid)
+        public List<ItemInfoDto> GetTestInfos(Guid testGuid)
         {
-            throw new NotImplementedException();
+            var test = _locationsProvider.GetTestFolderPath(testGuid)
+                .LoadItemInfos(_locationsProvider.Paths.File.Tests).Select(ii => ii.ToDto()).ToList();
+            return test;
         }
 
-        public List<TestScreenshotDto> GetTestScreenshots(ItemInfoDto testInfo)
+        public List<TestScreenshotDto> GetTestScreenshots(TestRunDto test)
         {
-            throw new NotImplementedException();
+            var screens = new List<TestScreenshotDto>();
+            foreach (var simpleItemInfoDto in test.Screenshots)
+            {
+                var screen = _locationsProvider.GetTestScreenshotFullPath(test.TestInfo.Guid, simpleItemInfoDto.Date)
+                    .LoadTestScreenshot().ToDto();
+                screens.Add(screen);
+            }
+            return screens;
         }
 
-        public TestOutputDto GetTestOutput(ItemInfoDto testInfo)
+        public TestOutputDto GetTestOutput(TestRunDto test)
         {
-            throw new NotImplementedException();
+            var output = _locationsProvider.GetTestOutputFullPath(test.TestInfo.Guid, test.TestInfo.Finish)
+                .LoadTestOutput();
+            return output.ToDto();
         }
 
         public RunDto GetRun(Guid runGuid)
         {
-            throw new NotImplementedException();
+            var run = _locationsProvider.RunsFolderPath.LoadRun(NamesProvider.GetRunFileName(runGuid)).ToDto();
+            return run;
         }
 
-        public List<RunDto> GetRuns()
+        public List<ItemInfoDto> GetRunInfos()
         {
-            throw new NotImplementedException();
+            var runs = _locationsProvider.RunsFolderPath.LoadItemInfos(_locationsProvider.Paths.File.Runs).Select(ii => ii.ToDto()).ToList();
+            return runs;
         }
 
         public List<TestRunDto> GetTestRunsFromRun(Guid runGuid)

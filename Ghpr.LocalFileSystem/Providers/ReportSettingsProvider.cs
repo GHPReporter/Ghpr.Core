@@ -1,20 +1,17 @@
 ﻿using System.IO;
 using Ghpr.Core.Extensions;
-using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Entities;
-using Ghpr.LocalFileSystem.Interfaces;
 using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Providers
 {
     public static class ReportSettingsProvider
     {
-        public static string Save(this ReportSettings reportSettings, ILocationsProvider locationsProvider)
+        public static string Save(this ReportSettings reportSettings, string folder, string fileName)
         {
-            var folder = locationsProvider.SrcFolderPath;
             var serializer = new JsonSerializer();
             folder.Create();
-            var fullPath = Path.Combine(folder, Paths.Files.ReportSettings);
+            var fullPath = Path.Combine(folder, fileName);
             if (!File.Exists(fullPath))
             {
                 using (var file = File.CreateText(fullPath))
@@ -25,14 +22,12 @@ namespace Ghpr.LocalFileSystem.Providers
             return fullPath;
         }
 
-        public static ReportSettings LoadReportSettings(ILocationsProvider locationsProvider)
+        public static ReportSettings LoadReportSettings(this string fullPath)
         {
-            ReportSettings settings;
-            var folder = locationsProvider.SrcFolderPath;
-            var serializer = new JsonSerializer();
-            var fullPath = Path.Combine(folder, Paths.Files.ReportSettings);    
+            ReportSettings settings; 
             using (var file = File.OpenText(fullPath))
             {
+                var serializer = new JsonSerializer();
                 settings = (ReportSettings)serializer.Deserialize(file, typeof(ReportSettings));
             }
             return settings;

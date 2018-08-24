@@ -5,10 +5,16 @@ namespace Ghpr.LocalFileSystem.Mappers
 {
     public static class ReportSettingsDtoMapper
     {
-        public static ReportSettings Map(this ReportSettingsDto runDto)
+        public static ReportSettings Map(this ReportSettingsDto rsDto)
         {
-            var run = new ReportSettings(runDto.RunsToDisplay, runDto.TestsToDisplay);
-            return run;
+            var rs = new ReportSettings(rsDto.RunsToDisplay, rsDto.TestsToDisplay);
+            return rs;
+        }
+
+        public static ReportSettingsDto ToDto(this ReportSettings rs)
+        {
+            var rsDto = new ReportSettingsDto(rs.TestsToDisplay, rs.RunsToDisplay);
+            return rsDto;
         }
     }
 }

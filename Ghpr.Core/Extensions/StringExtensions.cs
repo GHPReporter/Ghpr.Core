@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Ghpr.Core.Extensions
 {
@@ -31,6 +32,17 @@ namespace Ghpr.Core.Extensions
             }
 
             return new Guid(data);
+        }
+
+        public static T LoadAs<T>(this string fullPath)
+        {
+            T t;
+            using (var file = File.OpenText(fullPath))
+            {
+                var serializer = new JsonSerializer();
+                t = (T)serializer.Deserialize(file, typeof(T));
+            }
+            return t;
         }
     }
 }

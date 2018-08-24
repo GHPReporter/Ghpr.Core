@@ -60,13 +60,13 @@ namespace Ghpr.LocalFileSystem.Extensions
             return fullItemInfoPath;
         }
 
-        public static List<ItemInfo> LoadItemInfos(this string path, string filename, bool removeExisting = true)
+        public static List<ItemInfo> LoadItemInfos(this string path, string filename)
         {
-            var serializer = new JsonSerializer();
-            var fullItemInfoPath = Path.Combine(path, filename);
             List<ItemInfo> existingItems;
+            var fullItemInfoPath = Path.Combine(path, filename);
             using (var file = File.OpenText(fullItemInfoPath))
             {
+                var serializer = new JsonSerializer();
                 existingItems = (List<ItemInfo>) serializer.Deserialize(file, typeof(List<ItemInfo>));
             }
             return existingItems;        

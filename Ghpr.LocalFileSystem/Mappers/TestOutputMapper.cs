@@ -17,5 +17,16 @@ namespace Ghpr.LocalFileSystem.Mappers
             };
             return testOutput;
         }
+
+        public static TestOutputDto ToDto(this TestOutput testOutput)
+        {
+            var testOutputDto = new TestOutputDto
+            {
+                SuiteOutput = testOutput.SuiteOutput,
+                Output = testOutput.Output,
+                TestOutputInfo = testOutput.TestOutputInfo.ToDto()
+            };
+            return testOutputDto;
+        }
     }
 }

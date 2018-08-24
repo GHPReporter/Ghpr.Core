@@ -36,17 +36,17 @@ namespace Ghpr.CouchDb.Services
             throw new NotImplementedException();
         }
 
-        public List<TestRunDto> GetTestRuns(Guid testGuid)
+        public List<ItemInfoDto> GetTestInfos(Guid testGuid)
         {
             throw new NotImplementedException();
         }
 
-        public List<TestScreenshotDto> GetTestScreenshots(ItemInfoDto testInfo)
+        public List<TestScreenshotDto> GetTestScreenshots(TestRunDto testInfo)
         {
             throw new NotImplementedException();
         }
 
-        public TestOutputDto GetTestOutput(ItemInfoDto testInfo)
+        public TestOutputDto GetTestOutput(TestRunDto testInfo)
         {
             throw new NotImplementedException();
         }
@@ -56,7 +56,7 @@ namespace Ghpr.CouchDb.Services
             throw new NotImplementedException();
         }
 
-        public List<RunDto> GetRuns()
+        public List<ItemInfoDto> GetRunInfos()
         {
             throw new NotImplementedException();
         }

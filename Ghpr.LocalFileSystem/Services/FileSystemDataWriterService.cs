@@ -4,6 +4,7 @@ using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
+using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
 using Ghpr.LocalFileSystem.Mappers;
@@ -83,14 +84,14 @@ namespace Ghpr.LocalFileSystem.Services
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
         {
             var reportSettings = reportSettingsDto.Map();
-            var fullPath = reportSettings.Save(_locationsProvider);
+            var fullPath = reportSettings.Save(_locationsProvider.SrcFolderPath, Paths.Files.ReportSettings);
             _logger.Info($"Report settings were saved: '{fullPath}'");
         }
 
         public ItemInfoDto SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)
         {
             var testOutput = testOutputDto.Map();
-            var testRun = testRunDto.Map(testOutput.TestOutputInfo);
+            var testRun = testRunDto.Map(testOutput.TestOutputInfo.ToDto());
             var imgFolder = _locationsProvider.GetScreenshotFolderPath(testRun.TestInfo.Guid);
             if (Directory.Exists(imgFolder))
             {
@@ -98,7 +99,7 @@ namespace Ghpr.LocalFileSystem.Services
                 _logger.Info($"Checking unassigned img files: {imgFiles.Length} file found");
                 foreach (var imgFile in imgFiles)
                 {
-                    var img = imgFolder.LoadTestScreenshot(imgFile.Name);
+                    var img = Path.Combine(imgFolder, imgFile.Name).LoadTestScreenshot();
                     if (imgFile.CreationTime > testRun.TestInfo.Start)
                     {
                         _logger.Info($"New img file found: {imgFile.CreationTime}, {imgFile.Name}");
@@ -119,15 +120,15 @@ namespace Ghpr.LocalFileSystem.Services
 
         public void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput)
         {
-            var outputPath = _locationsProvider.GetTestOutputFolderPath(testInfo.Guid);
-            var outputName = NamesProvider.GetTestOutputFileName(testInfo.Finish);
-            var existingOutput = outputPath.LoadTestOutput(outputName);
+            var outputFolderPath = _locationsProvider.GetTestOutputFolderPath(testInfo.Guid);
+            var outputFileName = NamesProvider.GetTestOutputFileName(testInfo.Finish);
+            var existingOutput = Path.Combine(outputFolderPath, outputFileName).LoadTestOutput();
             _logger.Debug($"Loaded existing output: {JsonConvert.SerializeObject(existingOutput, Formatting.Indented)}");
             existingOutput.SuiteOutput = testOutput.SuiteOutput;
             existingOutput.Output = testOutput.Output;
-            File.Delete(Path.Combine(outputPath, outputName));
+            File.Delete(Path.Combine(outputFolderPath, outputFileName));
             _logger.Debug("Deleted old output");
-            existingOutput.Save(outputPath);
+            existingOutput.Save(outputFolderPath);
             _logger.Debug($"Saved updated output: {JsonConvert.SerializeObject(existingOutput, Formatting.Indented)}");
         }
     }

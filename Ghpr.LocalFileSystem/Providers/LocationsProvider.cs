@@ -37,6 +37,10 @@ namespace Ghpr.LocalFileSystem.Providers
             return Path.Combine(TestsFolderPath, testGuid.ToString(), Paths.Folder.Img);
         }
 
+        public string GetReportSettingsFullPath()
+        {
+            return Path.Combine(SrcFolderPath, Paths.Files.ReportSettings);
+        }
 
         public string GetRunFullPath(Guid runGuid)
         {

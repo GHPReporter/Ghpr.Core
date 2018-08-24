@@ -61,23 +61,22 @@ namespace Ghpr.Core.Common
             return _cache.Get(testInfo.Guid.ToString()) as TestRunDto;
         }
 
-        public List<TestRunDto> GetTestRuns(Guid testGuid)
+        public List<ItemInfoDto> GetTestInfos(Guid testGuid)
         {
             _dataReaderLogger.Debug("Getting test runs by Guid from Common cache");
-            return AllTestRunDtos?.Where(t => t.TestInfo.Guid.Equals(testGuid)).ToList();
+            return AllTestRunDtos?.Where(t => t.TestInfo.Guid.Equals(testGuid)).Select(t => t.TestInfo).ToList();
         }
 
-        public List<TestScreenshotDto> GetTestScreenshots(ItemInfoDto testInfo)
+        public List<TestScreenshotDto> GetTestScreenshots(TestRunDto test)
         {
             _dataReaderLogger.Debug("Getting test screenshots from Common cache");
-            return AllTestScreenshotDtos?.Where(s => s.TestGuid.Equals(testInfo.Guid) 
-                && s.TestScreenshotInfo.Date >= testInfo.Start && s.TestScreenshotInfo.Date <= testInfo.Finish).ToList();
+            return AllTestScreenshotDtos?.Where(s => s.TestGuid.Equals(test.TestInfo.Guid) 
+                && s.TestScreenshotInfo.Date >= test.TestInfo.Start && s.TestScreenshotInfo.Date <= test.TestInfo.Finish).ToList();
         }
 
-        public TestOutputDto GetTestOutput(ItemInfoDto testInfo)
+        public TestOutputDto GetTestOutput(TestRunDto test)
         {
             _dataReaderLogger.Debug("Getting test output from Common cache");
-            var test = GetTestRun(testInfo);
             return test == null ? null : AllTestOutputDtos?.FirstOrDefault(to => to.TestOutputInfo.Equals(test.Output));
         }
 
@@ -87,10 +86,10 @@ namespace Ghpr.Core.Common
             return _cache.Get(runGuid.ToString()) as RunDto;
         }
 
-        public List<RunDto> GetRuns()
+        public List<ItemInfoDto> GetRunInfos()
         {
             _dataReaderLogger.Debug("Getting all runs from Common cache");
-            return AllRunDtos;
+            return AllRunDtos.Select(r => r.RunInfo).ToList();
         }
 
         public List<TestRunDto> GetTestRunsFromRun(Guid runGuid)

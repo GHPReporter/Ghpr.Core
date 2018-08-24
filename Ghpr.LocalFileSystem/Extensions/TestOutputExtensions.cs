@@ -20,10 +20,9 @@ namespace Ghpr.LocalFileSystem.Extensions
             return fullPath;
         }
 
-        public static TestOutput LoadTestOutput(this string path, string name)
+        public static TestOutput LoadTestOutput(this string fullPath)
         {
             TestOutput testOutput;
-            var fullPath = Path.Combine(path, name);
             using (var file = File.OpenText(fullPath))
             {
                 var serializer = new JsonSerializer();

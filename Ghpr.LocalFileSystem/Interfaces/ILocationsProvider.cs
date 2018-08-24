@@ -11,6 +11,7 @@ namespace Ghpr.LocalFileSystem.Interfaces
         string OutputPath { get; }
         Paths Paths { get; }
 
+        string GetReportSettingsFullPath();
         string GetRunFullPath(Guid runGuid);
         string GetRunsFullPath();
         string GetTestFullPath(Guid testGuid, DateTime testFinishDateTime);

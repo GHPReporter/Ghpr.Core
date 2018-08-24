@@ -41,19 +41,19 @@ namespace Ghpr.Core.Services
                    ?? _dataReaderService.GetTestRun(testInfo);
         }
 
-        public List<TestRunDto> GetTestRuns(Guid testGuid)
+        public List<ItemInfoDto> GetTestInfos(Guid testGuid)
         {
-            return _cache.GetTestRuns(testGuid) 
-                   ?? _dataReaderService.GetTestRuns(testGuid);
+            return _cache.GetTestInfos(testGuid) 
+                   ?? _dataReaderService.GetTestInfos(testGuid);
         }
 
-        public List<TestScreenshotDto> GetTestScreenshots(ItemInfoDto testInfo)
+        public List<TestScreenshotDto> GetTestScreenshots(TestRunDto testInfo)
         {
             return _cache.GetTestScreenshots(testInfo) 
                    ?? _dataReaderService.GetTestScreenshots(testInfo);
         }
 
-        public TestOutputDto GetTestOutput(ItemInfoDto testInfo)
+        public TestOutputDto GetTestOutput(TestRunDto testInfo)
         {
             return _cache.GetTestOutput(testInfo) 
                    ?? _dataReaderService.GetTestOutput(testInfo);
@@ -65,10 +65,10 @@ namespace Ghpr.Core.Services
                    ?? _dataReaderService.GetRun(runGuid);
         }
 
-        public List<RunDto> GetRuns()
+        public List<ItemInfoDto> GetRunInfos()
         {
-            return _cache.GetRuns() 
-                   ?? _dataReaderService.GetRuns();
+            return _cache.GetRunInfos() 
+                   ?? _dataReaderService.GetRunInfos();
         }
 
         public List<TestRunDto> GetTestRunsFromRun(Guid runGuid)

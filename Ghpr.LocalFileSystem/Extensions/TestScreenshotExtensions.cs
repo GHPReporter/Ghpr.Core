@@ -23,10 +23,9 @@ namespace Ghpr.LocalFileSystem.Extensions
             return fullPath;
         }
 
-        public static TestScreenshot LoadTestScreenshot(this string path, string name)
+        public static TestScreenshot LoadTestScreenshot(this string fullPath)
         {
             TestScreenshot testScreenshot;
-            var fullPath = Path.Combine(path, name);
             using (var file = File.OpenText(fullPath))
             {
                 var serializer = new JsonSerializer();

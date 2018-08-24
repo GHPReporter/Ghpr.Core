@@ -13,12 +13,12 @@ namespace Ghpr.Core.Interfaces
 
         TestRunDto GetLatestTestRun(Guid testGuid);
         TestRunDto GetTestRun(ItemInfoDto testInfo);
-        List<TestRunDto> GetTestRuns(Guid testGuid);
-        List<TestScreenshotDto> GetTestScreenshots(ItemInfoDto testInfo);
-        TestOutputDto GetTestOutput(ItemInfoDto testInfo);
+        List<ItemInfoDto> GetTestInfos(Guid testGuid);
+        List<TestScreenshotDto> GetTestScreenshots(TestRunDto testRunDto);
+        TestOutputDto GetTestOutput(TestRunDto testRunDto);
 
         RunDto GetRun(Guid runGuid);
-        List<RunDto> GetRuns();
+        List<ItemInfoDto> GetRunInfos();
         List<TestRunDto> GetTestRunsFromRun(Guid runGuid);
     }
 }
