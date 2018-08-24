@@ -26,7 +26,7 @@ namespace Ghpr.Core.Processors
                     writer.DeleteTestOutput(test, testOutput);
                     writer.DeleteTest(test);
                 }
-                writer.DeleteRun(run.RunInfo.Guid);
+                writer.DeleteRun(run.RunInfo);
             }
         }
     }

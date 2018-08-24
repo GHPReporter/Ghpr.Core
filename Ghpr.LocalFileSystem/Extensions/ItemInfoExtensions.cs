@@ -67,9 +67,26 @@ namespace Ghpr.LocalFileSystem.Extensions
             using (var file = File.OpenText(fullItemInfoPath))
             {
                 var serializer = new JsonSerializer();
-                existingItems = (List<ItemInfo>) serializer.Deserialize(file, typeof(List<ItemInfo>));
+                existingItems = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
             }
-            return existingItems;        
+            return existingItems;
+        }
+
+        public static void DeleteItemsFromItemInfosFile(this string path, string filename, List<ItemInfo> itemsToDelete)
+        {
+            var serializer = new JsonSerializer();
+            List<ItemInfo> existingItems;
+            var fullItemInfoPath = Path.Combine(path, filename);
+            using (var file = File.OpenText(fullItemInfoPath))
+            {
+                existingItems = (List<ItemInfo>)serializer.Deserialize(file, typeof(List<ItemInfo>));
+            }
+            existingItems.RemoveAll(i => itemsToDelete.Any(itd => itd.Guid == i.Guid && itd.Finish == i.Finish));
+            using (var file = File.CreateText(fullItemInfoPath))
+            {
+                existingItems = existingItems.OrderByDescending(x => x.Start).ToList();
+                serializer.Serialize(file, existingItems);
+            }
         }
     }
 }

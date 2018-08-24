@@ -55,7 +55,7 @@ namespace Ghpr.Core.Services
             return res;
         }
 
-        public void DeleteRun(Guid runGuid)
+        public void DeleteRun(ItemInfoDto runGuid)
         {
             _dataWriterService.DeleteRun(runGuid);
             _cache.DeleteRun(runGuid);

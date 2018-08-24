@@ -13,7 +13,7 @@ namespace Ghpr.Core.Interfaces
         ItemInfoDto SaveRun(RunDto run);
         SimpleItemInfoDto SaveScreenshot(TestScreenshotDto testScreenshot);
 
-        void DeleteRun(Guid runGuid);
+        void DeleteRun(ItemInfoDto runInfo);
         void DeleteTest(TestRunDto testRun);
         void DeleteTestOutput(TestRunDto testRun, TestOutputDto testOutput);
         void DeleteTestScreenshot(TestRunDto testRun, TestScreenshotDto testScreenshot);

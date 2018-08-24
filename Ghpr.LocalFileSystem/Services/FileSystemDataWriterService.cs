@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
+using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
 using Ghpr.LocalFileSystem.Mappers;
@@ -54,11 +56,13 @@ namespace Ghpr.LocalFileSystem.Services
             return testScreenshot.TestScreenshotInfo.ToDto();
         }
 
-        public void DeleteRun(Guid runGuid)
+        public void DeleteRun(ItemInfoDto runInfo)
         {
-            var runFullPath = _locationsProvider.GetRunFullPath(runGuid);
+            var runFullPath = _locationsProvider.GetRunFullPath(runInfo.Guid);
             _logger.Debug($"Deleting Run: {runFullPath}");
             File.Delete(runFullPath);
+            _locationsProvider.GetRunsFullPath()
+                .DeleteItemsFromItemInfosFile(_locationsProvider.Paths.File.Runs, new List<ItemInfo>(1){runInfo.MapTestRunInfo()});
         }
 
         public void DeleteTest(TestRunDto testRun)
@@ -67,6 +71,8 @@ namespace Ghpr.LocalFileSystem.Services
                 testRun.TestInfo.Finish);
             _logger.Debug($"Deleting Test: {testFullPath}");
             File.Delete(testFullPath);
+            _locationsProvider.GetRunsFullPath()
+                .DeleteItemsFromItemInfosFile(_locationsProvider.Paths.File.Runs, new List<ItemInfo>(1) { testRun.TestInfo.MapTestRunInfo() });
         }
 
         public void DeleteTestOutput(TestRunDto testRun, TestOutputDto testOutput)

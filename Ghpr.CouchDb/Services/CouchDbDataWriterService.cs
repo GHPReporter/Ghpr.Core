@@ -39,7 +39,7 @@ namespace Ghpr.CouchDb.Services
             return screenshotEntity.Data.TestScreenshotInfo.ToDto();
         }
 
-        public void DeleteRun(Guid runGuid)
+        public void DeleteRun(ItemInfoDto runGuid)
         {
             //TODO: implement later
             throw new NotImplementedException();
