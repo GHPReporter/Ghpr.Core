@@ -14,6 +14,7 @@ namespace Ghpr.Core.Interfaces
         IRunDtoRepository RunRepository { get; }
         ITestRunsRepository TestRunsRepository { get; }
         ITestRunDtoProcessor TestRunProcessor { get; }
+        IReportCleanUpProcessor ReportCleanUpProcessor { get; }
         IDataWriterService DataWriterService { get; }
         IDataReaderService DataReaderService { get; }
         IActionHelper Action { get; }

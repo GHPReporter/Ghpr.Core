@@ -4,7 +4,6 @@ using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
-using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
 using Ghpr.LocalFileSystem.Mappers;
@@ -79,9 +78,15 @@ namespace Ghpr.LocalFileSystem.Services
             return runs;
         }
 
-        public List<TestRunDto> GetTestRunsFromRun(Guid runGuid)
+        public List<TestRunDto> GetTestRunsFromRun(RunDto runDto)
         {
-            throw new NotImplementedException();
+            var tests = new List<TestRunDto>();
+            foreach (var itemInfoDto in runDto.TestsInfo)
+            {
+                var test = GetTestRun(itemInfoDto);
+                tests.Add(test);
+            }
+            return tests;
         }
     }
 }

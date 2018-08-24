@@ -19,6 +19,6 @@ namespace Ghpr.Core.Interfaces
 
         RunDto GetRun(Guid runGuid);
         List<ItemInfoDto> GetRunInfos();
-        List<TestRunDto> GetTestRunsFromRun(Guid runGuid);
+        List<TestRunDto> GetTestRunsFromRun(RunDto runDto);
     }
 }

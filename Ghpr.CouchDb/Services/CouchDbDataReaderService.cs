@@ -61,7 +61,7 @@ namespace Ghpr.CouchDb.Services
             throw new NotImplementedException();
         }
 
-        public List<TestRunDto> GetTestRunsFromRun(Guid runGuid)
+        public List<TestRunDto> GetTestRunsFromRun(RunDto runGuid)
         {
             throw new NotImplementedException();
         }

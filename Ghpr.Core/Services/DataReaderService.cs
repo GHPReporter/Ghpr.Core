@@ -71,7 +71,7 @@ namespace Ghpr.Core.Services
                    ?? _dataReaderService.GetRunInfos();
         }
 
-        public List<TestRunDto> GetTestRunsFromRun(Guid runGuid)
+        public List<TestRunDto> GetTestRunsFromRun(RunDto runGuid)
         {
             return _cache.GetTestRunsFromRun(runGuid) 
                    ?? _dataReaderService.GetTestRunsFromRun(runGuid);

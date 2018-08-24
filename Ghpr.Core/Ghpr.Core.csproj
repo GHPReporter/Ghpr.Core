@@ -57,6 +57,8 @@
     <Compile Include="Common\TestOutputDto.cs" />
     <Compile Include="Comparers\SimpleItemInfoDtoComparer.cs" />
     <Compile Include="Interfaces\ICommonCache.cs" />
+    <Compile Include="Interfaces\IReportCleanUpProcessor.cs" />
+    <Compile Include="Processors\ReportCleanUpProcessor.cs" />
     <Compile Include="Services\DataWriterService.cs" />
     <Compile Include="Services\DataReaderService.cs" />
     <Compile Include="Extensions\TestRunDtoListExtensions.cs" />

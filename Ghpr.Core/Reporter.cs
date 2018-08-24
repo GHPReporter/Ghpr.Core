@@ -22,6 +22,7 @@ namespace Ghpr.Core
         public IActionHelper Action { get; internal set; }
         public ITestDataProvider TestDataProvider { get; internal set; }
         public ILogger Logger { get; internal set; }
+        public IReportCleanUpProcessor ReportCleanUpProcessor { get; internal set; }
 
         private void InitializeOnRunStarted(DateTime startDateTime)
         {
@@ -155,7 +156,7 @@ namespace Ghpr.Core
 
         public void CleanUpJob()
         {
-            throw new NotImplementedException();
+            ReportCleanUpProcessor.CleanUpReport(ReporterSettings.Retention, DataReaderService, DataWriterService, Logger);
         }
 
         public void TearDown()

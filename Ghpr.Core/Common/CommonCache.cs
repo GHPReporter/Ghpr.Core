@@ -92,10 +92,9 @@ namespace Ghpr.Core.Common
             return AllRunDtos.Select(r => r.RunInfo).ToList();
         }
 
-        public List<TestRunDto> GetTestRunsFromRun(Guid runGuid)
+        public List<TestRunDto> GetTestRunsFromRun(RunDto run)
         {
             _dataReaderLogger.Debug("Getting run's test runs from Common cache");
-            var run = GetRun(runGuid);
             var res = run?.TestsInfo.Select(GetTestRun).ToList();
             return res == null ? null : res.Any(t => t == null) ? null : res;
         }
