@@ -7,6 +7,31 @@ namespace Ghpr.LocalFileSystem.Entities
 {
     public class TestRun
     {
+        [JsonConstructor]
+        public TestRun()
+        {
+            TestInfo = new ItemInfo
+            {
+                Guid = Guid.Empty,
+                Start = DateTime.Now,
+                Finish = default(DateTime)
+            };
+            Name = "";
+            FullName = "";
+            Description = "";
+            TestStackTrace = "";
+            TestMessage = "";
+            Result = "";
+            Output = new SimpleItemInfo();
+            Priority = "";
+            TestType = "";
+            Categories = new string[] { };
+            RunGuid = Guid.Empty;
+            Screenshots = new List<SimpleItemInfo>();
+            Events = new List<TestEvent>();
+            TestData = new List<TestData>();
+        }
+
         public TestRun(Guid guid, string name = "", string fullName = "")
         {
             TestInfo = new ItemInfo
