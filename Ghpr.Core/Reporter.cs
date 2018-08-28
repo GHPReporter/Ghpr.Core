@@ -156,7 +156,7 @@ namespace Ghpr.Core
 
         public void CleanUpJob()
         {
-            ReportCleanUpProcessor.CleanUpReport(ReporterSettings.Retention, DataReaderService, DataWriterService, Logger);
+            ReportCleanUpProcessor.CleanUpReport(ReporterSettings.Retention, DataReaderService, DataWriterService);
         }
 
         public void TearDown()

@@ -113,7 +113,7 @@ namespace Ghpr.Core.Factories
                 RunRepository = new RunDtoRepository(),
                 TestRunsRepository = new TestRunsRepository(),
                 TestRunProcessor = new TestRunDtoProcessor(),
-                ReportCleanUpProcessor = new ReportCleanUpProcessor(),
+                ReportCleanUpProcessor = new ReportCleanUpProcessor(logger),
                 TestRunStarted = false
             };
             return reporter;
