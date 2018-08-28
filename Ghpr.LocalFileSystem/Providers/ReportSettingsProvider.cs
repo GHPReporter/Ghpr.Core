@@ -24,11 +24,14 @@ namespace Ghpr.LocalFileSystem.Providers
 
         public static ReportSettings LoadReportSettings(this string fullPath)
         {
-            ReportSettings settings; 
-            using (var file = File.OpenText(fullPath))
+            ReportSettings settings = null;
+            if (File.Exists(fullPath))
             {
-                var serializer = new JsonSerializer();
-                settings = (ReportSettings)serializer.Deserialize(file, typeof(ReportSettings));
+                using (var file = File.OpenText(fullPath))
+                {
+                    var serializer = new JsonSerializer();
+                    settings = (ReportSettings)serializer.Deserialize(file, typeof(ReportSettings));
+                }
             }
             return settings;
         }

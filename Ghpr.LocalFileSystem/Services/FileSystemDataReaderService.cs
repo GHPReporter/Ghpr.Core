@@ -27,18 +27,22 @@ namespace Ghpr.LocalFileSystem.Services
         public ReportSettingsDto GetReportSettings()
         {
             var reportSettings = _locationsProvider.GetReportSettingsFullPath().LoadReportSettings();
-            return reportSettings.ToDto();
+            return reportSettings?.ToDto();
         }
 
         public TestRunDto GetLatestTestRun(Guid testGuid)
         {
             var testRuns = GetTestInfos(testGuid);
-            return GetTestRun(testRuns.OrderByDescending(t => t.Finish).First());
+            return GetTestRun(testRuns.OrderByDescending(t => t.Finish).FirstOrDefault());
         }
 
         public TestRunDto GetTestRun(ItemInfoDto testInfo)
         {
             TestRun test = null;
+            if (testInfo == null)
+            {
+                return null;
+            }
             var testFullPath = _locationsProvider.GetTestFullPath(testInfo.Guid, testInfo.Finish);
             if (File.Exists(testFullPath))
             {
@@ -60,8 +64,11 @@ namespace Ghpr.LocalFileSystem.Services
             foreach (var simpleItemInfoDto in test.Screenshots)
             {
                 var screen = _locationsProvider.GetTestScreenshotFullPath(test.TestInfo.Guid, simpleItemInfoDto.Date)
-                    .LoadTestScreenshot().ToDto();
-                screens.Add(screen);
+                    .LoadTestScreenshot()?.ToDto();
+                if (screen != null)
+                {
+                    screens.Add(screen);
+                }
             }
             return screens;
         }
@@ -70,12 +77,12 @@ namespace Ghpr.LocalFileSystem.Services
         {
             var output = _locationsProvider.GetTestOutputFullPath(test.TestInfo.Guid, test.TestInfo.Finish)
                 .LoadTestOutput();
-            return output.ToDto();
+            return output?.ToDto();
         }
 
         public RunDto GetRun(Guid runGuid)
         {
-            var run = _locationsProvider.RunsFolderPath.LoadRun(NamesProvider.GetRunFileName(runGuid)).ToDto();
+            var run = _locationsProvider.RunsFolderPath.LoadRun(NamesProvider.GetRunFileName(runGuid))?.ToDto();
             return run;
         }
 

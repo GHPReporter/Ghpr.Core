@@ -61,8 +61,8 @@ namespace Ghpr.LocalFileSystem.Services
             var runFullPath = _locationsProvider.GetRunFullPath(runInfo.Guid);
             _logger.Debug($"Deleting Run: {runFullPath}");
             File.Delete(runFullPath);
-            _locationsProvider.GetRunsFullPath()
-                .DeleteItemsFromItemInfosFile(_locationsProvider.Paths.File.Runs, new List<ItemInfo>(1){runInfo.MapTestRunInfo()});
+            _locationsProvider.RunsFolderPath
+                .DeleteItemsFromItemInfosFile(_locationsProvider.Paths.File.Runs, new List<ItemInfo>(1){runInfo.MapRunInfo()});
         }
 
         public void DeleteTest(TestRunDto testRun)
@@ -71,8 +71,8 @@ namespace Ghpr.LocalFileSystem.Services
                 testRun.TestInfo.Finish);
             _logger.Debug($"Deleting Test: {testFullPath}");
             File.Delete(testFullPath);
-            _locationsProvider.GetRunsFullPath()
-                .DeleteItemsFromItemInfosFile(_locationsProvider.Paths.File.Runs, new List<ItemInfo>(1) { testRun.TestInfo.MapTestRunInfo() });
+            _locationsProvider.GetTestFolderPath(testRun.TestInfo.Guid)
+                .DeleteItemsFromItemInfosFile(_locationsProvider.Paths.File.Tests, new List<ItemInfo>(1) { testRun.TestInfo.MapTestRunInfo() });
         }
 
         public void DeleteTestOutput(TestRunDto testRun, TestOutputDto testOutput)

@@ -21,7 +21,7 @@ namespace Ghpr.LocalFileSystem.Providers
         public string RunsFolderPath { get; }
         public string OutputPath { get; }
         public Paths Paths { get; }
-        
+
         public string GetTestFolderPath(Guid testGuid)
         {
             return Path.Combine(TestsFolderPath, testGuid.ToString());
