@@ -8,10 +8,12 @@ namespace Ghpr.Core.Processors
     public class ReportCleanUpProcessor : IReportCleanUpProcessor
     {
         private readonly ILogger _logger;
+        private readonly IActionHelper _actionHelper;
 
-        public ReportCleanUpProcessor(ILogger logger)
+        public ReportCleanUpProcessor(ILogger logger, IActionHelper actionHelper)
         {
             _logger = logger;
+            _actionHelper = actionHelper;
         }
 
         public void CleanUpReport(RetentionSettings retentionSettings, IDataReaderService reader, IDataWriterService writer)
@@ -30,38 +32,26 @@ namespace Ghpr.Core.Processors
                     var screenshots = reader.GetTestScreenshots(test);
                     foreach (var screenshot in screenshots)
                     {
-                        Try("Delete test screenshot", () =>
+                        _actionHelper.Simple(() =>
                         {
                             writer.DeleteTestScreenshot(test, screenshot);
                         });
                     }
-                    Try("Delete test output", () =>
+                    _actionHelper.Simple(() =>
                     {
                         writer.DeleteTestOutput(test, testOutput);
                     });
-                    Try("Delete test", () =>
+                    _actionHelper.Simple(() =>
                     {
                         writer.DeleteTest(test);
                     });
                 }
-                Try("Delete run", () =>
+                _actionHelper.Simple(() =>
                 {
                     writer.DeleteRun(run.RunInfo);
                 });
             }
             _logger.Debug("Running Clean up job: done.");
-        }
-
-        private void Try(string actionName, Action a)
-        {
-            try
-            {
-                a.Invoke();
-            }
-            catch (Exception e)
-            {
-                _logger.Warn($"Error when trying to {actionName}. Exception: {e.Message}{Environment.NewLine}{e.StackTrace}", e);
-            }
         }
     }
 }

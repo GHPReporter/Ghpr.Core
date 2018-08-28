@@ -101,9 +101,11 @@ namespace Ghpr.Core.Factories
             CommonCache.Instance.InitializeDataReader(settings, logger);
             CommonCache.Instance.InitializeDataWriter(settings, logger);
 
+            var actionHelper = new ActionHelper(logger);
+
             var reporter = new Reporter
             {
-                Action = new ActionHelper(logger),
+                Action = actionHelper,
                 Logger = logger,
                 TestDataProvider = testDataProvider,
                 ReporterSettings = settings,
@@ -113,7 +115,7 @@ namespace Ghpr.Core.Factories
                 RunRepository = new RunDtoRepository(),
                 TestRunsRepository = new TestRunsRepository(),
                 TestRunProcessor = new TestRunDtoProcessor(),
-                ReportCleanUpProcessor = new ReportCleanUpProcessor(logger),
+                ReportCleanUpProcessor = new ReportCleanUpProcessor(logger, actionHelper),
                 TestRunStarted = false
             };
             return reporter;
