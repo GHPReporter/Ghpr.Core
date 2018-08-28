@@ -95,8 +95,9 @@ namespace Ghpr.Core.Common
         public List<TestRunDto> GetTestRunsFromRun(RunDto run)
         {
             _dataReaderLogger.Debug("Getting run's test runs from Common cache");
-            var res = run?.TestsInfo.Select(GetTestRun).ToList();
-            return res == null ? null : res.Any(t => t == null) ? null : res;
+            var testRuns = run?.TestsInfo.Select(GetTestRun).ToList();
+            var res = testRuns == null ? null : testRuns.Any(t => t == null) ? null : testRuns;
+            return res;
         }
 
         public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
