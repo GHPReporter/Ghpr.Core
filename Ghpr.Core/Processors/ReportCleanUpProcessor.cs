@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 
@@ -22,14 +23,38 @@ namespace Ghpr.Core.Processors
                     var screenshots = reader.GetTestScreenshots(test);
                     foreach (var screenshot in screenshots)
                     {
-                        writer.DeleteTestScreenshot(test, screenshot);
+                        Try("Delete test screenshot", () =>
+                        {
+                            writer.DeleteTestScreenshot(test, screenshot);
+                        }, logger);
                     }
-                    writer.DeleteTestOutput(test, testOutput);
-                    writer.DeleteTest(test);
+                    Try("Delete test output", () =>
+                    {
+                        writer.DeleteTestOutput(test, testOutput);
+                    }, logger);
+                    Try("Delete test", () =>
+                    {
+                        writer.DeleteTest(test);
+                    }, logger);
                 }
-                writer.DeleteRun(run.RunInfo);
+                Try("Delete run", () =>
+                {
+                    writer.DeleteRun(run.RunInfo);
+                }, logger);
             }
             logger.Debug("Running Clean up job: done.");
+        }
+
+        private static void Try(string actionName, Action a, ILogger logger)
+        {
+            try
+            {
+                a.Invoke();
+            }
+            catch (Exception e)
+            {
+                logger.Warn($"Error when trying to {actionName}. Exception: {e.Message}{Environment.NewLine}{e.StackTrace}", e);
+            }
         }
     }
 }
