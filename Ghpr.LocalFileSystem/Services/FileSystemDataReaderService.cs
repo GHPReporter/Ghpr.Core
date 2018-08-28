@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
+using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
 using Ghpr.LocalFileSystem.Mappers;
@@ -36,8 +38,13 @@ namespace Ghpr.LocalFileSystem.Services
 
         public TestRunDto GetTestRun(ItemInfoDto testInfo)
         {
-            var test = _locationsProvider.GetTestFullPath(testInfo.Guid, testInfo.Finish).LoadTestRun();
-            return test.ToDto(test.Output);
+            TestRun test = null;
+            var testFullPath = _locationsProvider.GetTestFullPath(testInfo.Guid, testInfo.Finish);
+            if (File.Exists(testFullPath))
+            {
+                test = testFullPath.LoadTestRun();
+            }
+            return test?.ToDto(test.Output);
         }
 
         public List<ItemInfoDto> GetTestInfos(Guid testGuid)
@@ -84,7 +91,10 @@ namespace Ghpr.LocalFileSystem.Services
             foreach (var itemInfoDto in runDto.TestsInfo)
             {
                 var test = GetTestRun(itemInfoDto);
-                tests.Add(test);
+                if (test != null)
+                {
+                    tests.Add(test);
+                }
             }
             return tests;
         }
