@@ -25,30 +25,33 @@ namespace Ghpr.Core.Processors
             foreach (var itemInfoDto in runInfosToDelete)
             {
                 var run = reader.GetRun(itemInfoDto.Guid);
-                var tests = reader.GetTestRunsFromRun(run);
-                foreach (var test in tests)
+                if (run != null)
                 {
-                    var testOutput = reader.GetTestOutput(test);
-                    var screenshots = reader.GetTestScreenshots(test);
-                    foreach (var screenshot in screenshots)
+                    var tests = reader.GetTestRunsFromRun(run);
+                    foreach (var test in tests)
                     {
+                        var testOutput = reader.GetTestOutput(test);
+                        var screenshots = reader.GetTestScreenshots(test);
+                        foreach (var screenshot in screenshots)
+                        {
+                            _actionHelper.Simple(() =>
+                            {
+                                writer.DeleteTestScreenshot(test, screenshot);
+                            });
+                        }
                         _actionHelper.Simple(() =>
                         {
-                            writer.DeleteTestScreenshot(test, screenshot);
+                            writer.DeleteTestOutput(test, testOutput);
+                        });
+                        _actionHelper.Simple(() =>
+                        {
+                            writer.DeleteTest(test);
                         });
                     }
-                    _actionHelper.Simple(() =>
-                    {
-                        writer.DeleteTestOutput(test, testOutput);
-                    });
-                    _actionHelper.Simple(() =>
-                    {
-                        writer.DeleteTest(test);
-                    });
                 }
                 _actionHelper.Simple(() =>
                 {
-                    writer.DeleteRun(run.RunInfo);
+                    writer.DeleteRun(itemInfoDto);
                 });
             }
             _logger.Debug("Running Clean up job: done.");

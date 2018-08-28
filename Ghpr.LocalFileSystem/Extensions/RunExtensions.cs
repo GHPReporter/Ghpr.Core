@@ -8,12 +8,15 @@ namespace Ghpr.LocalFileSystem.Extensions
     {
         public static Run LoadRun(this string path, string fileName)
         {
-            Run run;
+            Run run = null;
             var fullRunPath = Path.Combine(path, fileName);
-            using (var file = File.OpenText(fullRunPath))
+            if (File.Exists(fullRunPath))
             {
-                var serializer = new JsonSerializer();
-                run = (Run)serializer.Deserialize(file, typeof(Run));
+                using (var file = File.OpenText(fullRunPath))
+                {
+                    var serializer = new JsonSerializer();
+                    run = (Run)serializer.Deserialize(file, typeof(Run));
+                }
             }
             return run;
         }

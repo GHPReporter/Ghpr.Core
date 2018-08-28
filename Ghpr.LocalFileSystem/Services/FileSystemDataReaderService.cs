@@ -39,14 +39,13 @@ namespace Ghpr.LocalFileSystem.Services
         public TestRunDto GetTestRun(ItemInfoDto testInfo)
         {
             TestRun test = null;
-            if (testInfo == null)
+            if (testInfo != null)
             {
-                return null;
-            }
-            var testFullPath = _locationsProvider.GetTestFullPath(testInfo.Guid, testInfo.Finish);
-            if (File.Exists(testFullPath))
-            {
-                test = testFullPath.LoadTestRun();
+                var testFullPath = _locationsProvider.GetTestFullPath(testInfo.Guid, testInfo.Finish);
+                if (File.Exists(testFullPath))
+                {
+                    test = testFullPath.LoadTestRun();
+                }
             }
             return test?.ToDto(test.Output);
         }
@@ -75,9 +74,16 @@ namespace Ghpr.LocalFileSystem.Services
 
         public TestOutputDto GetTestOutput(TestRunDto test)
         {
-            var output = _locationsProvider.GetTestOutputFullPath(test.TestInfo.Guid, test.TestInfo.Finish)
-                .LoadTestOutput();
-            return output?.ToDto();
+            TestOutput testOutput = null;
+            if (test != null)
+            {
+                var fullPath = _locationsProvider.GetTestOutputFullPath(test.TestInfo.Guid, test.TestInfo.Finish);
+                if (File.Exists(fullPath))
+                {
+                    testOutput = fullPath.LoadTestOutput();
+                }
+            }
+            return testOutput?.ToDto();
         }
 
         public RunDto GetRun(Guid runGuid)
