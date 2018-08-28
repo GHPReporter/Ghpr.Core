@@ -8,7 +8,7 @@ namespace Ghpr.Core.Processors
     {
         public void CleanUpReport(RetentionSettings retentionSettings, IDataReaderService reader, IDataWriterService writer, ILogger logger)
         {
-            logger.Debug($"Running Clean up job: deleting the date older than {retentionSettings.Till} and leaving {retentionSettings.Amount} runs only");
+            logger.Debug($"Running Clean up job: deleting all runs older than {retentionSettings.Till} and leaving {retentionSettings.Amount} runs only");
             var runInfos = reader.GetRunInfos().OrderByDescending(ri => ri.Finish).ToList();
             var runInfosToDelete = runInfos.Skip(retentionSettings.Amount).ToList();
             runInfosToDelete.AddRange(runInfos.Take(retentionSettings.Amount).Where(ri => ri.Finish < retentionSettings.Till));

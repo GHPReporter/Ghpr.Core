@@ -22,7 +22,7 @@ namespace Ghpr.Core.Helpers
             }
             catch (Exception ex)
             {
-                _logger.Exception($"Exception in method '{a.Method.Name}'", ex);
+                _logger.Exception($"Exception in method '{a.Method.Name}': {ex.Message}", ex);
             }
         }
 

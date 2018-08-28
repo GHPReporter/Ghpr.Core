@@ -67,14 +67,17 @@ namespace Ghpr.Core.Services
 
         public List<ItemInfoDto> GetRunInfos()
         {
-            return _cache.GetRunInfos() 
-                   ?? _dataReaderService.GetRunInfos();
+            var runInfosFromCache = _cache.GetRunInfos();
+            runInfosFromCache = runInfosFromCache?.Count == 1 ? null : _cache.GetRunInfos();
+            var res = runInfosFromCache ?? _dataReaderService.GetRunInfos();
+            return res;
         }
 
         public List<TestRunDto> GetTestRunsFromRun(RunDto runGuid)
         {
-            return _cache.GetTestRunsFromRun(runGuid) 
-                   ?? _dataReaderService.GetTestRunsFromRun(runGuid);
+            var testRunsFromCache = _cache.GetTestRunsFromRun(runGuid);
+            var res = testRunsFromCache ?? _dataReaderService.GetTestRunsFromRun(runGuid);
+            return res;
         }
     }
 }

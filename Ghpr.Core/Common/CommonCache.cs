@@ -89,7 +89,8 @@ namespace Ghpr.Core.Common
         public List<ItemInfoDto> GetRunInfos()
         {
             _dataReaderLogger.Debug("Getting all runs from Common cache");
-            return AllRunDtos.Select(r => r.RunInfo).ToList();
+            var res = AllRunDtos?.Select(r => r.RunInfo).ToList();
+            return res;
         }
 
         public List<TestRunDto> GetTestRunsFromRun(RunDto run)
@@ -127,6 +128,7 @@ namespace Ghpr.Core.Common
                                    && o.TestOutputInfo.ItemName.Equals(testOutput.TestOutputInfo.ItemName));
             outputs.Add(testOutput);
             _cache.Set(AllTestOutputDtosKey, outputs, Offset);
+            _dataWriterLogger.Debug("Saving test run and output in Common cache: Done");
             return testRun.TestInfo;
         }
 
