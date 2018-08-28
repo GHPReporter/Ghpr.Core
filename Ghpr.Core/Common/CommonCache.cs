@@ -77,7 +77,12 @@ namespace Ghpr.Core.Common
         public TestOutputDto GetTestOutput(TestRunDto test)
         {
             _dataReaderLogger.Debug("Getting test output from Common cache");
-            return test == null ? null : AllTestOutputDtos?.FirstOrDefault(to => to.TestOutputInfo.Equals(test.Output));
+            if (test == null)
+            {
+                return null;
+            }
+            var testOutput = AllTestOutputDtos?.FirstOrDefault(to => to.TestOutputInfo.Equals(test.Output));
+            return testOutput;
         }
 
         public RunDto GetRun(Guid runGuid)

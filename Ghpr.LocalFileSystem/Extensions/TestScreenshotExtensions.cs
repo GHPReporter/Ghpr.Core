@@ -25,11 +25,14 @@ namespace Ghpr.LocalFileSystem.Extensions
 
         public static TestScreenshot LoadTestScreenshot(this string fullPath)
         {
-            TestScreenshot testScreenshot;
-            using (var file = File.OpenText(fullPath))
+            TestScreenshot testScreenshot = null;
+            if (File.Exists(fullPath))
             {
-                var serializer = new JsonSerializer();
-                testScreenshot = (TestScreenshot)serializer.Deserialize(file, typeof(TestScreenshot));
+                using (var file = File.OpenText(fullPath))
+                {
+                    var serializer = new JsonSerializer();
+                    testScreenshot = (TestScreenshot)serializer.Deserialize(file, typeof(TestScreenshot));
+                }
             }
             return testScreenshot;
         }

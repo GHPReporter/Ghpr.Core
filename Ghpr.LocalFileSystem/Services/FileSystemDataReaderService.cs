@@ -62,8 +62,9 @@ namespace Ghpr.LocalFileSystem.Services
             var screens = new List<TestScreenshotDto>();
             foreach (var simpleItemInfoDto in test.Screenshots)
             {
-                var screen = _locationsProvider.GetTestScreenshotFullPath(test.TestInfo.Guid, simpleItemInfoDto.Date)
-                    .LoadTestScreenshot()?.ToDto();
+                var screenPath =
+                    _locationsProvider.GetTestScreenshotFullPath(test.TestInfo.Guid, simpleItemInfoDto.Date);
+                var screen = screenPath.LoadTestScreenshot()?.ToDto();
                 if (screen != null)
                 {
                     screens.Add(screen);
