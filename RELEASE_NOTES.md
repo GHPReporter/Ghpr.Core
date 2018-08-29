@@ -11,7 +11,7 @@ This includes one new feature + some small changes.
     "till": "2018-06-29 10:00:00"
   }
  ```
-**WARNING:** Clean up job will run eah time after the new report is generated. Only `amount` total runs will be left, all other will be deleted. Also all runs with finish date older than `till` will be deleted too. There is no way to restore the data, so please use these settings carefully.
+**WARNING:** Clean up job will run each time the new report is generated. Only `amount` total runs will be left, all other will be deleted. Also all runs with finish date older than `till` will be deleted too. There is no way to restore the data, so please use these settings carefully.
  
 ## v0.9.1
 
