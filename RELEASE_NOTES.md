@@ -1,5 +1,18 @@
 # Release notes
 
+## v0.9.2
+
+This includes one new feature + some small changes.
+
+ - Added clean up job: [Related issue](https://github.com/GHPReporter/Ghpr.Core/issues/57). Now old runs can be deleted using `retention settings`: 
+ ``` json
+  "retention": {
+    "amount": 10,
+    "till": "2018-06-29 10:00:00"
+  }
+ ```
+**WARNING:** Clean up job will run eah time after the new report is generated. Only `amount` total runs will be left, all other will be deleted. Also all runs with finish date older than `till` will be deleted too. There is no way to restore the data, so please use these settings carefully.
+ 
 ## v0.9.1
 
 This includes some small fixes/improvements comparing to v0.9.
