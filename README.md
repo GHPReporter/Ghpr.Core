@@ -57,7 +57,11 @@ Standard settings file is .json file with the following structure:
    "runGuid":"",
    "realTimeGeneration":"True",
    "runsToDisplay": "5",
-   "testsToDisplay": "5"  
+   "testsToDisplay": "5", 
+   "retention": {
+    "amount": 10,
+    "till": "2018-06-29 10:00:00"
+  }
 }
 ```
 For Ghpr.Core it is called `Ghpr.Core.Settings.json`. This file is included in NuGet package. For different testing frameworks (MSTest, NUnit, SpecFlow) there are separate settings files. Separate files are needed to let Ghpr.Core use different settings for different testing frameworks. 
@@ -69,6 +73,12 @@ Parameter `testsToDisplay`: if > 0 the reporter will load only this specified nu
 Parameter `dataServiceFile`: the name of the library which contains implementation of IDataService, will be distributed as a separate NuGet package will you should include as a dependency in your solution with tests. Can't be empty.
 
 Parameter `loggerFile`: the name the library that will be used for internal logging of Ghpr itself.
+
+`retention` - settings for running clean up job:
+
+   `amount` - total runs that will be left, all other will be deleted.
+   
+   `till` - all runs with finish date older than  this value will be deleted. Date format is `yyyy-MM-dd hh:mm:ss`
 
 # View report locally
 
