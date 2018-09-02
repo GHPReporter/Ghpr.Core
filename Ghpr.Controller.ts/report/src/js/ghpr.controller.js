@@ -1132,16 +1132,6 @@ class RunPageUpdater {
             margin: { t: 0 }
         });
     }
-    static setTestsList(tests) {
-        let list = "";
-        const c = tests.length;
-        for (let i = 0; i < c; i++) {
-            const t = tests[i];
-            const href = `./../tests/index.html?testGuid=${t.testInfo.guid}&itemName=${t.testInfo.itemName}`;
-            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="${href}">${t.name}</a></li>`;
-        }
-        document.getElementById("all-tests").innerHTML = list;
-    }
     static addTest(t, c, i) {
         const ti = t.testInfo;
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&itemName=${t.testInfo.itemName}`;
@@ -1384,7 +1374,7 @@ class RunPageUpdater {
     }
 }
 RunPageUpdater.reviveRun = JsonParser.reviveRun;
-RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list"];
+RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list", "run-timeline"];
 class ReportPageUpdater {
     static updateLatestRunInfo(latestRun) {
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;

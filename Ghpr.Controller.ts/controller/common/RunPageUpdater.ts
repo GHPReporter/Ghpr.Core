@@ -72,18 +72,7 @@ class RunPageUpdater {
             margin: { t: 0 }
         });
     }
-
-    private static setTestsList(tests: Array<TestRunDto>): void {
-        let list = "";
-        const c = tests.length;
-        for (let i = 0; i < c; i++) {
-            const t = tests[i];
-            const href = `./../tests/index.html?testGuid=${t.testInfo.guid}&itemName=${t.testInfo.itemName}`;
-            list += `<li id=$test-${t.testInfo.guid}>Test #${c - i - 1}: <a href="${href}">${t.name}</a></li>`;
-        }
-        document.getElementById("all-tests").innerHTML = list;
-    }
-
+    
     private static addTest(t: TestRunDto, c: number, i: number): void {
         const ti = t.testInfo;
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&itemName=${t.testInfo.itemName}`;
@@ -329,7 +318,7 @@ class RunPageUpdater {
         this.showTab(tab, document.getElementById(`tab-${tab}`));
     }
 
-    private static runPageTabsIds: Array<string> = ["run-main-stats", "run-test-list"];
+    private static runPageTabsIds: Array<string> = ["run-main-stats", "run-test-list", "run-timeline"];
 
     static showTab(idToShow: string, caller: HTMLElement): void {
         TabsHelper.showTab(idToShow, caller, this.runPageTabsIds);
