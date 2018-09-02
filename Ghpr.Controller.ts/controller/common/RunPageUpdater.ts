@@ -16,6 +16,7 @@ class RunPageUpdater {
     static currentRunIndex: number;
     static runsToShow: number; 
     static reviveRun = JsonParser.reviveRun;
+    static plotlyTimelineData = new Array();
 
     private static updateCopyright(coreVersion: string): void {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
@@ -75,10 +76,22 @@ class RunPageUpdater {
     
     private static addTest(t: TestRunDto, c: number, i: number): void {
         const ti = t.testInfo;
+        const color = TestRunHelper.getColor(t);
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&itemName=${t.testInfo.itemName}`;
         const testLi = `<li id="test-${ti.guid}" style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
-            <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
+            <span class="octicon octicon-primitive-square" style="color: ${color};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
+        this.plotlyTimelineData.push(
+            {
+                x: [DateFormatter.format(ti.start), DateFormatter.format(ti.finish)],
+                y: [1, 1],
+                type: "scatter",
+                opacity: 0.5,
+                line: { color: color, width: 20 },
+                mode: "lines",
+                name: t.name
+            }
+        );
         //getting correct namespace to build hierarchical test list
         const nameIndex = t.fullName.lastIndexOf(t.name);
         let nameRemoved = false;
@@ -187,13 +200,29 @@ class RunPageUpdater {
         Controller.init(PageType.TestRunPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
             dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto: RunDto) => {
                 UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
+                this.plotlyTimelineData = new Array();
                 this.updateRunInformation(runDto);
                 this.updateSummary(runDto);
                 this.updateTitle(runDto);
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
+                this.updateTimeline();
                 this.updateCopyright(reportSettings.coreVersion);
             });
+        });
+    }
+
+    static updateTimeline(): void {
+        let timelineDiv = document.getElementById("run-timeline-chart");
+        console.log(this.plotlyTimelineData);
+        Plotly.newPlot(timelineDiv, this.plotlyTimelineData, {
+            title: "Timeline",
+            yaxis: {
+                showgrid: false,
+                zeroline: false,
+                showline: false,
+                showticklabels: false
+            }
         });
     }
 

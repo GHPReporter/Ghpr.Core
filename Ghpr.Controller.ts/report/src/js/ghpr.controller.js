@@ -1134,10 +1134,20 @@ class RunPageUpdater {
     }
     static addTest(t, c, i) {
         const ti = t.testInfo;
+        const color = TestRunHelper.getColor(t);
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&itemName=${t.testInfo.itemName}`;
         const testLi = `<li id="test-${ti.guid}" style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
-            <span class="octicon octicon-primitive-square" style="color: ${TestRunHelper.getColor(t)};"></span>
+            <span class="octicon octicon-primitive-square" style="color: ${color};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
+        this.plotlyTimelineData.push({
+            x: [DateFormatter.format(ti.start), DateFormatter.format(ti.finish)],
+            y: [1, 1],
+            type: "scatter",
+            opacity: 0.5,
+            line: { color: color, width: 20 },
+            mode: "lines",
+            name: t.name
+        });
         const nameIndex = t.fullName.lastIndexOf(t.name);
         let nameRemoved = false;
         let fn = t.fullName;
@@ -1244,13 +1254,28 @@ class RunPageUpdater {
         Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto) => {
                 UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
+                this.plotlyTimelineData = new Array();
                 this.updateRunInformation(runDto);
                 this.updateSummary(runDto);
                 this.updateTitle(runDto);
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
+                this.updateTimeline();
                 this.updateCopyright(reportSettings.coreVersion);
             });
+        });
+    }
+    static updateTimeline() {
+        let timelineDiv = document.getElementById("run-timeline-chart");
+        console.log(this.plotlyTimelineData);
+        Plotly.newPlot(timelineDiv, this.plotlyTimelineData, {
+            title: "Timeline",
+            yaxis: {
+                showgrid: false,
+                zeroline: false,
+                showline: false,
+                showticklabels: false
+            }
         });
     }
     static updateTestsList(run) {
@@ -1374,6 +1399,7 @@ class RunPageUpdater {
     }
 }
 RunPageUpdater.reviveRun = JsonParser.reviveRun;
+RunPageUpdater.plotlyTimelineData = new Array();
 RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list", "run-timeline"];
 class ReportPageUpdater {
     static updateLatestRunInfo(latestRun) {
