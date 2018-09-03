@@ -1146,6 +1146,8 @@ class RunPageUpdater {
             opacity: 0.5,
             line: { color: color, width: 20 },
             mode: "lines",
+            name: t.name,
+            showlegend: false
         });
         const nameIndex = t.fullName.lastIndexOf(t.name);
         let nameRemoved = false;
@@ -1265,8 +1267,8 @@ class RunPageUpdater {
         });
     }
     static updateTimeline() {
-        console.log(this.plotlyTimelineData);
-        Plotly.plot("run-timeline-chart", this.plotlyTimelineData, {
+        const timelineDiv = document.getElementById("run-timeline-chart");
+        Plotly.react(timelineDiv, this.plotlyTimelineData, {
             title: "Timeline",
             yaxis: {
                 showgrid: false,
@@ -1283,8 +1285,10 @@ class RunPageUpdater {
         Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunPage).getRunTests(run, (testRunDto, c, i) => {
                 this.addTest(testRunDto, c, i);
-                if (i === c - 1)
+                if (i === c - 1) {
                     this.makeCollapsible();
+                    this.updateTimeline();
+                }
                 index++;
             });
         });
