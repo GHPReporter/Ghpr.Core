@@ -213,9 +213,8 @@ class RunPageUpdater {
     }
 
     static updateTimeline(): void {
-        let timelineDiv = document.getElementById("run-timeline-chart");
         console.log(this.plotlyTimelineData);
-        Plotly.newPlot(timelineDiv, this.plotlyTimelineData, {
+        Plotly.plot("run-timeline-chart", this.plotlyTimelineData, {
             title: "Timeline",
             yaxis: {
                 showgrid: false,
