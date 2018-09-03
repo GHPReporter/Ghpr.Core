@@ -1146,7 +1146,6 @@ class RunPageUpdater {
             opacity: 0.5,
             line: { color: color, width: 20 },
             mode: "lines",
-            name: t.name
         });
         const nameIndex = t.fullName.lastIndexOf(t.name);
         let nameRemoved = false;

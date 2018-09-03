@@ -89,7 +89,7 @@ class RunPageUpdater {
                 opacity: 0.5,
                 line: { color: color, width: 20 },
                 mode: "lines",
-                name: t.name
+                //name: t.name
             }
         );
         //getting correct namespace to build hierarchical test list
