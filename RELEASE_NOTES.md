@@ -3,6 +3,7 @@
 ## v0.9.2.1
 
 This includes one new feature for MSTest package: [Related pull request](https://github.com/GHPReporter/Ghpr.MSTest/pull/9)
+
 Now `Description` is included in the report correctly. Special thanks to [@moreira-joao](https://github.com/moreira-joao)
 
 ## v0.9.2
