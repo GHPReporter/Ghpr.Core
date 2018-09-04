@@ -6,7 +6,6 @@
     <script src="./../src/js/ghpr.controller.js"></script>
     <script src="./../src/js/plotly.min.js"></script>
     <style type="text/css"></style>
-    <link rel="stylesheet" type="text/css" href="./../src/octicons/octicons.css" />
     <link rel="stylesheet" type="text/css" href="./../src/style/primer.css" />
     <link rel="stylesheet" type="text/css" href="./../src/style/github.css" />
     <link rel="icon" href="./../src/favicon.ico">
@@ -23,16 +22,16 @@
         <div class="tabnav">
             <div class="btn-group right">
                 <a id="btn-back" class="btn btn-sm" type="button" href="">
-                    <span class="octicon octicon-sign-in"></span>
+                    <object data="./../src/octicons/sign-in.svg" class="buttonicon"></object>
                     Back
                 </a>
                 <button id="btn-prev" class="btn btn-sm" type="button" onclick="TestPageUpdater.loadPrev();">
-                    <span class="octicon octicon-arrow-left"></span>
+                    <object data="./../src/octicons/arrow-left.svg" class="buttonicon"></object>
                     Prev
                 </button>
                 <button id="btn-next" class="btn btn-sm" type="button" onclick="TestPageUpdater.loadNext();">
                     Next
-                    <span class="octicon octicon-arrow-right"></span>
+                    <object data="./../src/octicons/arrow-right.svg" class="buttonicon"></object>
                 </button>
                 <button class="btn btn-sm" type="button" onclick="TestPageUpdater.loadLatest();">
                     Latest
@@ -40,27 +39,27 @@
             </div>
             <nav class="tabnav-tabs">
                 <a id="tab-test-history" onclick="TestPageUpdater.showTab('test-history', this);" class="tabnav-tab selected">
-                    <span class="octicon octicon-graph"></span>
+                    <object data="./../src/octicons/graph.svg" class="tabicon"></object>
                     Main
                 </a>
                 <a id="tab-test-output" onclick="TestPageUpdater.showTab('test-output', this);" class="tabnav-tab">
-                    <span class="octicon octicon-file-text"></span>
+                    <object data="./../src/octicons/file.svg" class="tabicon"></object>
                     Output
                 </a>
                 <a id="tab-test-extra-output" onclick="TestPageUpdater.showTab('test-extra-output', this);" class="tabnav-tab">
-                    <span class="octicon octicon-file-text"></span>
+                    <object data="./../src/octicons/file.svg" class="tabicon"></object>
                     Extra output
                 </a>
                 <a id="tab-test-failure" onclick="TestPageUpdater.showTab('test-failure', this);" class="tabnav-tab">
-                    <span class="octicon octicon-stop"></span>
+                    <object data="./../src/octicons/stop.svg" class="tabicon"></object>
                     Failure
                 </a>
                 <a id="tab-test-screenshots" onclick="TestPageUpdater.showTab('test-screenshots', this);" class="tabnav-tab">
-                    <span class="octicon octicon-device-desktop"></span>
+                    <object data="./../src/octicons/device-desktop.svg" class="tabicon"></object>
                     Screenshots
                 </a>
                 <a id="tab-test-data" onclick="TestPageUpdater.showTab('test-data', this);" class="tabnav-tab">
-                    <span class="octicon octicon-checklist"></span>
+                    <object data="./../src/octicons/check.svg" class="tabicon"></object>
                     Test Data
                 </a>
             </nav>

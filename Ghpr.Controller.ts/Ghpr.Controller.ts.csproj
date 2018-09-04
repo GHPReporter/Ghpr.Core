@@ -574,8 +574,12 @@
     <Content Include="report\src\octicons\zap.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\style\github.css" />
-    <Content Include="report\src\style\primer.css" />
+    <Content Include="report\src\style\github.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\style\primer.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="report\tests\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

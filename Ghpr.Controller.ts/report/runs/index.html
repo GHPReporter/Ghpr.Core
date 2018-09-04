@@ -6,7 +6,6 @@
     <script src="./../src/js/ghpr.controller.js"></script>
     <script src="./../src/js/plotly.min.js"></script>
     <style type="text/css"></style>
-    <link rel="stylesheet" type="text/css" href="./../src/octicons/octicons.css"/>
     <link rel="stylesheet" type="text/css" href="./../src/style/primer.css"/>
     <link rel="stylesheet" type="text/css" href="./../src/style/github.css"/>
     <link rel="icon" href="./../src/favicon.ico">
@@ -25,16 +24,16 @@
         <div class="tabnav">
             <div class="btn-group right">
                 <a id="btn-back" class="btn btn-sm" type="button" href="">
-                    <span class="octicon octicon-sign-in"></span>
+                    <object data="./../src/octicons/sign-in.svg" class="buttonicon"></object>
                     Back
                 </a>
                 <button id="btn-prev" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadPrev();">
-                    <span class="octicon octicon-arrow-left"></span>
+                    <object data="./../src/octicons/arrow-left.svg" class="buttonicon"></object>
                     Prev
                 </button>
                 <button id="btn-next" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadNext();">
                     Next
-                    <span class="octicon octicon-arrow-right"></span>
+                    <object data="./../src/octicons/arrow-right.svg" class="buttonicon"></object>
                 </button>
                 <button class="btn btn-sm" type="button" onclick="RunPageUpdater.loadLatest();">
                     Latest
@@ -42,15 +41,15 @@
             </div>
             <nav class="tabnav-tabs">
                 <a id="tab-run-main-stats" onclick="RunPageUpdater.showTab('run-main-stats', this);" class="tabnav-tab selected">
-                    <span class="octicon octicon-graph"></span>
+                    <object data="./../src/octicons/graph.svg" class="tabicon"></object>
                     Main statistics
                 </a>
                 <a id="tab-run-test-list" onclick="RunPageUpdater.showTab('run-test-list', this);" class="tabnav-tab">
-                    <span class="octicon octicon-list-unordered"></span>
+                    <object data="./../src/octicons/list-unordered.svg" class="tabicon"></object>
                     Test list
                 </a>
                 <a id="tab-run-timeline" onclick="RunPageUpdater.showTab('run-timeline', this);" class="tabnav-tab">
-                    <span class="octicon octicon-diff-removed"></span>
+                    <object data="./../src/octicons/diff-removed.svg" class="tabicon"></object>
                     Timeline
                 </a>
             </nav>

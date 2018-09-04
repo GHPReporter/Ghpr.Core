@@ -6,7 +6,6 @@
     <script src="./src/js/ghpr.controller.js"></script>
     <script src="./src/js/plotly.min.js"></script>
     <style type="text/css"></style>
-    <link rel="stylesheet" type="text/css" href="./src/octicons/octicons.css" />
     <link rel="stylesheet" type="text/css" href="./src/style/primer.css" />
     <link rel="stylesheet" type="text/css" href="./src/style/github.css" />
     <link rel="icon" href="./src/favicon.ico">
@@ -23,11 +22,11 @@
         <div class="tabnav">
             <nav class="tabnav-tabs">
                 <a id="tab-runs-stats" onclick="ReportPageUpdater.showTab('runs-stats', this);" class="tabnav-tab selected">
-                    <span class="octicon octicon-graph"></span>
+                    <object data="./src/octicons/graph.svg" class="tabicon"></object>
                     Main statistics
                 </a>
                 <a id="tab-runs-list" onclick="ReportPageUpdater.showTab('runs-list', this);" class="tabnav-tab">
-                    <span class="octicon octicon-list-unordered"></span>
+                    <object data="./src/octicons/list-unordered.svg" class="tabicon"></object>
                     Runs list
                 </a>
             </nav>

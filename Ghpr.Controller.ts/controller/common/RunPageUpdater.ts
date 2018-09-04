@@ -45,7 +45,7 @@ class RunPageUpdater {
         document.getElementById("unknown").innerHTML = `<b>Unknown:</b> ${s.unknown}`;
         
         const pieDiv = document.getElementById("summary-pie");
-        Plotly.newPlot(pieDiv,
+        Plotly.react(pieDiv,
         [
             {
                 values: [s.success, s.errors, s.failures, s.inconclusive, s.ignored, s.unknown],
@@ -78,8 +78,7 @@ class RunPageUpdater {
         const ti = t.testInfo;
         const color = TestRunHelper.getColor(t);
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&itemName=${t.testInfo.itemName}`;
-        const testLi = `<li id="test-${ti.guid}" style="list-style-type: none;" class="${TestRunHelper.getResult(t)}">
-            <span class="octicon octicon-primitive-square" style="color: ${color};"></span>
+        const testLi = `<li id="test-${ti.guid}" style="color: ${color};" class="${TestRunHelper.getResult(t)}">
             <a href="${testHref}"> ${t.name}</a></li>`;
         this.plotlyTimelineData.push(
             {
