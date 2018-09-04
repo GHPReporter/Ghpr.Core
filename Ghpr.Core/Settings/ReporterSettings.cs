@@ -17,6 +17,9 @@ namespace Ghpr.Core.Settings
         [JsonProperty(PropertyName = "sprint")]
         public string Sprint { get; set; }
 
+        [JsonProperty(PropertyName = "reportName")]
+        public string ReportName { get; set; }
+
         [JsonProperty(PropertyName = "runName")]
         public string RunName { get; set; }
 

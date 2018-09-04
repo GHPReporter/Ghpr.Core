@@ -16,7 +16,7 @@ namespace Ghpr.ConsoleForDebug
 
             reporter.Logger.Info("STARTED");
 
-            var reportSettings = new ReportSettingsDto(5, 7);
+            var reportSettings = new ReportSettingsDto(5, 7, "Awesome report");
             reporter.DataWriterService.SaveReportSettings(reportSettings);
             reporter.DataWriterService.SaveReportSettings(reportSettings);
             reporter.DataWriterService.SaveReportSettings(reportSettings);

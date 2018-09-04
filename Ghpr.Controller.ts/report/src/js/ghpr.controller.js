@@ -1408,6 +1408,9 @@ class ReportPageUpdater {
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
+    static updateReportName(reportName) {
+        document.getElementById("report-name").innerHTML = `${reportName}`;
+    }
     static updateCopyright(coreVersion) {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
@@ -1491,6 +1494,7 @@ class ReportPageUpdater {
         Controller.init(PageType.TestRunsPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunsPage).getLatestRuns((runs, total) => {
                 const latestRun = runs[0];
+                this.updateReportName(reportSettings.reportName);
                 this.updateLatestRunInfo(latestRun);
                 this.updatePlotlyBars(runs);
                 this.updateRunsInfo(runs, total);

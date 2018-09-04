@@ -17,6 +17,10 @@ class ReportPageUpdater {
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
 
+    private static updateReportName(reportName: string): void {
+        document.getElementById("report-name").innerHTML = `${reportName}`;
+    }
+
     private static updateCopyright(coreVersion: string): void {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
@@ -111,6 +115,7 @@ class ReportPageUpdater {
         Controller.init(PageType.TestRunsPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
             dataService.fromPage(PageType.TestRunsPage).getLatestRuns((runs: Array<RunDto>, total: number) => {
                 const latestRun = runs[0];
+                this.updateReportName(reportSettings.reportName);
                 this.updateLatestRunInfo(latestRun);
                 this.updatePlotlyBars(runs);
                 this.updateRunsInfo(runs, total);

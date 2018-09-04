@@ -109,7 +109,7 @@ namespace Ghpr.Core.Factories
                 Logger = logger,
                 TestDataProvider = testDataProvider,
                 ReporterSettings = settings,
-                ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay),
+                ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay, settings.ReportName),
                 DataWriterService = new DataWriterService(dataWriterService, CommonCache.Instance),
                 DataReaderService = new DataReaderService(dataReaderService, CommonCache.Instance),
                 RunRepository = new RunDtoRepository(),

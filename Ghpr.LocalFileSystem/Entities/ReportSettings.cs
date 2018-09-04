@@ -14,11 +14,15 @@ namespace Ghpr.LocalFileSystem.Entities
         [JsonProperty(PropertyName = "coreVersion")]
         public string CoreVersion { get; set; }
 
-        public ReportSettings(int runs, int tests)
+        [JsonProperty(PropertyName = "reportName")]
+        public string ReportName { get; set; }
+
+        public ReportSettings(int runs, int tests, string reportName)
         {
             RunsToDisplay = runs;
             TestsToDisplay = tests;
             CoreVersion = typeof(ReportSettings).Assembly.GetName().Version.ToString();
+            ReportName = reportName;
         }
     }
 }
