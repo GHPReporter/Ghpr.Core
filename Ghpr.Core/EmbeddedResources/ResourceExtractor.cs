@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Enums;
@@ -12,11 +13,7 @@ namespace Ghpr.Core.EmbeddedResources
         private static readonly IEmbeddedResource[] AllResources = {
             new EmbeddedResource("ghpr.controller.js", ResourceType.GhprController, "src\\js",        "ghpr.controller.js", true ),
             new EmbeddedResource("plotly.min.js",      ResourceType.Plotly,         "src\\js",        "plotly.min.js",      true ),
-            new EmbeddedResource("octicons.css",       ResourceType.Octicons,       "src\\octicons",  "octicons.css",       true ),
-            new EmbeddedResource("octicons.eot",       ResourceType.Octicons,       "src\\octicons",  "octicons.eot",       true ),
-            new EmbeddedResource("octicons.svg",       ResourceType.Octicons,       "src\\octicons",  "octicons.svg",       true ),
-            new EmbeddedResource("octicons.ttf",       ResourceType.Octicons,       "src\\octicons",  "octicons.ttf",       true ),
-            new EmbeddedResource("octicons.woff",      ResourceType.Octicons,       "src\\octicons",  "octicons.woff",      true ),
+            new EmbeddedResource("",                   ResourceType.Octicons,       "src\\octicons",  "octicons",           true ),
             new EmbeddedResource("github.css",         ResourceType.Github,         "src\\style",     "github.css",         true ),
             new EmbeddedResource("primer.css",         ResourceType.Primer,         "src\\style",     "primer.css",         true ),
             new EmbeddedResource("index.html",         ResourceType.TestPage,       "tests",          "tests.index.html",   true ),
@@ -32,21 +29,30 @@ namespace Ghpr.Core.EmbeddedResources
             var destinationPath = res.RelativePath.Equals("") ? outputPath : Path.Combine(outputPath, res.RelativePath);
             destinationPath.Create();
 
-            var destinationFullPath = res.RelativePath.Equals("") ? Path.Combine(outputPath, res.FileName) : Path.Combine(outputPath, res.RelativePath, res.FileName);
-
-            if (File.Exists(destinationFullPath) && !res.AlwaysReplaceExisting) return;
-
             foreach (
                 var resourceName in
                     arrResources.Where(resourceName => resourceName.ToUpper().Contains(res.SearchQuery.ToUpper())))
             {
-                using (var resourceToSave = currentAssembly.GetManifestResourceStream(resourceName))
+                var resInfo = currentAssembly.GetManifestResourceInfo(resourceName);
+                var resSplit = resourceName.Split('.');
+                var extraFileName = string.Join(".", resSplit.Skip(Math.Max(0, resSplit.Length - 2)));
+                if (resInfo != null)
                 {
-                    using (var output = File.Create(destinationFullPath))
+                    var fileName = res.FileName.Equals("") ? resInfo.FileName ?? extraFileName : res.FileName;
+                    var destinationFullPath = res.RelativePath.Equals("")
+                        ? Path.Combine(outputPath, fileName)
+                        : Path.Combine(outputPath, res.RelativePath, fileName);
+
+                    if (File.Exists(destinationFullPath) && !res.AlwaysReplaceExisting) return;
+
+                    using (var resourceToSave = currentAssembly.GetManifestResourceStream(resourceName))
                     {
-                        resourceToSave?.CopyTo(output);
+                        using (var output = File.Create(destinationFullPath))
+                        {
+                            resourceToSave?.CopyTo(output);
+                        }
+                        resourceToSave?.Close();
                     }
-                    resourceToSave?.Close();
                 }
             }
         }
