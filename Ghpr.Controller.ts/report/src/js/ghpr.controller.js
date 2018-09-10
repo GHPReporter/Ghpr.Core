@@ -1567,8 +1567,8 @@ class TestPageUpdater {
         });
     }
     static updateFailure(t) {
-        document.getElementById("test-message").innerHTML = `<b>Message:</b><br> ${TestRunHelper.getMessage(t)}`;
-        document.getElementById("test-stack-trace").innerHTML = `<b>Stack trace:</b><br> ${TestRunHelper.getStackTrace(t)}`;
+        document.getElementById("test-message").innerHTML = `<b>Message:</b><br>${TestRunHelper.getMessage(t)}`;
+        document.getElementById("test-stack-trace").innerHTML = `<b>Stack trace:</b><br><code style="white-space: pre-wrap">${TestRunHelper.getStackTrace(t)}</code>`;
     }
     static setTestHistory(tests) {
         const historyDiv = document.getElementById("test-history-chart");
