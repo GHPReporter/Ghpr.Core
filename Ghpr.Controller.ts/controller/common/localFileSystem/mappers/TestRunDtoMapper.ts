@@ -42,7 +42,7 @@ class TestRunDtoMapper {
         let testRunDto = new TestRunDto();
         testRunDto.name = testRun.name;
         testRunDto.categories = testRun.categories;
-        testRunDto.description = testRunDto.description;
+        testRunDto.description = testRun.description;
         testRunDto.duration = testRun.duration;
         testRunDto.events = eventDtos;
         testRunDto.fullName = testRun.fullName;
