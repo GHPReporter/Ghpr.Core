@@ -1409,6 +1409,9 @@ class ReportPageUpdater {
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
     static updateReportName(reportName) {
+        if (reportName === undefined) {
+            reportName = "GHPReport";
+        }
         document.getElementById("report-name").innerHTML = `${reportName}`;
     }
     static updateCopyright(coreVersion) {

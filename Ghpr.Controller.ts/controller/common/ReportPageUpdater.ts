@@ -18,6 +18,9 @@ class ReportPageUpdater {
     }
 
     private static updateReportName(reportName: string): void {
+        if (reportName === undefined) {
+            reportName = "GHPReport";
+        }
         document.getElementById("report-name").innerHTML = `${reportName}`;
     }
 
