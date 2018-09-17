@@ -180,7 +180,7 @@ class TestRunDtoMapper {
         let testRunDto = new TestRunDto();
         testRunDto.name = testRun.name;
         testRunDto.categories = testRun.categories;
-        testRunDto.description = testRunDto.description;
+        testRunDto.description = testRun.description;
         testRunDto.duration = testRun.duration;
         testRunDto.events = eventDtos;
         testRunDto.fullName = testRun.fullName;
@@ -1449,6 +1449,7 @@ class ReportPageUpdater {
         const unknownX = new Array();
         const tickvals = new Array();
         const ticktext = new Array();
+        const runGuids = new Array();
         const c = runs.length;
         for (let i = 0; i < c; i++) {
             let s = runs[i].summary;
@@ -1467,19 +1468,21 @@ class ReportPageUpdater {
             unknownX[i] = j;
             tickvals[i] = j;
             ticktext[i] = `run ${j}`;
+            let ri = runs[i].runInfo;
+            runGuids[i] = `${ri.guid}`;
         }
         const t = "bar";
         const hi = "y";
         plotlyData = [
-            { x: unknownX, y: unknownY, name: "unknown", type: t, hoverinfo: hi, marker: { color: Color.unknown } },
-            { x: inconclX, y: inconclY, name: "inconclusive", type: t, hoverinfo: hi, marker: { color: Color.inconclusive } },
-            { x: ignoredX, y: ignoredY, name: "ignored", type: t, hoverinfo: hi, marker: { color: Color.ignored } },
-            { x: brokenX, y: brokenY, name: "broken", type: t, hoverinfo: hi, marker: { color: Color.broken } },
-            { x: failedX, y: failedY, name: "failed", type: t, hoverinfo: hi, marker: { color: Color.failed } },
-            { x: passedX, y: passedY, name: "passed", type: t, hoverinfo: hi, marker: { color: Color.passed } }
+            { x: unknownX, y: unknownY, name: "unknown", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.unknown } },
+            { x: inconclX, y: inconclY, name: "inconclusive", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.inconclusive } },
+            { x: ignoredX, y: ignoredY, name: "ignored", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.ignored } },
+            { x: brokenX, y: brokenY, name: "broken", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.broken } },
+            { x: failedX, y: failedY, name: "failed", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.failed } },
+            { x: passedX, y: passedY, name: "passed", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.passed } }
         ];
-        const pieDiv = document.getElementById("runs-bars");
-        Plotly.newPlot(pieDiv, plotlyData, {
+        const barsDiv = document.getElementById("runs-bars");
+        Plotly.newPlot(barsDiv, plotlyData, {
             title: "Runs statistics",
             xaxis: {
                 tickvals: tickvals,
@@ -1491,6 +1494,12 @@ class ReportPageUpdater {
             },
             barmode: "stack",
             bargap: 0.01
+        });
+        barsDiv.on("plotly_click", (eventData) => {
+            console.log(eventData);
+            var url = `./runs/index.html?runGuid=${eventData.points[0].customdata}`;
+            var win = window.open(url, "_blank");
+            win.focus();
         });
     }
     static updatePage() {
