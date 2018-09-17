@@ -1496,7 +1496,6 @@ class ReportPageUpdater {
             bargap: 0.01
         });
         barsDiv.on("plotly_click", (eventData) => {
-            console.log(eventData);
             var url = `./runs/index.html?runGuid=${eventData.points[0].customdata}`;
             var win = window.open(url, "_blank");
             win.focus();
@@ -1587,22 +1586,26 @@ class TestPageUpdater {
         let plotlyData = new Array();
         const dataX = new Array();
         const dataY = new Array();
+        const urls = new Array();
         const tickvals = new Array();
         const ticktext = new Array();
         const colors = new Array();
         const c = tests.length;
         for (let i = 0; i < c; i++) {
             const t = tests[i];
-            dataX[i] = t.testInfo.finish;
+            const ti = t.testInfo;
+            dataX[i] = ti.finish;
             colors[i] = TestRunHelper.getColor(t);
             const j = c - i - 1;
             dataY[i] = t.duration;
             tickvals[i] = j;
             ticktext[i] = `test ${j}`;
+            urls[i] = `index.html?testGuid=${ti.guid}&itemName=${ti.itemName}&currentTab=test-history`;
         }
         const historyTrace = {
             x: dataX,
             y: dataY,
+            customdata: urls,
             name: "Test history",
             hoverinfo: "x",
             type: "scatter",
@@ -1620,6 +1623,7 @@ class TestPageUpdater {
         const currentTest = {
             x: [dataX[index]],
             y: [dataY[index]],
+            customdata: [urls[index]],
             name: "Current test",
             type: "scatter",
             mode: "markers",
@@ -1642,6 +1646,10 @@ class TestPageUpdater {
             }
         };
         Plotly.newPlot(historyDiv, plotlyData, layout);
+        historyDiv.on("plotly_click", (eventData) => {
+            var url = `${eventData.points[0].customdata}`;
+            window.open(url, "_self");
+        });
     }
     static updateTestPage(testGuid, itemName) {
         Controller.dataService.fromPage(PageType.TestPage).getLatestTest(testGuid, itemName, (t) => {

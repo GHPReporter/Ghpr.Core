@@ -88,26 +88,30 @@ class TestPageUpdater {
     }
 
     private static setTestHistory(tests: Array<TestRunDto>): void {
-        const historyDiv = document.getElementById("test-history-chart");
+        const historyDiv = document.getElementById("test-history-chart") as any;
         let plotlyData = new Array();
         const dataX: Array<Date> = new Array();
         const dataY: Array<number> = new Array();
+        const urls: Array<string> = new Array();
         const tickvals: Array<number> = new Array();
         const ticktext: Array<string> = new Array();
         const colors: Array<string> = new Array();
         const c = tests.length;
         for (let i = 0; i < c; i++) {
             const t = tests[i];
-            dataX[i] = t.testInfo.finish;
+            const ti = t.testInfo;
+            dataX[i] = ti.finish;
             colors[i] = TestRunHelper.getColor(t);
             const j = c - i - 1;
             dataY[i] = t.duration;
             tickvals[i] = j;
             ticktext[i] = `test ${j}`;
+            urls[i] = `index.html?testGuid=${ti.guid}&itemName=${ti.itemName}&currentTab=test-history`; //t.testInfo.itemName;
         }
         const historyTrace = {
             x: dataX,
             y: dataY,
+            customdata: urls,
             name: "Test history",
             hoverinfo: "x",
             type: "scatter",
@@ -125,6 +129,7 @@ class TestPageUpdater {
         const currentTest = {
             x: [dataX[index]],
             y: [dataY[index]],
+            customdata: [urls[index]],
             name: "Current test",
             type: "scatter",
             mode: "markers",
@@ -148,7 +153,12 @@ class TestPageUpdater {
             }
         };
 
-        Plotly.newPlot(historyDiv, plotlyData, layout);      
+        Plotly.newPlot(historyDiv, plotlyData, layout);
+
+        historyDiv.on("plotly_click", (eventData: any) => {
+            var url = `${eventData.points[0].customdata}`;
+            window.open(url, "_self");
+        }); 
     }
 
     private static updateTestPage(testGuid: string, itemName: string): void {
