@@ -53,6 +53,7 @@ Standard settings file is .json file with the following structure:
    "dataServiceFile": "Ghpr.LocalFileSystem.dll",
    "loggerFile": "",
    "sprint":"",
+   "reportName": "GHP Report",
    "runName":"",
    "runGuid":"",
    "realTimeGeneration":"True",
