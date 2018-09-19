@@ -132,7 +132,7 @@
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-    - npm istall @types/node -global
+    - npm install @types/node -global
     - npm install typescript -global
     - npm install ts-node -global
 
