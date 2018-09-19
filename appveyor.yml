@@ -135,6 +135,7 @@
     - npm install @types/node -global
     - npm install typescript -global
     - npm install ts-node -global
+    - npm install @types/node --save
 
   before_build:
     - nuget restore Ghpr.Core.sln
