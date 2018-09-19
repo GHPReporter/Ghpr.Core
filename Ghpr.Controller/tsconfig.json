@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
     "target": "es6",
-    "lib": ["es6"],
+    "outFile": "./ghpr.controller.js",
     "sourceMap": true
   },
   "exclude": [
