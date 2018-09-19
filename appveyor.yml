@@ -5,7 +5,8 @@
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-
+    - npm install typescript -global
+    - npm install ts-node -global
   
   before_build:
     - nuget restore Ghpr.Core.sln
@@ -65,6 +66,8 @@
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+    - npm install typescript -global
+    - npm install ts-node -global
 
   
   before_build:
