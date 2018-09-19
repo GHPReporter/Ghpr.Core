@@ -1,0 +1,12 @@
+{
+  "name": "ghpr.controller",
+  "version": "0.0.0",
+  "description": "Ghpr.Controller",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.14"
+  }
+}
