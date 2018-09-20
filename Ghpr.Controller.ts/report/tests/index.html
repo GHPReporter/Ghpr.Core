@@ -6,7 +6,7 @@
     <script src="./../src/js/ghpr.controller.js"></script>
     <script src="./../src/js/plotly.min.js"></script>
     <style type="text/css"></style>
-    <link rel="stylesheet" type="text/css" href="./../src/style/primer.css" />
+    <link rel="stylesheet" type="text/css" href="./../src/style/build.css" />
     <link rel="stylesheet" type="text/css" href="./../src/style/github.css" />
     <link rel="icon" href="./../src/favicon.ico">
 </head>
@@ -20,20 +20,20 @@
             </div>
         </div>
         <div class="tabnav">
-            <div class="btn-group right">
-                <a id="btn-back" class="btn btn-sm" type="button" href="">
+            <div class="BtnGroup float-right">
+                <a id="btn-back" class="btn BtnGroup-item btn-sm" type="button" href="">
                     <img src="./../src/octicons/sign-in.svg" class="buttonicon" alt=""/>
                     Back
                 </a>
-                <button id="btn-prev" class="btn btn-sm" type="button" onclick="TestPageUpdater.loadPrev();">
+                <button id="btn-prev" class="btn BtnGroup-item btn-sm" type="button" onclick="TestPageUpdater.loadPrev();">
                     <img src="./../src/octicons/arrow-left.svg" class="buttonicon" alt=""/>
                     Prev
                 </button>
-                <button id="btn-next" class="btn btn-sm" type="button" onclick="TestPageUpdater.loadNext();">
+                <button id="btn-next" class="btn BtnGroup-item btn-sm" type="button" onclick="TestPageUpdater.loadNext();">
                     Next
                     <img src="./../src/octicons/arrow-right.svg" class="buttonicon" alt=""/>
                 </button>
-                <button class="btn btn-sm" type="button" onclick="TestPageUpdater.loadLatest();">
+                <button class="btn BtnGroup-item btn-sm" type="button" onclick="TestPageUpdater.loadLatest();">
                     Latest
                 </button>
             </div>

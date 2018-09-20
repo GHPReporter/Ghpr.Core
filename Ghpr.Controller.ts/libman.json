@@ -5,6 +5,13 @@
     {
       "library": "Primer@10.8.1",
       "destination": "report/src/style/"
+    },
+    {
+      "library": "plotly.js@1.40.1",
+      "destination": "report/src/js/",
+      "files": [
+        "plotly.min.js"
+      ]
     }
   ]
 }

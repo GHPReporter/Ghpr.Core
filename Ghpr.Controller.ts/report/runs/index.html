@@ -6,7 +6,7 @@
     <script src="./../src/js/ghpr.controller.js"></script>
     <script src="./../src/js/plotly.min.js"></script>
     <style type="text/css"></style>
-    <link rel="stylesheet" type="text/css" href="./../src/style/primer.css"/>
+    <link rel="stylesheet" type="text/css" href="./../src/style/build.css"/>
     <link rel="stylesheet" type="text/css" href="./../src/style/github.css"/>
     <link rel="icon" href="./../src/favicon.ico">
 </head>
@@ -22,20 +22,20 @@
             </div>
         </div>
         <div class="tabnav">
-            <div class="btn-group right">
-                <a id="btn-back" class="btn btn-sm" type="button" href="">
+            <div class="BtnGroup float-right">
+                <a id="btn-back" class="btn BtnGroup-item btn-sm" type="button" href="">
                     <img src="./../src/octicons/sign-in.svg" class="buttonicon" alt=""/>
                     Back
                 </a>
-                <button id="btn-prev" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadPrev();">
+                <button id="btn-prev" class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadPrev();">
                     <img src="./../src/octicons/arrow-left.svg" class="buttonicon" alt=""/>
                     Prev
                 </button>
-                <button id="btn-next" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadNext();">
+                <button id="btn-next" class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadNext();">
                     Next
                     <img src="./../src/octicons/arrow-right.svg" class="buttonicon" alt=""/>
                 </button>
-                <button class="btn btn-sm" type="button" onclick="RunPageUpdater.loadLatest();">
+                <button class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadLatest();">
                     Latest
                 </button>
             </div>
@@ -94,14 +94,14 @@
             </div>
         </div>
         <div class="columns border" id="run-test-list" style="margin-top: -16px; display: none">
-            <div class="colunm" style="width: 100%;">
-                <div id="test-result-filter-buttons" class="btn-group right p-3 mb-3">
-                    <button id="0" class="btn btn-sm" type="button">Passed</button>
-                    <button id="1" class="btn btn-sm" type="button">Failed</button>
-                    <button id="2" class="btn btn-sm" type="button">Broken</button>
-                    <button id="3" class="btn btn-sm" type="button">Ignored</button>
-                    <button id="4" class="btn btn-sm" type="button">Inconclusive</button>
-                    <button id="5" class="btn btn-sm" type="button">Unknown</button>
+            <div class="column" style="width: 100%;">
+                <div id="test-result-filter-buttons" class="BtnGroup float-right p-3 mb-3">
+                    <button id="0" class="btn BtnGroup-item btn-sm" type="button">Passed</button>
+                    <button id="1" class="btn BtnGroup-item btn-sm" type="button">Failed</button>
+                    <button id="2" class="btn BtnGroup-item btn-sm" type="button">Broken</button>
+                    <button id="3" class="btn BtnGroup-item btn-sm" type="button">Ignored</button>
+                    <button id="4" class="btn BtnGroup-item btn-sm" type="button">Inconclusive</button>
+                    <button id="5" class="btn BtnGroup-item btn-sm" type="button">Unknown</button>
                 </div>
                 <h3 class="border-bottom p-3 mb-3">
                     Test list:

@@ -37,9 +37,7 @@
     <Content Include="report\src\js\ghpr.controller.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\js\plotly.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="report\src\js\plotly.min.js" />
     <Content Include="report\src\octicons\alert.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -574,13 +572,8 @@
     <Content Include="report\src\octicons\zap.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\style\build.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="report\src\style\build.css" />
     <Content Include="report\src\style\github.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="report\src\style\primer.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="report\tests\index.html">
