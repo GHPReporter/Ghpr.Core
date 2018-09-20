@@ -9,6 +9,7 @@
     "node_modules"
   ],
   "files": [
+    "server.ts",
     "controller/common/Color.ts",
     "controller/common/DateFormatter.ts",
     "controller/dto/ReportSettingsDto.ts",

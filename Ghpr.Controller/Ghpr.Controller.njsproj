@@ -6,6 +6,7 @@
     <Name>Ghpr.Controller</Name>
     <RootNamespace>Ghpr.Controller</RootNamespace>
     <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -13,11 +14,11 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>57d88fc6-44b0-4587-9b94-346d33026be9</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>server.ts</StartupFile>
+    <StartupFile>./report/src/js/ghpr.controller.js</StartupFile>
     <StartWebBrowser>True</StartWebBrowser>
     <SearchPath>
     </SearchPath>
-    <WorkingDirectory>.</WorkingDirectory>
+    <WorkingDirectory>report\</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
@@ -26,7 +27,7 @@
     <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
     <EnableTypeScript>true</EnableTypeScript>
-    <StartWebBrowser>true</StartWebBrowser>
+    <StartWebBrowser>True</StartWebBrowser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -81,9 +82,12 @@
     <TypeScriptCompile Include="controller\enums\TestResult.ts" />
     <TypeScriptCompile Include="controller\interfaces\IDataService.ts" />
     <TypeScriptCompile Include="server.ts" />
-    <Content Include="index.html" />
+    <Content Include="index.html">
+      <Publish>True</Publish>
+    </Content>
     <Content Include="report\index.html" />
     <Content Include="report\runs\index.html" />
+    <Content Include="report\src\favicon.ico" />
     <Content Include="report\src\octicons\alert.svg" />
     <Content Include="report\src\octicons\archive.svg" />
     <Content Include="report\src\octicons\arrow-both.svg" />
