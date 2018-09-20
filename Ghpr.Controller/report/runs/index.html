@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8"/>
+    <title>GHP Report Run Page</title>
+    <script src="./../src/js/ghpr.controller.js"></script>
+    <script src="./../src/js/plotly.min.js"></script>
+    <style type="text/css"></style>
+    <link rel="stylesheet" type="text/css" href="./../src/style/primer.css"/>
+    <link rel="stylesheet" type="text/css" href="./../src/style/github.css"/>
+    <link rel="icon" href="./../src/favicon.ico">
+</head>
+<body onload="RunPageUpdater.initializePage();">
+    <div class="container">
+        <div id="progress-bar">
+        </div>
+        <div class="border-bottom p-3 mb-3">
+            <div style="text-align: center;">
+                <h2 id="page-title">
+                    Test run report
+                </h2>
+            </div>
+        </div>
+        <div class="tabnav">
+            <div class="btn-group right">
+                <a id="btn-back" class="btn btn-sm" type="button" href="">
+                    <img src="./../src/octicons/sign-in.svg" class="buttonicon" alt=""/>
+                    Back
+                </a>
+                <button id="btn-prev" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadPrev();">
+                    <img src="./../src/octicons/arrow-left.svg" class="buttonicon" alt=""/>
+                    Prev
+                </button>
+                <button id="btn-next" class="btn btn-sm" type="button" onclick="RunPageUpdater.loadNext();">
+                    Next
+                    <img src="./../src/octicons/arrow-right.svg" class="buttonicon" alt=""/>
+                </button>
+                <button class="btn btn-sm" type="button" onclick="RunPageUpdater.loadLatest();">
+                    Latest
+                </button>
+            </div>
+            <nav class="tabnav-tabs">
+                <a id="tab-run-main-stats" onclick="RunPageUpdater.showTab('run-main-stats', this);" class="tabnav-tab selected">
+                    <img src="./../src/octicons/graph.svg" class="tabicon" alt=""/>
+                    Main statistics
+                </a>
+                <a id="tab-run-test-list" onclick="RunPageUpdater.showTab('run-test-list', this);" class="tabnav-tab">
+                    <img src="./../src/octicons/list-unordered.svg" class="tabicon" alt=""/>
+                    Test list
+                </a>
+                <a id="tab-run-timeline" onclick="RunPageUpdater.showTab('run-timeline', this);" class="tabnav-tab">
+                    <img src="./../src/octicons/note.svg" class="tabicon" alt=""/>
+                    Timeline
+                </a>
+            </nav>
+        </div>
+        <div class="columns border" id="run-main-stats" style="margin-top: -16px">
+            <div class="one-third column">
+                <div>
+                    <h3 class="border-bottom p-3 mb-3">
+                        Run information:
+                    </h3>
+                    <div class="border border-0 p-3 mb-3">
+                        <ul>
+                            <li id="name">Name: </li>
+                            <li id="sprint">Sprint: </li>
+                            <li id="start">Start datetime: </li>
+                            <li id="finish">Finish datetime: </li>
+                            <li id="duration">Duration: </li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="border-bottom p-3 mb-3">
+                        Run summary:
+                    </h3>
+                    <div class="border border-0 p-3 mb-3">
+                        <ul>
+                            <li id="total">Total: </li>
+                            <li id="passed">Success: </li>
+                            <li id="broken">Errors: </li>
+                            <li id="failed">Failures: </li>
+                            <li id="inconclusive">Inconclusive: </li>
+                            <li id="ignored">Ignored: </li>
+                            <li id="unknown">Unknown: </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="two-thirds column">
+                <div id="summary-pie">
+
+                </div>
+            </div>
+        </div>
+        <div class="columns border" id="run-test-list" style="margin-top: -16px; display: none">
+            <div class="colunm" style="width: 100%;">
+                <div id="test-result-filter-buttons" class="btn-group right p-3 mb-3">
+                    <button id="0" class="btn btn-sm" type="button">Passed</button>
+                    <button id="1" class="btn btn-sm" type="button">Failed</button>
+                    <button id="2" class="btn btn-sm" type="button">Broken</button>
+                    <button id="3" class="btn btn-sm" type="button">Ignored</button>
+                    <button id="4" class="btn btn-sm" type="button">Inconclusive</button>
+                    <button id="5" class="btn btn-sm" type="button">Unknown</button>
+                </div>
+                <h3 class="border-bottom p-3 mb-3">
+                    Test list:
+                </h3>
+                <ul id="all-tests"></ul>
+            </div>
+        </div>
+        <div class="columns border" id="run-timeline" style="margin-top: -16px; display: none">
+            <div class="column" style="width: 100%;">
+                <h3 class="border-bottom p-3 mb-3">
+                    Run timeline:
+                </h3>
+                <div id="run-timeline-chart">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<footer>
+    <div class="border border-0 p-3 mb-3" style="text-align: center;">
+        <div id="copyright" style="position: relative;">
+        </div>
+    </div>
+</footer>

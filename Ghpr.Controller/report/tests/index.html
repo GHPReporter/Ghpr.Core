@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8" />
+    <title>GHP Report Test Page</title>
+    <script src="./../src/js/ghpr.controller.js"></script>
+    <script src="./../src/js/plotly.min.js"></script>
+    <style type="text/css"></style>
+    <link rel="stylesheet" type="text/css" href="./../src/style/primer.css" />
+    <link rel="stylesheet" type="text/css" href="./../src/style/github.css" />
+    <link rel="icon" href="./../src/favicon.ico">
+</head>
+<body onload="TestPageUpdater.initializePage();">
+    <div class="container">
+        <div class="border-bottom p-3 mb-3">
+            <div style="text-align: center;">
+                <h2 id="page-title">
+                    Test Page
+                </h2>
+            </div>
+        </div>
+        <div class="tabnav">
+            <div class="btn-group right">
+                <a id="btn-back" class="btn btn-sm" type="button" href="">
+                    <img src="./../src/octicons/sign-in.svg" class="buttonicon" alt=""/>
+                    Back
+                </a>
+                <button id="btn-prev" class="btn btn-sm" type="button" onclick="TestPageUpdater.loadPrev();">
+                    <img src="./../src/octicons/arrow-left.svg" class="buttonicon" alt=""/>
+                    Prev
+                </button>
+                <button id="btn-next" class="btn btn-sm" type="button" onclick="TestPageUpdater.loadNext();">
+                    Next
+                    <img src="./../src/octicons/arrow-right.svg" class="buttonicon" alt=""/>
+                </button>
+                <button class="btn btn-sm" type="button" onclick="TestPageUpdater.loadLatest();">
+                    Latest
+                </button>
+            </div>
+            <nav class="tabnav-tabs">
+                <a id="tab-test-history" onclick="TestPageUpdater.showTab('test-history', this);" class="tabnav-tab selected">
+                    <img src="./../src/octicons/graph.svg" class="tabicon" alt=""/>
+                    Main
+                </a>
+                <a id="tab-test-output" onclick="TestPageUpdater.showTab('test-output', this);" class="tabnav-tab">
+                    <img src="./../src/octicons/file.svg" class="tabicon" alt=""/>
+                    Output
+                </a>
+                <a id="tab-test-extra-output" onclick="TestPageUpdater.showTab('test-extra-output', this);" class="tabnav-tab">
+                    <img src="./../src/octicons/file.svg" class="tabicon" alt=""/>
+                    Extra output
+                </a>
+                <a id="tab-test-failure" onclick="TestPageUpdater.showTab('test-failure', this);" class="tabnav-tab">
+                    <img src="./../src/octicons/stop.svg" class="tabicon" alt=""/>
+                    Failure
+                </a>
+                <a id="tab-test-screenshots" onclick="TestPageUpdater.showTab('test-screenshots', this);" class="tabnav-tab">
+                    <img src="./../src/octicons/device-desktop.svg" class="tabicon" alt=""/>
+                    Screenshots
+                </a>
+                <a id="tab-test-data" onclick="TestPageUpdater.showTab('test-data', this);" class="tabnav-tab">
+                    <img src="./../src/octicons/check.svg" class="tabicon" alt=""/>
+                    Test Data
+                </a>
+            </nav>
+        </div>
+        <div class="columns border" id="test-history" style="margin-top: -16px">
+            <div class="column" style="width: 100%;">
+                <div>
+                    <h3 class="border-bottom p-3 mb-3">
+                        Main information:
+                    </h3>
+                    <div class="border border-0 p-3 mb-3">
+                        <ul style="word-wrap: break-word;">
+                            <li id="name">Test name: </li>
+                            <li id="full-name">Test full name: </li>
+                            <li id="description">Test description: </li>
+                            <li id="result">Test result: </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="test-history-chart">
+                </div>
+                <div>
+                    <h3 class="border-bottom p-3 mb-3">
+                        More details:
+                    </h3>
+                    <div class="border border-0 p-3 mb-3">
+                        <ul style="word-wrap: break-word;">
+                            <li id="priority">Priority: </li>
+                            <li id="test-type">Test type: </li>
+                            <li id="start">Start datetime: </li>
+                            <li id="finish">Finish datetime: </li>
+                            <li id="duration">Duration: </li>
+                            <li id="categories">Test categories: </li>
+                            <li style="white-space: pre-wrap" id="message">Message: </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns border" id="test-output" style="margin-top: -16px; display: none">
+            <div class="column" style="width: 100%;">
+                <h3 class="border-bottom p-3 mb-3">
+                    Test output:
+                </h3>
+                <ul id="test-output-string"></ul>
+            </div>
+        </div>
+        <div class="columns border" id="test-extra-output" style="margin-top: -16px; display: none">
+            <div class="column" style="width: 100%;">
+                <h3 class="border-bottom p-3 mb-3">
+                    Extra output:
+                </h3>
+                <ul id="test-extra-output-string"></ul>
+            </div>
+        </div>
+        <div class="columns border" id="test-failure" style="margin-top: -16px; display: none">
+            <div class="column" style="width: 100%;">
+                <h3 class="border-bottom p-3 mb-3">
+                    Test failure:
+                </h3>
+                <ul style="word-wrap: break-word;">
+                    <li id="test-message" style="white-space: pre-wrap"></li>
+                    <li id="test-stack-trace" style="white-space: pre-wrap"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="columns border" id="test-screenshots" style="margin-top: -16px; display: none">
+            <div class="column" style="width: 100%;">
+                <h3 class="border-bottom p-3 mb-3">
+                    Test screenshots:
+                </h3>
+                <ul id="screenshots"></ul>
+            </div>
+        </div>
+        <div class="columns border" id="test-data" style="margin-top: -16px; display: none">
+            <div class="column" style="width: 100%;">
+                <h3 class="border-bottom p-3 mb-3">
+                    Test data:
+                </h3>
+                <ul id="test-data-list"></ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<footer>
+    <div class="border border-0 p-3 mb-3" style="text-align: center;">
+        <div id="copyright" style="position: relative;">
+        </div>
+    </div>
+</footer>
