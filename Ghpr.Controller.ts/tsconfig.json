@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "noEmitOnError": true,
-    "noImplicitAny": true,
     "outFile": "./report/src/js/ghpr.controller.js",
     "removeComments": true,
     "sourceMap": true,

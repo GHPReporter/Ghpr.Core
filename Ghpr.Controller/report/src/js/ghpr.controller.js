@@ -1,16 +1,3 @@
-var http = require("http");
-var fs = require("fs");
-var port = process.env.port || 1337;
-fs.readFile("./index.html", (err, html) => {
-    if (err) {
-        throw err;
-    }
-    http.createServer((request, response) => {
-        response.writeHeader(200, { "Content-Type": "text/html" });
-        response.write(html);
-        response.end();
-    }).listen(port);
-});
 class Color {
 }
 Color.passed = "#8bc34a"; //"green"
@@ -1974,4 +1961,35 @@ class Sorter {
         return 0;
     }
 }
+const server = require("http").createServer((req, res) => {
+    let filePath = require("path").resolve(__dirname + "./../../." + req.url);
+    var fs = require("fs");
+    fs.exists(filePath, (exists) => {
+        if (!exists) {
+            res.statusCode = 404;
+            res.end(`File ${filePath} not found!`);
+        }
+        if (fs.statSync(filePath).isDirectory()) {
+            filePath += "/index.html";
+        }
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                res.statusCode = 500;
+                res.end(`Error getting the file: ${err}.`);
+            }
+            else {
+                res.end(data);
+            }
+        });
+    });
+}).listen(process.env.port || 1337, process.env.IP || "0.0.0.0", () => { });
+//var express = require("express");
+//var app = express();
+//var p = __dirname + './../../report';
+//app.use(express.static(p));
+//
+//var server = app.listen(process.env.port || 1337, function () {
+//    var port = server.address().port;
+//    console.log("Server started at http://localhost:%s", port);
+//});
 //# sourceMappingURL=ghpr.controller.js.map

@@ -266,6 +266,7 @@
     <Content Include="report\src\octicons\watch.svg" />
     <Content Include="report\src\octicons\x.svg" />
     <Content Include="report\src\octicons\zap.svg" />
+    <Content Include="report\src\ReportSettings.json" />
     <Content Include="report\src\style\github.css" />
     <Content Include="report\src\style\primer.css" />
     <Content Include="report\tests\index.html" />

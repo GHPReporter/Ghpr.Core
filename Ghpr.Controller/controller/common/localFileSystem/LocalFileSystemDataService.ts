@@ -210,7 +210,7 @@ class LocalFileSystemDataService implements IDataService {
                     ind++;
                     this.loadJsonsByPaths(paths, ind, responses, showProgressBar, callbackForEach, callback);
                 }
-        }
+        };
         req.timeout = 2000;
         req.ontimeout = () => {
             console.log(`Timeout while loading .json data: '${paths[ind]}'! Request status: ${req.status} : ${req.statusText}`);
