@@ -138,9 +138,6 @@
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\github.css">
       <Link>EmbeddedResources\Report\src\style\github.css</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\primer.css">
-      <Link>EmbeddedResources\Report\src\style\primer.css</Link>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\favicon.ico">
@@ -687,6 +684,11 @@
     <None Include="Ghpr.Core.Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\build.css">
+      <Link>EmbeddedResources\Report\src\style\build.css</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,7 +15,7 @@ namespace Ghpr.Core.EmbeddedResources
             new EmbeddedResource("plotly.min.js",      ResourceType.Plotly,         "src\\js",        "plotly.min.js",      true ),
             new EmbeddedResource("",                   ResourceType.Octicons,       "src\\octicons",  "octicons",           true ),
             new EmbeddedResource("github.css",         ResourceType.Github,         "src\\style",     "github.css",         true ),
-            new EmbeddedResource("primer.css",         ResourceType.Primer,         "src\\style",     "primer.css",         true ),
+            new EmbeddedResource("build.css",          ResourceType.Primer,         "src\\style",     "build.css",         true ),
             new EmbeddedResource("index.html",         ResourceType.TestPage,       "tests",          "tests.index.html",   true ),
             new EmbeddedResource("index.html",         ResourceType.TestRunPage,    "runs",           "runs.index.html",    true ),
             new EmbeddedResource("index.html",         ResourceType.MainPage,       "",               "Report.index.html",  true ),
