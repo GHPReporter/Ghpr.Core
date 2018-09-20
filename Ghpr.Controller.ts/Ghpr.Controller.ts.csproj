@@ -574,6 +574,9 @@
     <Content Include="report\src\octicons\zap.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="report\src\style\build.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="report\src\style\github.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -633,6 +636,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="tsconfig.json" />
+    <Content Include="libman.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

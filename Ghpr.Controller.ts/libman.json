@@ -4,6 +4,7 @@
   "libraries": [
     {
       "library": "Primer@10.8.1",
-      "destination": "wwwroot/report/src/style"
-    }]
+      "destination": "report/src/style/"
+    }
+  ]
 }
