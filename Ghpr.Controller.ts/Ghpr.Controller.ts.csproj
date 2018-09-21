@@ -40,7 +40,9 @@
     <Content Include="report\src\js\plotly.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\logo.svg" />
+    <Content Include="report\src\logo.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="report\src\octicons\alert.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

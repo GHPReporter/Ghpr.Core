@@ -9,6 +9,37 @@ body > *:first-child { margin-top: 0 !important; }
 
 body > *:last-child { margin-bottom: 0 !important; }
 
+.ghpr-header {
+    background-color: #24292e !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.ghpr-logo {
+    height: 32px;
+    width: 32px;
+}
+
+.ghpr-logo-rect {
+    stroke: none;
+    fill: none;
+}
+
+.ghpr-logo-text {
+    fill: #24292e !important;
+    font-family: "Segoe UI";
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.ghpr-logo-circle-inner {
+    fill: #8BC34A;
+}
+
+.ghpr-logo-circle-outer {
+    fill: #727272;
+}
+
 .tabicon {
     margin-bottom: -2px;
 }
@@ -34,7 +65,6 @@ a.anchor {
 }
 
 h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
-    background: url("../../images/modules/styleguide/para.png") no-repeat 10px center;
     text-decoration: none;
 }
 
@@ -51,7 +81,6 @@ h5 tt, h5 code { font-size: inherit; }
 h6 tt, h6 code { font-size: inherit; }
 
 hr {
-    background: transparent url("../../images/modules/pulls/dirty-shade.png") repeat-x 0 0;
     border: 0 none;
     color: #cccccc;
     height: 4px;

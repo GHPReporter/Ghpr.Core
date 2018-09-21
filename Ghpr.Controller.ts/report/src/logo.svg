@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" >
-<rect id="svgEditorBackground" x="0" y="0" width="100" height="100" style="fill: none; stroke: none;"/>
-<circle id="circle" cx="50" cy="50" stroke="#BDBDBD" style="stroke-width: 10px;" r="45" fill="#8BC34A"/>
-<text fill="white" x="0" y="64" id="ghpr" style="font-family: &quot;Segoe UI&quot;; font-size: 45px; font-weight: bold;" dy="" dx="" >ghpr</text>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" preserveAspectRatio="xMidYMid meet" >
+<rect id="svgEditorBackground" x="0" y="0" width="32" height="32" style="fill: none; stroke: none;"/>
+<circle id="circle" cx="16" cy="16" stroke="#BDBDBD" style="stroke-width: 5px;" r="11" fill="#8BC34A"/>
+<text class="ghpr-logo-text" fill="white" x="0" y="20" id="ghpr" style="font-family: &quot;Segoe UI&quot;; font-size: 12px; font-weight: bold;" dy="0" dx="2.6" >ghpr</text>
 </svg>
