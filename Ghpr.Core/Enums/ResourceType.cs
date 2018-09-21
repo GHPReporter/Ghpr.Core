@@ -6,6 +6,7 @@
         Plotly,
         Primer,
         GhprController,
+        GhprLogo,
         Github,
         TestPage,
         TestRunPage,

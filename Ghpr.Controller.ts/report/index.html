@@ -11,69 +11,76 @@
     <link rel="icon" href="./src/favicon.ico">
 </head>
 <body onload="ReportPageUpdater.initializePage();">
-    <div class="container">
-        <div class="border-bottom p-3 mb-3">
-            <div style="text-align: center;">
-                <h2 id="report-name">
-                    GHP Report
-                </h2>
-            </div>
+<div class="position-relative">
+    <header class="Box-header">
+        <a href="index.html">
+            <img src="src/logo.svg"/>
+        </a>
+    </header>
+</div>
+<div class="container">
+    <div class="border-bottom p-3 mb-3">
+        <div style="text-align: center;">
+            <h2 id="report-name">
+                GHP Report
+            </h2>
         </div>
-        <div class="tabnav">
-            <nav class="tabnav-tabs">
-                <a id="tab-runs-stats" onclick="ReportPageUpdater.showTab('runs-stats', this);" class="tabnav-tab selected">
-                    <img src="./src/octicons/graph.svg" class="tabicon" alt=""/>
-                    Main statistics
-                </a>
-                <a id="tab-runs-list" onclick="ReportPageUpdater.showTab('runs-list', this);" class="tabnav-tab">
-                    <img src="./src/octicons/list-unordered.svg" class="tabicon" alt=""/>
-                    Runs list
-                </a>
-            </nav>
+    </div>
+    <div class="tabnav">
+        <nav class="tabnav-tabs">
+            <a id="tab-runs-stats" onclick="ReportPageUpdater.showTab('runs-stats', this);" class="tabnav-tab selected">
+                <img src="./src/octicons/graph.svg" class="tabicon" alt=""/>
+                Main statistics
+            </a>
+            <a id="tab-runs-list" onclick="ReportPageUpdater.showTab('runs-list', this);" class="tabnav-tab">
+                <img src="./src/octicons/list-unordered.svg" class="tabicon" alt=""/>
+                Runs list
+            </a>
+        </nav>
+    </div>
+    <div class="columns border" id="runs-stats" style="margin-top: -16px">
+        <div class="column" style="width: 100%;">
+            <div id="runs-bars"></div>
         </div>
-        <div class="columns border" id="runs-stats" style="margin-top: -16px">
-            <div class="column" style="width: 100%;">
-                <div id="runs-bars"></div>
-            </div>
-            <div class="one-half column">
-                <div>
-                    <h3 class="border-bottom p-3 mb-3">
-                        Latest run:
-                    </h3>
-                    <div class="border border-0 p-3 mb-3">
-                        <ul>
-                            <li id="start">Start: </li>
-                            <li id="finish">Finish: </li>
-                            <li id="duration">Duration: </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="one-half column">
-                <div>
-                    <h3 class="border-bottom p-3 mb-3">
-                        Runs information:
-                    </h3>
-                    <div class="border border-0 p-3 mb-3">
-                        <ul>
-                            <li id="loaded">Loaded runs: </li>
-                            <li id="total">Total runs: </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="columns border" id="runs-list" style="margin-top: -16px; display: none">
-            <div class="column">
+        <div class="one-half column">
+            <div>
                 <h3 class="border-bottom p-3 mb-3">
-                    All runs: 
+                    Latest run:
                 </h3>
-                <ul id="all-runs">
-                    
-                </ul>
+                <div class="border border-0 p-3 mb-3">
+                    <ul>
+                        <li id="start">Start: </li>
+                        <li id="finish">Finish: </li>
+                        <li id="duration">Duration: </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="one-half column">
+            <div>
+                <h3 class="border-bottom p-3 mb-3">
+                    Runs information:
+                </h3>
+                <div class="border border-0 p-3 mb-3">
+                    <ul>
+                        <li id="loaded">Loaded runs: </li>
+                        <li id="total">Total runs: </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+    <div class="columns border" id="runs-list" style="margin-top: -16px; display: none">
+        <div class="column">
+            <h3 class="border-bottom p-3 mb-3">
+                All runs:
+            </h3>
+            <ul id="all-runs">
+
+            </ul>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 <footer>
