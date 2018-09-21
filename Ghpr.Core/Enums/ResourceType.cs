@@ -7,7 +7,7 @@
         Primer,
         GhprController,
         GhprLogo,
-        Github,
+        GhprCss,
         TestPage,
         TestRunPage,
         MainPage,

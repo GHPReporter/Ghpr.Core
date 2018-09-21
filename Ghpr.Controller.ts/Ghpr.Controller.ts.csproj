@@ -578,7 +578,7 @@
     <Content Include="report\src\style\build.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\style\github.css">
+    <Content Include="report\src\style\ghpr.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="report\tests\index.html">
