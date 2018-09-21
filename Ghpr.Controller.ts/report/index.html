@@ -13,14 +13,36 @@
 <body onload="ReportPageUpdater.initializePage();">
 <div class="position-relative">
     <header class="Box-header ghpr-header">
-        <a href="index.html">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" preserveAspectRatio="xMidYMid meet">
-                <rect class="ghpr-logo-rect" x="0" y="0" width="32" height="32" />
-                <circle class="ghpr-logo-circle-outer" cx="16" cy="16" r="16" />
-                <circle class="ghpr-logo-circle-inner" cx="16" cy="16" r="11" />
-                <text class="ghpr-logo-text" x="0" y="20" dy="0" dx="0">ghpr</text>
-            </svg>
-        </a>
+        <div class="d-lg-flex p-responsive flex-sm-justify-between">
+            <div class="d-flex flex-justify-between flex-items-center">
+                <a href="index.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" preserveAspectRatio="xMidYMid meet">
+                        <rect class="ghpr-logo-rect" x="0" y="0" width="32" height="32" />
+                        <circle class="ghpr-logo-circle-outer" cx="16" cy="16" r="16" />
+                        <circle class="ghpr-logo-circle-inner" cx="16" cy="16" r="11" />
+                        <text class="ghpr-logo-text" x="0" y="20" dy="0" dx="0">ghpr</text>
+                    </svg>
+                </a>
+            </div>
+            <div class="d-lg-flex flex-justify-between flex-auto">
+                <div class="d-lg-flex">
+                    <ul class="d-lg-flex pl-lg-2 flex-items-center text-bold list-style-none">
+                        <li>
+                            <a class="ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-stats', this);" style="border-top: none">
+                                <img src="./src/octicons/graph.svg" class="ghpr-tabicon" alt=""/>
+                                Main statistics
+                            </a>
+                        </li>
+                        <li>
+                            <a class="ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-list', this);" style="border-top: none">
+                                <img src="./src/octicons/list-unordered.svg" class="ghpr-tabicon" alt=""/>
+                                Runs list
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </header>
 </div>
 <div class="container">
@@ -34,11 +56,11 @@
     <div class="tabnav">
         <nav class="tabnav-tabs">
             <a id="tab-runs-stats" onclick="ReportPageUpdater.showTab('runs-stats', this);" class="tabnav-tab selected">
-                <img src="./src/octicons/graph.svg" class="tabicon" alt=""/>
+                <img src="./src/octicons/graph.svg" class="ghpr-tabicon" alt=""/>
                 Main statistics
             </a>
             <a id="tab-runs-list" onclick="ReportPageUpdater.showTab('runs-list', this);" class="tabnav-tab">
-                <img src="./src/octicons/list-unordered.svg" class="tabicon" alt=""/>
+                <img src="./src/octicons/list-unordered.svg" class="ghpr-tabicon" alt=""/>
                 Runs list
             </a>
         </nav>

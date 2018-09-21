@@ -15,6 +15,11 @@ body > *:last-child { margin-bottom: 0 !important; }
     padding-bottom: 12px;
 }
 
+.ghpr-header-a {
+    color: white !important;
+    text-decoration: none !important;
+}
+
 .ghpr-logo {
     height: 32px;
     width: 32px;
@@ -40,12 +45,12 @@ body > *:last-child { margin-bottom: 0 !important; }
     fill: #727272;
 }
 
-.tabicon {
-    margin-bottom: -2px;
+.ghpr-tabicon {
+    vertical-align: text-bottom;
 }
 
-.buttonicon {
-    margin-bottom: -4px;
+.ghpr-buttonicon {
+    vertical-align: text-top;
     height: 16px;
 }
 
