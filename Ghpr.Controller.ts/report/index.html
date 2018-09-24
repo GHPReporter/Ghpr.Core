@@ -28,13 +28,13 @@
                 <div class="d-lg-flex">
                     <ul class="d-lg-flex pl-lg-2 flex-items-center text-bold list-style-none">
                         <li>
-                            <a class="ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-stats', this);" style="border-top: none">
+                            <a id="tab-runs-stats" class="ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-stats', this);" style="border-top: none">
                                 <img src="./src/octicons/graph.svg" class="ghpr-tabicon" alt=""/>
                                 Main statistics
                             </a>
                         </li>
                         <li>
-                            <a class="ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-list', this);" style="border-top: none">
+                            <a id="tab-runs-list" class="ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-list', this);" style="border-top: none">
                                 <img src="./src/octicons/list-unordered.svg" class="ghpr-tabicon" alt=""/>
                                 Runs list
                             </a>
@@ -45,66 +45,87 @@
         </div>
     </header>
 </div>
-<div class="container">
-    <div class="border-bottom p-3 mb-3">
-        <div style="text-align: center;">
-            <h2 id="report-name">
-                GHP Report
-            </h2>
-        </div>
-    </div>
-    <div class="tabnav">
-        <nav class="tabnav-tabs">
-            <a id="tab-runs-stats" onclick="ReportPageUpdater.showTab('runs-stats', this);" class="tabnav-tab selected">
-                <img src="./src/octicons/graph.svg" class="ghpr-tabicon" alt=""/>
-                Main statistics
-            </a>
-            <a id="tab-runs-list" onclick="ReportPageUpdater.showTab('runs-list', this);" class="tabnav-tab">
-                <img src="./src/octicons/list-unordered.svg" class="ghpr-tabicon" alt=""/>
-                Runs list
-            </a>
-        </nav>
-    </div>
-    <div class="columns border" id="runs-stats" style="margin-top: -16px">
-        <div class="column" style="width: 100%;">
-            <div id="runs-bars"></div>
-        </div>
-        <div class="one-half column">
-            <div>
-                <h3 class="border-bottom p-3 mb-3">
-                    Latest run:
-                </h3>
-                <div class="border border-0 p-3 mb-3">
-                    <ul>
-                        <li id="start">Start: </li>
-                        <li id="finish">Finish: </li>
-                        <li id="duration">Duration: </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="one-half column">
-            <div>
-                <h3 class="border-bottom p-3 mb-3">
-                    Runs information:
-                </h3>
-                <div class="border border-0 p-3 mb-3">
-                    <ul>
-                        <li id="loaded">Loaded runs: </li>
-                        <li id="total">Total runs: </li>
-                    </ul>
-                </div>
+<div class="d-flex flex-wrap bg-gray" style="min-height: 100vh">
+    <div class="col-12 col-md-4 col-lg-3 bg-white border-right border-bottom hide-md hide-sm">
+        <div class="top-0 px-3 px-md-4 px-lg-4 overflow-auto">
+            <div class="mb-3">
+                <h4 class="f5 mb-1 d-flex flex-justify-between flex-items-center">
+                    Runs
+                </h4>
+                <ul class="list-style-none">
+                    <li>
+                        <div class="width-full text-bold">
+                            <a class="d-flex flex-items-baseline f5 mb-2">Run 1</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="width-full text-bold">
+                            <a class="d-flex flex-items-baseline f5 mb-2">Run 2</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
-    <div class="columns border" id="runs-list" style="margin-top: -16px; display: none">
-        <div class="column">
-            <h3 class="border-bottom p-3 mb-3">
-                All runs:
-            </h3>
-            <ul id="all-runs">
-
-            </ul>
+    <div class="col-12 col-md-8 col-lg-6 px-3 px-md-4 px-lg-6 mt-3 border-bottom d-flex flex-auto">
+        <div class="border-bottom p-3 mb-3">
+            <div style="text-align: center;">
+                <h2 id="report-name">
+                    GHP Report
+                </h2>
+            </div>
+        </div>
+        <div class="tabnav">
+            <nav class="tabnav-tabs">
+                <a id="tab-runs-stats1" onclick="ReportPageUpdater.showTab('runs-stats', this);" class="tabnav-tab selected">
+                    <img src="./src/octicons/graph.svg" class="ghpr-tabicon" alt="" />
+                    Main statistics
+                </a>
+                <a id="tab-runs-list1" onclick="ReportPageUpdater.showTab('runs-list', this);" class="tabnav-tab">
+                    <img src="./src/octicons/list-unordered.svg" class="ghpr-tabicon" alt="" />
+                    Runs list
+                </a>
+            </nav>
+        </div>
+        <div class="columns border" id="runs-stats" style="margin-top: -16px">
+            <div class="column" style="width: 100%;">
+                <div id="runs-bars"></div>
+            </div>
+            <div class="one-half column">
+                <div>
+                    <h3 class="border-bottom p-3 mb-3">
+                        Latest run:
+                    </h3>
+                    <div class="border border-0 p-3 mb-3">
+                        <ul>
+                            <li id="start">Start: </li>
+                            <li id="finish">Finish: </li>
+                            <li id="duration">Duration: </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="one-half column">
+                <div>
+                    <h3 class="border-bottom p-3 mb-3">
+                        Runs information:
+                    </h3>
+                    <div class="border border-0 p-3 mb-3">
+                        <ul>
+                            <li id="loaded">Loaded runs: </li>
+                            <li id="total">Total runs: </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns border" id="runs-list" style="margin-top: -16px; display: none">
+            <div class="column">
+                <h3 class="border-bottom p-3 mb-3">
+                    All runs:
+                </h3>
+                <ul id="all-runs"></ul>
+            </div>
         </div>
     </div>
 </div>
