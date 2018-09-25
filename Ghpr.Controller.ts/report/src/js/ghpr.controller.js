@@ -1498,8 +1498,14 @@ class ReportPageUpdater {
                 title: "Tests number"
             },
             barmode: "stack",
-            bargap: 0.01
-        });
+            bargap: 0.01,
+            margin: {
+                t: 0,
+                l: 0,
+                r: 0,
+                b: 0
+            }
+        }, { responsive: true });
         barsDiv.on("plotly_click", (eventData) => {
             var url = `./runs/index.html?runGuid=${eventData.points[0].customdata}`;
             var win = window.open(url, "_blank");

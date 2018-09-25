@@ -62,6 +62,10 @@ body > *:last-child { margin-bottom: 0 !important; }
     height: 16px;
 }
 
+.ghpr-left-column {
+    max-width: 350px;
+}
+
 a { color: #4183C4; }
 
 a.absent { color: #cc0000; }

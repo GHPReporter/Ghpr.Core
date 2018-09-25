@@ -120,7 +120,7 @@ class ReportPageUpdater {
             },
             barmode: "stack",
             bargap: 0.01
-        });
+        }, { responsive: true });
 
         barsDiv.on("plotly_click", (eventData: any) => {
             var url = `./runs/index.html?runGuid=${eventData.points[0].customdata}`;
