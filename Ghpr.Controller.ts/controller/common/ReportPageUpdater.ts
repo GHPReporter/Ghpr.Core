@@ -29,16 +29,21 @@ class ReportPageUpdater {
     }
 
     private static updateRunsList(runs: Array<RunDto>): void {
-        let list = "";
+        let fullList = "";
+        let recentList = "";
         const c = runs.length;
         for (let i = 0; i < c; i++) {
             const r = runs[i];
             if (r.name === "") {
                 r.name = `${DateFormatter.format(r.runInfo.start)} - ${DateFormatter.format(r.runInfo.finish)}`;
             }
-            list += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
+            fullList += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
+            recentList += `<li id=$run-${r.runInfo.guid}><div class="width-full text-bold">
+                            <a class="d-flex flex-items-baseline f5 mb-2" href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a>
+                            </div></li>`;
         }
-        document.getElementById("all-runs").innerHTML = list;
+        document.getElementById("all-runs").innerHTML = fullList;
+        document.getElementById("recent-runs").innerHTML = recentList;
     }
 
     private static updateRunsInfo(runs: Array<RunDto>, totalFiles: number): void {

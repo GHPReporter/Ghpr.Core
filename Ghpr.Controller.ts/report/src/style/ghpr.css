@@ -16,13 +16,16 @@ body > *:last-child { margin-bottom: 0 !important; }
 }
 
 .ghpr-header-a {
-    color: white !important;
     text-decoration: none !important;
     cursor: pointer;
 }
 
 .ghpr-header-a:hover {
     color: lightgrey !important;
+}
+
+.ghpr-white-text {
+    color: white !important;
 }
 
 .ghpr-logo {

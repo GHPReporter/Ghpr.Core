@@ -24,17 +24,22 @@
                     </svg>
                 </a>
             </div>
+            <div class="col-12 col-md-4 col-lg-3 d-lg-flex px-lg-6 flex-justify-between flex-items-center">
+                <h2 class="ghpr-white-text" id="report-name">
+                    GHP Report
+                </h2>
+            </div>
             <div class="d-lg-flex flex-justify-between flex-auto">
                 <div class="d-lg-flex">
                     <ul class="d-lg-flex pl-lg-2 flex-items-center text-bold list-style-none">
                         <li>
-                            <a id="tab-runs-stats" class="ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-stats', this);" style="border-top: none">
+                            <a id="tab-runs-stats" class="ghpr-white-text ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-stats', this);" style="border-top: none">
                                 <img src="./src/octicons/graph.svg" class="ghpr-tabicon" alt=""/>
                                 Main statistics
                             </a>
                         </li>
                         <li>
-                            <a id="tab-runs-list" class="ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-list', this);" style="border-top: none">
+                            <a id="tab-runs-list" class="ghpr-white-text ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-list', this);" style="border-top: none">
                                 <img src="./src/octicons/list-unordered.svg" class="ghpr-tabicon" alt=""/>
                                 Runs list
                             </a>
@@ -49,10 +54,10 @@
     <div class="col-12 col-md-4 col-lg-3 bg-white border-right border-bottom hide-md hide-sm">
         <div class="top-0 px-3 px-md-4 px-lg-4 overflow-auto">
             <div class="mb-3">
-                <h4 class="f5 mb-1 d-flex flex-justify-between flex-items-center">
+                <h4 class="mb-1 d-flex py-lg-2 border-bottom flex-justify-between flex-items-center">
                     Runs
                 </h4>
-                <ul class="list-style-none">
+                <ul id="recent-runs" class="list-style-none">
                     <li>
                         <div class="width-full text-bold">
                             <a class="d-flex flex-items-baseline f5 mb-2">Run 1</a>
@@ -68,26 +73,7 @@
         </div>
     </div>
     <div class="col-12 col-md-8 col-lg-6 px-3 px-md-4 px-lg-6 mt-3 border-bottom d-flex flex-auto">
-        <div class="border-bottom p-3 mb-3">
-            <div style="text-align: center;">
-                <h2 id="report-name">
-                    GHP Report
-                </h2>
-            </div>
-        </div>
-        <div class="tabnav">
-            <nav class="tabnav-tabs">
-                <a id="tab-runs-stats1" onclick="ReportPageUpdater.showTab('runs-stats', this);" class="tabnav-tab selected">
-                    <img src="./src/octicons/graph.svg" class="ghpr-tabicon" alt="" />
-                    Main statistics
-                </a>
-                <a id="tab-runs-list1" onclick="ReportPageUpdater.showTab('runs-list', this);" class="tabnav-tab">
-                    <img src="./src/octicons/list-unordered.svg" class="ghpr-tabicon" alt="" />
-                    Runs list
-                </a>
-            </nav>
-        </div>
-        <div class="columns border" id="runs-stats" style="margin-top: -16px">
+        <div class="columns" id="runs-stats">
             <div class="column" style="width: 100%;">
                 <div id="runs-bars"></div>
             </div>
