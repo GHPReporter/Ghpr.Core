@@ -72,6 +72,15 @@ body > *:last-child { margin-bottom: 0 !important; }
     max-width: 350px;
 }
 
+.ghpr-test-list-span {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
 a { color: #4183C4; }
 
 a.absent { color: #cc0000; }

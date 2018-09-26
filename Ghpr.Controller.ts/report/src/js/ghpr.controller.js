@@ -1136,7 +1136,8 @@ class RunPageUpdater {
         const ti = t.testInfo;
         const color = TestRunHelper.getColor(t);
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&itemName=${t.testInfo.itemName}`;
-        const testLi = `<li id="test-${ti.guid}" style="color: ${color};" class="${TestRunHelper.getResult(t)}">
+        const testLi = `<li id="test-${ti.guid}" class="${TestRunHelper.getResult(t)}" style="color: white;">
+            <span class="ghpr-test-list-span" style="background-color: ${color};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
         this.plotlyTimelineData.push({
             x: [DateFormatter.format(ti.start), DateFormatter.format(ti.finish)],
