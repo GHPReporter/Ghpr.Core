@@ -81,6 +81,44 @@ body > *:last-child { margin-bottom: 0 !important; }
     border-radius: 50%;
 }
 
+.ghpr-pagenav {
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.ghpr-pagenav-element {
+    padding-bottom: 0;
+    background-color: #fafbfc;
+}
+
+.ghpr-pagenav-details {
+    margin-bottom: 10px;
+}
+
+.ghpr-pagenav-pane {
+    position: relative;
+    top: 1px;
+    margin-top: -5px;
+}
+
+.ghpr-pagenav-item {
+    float: left;
+    padding: 7px 10px 8px;
+    color: #586069;
+    white-space: nowrap;
+    border: solid transparent;
+    border-width: 3px 1px 1px;
+    border-radius: 3px 3px 0 0;
+}
+
+.ghpr-pagenav-item.selected {
+    color: #24292e;
+    background-color: white;
+    border-color: #e36209 #e1e4e8 transparent;
+}
+
 a { color: #4183C4; }
 
 a.absent { color: #cc0000; }

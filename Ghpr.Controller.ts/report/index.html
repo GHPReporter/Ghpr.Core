@@ -52,8 +52,17 @@
         </div>
     </header>
 </div>
-<div class="d-flex flex-wrap bg-gray" style="min-height: 85vh">
-    <div class="ghpr-left-column col-12 col-md-4 col-lg-3 bg-white border-right border-bottom hide-md hide-sm">
+<div class="ghpr-pagenav ghpr-pagenav-element">
+    <div class="ghpr-pagenav-details container">
+        <h3><a>Project name</a></h3>
+    </div>
+    <nav class="ghpr-pagenav-pane container">
+        <a class="ghpr-pagenav-item selected">Item 1</a>
+        <a class="ghpr-pagenav-item">Item 2</a>
+    </nav>
+</div>
+<div class="d-flex flex-wrap" style="min-height: 75vh">
+    <div class="ghpr-left-column col-12 col-md-4 col-lg-3 bg-gray border-right border-bottom hide-md hide-sm">
         <div class="top-0 px-3 px-md-4 px-lg-4 overflow-auto">
             <div class="mb-3">
                 <h4 class="mb-1 d-flex py-lg-3 border-bottom flex-justify-between flex-items-center">
@@ -70,35 +79,37 @@
         </div>
     </div>
     <div class="col-12 col-md-8 col-lg-6 px-3 px-md-4 px-lg-6 mt-3 border-bottom d-flex flex-auto">
-        <div class="Box p-3 mt-2 mb-4" style="width: 100%;">
+        <div class="p-3 mt-2 mb-4" style="width: 100%;">
             <div class="columns" id="runs-stats">
-                <div class="column">
+                <div class="column" style="min-height: 25vh">
                     <div id="runs-bars"></div>
                 </div>
-                <div class="one-half column">
-                    <div>
-                        <h3 class="border-bottom p-3 mb-3">
-                            Latest run:
-                        </h3>
-                        <div class="border border-0 p-3 mb-3">
-                            <ul>
-                                <li id="start">Start: </li>
-                                <li id="finish">Finish: </li>
-                                <li id="duration">Duration: </li>
-                            </ul>
+                <div>
+                    <div class="one-half column" style="max-height: 30vh">
+                        <div>
+                            <h3 class="border-bottom p-3 mb-3">
+                                Latest run:
+                            </h3>
+                            <div class="border border-0 p-3 mb-3">
+                                <ul>
+                                    <li id="start">Start: </li>
+                                    <li id="finish">Finish: </li>
+                                    <li id="duration">Duration: </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="one-half column">
-                    <div>
-                        <h3 class="border-bottom p-3 mb-3">
-                            Runs information:
-                        </h3>
-                        <div class="border border-0 p-3 mb-3">
-                            <ul>
-                                <li id="loaded">Loaded runs: </li>
-                                <li id="total">Total runs: </li>
-                            </ul>
+                    <div class="one-half column" style="max-height: 30vh">
+                        <div>
+                            <h3 class="border-bottom p-3 mb-3">
+                                Runs information:
+                            </h3>
+                            <div class="border border-0 p-3 mb-3">
+                                <ul>
+                                    <li id="loaded">Loaded runs: </li>
+                                    <li id="total">Total runs: </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
