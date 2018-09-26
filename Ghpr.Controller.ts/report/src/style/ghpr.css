@@ -19,14 +19,19 @@ body > *:last-child { margin-bottom: 0 !important; }
 .ghpr-header-a {
     text-decoration: none !important;
     cursor: pointer;
+    color: lightgrey;
 }
 
 .ghpr-header-a:hover {
-    color: lightgrey !important;
+    color: white !important;
+}
+
+.ghpr-header-a.selected {
+    color: white !important;
 }
 
 .ghpr-white-text {
-    color: white !important;
+    color: white;
 }
 
 .ghpr-logo {

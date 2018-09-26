@@ -6,7 +6,7 @@ class TabsHelper {
             return;
         }
         UrlHelper.insertParam("currentTab", idToShow);
-        const tabs = document.getElementsByClassName("tabnav-tab");
+        const tabs = document.getElementsByClassName("ghpr-header-a");
         for (let i = 0; i < tabs.length; i++) {
             tabs[i].classList.remove("selected");
         }
