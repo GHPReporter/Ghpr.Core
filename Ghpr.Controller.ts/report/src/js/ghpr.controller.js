@@ -1487,7 +1487,10 @@ class ReportPageUpdater {
             { x: passedX, y: passedY, name: "passed", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.passed } }
         ];
         const barsDiv = document.getElementById("runs-bars");
-        Plotly.newPlot(barsDiv, plotlyData, {
+        var p = barsDiv.parentElement.parentElement.parentElement.parentElement;
+        var w = p.offsetWidth;
+        var h = p.offsetHeight;
+        var layout = {
             title: "Runs statistics",
             xaxis: {
                 tickvals: tickvals,
@@ -1498,8 +1501,11 @@ class ReportPageUpdater {
                 title: "Tests number"
             },
             barmode: "stack",
-            bargap: 0.01
-        }, { responsive: true });
+            bargap: 0.01,
+            width: 0.8 * w,
+            height: 0.5 * h
+        };
+        Plotly.react(barsDiv, plotlyData, layout);
         barsDiv.on("plotly_click", (eventData) => {
             var url = `./runs/index.html?runGuid=${eventData.points[0].customdata}`;
             var win = window.open(url, "_blank");
@@ -1516,6 +1522,13 @@ class ReportPageUpdater {
                 this.updateRunsInfo(runs, total);
                 this.updateRunsList(runs);
                 this.updateCopyright(reportSettings.coreVersion);
+                window.addEventListener("resize", () => {
+                    console.log("resize!");
+                    const barsDiv = document.getElementById("runs-bars");
+                    var w = barsDiv.parentElement.parentElement.parentElement.parentElement.offsetWidth;
+                    var h = barsDiv.parentElement.parentElement.parentElement.parentElement.offsetHeight;
+                    Plotly.relayout(barsDiv, { width: 0.8 * w, height: 0.5 * h });
+                });
             });
         });
     }

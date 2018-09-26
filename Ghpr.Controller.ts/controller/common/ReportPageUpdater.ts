@@ -106,9 +106,14 @@ class ReportPageUpdater {
             { x: failedX,  y: failedY,  name: "failed",       customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.failed } },
             { x: passedX,  y: passedY,  name: "passed",       customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.passed } }
         ];
+        
+        const barsDiv = document.getElementById("runs-bars");
+        
+        var p = barsDiv.parentElement.parentElement.parentElement.parentElement;
+        var w = p.offsetWidth;
+        var h = p.offsetHeight;
 
-        const barsDiv = document.getElementById("runs-bars") as any;
-        Plotly.newPlot(barsDiv, plotlyData, {
+        var layout = {
             title: "Runs statistics",
             xaxis: {
                 tickvals: tickvals,
@@ -119,10 +124,14 @@ class ReportPageUpdater {
                 title: "Tests number"
             },
             barmode: "stack",
-            bargap: 0.01
-        }, { responsive: true });
+            bargap: 0.01,
+            width: 0.8*w,
+            height: 0.5*h
+        };
 
-        barsDiv.on("plotly_click", (eventData: any) => {
+        Plotly.react(barsDiv, plotlyData, layout);
+
+        (barsDiv as any).on("plotly_click", (eventData: any) => {
             var url = `./runs/index.html?runGuid=${eventData.points[0].customdata}`;
             var win = window.open(url, "_blank");
             win.focus();
@@ -139,6 +148,14 @@ class ReportPageUpdater {
                 this.updateRunsInfo(runs, total);
                 this.updateRunsList(runs);
                 this.updateCopyright(reportSettings.coreVersion);
+
+                window.addEventListener("resize", () => {
+                    console.log("resize!");
+                    const barsDiv = document.getElementById("runs-bars") as any;
+                    var w = barsDiv.parentElement.parentElement.parentElement.parentElement.offsetWidth;
+                    var h = barsDiv.parentElement.parentElement.parentElement.parentElement.offsetHeight;
+                    Plotly.relayout(barsDiv, { width: 0.8*w, height: 0.5*h });
+                });
             });
         });
     }
