@@ -108,10 +108,8 @@ class ReportPageUpdater {
         ];
         
         const barsDiv = document.getElementById("runs-bars");
-        
-        var p = barsDiv.parentElement.parentElement.parentElement.parentElement;
-        var w = p.offsetWidth;
-        var h = p.offsetHeight;
+
+        var size = this.getPlotSize(barsDiv);
 
         var layout = {
             title: "Runs statistics",
@@ -125,8 +123,8 @@ class ReportPageUpdater {
             },
             barmode: "stack",
             bargap: 0.01,
-            width: 0.8*w,
-            height: 0.5*h
+            width: size.width,
+            height: size.height
         };
 
         Plotly.react(barsDiv, plotlyData, layout);
@@ -136,6 +134,13 @@ class ReportPageUpdater {
             var win = window.open(url, "_blank");
             win.focus();
         });
+    }
+
+    static getPlotSize(plotDiv: HTMLElement): any {
+        var p = plotDiv.parentElement.parentElement.parentElement.parentElement;
+        var w = p.offsetWidth;
+        var h = p.offsetHeight;
+        return { width: 0.8 * w, height: 0.5 * h};
     }
 
     static updatePage(): void {
@@ -150,11 +155,9 @@ class ReportPageUpdater {
                 this.updateCopyright(reportSettings.coreVersion);
 
                 window.addEventListener("resize", () => {
-                    console.log("resize!");
                     const barsDiv = document.getElementById("runs-bars") as any;
-                    var w = barsDiv.parentElement.parentElement.parentElement.parentElement.offsetWidth;
-                    var h = barsDiv.parentElement.parentElement.parentElement.parentElement.offsetHeight;
-                    Plotly.relayout(barsDiv, { width: 0.8*w, height: 0.5*h });
+                    var size = this.getPlotSize(barsDiv);
+                    Plotly.relayout(barsDiv, { width: size.width, height: size.height });
                 });
             });
         });
