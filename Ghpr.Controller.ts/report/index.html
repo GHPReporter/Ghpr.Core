@@ -24,7 +24,7 @@
                     </svg>
                 </a>
             </div>
-            <div class="col-12 col-md-4 col-lg-3 d-lg-flex px-lg-6 flex-justify-between flex-items-center">
+            <div class="ghpr-left-column col-12 col-md-4 col-lg-3 d-lg-flex px-lg-6 flex-justify-between flex-items-center">
                 <h2 class="ghpr-white-text" id="report-name">
                     GHP Report
                 </h2>
@@ -33,13 +33,15 @@
                 <div class="d-lg-flex">
                     <ul class="d-lg-flex pl-lg-2 flex-items-center text-bold list-style-none">
                         <li>
-                            <a id="tab-runs-stats" class="ghpr-white-text ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-stats', this);" style="border-top: none">
+                            <a id="tab-runs-stats" class="ghpr-white-text ghpr-header-a px-lg-2 py-2 py-lg-0 border-top-0" 
+                               onclick="ReportPageUpdater.showTab('runs-stats', this);">
                                 <img src="./src/octicons/graph.svg" class="ghpr-tabicon" alt=""/>
                                 Main statistics
                             </a>
                         </li>
                         <li>
-                            <a id="tab-runs-list" class="ghpr-white-text ghpr-header-a px-lg-2 py-2 py-lg-0" onclick="ReportPageUpdater.showTab('runs-list', this);" style="border-top: none">
+                            <a id="tab-runs-list" class="ghpr-white-text ghpr-header-a px-lg-2 py-2 py-lg-0 border-top-0" 
+                               onclick="ReportPageUpdater.showTab('runs-list', this);">
                                 <img src="./src/octicons/list-unordered.svg" class="ghpr-tabicon" alt=""/>
                                 Runs list
                             </a>
