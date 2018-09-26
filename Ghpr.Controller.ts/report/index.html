@@ -59,7 +59,7 @@
                 <h4 class="mb-1 d-flex py-lg-3 border-bottom flex-justify-between flex-items-center">
                     Runs
                 </h4>
-                <ul id="recent-runs" class="py-lg-3 list-style-none">
+                <ul id="recent-runs" class="py-lg-3">
                     <li>
                         <div class="width-full text-bold">
                             <a class="d-flex flex-items-baseline f5 mb-2">Run 1</a>
@@ -75,10 +75,10 @@
         </div>
     </div>
     <div class="col-12 col-md-8 col-lg-6 px-3 px-md-4 px-lg-6 mt-3 border-bottom d-flex flex-auto">
-        <div class="Box p-3 mt-2 mb-4">
+        <div class="Box p-3 mt-2 mb-4" style="width: 100%;">
             <div class="columns" id="runs-stats">
-                <div class="column" style="width: 100%;">
-                    <div id="runs-bars" style="width: 100%; height: 100%"></div>
+                <div class="column">
+                    <div id="runs-bars"></div>
                 </div>
                 <div class="one-half column">
                     <div>
@@ -108,7 +108,7 @@
                     </div>
                 </div>
             </div>
-            <div class="columns border" id="runs-list" style="margin-top: -16px; display: none">
+            <div class="columns" id="runs-list" style="display: none">
                 <div class="column">
                     <h3 class="border-bottom p-3 mb-3">
                         All runs:
