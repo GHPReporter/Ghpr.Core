@@ -17,12 +17,16 @@ namespace Ghpr.LocalFileSystem.Entities
         [JsonProperty(PropertyName = "reportName")]
         public string ReportName { get; set; }
 
-        public ReportSettings(int runs, int tests, string reportName)
+        [JsonProperty(PropertyName = "projectName")]
+        public string ProjectName { get; set; }
+
+        public ReportSettings(int runs, int tests, string reportName, string projectName)
         {
             RunsToDisplay = runs;
             TestsToDisplay = tests;
             CoreVersion = typeof(ReportSettings).Assembly.GetName().Version.ToString();
             ReportName = reportName;
+            ProjectName = projectName;
         }
     }
 }

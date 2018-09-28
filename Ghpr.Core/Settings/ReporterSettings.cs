@@ -20,6 +20,9 @@ namespace Ghpr.Core.Settings
         [JsonProperty(PropertyName = "reportName")]
         public string ReportName { get; set; }
 
+        [JsonProperty(PropertyName = "projectName")]
+        public string ProjectName { get; set; }
+
         [JsonProperty(PropertyName = "runName")]
         public string RunName { get; set; }
 

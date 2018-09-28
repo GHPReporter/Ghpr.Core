@@ -16,12 +16,19 @@ class ReportPageUpdater {
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
-    
+
     private static updateReportName(reportName: string): void {
         if (reportName === undefined) {
             reportName = "GHPReport";
         }
         document.getElementById("report-name").innerHTML = `${reportName}`;
+    }
+
+    private static updateProjectName(projectName: string): void {
+        if (projectName === undefined) {
+            projectName = "GHPReport";
+        }
+        document.getElementById("project-name").innerHTML = `${projectName}`;
     }
 
     private static updateCopyright(coreVersion: string): void {
@@ -147,6 +154,7 @@ class ReportPageUpdater {
         Controller.init(PageType.TestRunsPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
             dataService.fromPage(PageType.TestRunsPage).getLatestRuns((runs: Array<RunDto>, total: number) => {
                 const latestRun = runs[0];
+                this.updateProjectName(reportSettings.projectName);
                 this.updateReportName(reportSettings.reportName);
                 this.updateLatestRunInfo(latestRun);
                 this.updatePlotlyBars(runs);
