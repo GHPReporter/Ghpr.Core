@@ -1427,6 +1427,7 @@ class ReportPageUpdater {
     static updateRunsList(runs) {
         let fullList = "";
         let recentList = "";
+        let runsResultsList = "";
         const c = runs.length;
         for (let i = 0; i < c; i++) {
             const r = runs[i];
@@ -1437,9 +1438,16 @@ class ReportPageUpdater {
             recentList += `<li id=$run-${r.runInfo.guid}><div class="width-full text-bold">
                             <a class="d-flex flex-items-baseline f5 mb-2" href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a>
                             </div></li>`;
+            const bb = i === c - 1 ? "" : "border-bottom";
+            const status = r.summary.success === r.summary.total ? "All tests passed" : "Some errors detected";
+            runsResultsList += `<div class="mx-4 py-2 my-2 ${bb}"><div class="mb-3">
+                    <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">${r.name}</a>
+                    <p class="f6 text-gray mb-2"><b>Status:</b> ${status}</p>
+                </div></div>`;
         }
         document.getElementById("all-runs").innerHTML = fullList;
         document.getElementById("recent-runs").innerHTML = recentList;
+        document.getElementById("runs-results").innerHTML = runsResultsList;
     }
     static updateRunsInfo(runs, totalFiles) {
         document.getElementById("total").innerHTML = `<b>Loaded runs:</b> ${runs.length}`;
