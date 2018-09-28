@@ -83,7 +83,7 @@ body > *:last-child { margin-bottom: 0 !important; }
 
 .ghpr-pagenav {
     position: relative;
-    padding-top: 10px;
+    padding-top: 18px;
     padding-bottom: 10px;
     border-bottom: 1px solid #e1e4e8;
 }
@@ -91,10 +91,6 @@ body > *:last-child { margin-bottom: 0 !important; }
 .ghpr-pagenav-element {
     padding-bottom: 0;
     background-color: #fafbfc;
-}
-
-.ghpr-pagenav-details {
-    margin-bottom: 10px;
 }
 
 .ghpr-pagenav-pane {

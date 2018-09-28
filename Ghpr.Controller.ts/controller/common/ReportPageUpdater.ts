@@ -140,7 +140,7 @@ class ReportPageUpdater {
         var p = plotDiv.parentElement.parentElement.parentElement.parentElement;
         var w = p.offsetWidth;
         var h = p.offsetHeight;
-        return { width: 0.8 * w, height: 0.5 * h};
+        return { width: 0.85 * w, height: 0.55 * h};
     }
 
     static updatePage(): void {
