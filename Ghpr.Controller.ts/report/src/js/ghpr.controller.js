@@ -1085,6 +1085,12 @@ class RunPageUpdater {
     static updateCopyright(coreVersion) {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
+    static updateReportName(reportName) {
+        if (reportName === undefined) {
+            reportName = "GHPReport";
+        }
+        document.getElementById("report-name").innerHTML = `${reportName}`;
+    }
     static updateRunInformation(run) {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
         document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
@@ -1256,6 +1262,7 @@ class RunPageUpdater {
             dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto) => {
                 UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
                 this.plotlyTimelineData = new Array();
+                this.updateReportName(reportSettings.reportName);
                 this.updateRunInformation(runDto);
                 this.updateSummary(runDto);
                 this.updateTitle(runDto);
