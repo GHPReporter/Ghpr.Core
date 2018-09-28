@@ -1105,7 +1105,6 @@ class RunPageUpdater {
         var p = plotDiv.parentElement;
         var w = Math.max(300, Math.min(p.offsetWidth, 800));
         var h = Math.max(400, Math.min(p.offsetHeight, 500));
-        console.log({ width: 0.95 * w, height: 0.95 * h });
         return { width: 0.95 * w, height: 0.95 * h };
     }
     static updateSummary(run) {
@@ -1119,7 +1118,7 @@ class RunPageUpdater {
         document.getElementById("unknown").innerHTML = `<b>Unknown:</b> ${s.unknown}`;
         const pieDiv = document.getElementById("summary-pie");
         var size = this.getSummaryPlotSize(pieDiv);
-        Plotly.react(pieDiv, [
+        var data = [
             {
                 values: [s.success, s.errors, s.failures, s.inconclusive, s.ignored, s.unknown],
                 labels: ["Passed", "Broken", "Failed", "Inconclusive", "Ignored", "Unknown"],
@@ -1140,13 +1139,15 @@ class RunPageUpdater {
                 },
                 textinfo: "label+percent",
                 type: "pie",
-                hole: 0.35,
-                width: size.width,
-                height: size.height
+                hole: 0.35
             }
-        ], {
-            margin: { t: 0 }
-        });
+        ];
+        var layout = {
+            margin: { t: 0 },
+            width: size.width,
+            height: size.height
+        };
+        Plotly.react(pieDiv, data, layout);
     }
     static addTest(t, c, i) {
         const ti = t.testInfo;
