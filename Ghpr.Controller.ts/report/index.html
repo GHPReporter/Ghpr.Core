@@ -33,17 +33,17 @@
                 <div class="d-lg-flex">
                     <ul class="d-lg-flex pl-lg-2 flex-items-center text-bold list-style-none">
                         <li>
-                            <a class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                            <a href="index.html" class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
                                 Home
                             </a>
                         </li>
                         <li>
-                            <a class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                            <a href="runs/index.html" class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
                                 Run
                             </a>
                         </li>
                         <li>
-                            <a class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                            <a href="tests/index.html" class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
                                 Test
                             </a>
                         </li>
@@ -54,8 +54,11 @@
     </header>
 </div>
 <div class="ghpr-pagenav ghpr-pagenav-element ghpr-content">
-    <div class="ghpr-left-column col-12 col-md-4 col-lg-3 d-lg-flex px-lg-4 flex-justify-between flex-items-center position-absolute">
-        <h3><a id="project-name">Project name</a></h3>
+    <div class="ghpr-left-column col-12 col-md-4 col-lg-3 d-lg-flex px-lg-2 flex-justify-between flex-items-center position-absolute">
+        <h3>
+            <img src="src/octicons/project.svg" alt=""/>
+            <a href="index.html" id="project-name" class="px-lg-1 no-wrap">Project name</a>
+        </h3>
     </div>
     <nav class="ghpr-pagenav-pane">
         <a id="tab-runs-stats" class="ghpr-tab-a ghpr-pagenav-item selected" onclick="ReportPageUpdater.showTab('runs-stats', this);">
@@ -132,34 +135,36 @@
         </div>
     </div>
     <div class="ghpr-left-column border-left bg-gray col-12 col-md-3 col-lg-3 pr-5 hide-lg hide-md hide-sm">
-        <div class="mx-4 py-2 my-2 border-bottom overflow-auto">
-            <div class="mb-3">
-                <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">
-                    Some data 1
-                </a>
-                <p class="f6 text-gray mb-2">
-                    Some text 1
-                </p>
+        <div class="overflow-auto" id="runs-results">
+            <div class="mx-4 py-2 my-2 border-bottom">
+                <div class="mb-3">
+                    <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">
+                        Some data 1
+                    </a>
+                    <p class="f6 text-gray mb-2">
+                        Some text 1
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="mx-4 py-2 my-2 border-bottom">
-            <div class="mb-3">
-                <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">
-                    Some data 2
-                </a>
-                <p class="f6 text-gray mb-2">
-                    Some text 2
-                </p>
+            <div class="mx-4 py-2 my-2 border-bottom">
+                <div class="mb-3">
+                    <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">
+                        Some data 2
+                    </a>
+                    <p class="f6 text-gray mb-2">
+                        Some text 2
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="mx-4 py-2 my-2">
-            <div class="mb-3">
-                <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">
-                    Some data 3
-                </a>
-                <p class="f6 text-gray mb-2">
-                    Some text 3
-                </p>
+            <div class="mx-4 py-2 my-2">
+                <div class="mb-3">
+                    <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">
+                        Some data 3
+                    </a>
+                    <p class="f6 text-gray mb-2">
+                        Some text 3
+                    </p>
+                </div>
             </div>
         </div>
     </div>
