@@ -17,17 +17,28 @@ body > *:last-child { margin-bottom: 0 !important; }
 }
 
 .ghpr-header-a {
+    font-size: 16px;
     text-decoration: none !important;
     cursor: pointer;
-    color: lightgrey;
+    color: white;
 }
 
 .ghpr-header-a:hover {
-    color: white !important;
+    color: lightgrey !important;
 }
 
-.ghpr-header-a.selected {
-    color: white !important;
+.ghpr-tab-a {
+    text-decoration: none !important;
+    cursor: pointer;
+    color: darkgray;
+}
+
+.ghpr-tab-a:hover {
+    color: black !important;
+}
+
+.ghpr-tab-a.selected {
+    color: black !important;
 }
 
 .ghpr-white-text {

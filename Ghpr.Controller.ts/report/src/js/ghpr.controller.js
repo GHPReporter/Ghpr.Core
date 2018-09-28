@@ -303,7 +303,7 @@ class TabsHelper {
             return;
         }
         UrlHelper.insertParam("currentTab", idToShow);
-        const tabs = document.getElementsByClassName("ghpr-header-a");
+        const tabs = document.getElementsByClassName("ghpr-tab-a");
         for (let i = 0; i < tabs.length; i++) {
             tabs[i].classList.remove("selected");
         }

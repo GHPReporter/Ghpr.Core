@@ -33,17 +33,18 @@
                 <div class="d-lg-flex">
                     <ul class="d-lg-flex pl-lg-2 flex-items-center text-bold list-style-none">
                         <li>
-                            <a id="tab-runs-stats" class="ghpr-header-a px-lg-2 py-2 py-lg-0 border-top-0" 
-                               onclick="ReportPageUpdater.showTab('runs-stats', this);">
-                                <img src="./src/octicons/graph.svg" class="ghpr-tabicon" alt=""/>
-                                Main statistics
+                            <a class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                                Home
                             </a>
                         </li>
                         <li>
-                            <a id="tab-runs-list" class="ghpr-header-a px-lg-2 py-2 py-lg-0 border-top-0" 
-                               onclick="ReportPageUpdater.showTab('runs-list', this);">
-                                <img src="./src/octicons/list-unordered.svg" class="ghpr-tabicon" alt=""/>
-                                Runs list
+                            <a class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                                Run
+                            </a>
+                        </li>
+                        <li>
+                            <a class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                                Test
                             </a>
                         </li>
                     </ul>
@@ -57,8 +58,14 @@
         <h3><a>Project name</a></h3>
     </div>
     <nav class="ghpr-pagenav-pane">
-        <a class="ghpr-pagenav-item selected">Item 1</a>
-        <a class="ghpr-pagenav-item">Item 2</a>
+        <a id="tab-runs-stats" class="ghpr-tab-a ghpr-pagenav-item selected" onclick="ReportPageUpdater.showTab('runs-stats', this);">
+            <img src="./src/octicons/graph.svg" class="ghpr-tabicon" alt=""/>
+            Main statistics
+        </a>
+        <a id="tab-runs-list" class="ghpr-tab-a ghpr-pagenav-item" onclick="ReportPageUpdater.showTab('runs-list', this);">
+            <img src="./src/octicons/list-unordered.svg" class="ghpr-tabicon" alt=""/>
+            Runs list
+        </a>
     </nav>
 </div>
 <div class="d-flex flex-wrap">
@@ -85,7 +92,7 @@
                     <div id="runs-bars"></div>
                 </div>
                 <div>
-                    <div class="one-half column" style="max-height: 37vh; min-height: 29vh">
+                    <div class="one-half column">
                         <div>
                             <h3 class="border-bottom p-3 mb-3">
                                 Latest run:
@@ -99,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="one-half column" style="max-height: 37vh; min-height: 29vh">
+                    <div class="one-half column">
                         <div>
                             <h3 class="border-bottom p-3 mb-3">
                                 Runs information:
@@ -125,7 +132,7 @@
         </div>
     </div>
     <div class="ghpr-left-column border-left bg-gray col-12 col-md-3 col-lg-3 pr-5 hide-lg hide-md hide-sm">
-        <div class="mx-4 py-2 my-2 border-bottom">
+        <div class="mx-4 py-2 my-2 border-bottom overflow-auto">
             <div class="mb-3">
                 <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">
                     Some data 1
@@ -155,15 +162,13 @@
                 </p>
             </div>
         </div>
-        <div class="mx-4 py-2 my-2 Box-footer position-absolute bottom-0">
-            <div class="border-0 pt-4 mb-1 text-center">
-                <div class="text-gray-dark" id="copyright" style="font-size: 10px">
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 </body>
 </html>
-<footer>
+<footer class="mx-1 py-1 border-top bottom-0">
+    <div class="border-0 pt-1 mb-1 text-center">
+        <div class="text-gray-dark" id="copyright" style="font-size: 10px">
+        </div>
+    </div>
 </footer>
