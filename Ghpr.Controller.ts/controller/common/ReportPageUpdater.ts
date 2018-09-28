@@ -175,7 +175,7 @@ class ReportPageUpdater {
                 this.updateCopyright(reportSettings.coreVersion);
 
                 window.addEventListener("resize", () => {
-                    const barsDiv = document.getElementById("runs-bars") as any;
+                    const barsDiv = document.getElementById("runs-bars");
                     var size = this.getPlotSize(barsDiv);
                     Plotly.relayout(barsDiv, { width: size.width, height: size.height });
                 });

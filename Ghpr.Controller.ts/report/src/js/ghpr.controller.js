@@ -1101,6 +1101,13 @@ class RunPageUpdater {
     static updateTitle(run) {
         document.getElementById("page-title").innerHTML = run.name;
     }
+    static getSummaryPlotSize(plotDiv) {
+        var p = plotDiv.parentElement;
+        var w = Math.max(300, Math.min(p.offsetWidth, 800));
+        var h = Math.max(400, Math.min(p.offsetHeight, 500));
+        console.log({ width: 0.95 * w, height: 0.95 * h });
+        return { width: 0.95 * w, height: 0.95 * h };
+    }
     static updateSummary(run) {
         const s = run.summary;
         document.getElementById("total").innerHTML = `<b>Total:</b> ${s.total}`;
@@ -1111,6 +1118,7 @@ class RunPageUpdater {
         document.getElementById("ignored").innerHTML = `<b>Ignored:</b> ${s.ignored}`;
         document.getElementById("unknown").innerHTML = `<b>Unknown:</b> ${s.unknown}`;
         const pieDiv = document.getElementById("summary-pie");
+        var size = this.getSummaryPlotSize(pieDiv);
         Plotly.react(pieDiv, [
             {
                 values: [s.success, s.errors, s.failures, s.inconclusive, s.ignored, s.unknown],
@@ -1132,7 +1140,9 @@ class RunPageUpdater {
                 },
                 textinfo: "label+percent",
                 type: "pie",
-                hole: 0.35
+                hole: 0.35,
+                width: size.width,
+                height: size.height
             }
         ], {
             margin: { t: 0 }
@@ -1270,6 +1280,11 @@ class RunPageUpdater {
                 this.updateTestsList(runDto);
                 this.updateTimeline();
                 this.updateCopyright(reportSettings.coreVersion);
+                window.addEventListener("resize", () => {
+                    const pieDiv = document.getElementById("summary-pie");
+                    var size = this.getSummaryPlotSize(pieDiv);
+                    Plotly.relayout(pieDiv, { width: size.width, height: size.height });
+                });
             });
         });
     }
