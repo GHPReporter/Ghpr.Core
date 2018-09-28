@@ -83,7 +83,7 @@ body > *:last-child { margin-bottom: 0 !important; }
 
 .ghpr-pagenav {
     position: relative;
-    padding-top: 18px;
+    padding-top: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid #e1e4e8;
 }
@@ -93,10 +93,26 @@ body > *:last-child { margin-bottom: 0 !important; }
     background-color: #fafbfc;
 }
 
+ghpr-content {
+    max-width: 980px;
+}
+
 .ghpr-pagenav-pane {
     position: relative;
     top: 1px;
-    margin-top: -5px;
+    margin-right: auto;
+    margin-left: calc(100px + 15%);
+}
+
+.ghpr-content::before {
+    display: table;
+    content: ""
+}
+
+.ghpr-content::after {
+    display: table;
+    clear: both;
+    content: ""
 }
 
 .ghpr-pagenav-item {
