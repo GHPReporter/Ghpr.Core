@@ -1158,10 +1158,15 @@ class RunPageUpdater {
     static addTest(t, c, i) {
         const ti = t.testInfo;
         const color = TestRunHelper.getColor(t);
+        const result = TestRunHelper.getResult(t);
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&itemName=${t.testInfo.itemName}`;
-        const testLi = `<li id="test-${ti.guid}" class="${TestRunHelper.getResult(t)}" style="color: white;">
+        const testLi = `<li id="test-${ti.guid}" class="${result}" style="color: white;">
             <span class="ghpr-test-list-span" style="background-color: ${color};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
+        const failedTestLi = `<li><div class="width-full text-bold">
+                                <span class="ghpr-test-list-span" style="background-color: ${color};"></span>
+                                <a class="f5 mb-2" href="${testHref}"> ${t.name}</a>
+                              </div></li>`;
         this.plotlyTimelineData.push({
             x: [DateFormatter.format(ti.start), DateFormatter.format(ti.finish)],
             y: [1, 1],
@@ -1211,6 +1216,9 @@ class RunPageUpdater {
                     }
                     else {
                         document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += testLi;
+                        if (result === TestResult.Failed) {
+                            document.getElementById("recent-test-failures").innerHTML += failedTestLi;
+                        }
                     }
                 }
             }
