@@ -1113,6 +1113,31 @@ class RunPageUpdater {
         var h = Math.max(400, Math.min(p.offsetHeight, 500));
         return { width: 1.00 * w, height: 1.00 * h };
     }
+    static updateBriefResults(run) {
+        const s = run.summary;
+        document.getElementById("run-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Total</a>
+            <p class="f6 text-gray mb-2">${s.total}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Success</a>
+            <p class="f6 text-gray mb-2">${s.success}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Errors</a>
+            <p class="f6 text-gray mb-2">${s.errors}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Failures</a>
+            <p class="f6 text-gray mb-2">${s.failures}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Inconclusive</a>
+            <p class="f6 text-gray mb-2">${s.inconclusive}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Ignored</a>
+            <p class="f6 text-gray mb-2">${s.ignored}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Unknown</a>
+            <p class="f6 text-gray mb-2">${s.unknown}</p>
+            </div></div>`;
+    }
     static updateSummary(run) {
         const s = run.summary;
         document.getElementById("total").innerHTML = `<b>Total:</b> ${s.total}`;
@@ -1290,6 +1315,7 @@ class RunPageUpdater {
                 this.updateReportName(reportSettings.reportName);
                 this.updateRunInformation(runDto);
                 this.updateSummary(runDto);
+                this.updateBriefResults(runDto);
                 this.updateTitle(runDto);
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
