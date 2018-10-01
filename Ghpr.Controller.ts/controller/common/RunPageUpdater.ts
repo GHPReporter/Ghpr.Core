@@ -48,6 +48,13 @@ class RunPageUpdater {
         return { width: 0.95 * w, height: 0.95 * h };
     }
 
+    static getTimelinePlotSize(plotDiv: HTMLElement): any {
+        var p = plotDiv.parentElement.parentElement.parentElement;
+        var w = Math.max(300, Math.min(p.offsetWidth, 1000));
+        var h = Math.max(400, Math.min(p.offsetHeight, 500));
+        return { width: 1.00 * w, height: 1.00 * h };
+    }
+
     private static updateSummary(run: RunDto): void {
         const s = run.summary;
         document.getElementById("total").innerHTML = `<b>Total:</b> ${s.total}`;
@@ -234,9 +241,12 @@ class RunPageUpdater {
                 this.updateCopyright(reportSettings.coreVersion);
 
                 window.addEventListener("resize", () => {
-                    const pieDiv = document.getElementById("summary-pie");
-                    var size = this.getSummaryPlotSize(pieDiv);
-                    Plotly.relayout(pieDiv, { width: size.width, height: size.height });
+                    const summaryPieDiv = document.getElementById("summary-pie");
+                    var summarySize = this.getSummaryPlotSize(summaryPieDiv);
+                    Plotly.relayout(summaryPieDiv, { width: summarySize.width, height: summarySize.height });
+                    const timelinePieDiv = document.getElementById("run-timeline-chart");
+                    var timelineSize = this.getTimelinePlotSize(timelinePieDiv);
+                    Plotly.relayout(timelinePieDiv, { width: timelineSize.width, height: timelineSize.height });
                 });
             });
         });
@@ -244,15 +254,19 @@ class RunPageUpdater {
     
     static updateTimeline(): void {
         const timelineDiv = document.getElementById("run-timeline-chart");
-        Plotly.react(timelineDiv, this.plotlyTimelineData, {
+        var size = this.getTimelinePlotSize(timelineDiv);
+        var layout = {
             title: "Timeline",
             yaxis: {
                 showgrid: false,
                 zeroline: false,
                 showline: false,
                 showticklabels: false
-            }
-        });
+            },
+            width: size.width,
+            height: size.height
+        };
+        Plotly.react(timelineDiv, this.plotlyTimelineData, layout);
     }
 
     static updateTestsList(run: RunDto): void {
