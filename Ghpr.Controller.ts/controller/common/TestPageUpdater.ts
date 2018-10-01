@@ -87,8 +87,16 @@ class TestPageUpdater {
         document.getElementById("test-stack-trace").innerHTML = `<b>Stack trace:</b><br><code style="white-space: pre-wrap">${TestRunHelper.getStackTrace(t)}</code>`;
     }
 
+    static getTestHistoryPlotSize(plotDiv: HTMLElement): any {
+        var p = plotDiv.parentElement.parentElement.parentElement;
+        var w = Math.max(300, Math.min(p.offsetWidth, 700));
+        var h = Math.max(300, Math.min(p.offsetHeight, 500));
+        console.log({ p: p, width: 0.95 * w, height: 0.95 * h });
+        return { width: 0.95 * w, height: 0.95 * h };
+    }
+
     private static setTestHistory(tests: Array<TestRunDto>): void {
-        const historyDiv = document.getElementById("test-history-chart") as any;
+        const historyDiv = document.getElementById("test-history-chart");
         let plotlyData = new Array();
         const dataX: Array<Date> = new Array();
         const dataY: Array<number> = new Array();
@@ -142,7 +150,9 @@ class TestPageUpdater {
             }
         };
         plotlyData = [historyTrace, currentTest];
-        
+
+        var size = this.getTestHistoryPlotSize(historyDiv);
+
         const layout = {
             title: "Test history",
             xaxis: {
@@ -150,12 +160,14 @@ class TestPageUpdater {
             },
             yaxis: {
                 title: "Test duration (sec.)"
-            }
+            },
+            width: size.width,
+            height: size.height
         };
-
+        
         Plotly.newPlot(historyDiv, plotlyData, layout);
 
-        historyDiv.on("plotly_click", (eventData: any) => {
+        (historyDiv as any).on("plotly_click", (eventData: any) => {
             var url = `${eventData.points[0].customdata}`;
             window.open(url, "_self");
         }); 
@@ -173,6 +185,12 @@ class TestPageUpdater {
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
             this.updateCopyright(Controller.reportSettings.coreVersion);
+
+            window.addEventListener("resize", () => {
+                const historyDiv = document.getElementById("test-history-chart");
+                var size = this.getTestHistoryPlotSize(historyDiv);
+                Plotly.relayout(historyDiv, { width: size.width, height: size.height });
+            });
         });
     }
 
