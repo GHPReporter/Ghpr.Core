@@ -88,7 +88,7 @@ class RunPageUpdater {
         ];
 
         var layout = {
-            margin: { t: 0 },
+            margin: { t: 20 },
             width: size.width,
             height: size.height
         };
