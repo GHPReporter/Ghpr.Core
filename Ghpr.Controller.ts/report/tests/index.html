@@ -57,7 +57,7 @@
         <div class="ghpr-left-column col-12 col-md-4 col-lg-3 d-lg-flex px-lg-2 flex-justify-between flex-items-center position-absolute">
             <h3>
                 <img src="./../src/octicons/file.svg" alt="" />
-                <a href="index.html" class="px-lg-1 no-wrap">Test details</a>
+                <span class="px-lg-1 no-wrap">Test details</span>
             </h3>
         </div>
         <nav class="ghpr-pagenav-pane">
@@ -104,90 +104,94 @@
             </a>
         </nav>
     </div>
-    <div class="container">
-        <div class="border-bottom p-3 mb-3">
-            <div style="text-align: center;">
-                <h2 id="page-title">
-                    Test Page
-                </h2>
-            </div>
-        </div>
-        <div class="columns border" id="test-history" style="margin-top: -16px">
-            <div class="column" style="width: 100%;">
-                <div>
-                    <h3 class="border-bottom p-3 mb-3">
-                        Main information:
-                    </h3>
-                    <div class="border border-0 p-3 mb-3">
+    <div class="d-flex flex-wrap">
+        <div class="col-12 col-md-8 col-lg-6 px-3 px-md-4 px-lg-6 d-flex flex-auto">
+            <div class="p-3 mt-2 mb-4" style="width: 100%;">
+                <div class="border-bottom p-3 mb-3">
+                    <div style="text-align: center;">
+                        <h2 id="page-title">
+                            Test Page
+                        </h2>
+                    </div>
+                </div>
+                <div class="columns" id="test-history" style="margin-top: -16px">
+                    <div class="column" style="width: 100%;">
+                        <div>
+                            <h3 class="border-bottom p-3 mb-3">
+                                Main information:
+                            </h3>
+                            <div class="border border-0 p-3 mb-3">
+                                <ul style="word-wrap: break-word;">
+                                    <li id="name">Test name: </li>
+                                    <li id="full-name">Test full name: </li>
+                                    <li id="description">Test description: </li>
+                                    <li id="result">Test result: </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="test-history-chart">
+                        </div>
+                        <div>
+                            <h3 class="border-bottom p-3 mb-3">
+                                More details:
+                            </h3>
+                            <div class="border border-0 p-3 mb-3">
+                                <ul style="word-wrap: break-word;">
+                                    <li id="priority">Priority: </li>
+                                    <li id="test-type">Test type: </li>
+                                    <li id="start">Start datetime: </li>
+                                    <li id="finish">Finish datetime: </li>
+                                    <li id="duration">Duration: </li>
+                                    <li id="categories">Test categories: </li>
+                                    <li style="white-space: pre-wrap" id="message">Message: </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns" id="test-output" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h3 class="border-bottom p-3 mb-3">
+                            Test output:
+                        </h3>
+                        <ul id="test-output-string"></ul>
+                    </div>
+                </div>
+                <div class="columns" id="test-extra-output" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h3 class="border-bottom p-3 mb-3">
+                            Extra output:
+                        </h3>
+                        <ul id="test-extra-output-string"></ul>
+                    </div>
+                </div>
+                <div class="columns" id="test-failure" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h3 class="border-bottom p-3 mb-3">
+                            Test failure:
+                        </h3>
                         <ul style="word-wrap: break-word;">
-                            <li id="name">Test name: </li>
-                            <li id="full-name">Test full name: </li>
-                            <li id="description">Test description: </li>
-                            <li id="result">Test result: </li>
+                            <li id="test-message" style="white-space: pre-wrap"></li>
+                            <li id="test-stack-trace" style="white-space: pre-wrap"></li>
                         </ul>
                     </div>
                 </div>
-                <div id="test-history-chart">
-                </div>
-                <div>
-                    <h3 class="border-bottom p-3 mb-3">
-                        More details:
-                    </h3>
-                    <div class="border border-0 p-3 mb-3">
-                        <ul style="word-wrap: break-word;">
-                            <li id="priority">Priority: </li>
-                            <li id="test-type">Test type: </li>
-                            <li id="start">Start datetime: </li>
-                            <li id="finish">Finish datetime: </li>
-                            <li id="duration">Duration: </li>
-                            <li id="categories">Test categories: </li>
-                            <li style="white-space: pre-wrap" id="message">Message: </li>
-                        </ul>
+                <div class="columns" id="test-screenshots" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h3 class="border-bottom p-3 mb-3">
+                            Test screenshots:
+                        </h3>
+                        <ul id="screenshots"></ul>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="columns border" id="test-output" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Test output:
-                </h3>
-                <ul id="test-output-string"></ul>
-            </div>
-        </div>
-        <div class="columns border" id="test-extra-output" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Extra output:
-                </h3>
-                <ul id="test-extra-output-string"></ul>
-            </div>
-        </div>
-        <div class="columns border" id="test-failure" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Test failure:
-                </h3>
-                <ul style="word-wrap: break-word;">
-                    <li id="test-message" style="white-space: pre-wrap"></li>
-                    <li id="test-stack-trace" style="white-space: pre-wrap"></li>
-                </ul>
-            </div>
-        </div>
-        <div class="columns border" id="test-screenshots" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Test screenshots:
-                </h3>
-                <ul id="screenshots"></ul>
-            </div>
-        </div>
-        <div class="columns border" id="test-data" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Test data:
-                </h3>
-                <ul id="test-data-list"></ul>
+                <div class="columns" id="test-data" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h3 class="border-bottom p-3 mb-3">
+                            Test data:
+                        </h3>
+                        <ul id="test-data-list"></ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
