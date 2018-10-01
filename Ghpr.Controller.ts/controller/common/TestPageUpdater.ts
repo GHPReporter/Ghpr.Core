@@ -28,6 +28,13 @@ class TestPageUpdater {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
 
+    private static updateReportName(reportName: string): void {
+        if (reportName === undefined) {
+            reportName = "GHPReport";
+        }
+        document.getElementById("report-name").innerHTML = `${reportName}`;
+    }
+
     private static updateMainInformation(t: TestRunDto): void {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
         document.getElementById("name").innerHTML = `<b>Test name:</b> ${t.name}`;
@@ -177,6 +184,7 @@ class TestPageUpdater {
         Controller.dataService.fromPage(PageType.TestPage).getLatestTest(testGuid, itemName, (t: TestRunDto) => {
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
             UrlHelper.insertParam("itemName", t.testInfo.itemName);
+            this.updateReportName(Controller.reportSettings.reportName);
             this.updateMainInformation(t);
             this.updateOutput(t);
             this.updateFailure(t);
