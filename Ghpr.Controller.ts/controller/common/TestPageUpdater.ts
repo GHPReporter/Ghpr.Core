@@ -89,7 +89,7 @@ class TestPageUpdater {
 
     static getTestHistoryPlotSize(plotDiv: HTMLElement): any {
         var p = plotDiv.parentElement.parentElement.parentElement;
-        var w = Math.max(300, Math.min(p.offsetWidth, 700));
+        var w = Math.max(300, Math.min(p.offsetWidth, 1100));
         var h = Math.max(300, Math.min(p.offsetHeight, 500));
         console.log({ p: p, width: 0.95 * w, height: 0.95 * h });
         return { width: 0.95 * w, height: 0.95 * h };
