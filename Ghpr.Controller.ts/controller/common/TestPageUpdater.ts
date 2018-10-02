@@ -37,9 +37,6 @@ class TestPageUpdater {
 
     private static updateRecentData(t: TestRunDto): void {
         document.getElementById("test-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Test type</a>
-            <p class="f6 text-gray mb-2">${TestRunHelper.getTestType(t)}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
             <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Start datetime</a>
             <p class="f6 text-gray mb-2">${DateFormatter.format(t.testInfo.start)}</p>
             </div></div><div class="mx-4 py-2 border-bottom"><div>
@@ -51,6 +48,9 @@ class TestPageUpdater {
             </div></div><div class="mx-4 py-2 border-bottom"><div>
             <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Categories</a>
             <p class="f6 text-gray mb-2">${TestRunHelper.getCategories(t)}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Test type</a>
+            <p class="f6 text-gray mb-2">${TestRunHelper.getTestType(t)}</p>
             </div></div>`;
     }
 
