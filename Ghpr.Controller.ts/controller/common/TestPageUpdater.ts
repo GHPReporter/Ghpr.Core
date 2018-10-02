@@ -35,6 +35,25 @@ class TestPageUpdater {
         document.getElementById("report-name").innerHTML = `${reportName}`;
     }
 
+    private static updateRecentData(t: TestRunDto): void {
+        document.getElementById("test-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Test type</a>
+            <p class="f6 text-gray mb-2">${TestRunHelper.getTestType(t)}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Start datetime</a>
+            <p class="f6 text-gray mb-2">${DateFormatter.format(t.testInfo.start)}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Finish datetime</a>
+            <p class="f6 text-gray mb-2">${DateFormatter.format(t.testInfo.finish)}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Duration</a>
+            <p class="f6 text-gray mb-2">${t.duration.toString()}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Categories</a>
+            <p class="f6 text-gray mb-2">${TestRunHelper.getCategories(t)}</p>
+            </div></div>`;
+    }
+
     private static updateMainInformation(t: TestRunDto): void {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
         document.getElementById("name").innerHTML = `<b>Test name:</b> ${t.name}`;
@@ -95,15 +114,16 @@ class TestPageUpdater {
     }
 
     static getTestHistoryPlotSize(plotDiv: HTMLElement): any {
-        var p = plotDiv.parentElement.parentElement.parentElement;
-        var w = Math.max(300, Math.min(p.offsetWidth, 1100));
-        var h = Math.max(300, Math.min(p.offsetHeight, 500));
+        const p = plotDiv.parentElement.parentElement.parentElement;
+        const w = Math.max(300, Math.min(p.offsetWidth, 1100));
+        const h = Math.max(300, Math.min(p.offsetHeight, 500));
         console.log({ p: p, width: 0.95 * w, height: 0.95 * h });
         return { width: 0.95 * w, height: 0.95 * h };
     }
 
     private static setTestRecentFailures(tests: Array<TestRunDto>): void {
         const recentFailuresDiv = document.getElementById("recent-test-failures");
+        recentFailuresDiv.innerHTML = "";
         const c = tests.length;
         for (let i = 0; i < c; i++) {
             const t = tests[i];
@@ -204,6 +224,7 @@ class TestPageUpdater {
             UrlHelper.insertParam("itemName", t.testInfo.itemName);
             this.updateReportName(Controller.reportSettings.reportName);
             this.updateMainInformation(t);
+            this.updateRecentData(t);
             this.updateOutput(t);
             this.updateFailure(t);
             this.updateScreenshots(t);
