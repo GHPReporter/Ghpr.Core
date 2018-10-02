@@ -157,8 +157,8 @@ class ReportPageUpdater {
 
     static getPlotSize(plotDiv: HTMLElement): any {
         var p = plotDiv.parentElement.parentElement.parentElement.parentElement;
-        var w = p.offsetWidth;
-        var h = p.offsetHeight;
+        var w = Math.max(300, Math.min(p.offsetWidth, 1000));
+        var h = Math.max(400, Math.min(p.offsetHeight, 700));
         return { width: 0.95 * w, height: 0.85 * h};
     }
 
