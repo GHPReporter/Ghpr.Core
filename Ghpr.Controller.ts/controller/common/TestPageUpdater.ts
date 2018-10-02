@@ -102,6 +102,24 @@ class TestPageUpdater {
         return { width: 0.95 * w, height: 0.95 * h };
     }
 
+    private static setTestRecentFailures(tests: Array<TestRunDto>): void {
+        const recentFailuresDiv = document.getElementById("recent-test-failures");
+        const c = tests.length;
+        for (let i = 0; i < c; i++) {
+            const t = tests[i];
+            const res = TestRunHelper.getResult(t);
+            if (res === TestResult.Failed) {
+                const ti = t.testInfo;
+                const testPeriod = `${DateFormatter.format(t.testInfo.start)} - ${DateFormatter.format(t.testInfo.finish)}`;
+                const href = `index.html?testGuid=${ti.guid}&itemName=${ti.itemName}&currentTab=test-history`;
+                recentFailuresDiv.innerHTML += `<li><div class="width-full text-bold">
+                                <span class="ghpr-test-list-span" style="background-color: ${Color.failed};"></span>
+                                <a class="f5 p-1 mb-2" href="${href}">${testPeriod}</a>
+                              </div></li>`;
+            }
+        }
+    }
+
     private static setTestHistory(tests: Array<TestRunDto>): void {
         const historyDiv = document.getElementById("test-history-chart");
         let plotlyData = new Array();
@@ -206,6 +224,7 @@ class TestPageUpdater {
         const guid = UrlHelper.getParam("testGuid");
         Controller.dataService.fromPage(PageType.TestPage).getLatestTests(guid, (testRunDtos: Array<TestRunDto>, total: number) => {
             this.setTestHistory(testRunDtos);
+            this.setTestRecentFailures(testRunDtos);
         });
     }
 
