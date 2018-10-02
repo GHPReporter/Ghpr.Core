@@ -9,13 +9,137 @@ body > *:first-child { margin-top: 0 !important; }
 
 body > *:last-child { margin-bottom: 0 !important; }
 
-.tabicon {
-    margin-bottom: -2px;
+.ghpr-header {
+    background-color: #24292e !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    width: 100%
 }
 
-.buttonicon {
-    margin-bottom: -4px;
+.ghpr-header-a {
+    font-size: 16px;
+    text-decoration: none !important;
+    cursor: pointer;
+    color: white;
+}
+
+.ghpr-header-a:hover {
+    color: lightgrey !important;
+}
+
+.ghpr-tab-a {
+    text-decoration: none !important;
+    cursor: pointer;
+    color: darkgray;
+}
+
+.ghpr-tab-a:hover {
+    color: black !important;
+}
+
+.ghpr-tab-a.selected {
+    color: black !important;
+}
+
+.ghpr-white-text {
+    color: white;
+}
+
+.ghpr-logo {
+    height: 32px;
+    width: 32px;
+}
+
+.ghpr-logo-rect {
+    stroke: none;
+    fill: none;
+}
+
+.ghpr-logo-text {
+    fill: #24292e !important;
+    font-family: "Segoe UI";
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.ghpr-logo-circle-inner {
+    fill: #8BC34A;
+}
+
+.ghpr-logo-circle-outer {
+    fill: #727272;
+}
+
+.ghpr-tabicon {
+    vertical-align: text-bottom;
+}
+
+.ghpr-buttonicon {
+    vertical-align: text-top;
     height: 16px;
+}
+
+.ghpr-left-column {
+    max-width: 350px;
+}
+
+.ghpr-test-list-span {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.ghpr-pagenav {
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.ghpr-pagenav-element {
+    padding-bottom: 0;
+    background-color: #fafbfc;
+}
+
+ghpr-content {
+    max-width: 980px;
+}
+
+.ghpr-pagenav-pane {
+    position: relative;
+    top: 1px;
+    margin-right: auto;
+    margin-left: calc(100px + 15%);
+}
+
+.ghpr-content::before {
+    display: table;
+    content: ""
+}
+
+.ghpr-content::after {
+    display: table;
+    clear: both;
+    content: ""
+}
+
+.ghpr-pagenav-item {
+    float: left;
+    padding: 7px 10px 8px;
+    color: #586069;
+    white-space: nowrap;
+    border: solid transparent;
+    border-width: 3px 1px 1px;
+    border-radius: 3px 3px 0 0;
+}
+
+.ghpr-pagenav-item.selected {
+    color: #24292e;
+    background-color: white;
+    border-color: #e36209 #e1e4e8 transparent;
 }
 
 a { color: #4183C4; }
@@ -34,7 +158,6 @@ a.anchor {
 }
 
 h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
-    background: url("../../images/modules/styleguide/para.png") no-repeat 10px center;
     text-decoration: none;
 }
 
@@ -51,7 +174,6 @@ h5 tt, h5 code { font-size: inherit; }
 h6 tt, h6 code { font-size: inherit; }
 
 hr {
-    background: transparent url("../../images/modules/pulls/dirty-shade.png") repeat-x 0 0;
     border: 0 none;
     color: #cccccc;
     height: 4px;

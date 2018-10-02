@@ -40,6 +40,9 @@
     <Content Include="report\src\js\plotly.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="report\src\logo.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="report\src\octicons\alert.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -577,7 +580,7 @@
     <Content Include="report\src\style\build.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\style\github.css">
+    <Content Include="report\src\style\ghpr.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="report\tests\index.html">
@@ -677,4 +680,7 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Debug (xcopy "$(TargetDir)report\*.*" "C:\_GHPReporter_NUnit_Report" /r /y /e)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -135,11 +135,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\github.css">
-      <Link>EmbeddedResources\Report\src\style\github.css</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\favicon.ico">
       <Link>EmbeddedResources\Report\src\favicon.ico</Link>
     </EmbeddedResource>
@@ -688,6 +683,16 @@
   <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\build.css">
       <Link>EmbeddedResources\Report\src\style\build.css</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\logo.svg">
+      <Link>EmbeddedResources\Report\src\logo.svg</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\ghpr.css">
+      <Link>EmbeddedResources\Report\src\style\ghpr.css</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

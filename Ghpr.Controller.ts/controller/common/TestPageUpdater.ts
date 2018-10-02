@@ -28,6 +28,32 @@ class TestPageUpdater {
         document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
     }
 
+    private static updateReportName(reportName: string): void {
+        if (reportName === undefined) {
+            reportName = "GHPReport";
+        }
+        document.getElementById("report-name").innerHTML = `${reportName}`;
+    }
+
+    private static updateRecentData(t: TestRunDto): void {
+        document.getElementById("test-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Start datetime</a>
+            <p class="f6 text-gray mb-2">${DateFormatter.format(t.testInfo.start)}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Finish datetime</a>
+            <p class="f6 text-gray mb-2">${DateFormatter.format(t.testInfo.finish)}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Duration</a>
+            <p class="f6 text-gray mb-2">${t.duration.toString()}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Categories</a>
+            <p class="f6 text-gray mb-2">${TestRunHelper.getCategories(t)}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Test type</a>
+            <p class="f6 text-gray mb-2">${TestRunHelper.getTestType(t)}</p>
+            </div></div>`;
+    }
+
     private static updateMainInformation(t: TestRunDto): void {
         document.getElementById("page-title").innerHTML = `<b>Test:</b> ${t.name}`;
         document.getElementById("name").innerHTML = `<b>Test name:</b> ${t.name}`;
@@ -87,8 +113,35 @@ class TestPageUpdater {
         document.getElementById("test-stack-trace").innerHTML = `<b>Stack trace:</b><br><code style="white-space: pre-wrap">${TestRunHelper.getStackTrace(t)}</code>`;
     }
 
+    static getTestHistoryPlotSize(plotDiv: HTMLElement): any {
+        const p = plotDiv.parentElement.parentElement.parentElement;
+        const w = Math.max(300, Math.min(p.offsetWidth, 1100));
+        const h = Math.max(300, Math.min(p.offsetHeight, 500));
+        console.log({ p: p, width: 0.95 * w, height: 0.95 * h });
+        return { width: 0.95 * w, height: 0.95 * h };
+    }
+
+    private static setTestRecentFailures(tests: Array<TestRunDto>): void {
+        const recentFailuresDiv = document.getElementById("recent-test-failures");
+        recentFailuresDiv.innerHTML = "";
+        const c = tests.length;
+        for (let i = 0; i < c; i++) {
+            const t = tests[i];
+            const res = TestRunHelper.getResult(t);
+            if (res === TestResult.Failed) {
+                const ti = t.testInfo;
+                const testPeriod = `${DateFormatter.format(t.testInfo.start)} - ${DateFormatter.format(t.testInfo.finish)}`;
+                const href = `index.html?testGuid=${ti.guid}&itemName=${ti.itemName}&currentTab=test-history`;
+                recentFailuresDiv.innerHTML += `<li><div class="width-full text-bold">
+                                <span class="ghpr-test-list-span" style="background-color: ${Color.failed};"></span>
+                                <a class="f5 p-1 mb-2" href="${href}">${testPeriod}</a>
+                              </div></li>`;
+            }
+        }
+    }
+
     private static setTestHistory(tests: Array<TestRunDto>): void {
-        const historyDiv = document.getElementById("test-history-chart") as any;
+        const historyDiv = document.getElementById("test-history-chart");
         let plotlyData = new Array();
         const dataX: Array<Date> = new Array();
         const dataY: Array<number> = new Array();
@@ -142,7 +195,9 @@ class TestPageUpdater {
             }
         };
         plotlyData = [historyTrace, currentTest];
-        
+
+        var size = this.getTestHistoryPlotSize(historyDiv);
+
         const layout = {
             title: "Test history",
             xaxis: {
@@ -150,12 +205,14 @@ class TestPageUpdater {
             },
             yaxis: {
                 title: "Test duration (sec.)"
-            }
+            },
+            width: size.width,
+            height: size.height
         };
-
+        
         Plotly.newPlot(historyDiv, plotlyData, layout);
 
-        historyDiv.on("plotly_click", (eventData: any) => {
+        (historyDiv as any).on("plotly_click", (eventData: any) => {
             var url = `${eventData.points[0].customdata}`;
             window.open(url, "_self");
         }); 
@@ -165,7 +222,9 @@ class TestPageUpdater {
         Controller.dataService.fromPage(PageType.TestPage).getLatestTest(testGuid, itemName, (t: TestRunDto) => {
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
             UrlHelper.insertParam("itemName", t.testInfo.itemName);
+            this.updateReportName(Controller.reportSettings.reportName);
             this.updateMainInformation(t);
+            this.updateRecentData(t);
             this.updateOutput(t);
             this.updateFailure(t);
             this.updateScreenshots(t);
@@ -173,6 +232,12 @@ class TestPageUpdater {
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
             this.updateCopyright(Controller.reportSettings.coreVersion);
+
+            window.addEventListener("resize", () => {
+                const historyDiv = document.getElementById("test-history-chart");
+                var size = this.getTestHistoryPlotSize(historyDiv);
+                Plotly.relayout(historyDiv, { width: size.width, height: size.height });
+            });
         });
     }
 
@@ -180,6 +245,7 @@ class TestPageUpdater {
         const guid = UrlHelper.getParam("testGuid");
         Controller.dataService.fromPage(PageType.TestPage).getLatestTests(guid, (testRunDtos: Array<TestRunDto>, total: number) => {
             this.setTestHistory(testRunDtos);
+            this.setTestRecentFailures(testRunDtos);
         });
     }
 

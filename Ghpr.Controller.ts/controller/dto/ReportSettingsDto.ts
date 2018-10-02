@@ -3,4 +3,5 @@
     runsToDisplay: number;
     coreVersion: string;
     reportName: string;
+    projectName: string;
 }

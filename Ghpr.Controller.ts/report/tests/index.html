@@ -7,147 +7,225 @@
     <script src="./../src/js/plotly.min.js"></script>
     <style type="text/css"></style>
     <link rel="stylesheet" type="text/css" href="./../src/style/build.css" />
-    <link rel="stylesheet" type="text/css" href="./../src/style/github.css" />
+    <link rel="stylesheet" type="text/css" href="./../src/style/ghpr.css" />
     <link rel="icon" href="./../src/favicon.ico">
 </head>
 <body onload="TestPageUpdater.initializePage();">
-    <div class="container">
-        <div class="border-bottom p-3 mb-3">
-            <div style="text-align: center;">
-                <h2 id="page-title">
-                    Test Page
-                </h2>
+    <div class="position-relative">
+        <header class="Box-header ghpr-header">
+            <div class="d-lg-flex p-responsive flex-sm-justify-between">
+                <div class="d-flex flex-justify-between flex-items-center">
+                    <a class="ghpr-logo" href="index.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" preserveAspectRatio="xMidYMid meet">
+                            <rect class="ghpr-logo-rect" x="0" y="0" width="32" height="32" />
+                            <circle class="ghpr-logo-circle-outer" cx="16" cy="16" r="16" />
+                            <circle class="ghpr-logo-circle-inner" cx="16" cy="16" r="11" />
+                            <text class="ghpr-logo-text" x="0" y="20" dy="0" dx="0">ghpr</text>
+                        </svg>
+                    </a>
+                </div>
+                <div class="ghpr-left-column col-12 col-md-4 col-lg-3 d-lg-flex px-lg-4 flex-justify-between flex-items-center">
+                    <h2 class="ghpr-white-text" id="report-name">
+                        GHP Report
+                    </h2>
+                </div>
+                <div class="d-lg-flex flex-justify-between flex-auto">
+                    <div class="d-lg-flex">
+                        <ul class="d-lg-flex pl-lg-2 flex-items-center text-bold list-style-none">
+                            <li>
+                                <a href="./../index.html" class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./../runs/index.html" class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                                    Run
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./../runs/index.html?currentTab=run-test-list" class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                                    Tests
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+        </header>
+    </div>
+    <div class="ghpr-pagenav ghpr-pagenav-element ghpr-content">
+        <div class="ghpr-left-column col-12 col-md-4 col-lg-3 d-lg-flex px-lg-2 flex-justify-between flex-items-center position-absolute">
+            <h3>
+                <img src="./../src/octicons/file.svg" alt="" />
+                <span class="px-lg-1 no-wrap">Test details</span>
+            </h3>
         </div>
-        <div class="tabnav">
-            <div class="BtnGroup float-right">
+        <nav class="ghpr-pagenav-pane">
+            <div class="BtnGroup float-right" style="padding-right: 25%;">
                 <a id="btn-back" class="btn BtnGroup-item btn-sm" type="button" href="">
-                    <img src="./../src/octicons/sign-in.svg" class="buttonicon" alt=""/>
+                    <img src="./../src/octicons/sign-in.svg" class="ghpr-buttonicon" alt="" />
                     Back
                 </a>
                 <button id="btn-prev" class="btn BtnGroup-item btn-sm" type="button" onclick="TestPageUpdater.loadPrev();">
-                    <img src="./../src/octicons/arrow-left.svg" class="buttonicon" alt=""/>
+                    <img src="./../src/octicons/arrow-left.svg" class="ghpr-buttonicon" alt="" />
                     Prev
                 </button>
                 <button id="btn-next" class="btn BtnGroup-item btn-sm" type="button" onclick="TestPageUpdater.loadNext();">
                     Next
-                    <img src="./../src/octicons/arrow-right.svg" class="buttonicon" alt=""/>
+                    <img src="./../src/octicons/arrow-right.svg" class="ghpr-buttonicon" alt="" />
                 </button>
                 <button class="btn BtnGroup-item btn-sm" type="button" onclick="TestPageUpdater.loadLatest();">
                     Latest
                 </button>
             </div>
-            <nav class="tabnav-tabs">
-                <a id="tab-test-history" onclick="TestPageUpdater.showTab('test-history', this);" class="tabnav-tab selected">
-                    <img src="./../src/octicons/graph.svg" class="tabicon" alt=""/>
-                    Main
-                </a>
-                <a id="tab-test-output" onclick="TestPageUpdater.showTab('test-output', this);" class="tabnav-tab">
-                    <img src="./../src/octicons/file.svg" class="tabicon" alt=""/>
-                    Output
-                </a>
-                <a id="tab-test-extra-output" onclick="TestPageUpdater.showTab('test-extra-output', this);" class="tabnav-tab">
-                    <img src="./../src/octicons/file.svg" class="tabicon" alt=""/>
-                    Extra output
-                </a>
-                <a id="tab-test-failure" onclick="TestPageUpdater.showTab('test-failure', this);" class="tabnav-tab">
-                    <img src="./../src/octicons/stop.svg" class="tabicon" alt=""/>
-                    Failure
-                </a>
-                <a id="tab-test-screenshots" onclick="TestPageUpdater.showTab('test-screenshots', this);" class="tabnav-tab">
-                    <img src="./../src/octicons/device-desktop.svg" class="tabicon" alt=""/>
-                    Screenshots
-                </a>
-                <a id="tab-test-data" onclick="TestPageUpdater.showTab('test-data', this);" class="tabnav-tab">
-                    <img src="./../src/octicons/check.svg" class="tabicon" alt=""/>
-                    Test Data
-                </a>
-            </nav>
+            <a id="tab-test-history" onclick="TestPageUpdater.showTab('test-history', this);" class="ghpr-tab-a ghpr-pagenav-item selected">
+                <img src="./../src/octicons/graph.svg" class="ghpr-tabicon" alt="" />
+                Main
+            </a>
+            <a id="tab-test-output" onclick="TestPageUpdater.showTab('test-output', this);" class="ghpr-tab-a ghpr-pagenav-item">
+                <img src="./../src/octicons/file.svg" class="ghpr-tabicon" alt="" />
+                Output
+            </a>
+            <a id="tab-test-extra-output" onclick="TestPageUpdater.showTab('test-extra-output', this);" class="ghpr-tab-a ghpr-pagenav-item">
+                <img src="./../src/octicons/file.svg" class="ghpr-tabicon" alt="" />
+                Extra output
+            </a>
+            <a id="tab-test-failure" onclick="TestPageUpdater.showTab('test-failure', this);" class="ghpr-tab-a ghpr-pagenav-item">
+                <img src="./../src/octicons/stop.svg" class="ghpr-tabicon" alt="" />
+                Failure
+            </a>
+            <a id="tab-test-screenshots" onclick="TestPageUpdater.showTab('test-screenshots', this);" class="ghpr-tab-a ghpr-pagenav-item">
+                <img src="./../src/octicons/device-desktop.svg" class="ghpr-tabicon" alt="" />
+                Screenshots
+            </a>
+            <a id="tab-test-data" onclick="TestPageUpdater.showTab('test-data', this);" class="ghpr-tab-a ghpr-pagenav-item">
+                <img src="./../src/octicons/check.svg" class="ghpr-tabicon" alt="" />
+                Test Data
+            </a>
+        </nav>
+    </div>
+    <div class="d-flex flex-wrap">
+        <div class="ghpr-left-column col-12 col-md-4 col-lg-3 border-right hide-md hide-sm">
+            <div class="top-0 px-3 px-md-4 px-lg-4 overflow-auto" style="max-height: 80vh;">
+                <div class="mb-3">
+                    <h4 class="mb-1 d-flex py-lg-3 border-bottom flex-justify-between flex-items-center">
+                        Recent failures
+                    </h4>
+                    <ul id="recent-test-failures" class="list-style-none pl-0 py-lg-3"></ul>
+                </div>
+            </div>
         </div>
-        <div class="columns border" id="test-history" style="margin-top: -16px">
-            <div class="column" style="width: 100%;">
-                <div>
-                    <h3 class="border-bottom p-3 mb-3">
-                        Main information:
-                    </h3>
-                    <div class="border border-0 p-3 mb-3">
+        <div class="col-12 col-md-8 col-lg-6 px-3 px-md-4 px-lg-6 d-flex flex-auto">
+            <div class="p-2 mb-4" style="width: 100%;">
+                <div class="border-0 p-3 mb-3">
+                    <div style="text-align: center;">
+                        <h4 id="page-title">
+                            Test Page
+                        </h4>
+                    </div>
+                </div>
+                <div class="columns" id="test-history">
+                    <div class="column" style="width: 100%;">
+                        <div>
+                            <div class="border border-0 p-1 mb-2">
+                                <ul style="word-wrap: break-word;">
+                                    <li id="name">Test name: </li>
+                                    <li id="full-name">Test full name: </li>
+                                    <li id="description">Test description: </li>
+                                    <li id="result">Test result: </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="test-history-chart">
+                        </div>
+                        <div>
+                            <h4 class="border-bottom p-1 mb-2">
+                                More details:
+                            </h4>
+                            <div class="border border-0 p-1 mb-2">
+                                <ul style="word-wrap: break-word;">
+                                    <li id="priority">Priority: </li>
+                                    <li id="test-type">Test type: </li>
+                                    <li id="start">Start datetime: </li>
+                                    <li id="finish">Finish datetime: </li>
+                                    <li id="duration">Duration: </li>
+                                    <li id="categories">Test categories: </li>
+                                    <li style="white-space: pre-wrap" id="message">Message: </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns" id="test-output" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h4 class="border-bottom p-1 mb-2">
+                            Test output:
+                        </h4>
+                        <ul id="test-output-string"></ul>
+                    </div>
+                </div>
+                <div class="columns" id="test-extra-output" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h4 class="border-bottom p-1 mb-2">
+                            Extra output:
+                        </h4>
+                        <ul id="test-extra-output-string"></ul>
+                    </div>
+                </div>
+                <div class="columns" id="test-failure" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h4 class="border-bottom p-1 mb-2">
+                            Test failure:
+                        </h4>
                         <ul style="word-wrap: break-word;">
-                            <li id="name">Test name: </li>
-                            <li id="full-name">Test full name: </li>
-                            <li id="description">Test description: </li>
-                            <li id="result">Test result: </li>
+                            <li id="test-message" style="white-space: pre-wrap"></li>
+                            <li id="test-stack-trace" style="white-space: pre-wrap"></li>
                         </ul>
                     </div>
                 </div>
-                <div id="test-history-chart">
+                <div class="columns" id="test-screenshots" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h4 class="border-bottom p-1 mb-2">
+                            Test screenshots:
+                        </h4>
+                        <ul id="screenshots"></ul>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="border-bottom p-3 mb-3">
-                        More details:
-                    </h3>
-                    <div class="border border-0 p-3 mb-3">
-                        <ul style="word-wrap: break-word;">
-                            <li id="priority">Priority: </li>
-                            <li id="test-type">Test type: </li>
-                            <li id="start">Start datetime: </li>
-                            <li id="finish">Finish datetime: </li>
-                            <li id="duration">Duration: </li>
-                            <li id="categories">Test categories: </li>
-                            <li style="white-space: pre-wrap" id="message">Message: </li>
-                        </ul>
+                <div class="columns" id="test-data" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h4 class="border-bottom p-1 mb-2">
+                            Test data:
+                        </h4>
+                        <ul id="test-data-list"></ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="columns border" id="test-output" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Test output:
-                </h3>
-                <ul id="test-output-string"></ul>
+        <div class="ghpr-left-column border-left bg-gray col-12 col-md-3 col-lg-3 pr-5 hide-lg hide-md hide-sm">
+            <div class="mb-3 px-md-4">
+                <h4 class="mb-1 d-flex px-4 py-lg-3 border-bottom flex-justify-between flex-items-center">
+                    Brief results
+                </h4>
             </div>
-        </div>
-        <div class="columns border" id="test-extra-output" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Extra output:
-                </h3>
-                <ul id="test-extra-output-string"></ul>
-            </div>
-        </div>
-        <div class="columns border" id="test-failure" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Test failure:
-                </h3>
-                <ul style="word-wrap: break-word;">
-                    <li id="test-message" style="white-space: pre-wrap"></li>
-                    <li id="test-stack-trace" style="white-space: pre-wrap"></li>
-                </ul>
-            </div>
-        </div>
-        <div class="columns border" id="test-screenshots" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Test screenshots:
-                </h3>
-                <ul id="screenshots"></ul>
-            </div>
-        </div>
-        <div class="columns border" id="test-data" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Test data:
-                </h3>
-                <ul id="test-data-list"></ul>
+            <div class="overflow-auto" id="test-results">
+                <div class="mx-4 py-2 border-bottom">
+                    <div>
+                        <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">
+                            Test summary should be here...
+                        </a>
+                        <p class="f6 text-gray mb-2">
+                            Test summary should be here...
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </body>
 </html>
-<footer>
-    <div class="border border-0 p-3 mb-3" style="text-align: center;">
-        <div id="copyright" style="position: relative;">
+<footer class="mx-1 py-1 border-top bottom-0">
+    <div class="border-0 pt-1 mb-1 text-center">
+        <div class="text-gray-dark" id="copyright" style="font-size: 10px">
         </div>
     </div>
 </footer>

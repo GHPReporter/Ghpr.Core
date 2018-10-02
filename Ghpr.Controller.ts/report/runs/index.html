@@ -1,130 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8" />
     <title>GHP Report Run Page</title>
     <script src="./../src/js/ghpr.controller.js"></script>
     <script src="./../src/js/plotly.min.js"></script>
     <style type="text/css"></style>
-    <link rel="stylesheet" type="text/css" href="./../src/style/build.css"/>
-    <link rel="stylesheet" type="text/css" href="./../src/style/github.css"/>
+    <link rel="stylesheet" type="text/css" href="./../src/style/build.css" />
+    <link rel="stylesheet" type="text/css" href="./../src/style/ghpr.css" />
     <link rel="icon" href="./../src/favicon.ico">
 </head>
 <body onload="RunPageUpdater.initializePage();">
-    <div class="container">
-        <div id="progress-bar">
-        </div>
-        <div class="border-bottom p-3 mb-3">
-            <div style="text-align: center;">
-                <h2 id="page-title">
-                    Test run report
-                </h2>
+    <div class="position-relative">
+        <header class="Box-header ghpr-header">
+            <div class="d-lg-flex p-responsive flex-sm-justify-between">
+                <div class="d-flex flex-justify-between flex-items-center">
+                    <a class="ghpr-logo" href="index.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" preserveAspectRatio="xMidYMid meet">
+                            <rect class="ghpr-logo-rect" x="0" y="0" width="32" height="32" />
+                            <circle class="ghpr-logo-circle-outer" cx="16" cy="16" r="16" />
+                            <circle class="ghpr-logo-circle-inner" cx="16" cy="16" r="11" />
+                            <text class="ghpr-logo-text" x="0" y="20" dy="0" dx="0">ghpr</text>
+                        </svg>
+                    </a>
+                </div>
+                <div class="ghpr-left-column col-12 col-md-4 col-lg-3 d-lg-flex px-lg-4 flex-justify-between flex-items-center">
+                    <h2 class="ghpr-white-text" id="report-name">
+                        GHP Report
+                    </h2>
+                </div>
+                <div class="d-lg-flex flex-justify-between flex-auto">
+                    <div class="d-lg-flex">
+                        <ul class="d-lg-flex pl-lg-2 flex-items-center text-bold list-style-none">
+                            <li>
+                                <a href="./../index.html" class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./../runs/index.html" class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                                    Run
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./../runs/index.html?currentTab=run-test-list" class="ghpr-header-a px-lg-4 py-2 py-lg-0 border-top-0">
+                                    Tests
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+        </header>
+    </div>
+    <div class="ghpr-pagenav ghpr-pagenav-element ghpr-content">
+        <div class="ghpr-left-column col-12 col-md-4 col-lg-3 d-lg-flex px-lg-2 flex-justify-between flex-items-center position-absolute">
+            <h3>
+                <img src="./../src/octicons/file.svg" alt="" />
+                <span class="px-lg-1 no-wrap">Run details</span>
+            </h3>
         </div>
-        <div class="tabnav">
-            <div class="BtnGroup float-right">
+        <nav class="ghpr-pagenav-pane">
+            <div class="BtnGroup float-right" style="padding-right: 25%;">
                 <a id="btn-back" class="btn BtnGroup-item btn-sm" type="button" href="">
-                    <img src="./../src/octicons/sign-in.svg" class="buttonicon" alt=""/>
+                    <img src="./../src/octicons/sign-in.svg" class="ghpr-buttonicon" alt="" />
                     Back
                 </a>
                 <button id="btn-prev" class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadPrev();">
-                    <img src="./../src/octicons/arrow-left.svg" class="buttonicon" alt=""/>
+                    <img src="./../src/octicons/arrow-left.svg" class="ghpr-buttonicon" alt="" />
                     Prev
                 </button>
                 <button id="btn-next" class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadNext();">
                     Next
-                    <img src="./../src/octicons/arrow-right.svg" class="buttonicon" alt=""/>
+                    <img src="./../src/octicons/arrow-right.svg" class="ghpr-buttonicon" alt="" />
                 </button>
                 <button class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadLatest();">
                     Latest
                 </button>
             </div>
-            <nav class="tabnav-tabs">
-                <a id="tab-run-main-stats" onclick="RunPageUpdater.showTab('run-main-stats', this);" class="tabnav-tab selected">
-                    <img src="./../src/octicons/graph.svg" class="tabicon" alt=""/>
-                    Main statistics
-                </a>
-                <a id="tab-run-test-list" onclick="RunPageUpdater.showTab('run-test-list', this);" class="tabnav-tab">
-                    <img src="./../src/octicons/list-unordered.svg" class="tabicon" alt=""/>
-                    Test list
-                </a>
-                <a id="tab-run-timeline" onclick="RunPageUpdater.showTab('run-timeline', this);" class="tabnav-tab">
-                    <img src="./../src/octicons/note.svg" class="tabicon" alt=""/>
-                    Timeline
-                </a>
-            </nav>
+            <a id="tab-run-main-stats" onclick="RunPageUpdater.showTab('run-main-stats', this);" class="ghpr-tab-a ghpr-pagenav-item selected">
+                <img src="./../src/octicons/graph.svg" class="ghpr-tabicon" alt="" />
+                Main
+            </a>
+            <a id="tab-run-test-list" onclick="RunPageUpdater.showTab('run-test-list', this);" class="ghpr-tab-a ghpr-pagenav-item">
+                <img src="./../src/octicons/list-unordered.svg" class="ghpr-tabicon" alt="" />
+                Test list
+            </a>
+            <a id="tab-run-timeline" onclick="RunPageUpdater.showTab('run-timeline', this);" class="ghpr-tab-a ghpr-pagenav-item">
+                <img src="./../src/octicons/note.svg" class="ghpr-tabicon" alt="" />
+                Timeline
+            </a>
+        </nav>
+    </div>
+    <div class="d-flex flex-wrap">
+        <div id="progress-bar">
         </div>
-        <div class="columns border" id="run-main-stats" style="margin-top: -16px">
-            <div class="one-third column">
-                <div>
-                    <h3 class="border-bottom p-3 mb-3">
-                        Run information:
-                    </h3>
-                    <div class="border border-0 p-3 mb-3">
-                        <ul>
-                            <li id="name">Name: </li>
-                            <li id="sprint">Sprint: </li>
-                            <li id="start">Start datetime: </li>
-                            <li id="finish">Finish datetime: </li>
-                            <li id="duration">Duration: </li>
-                        </ul>
+        <div class="ghpr-left-column col-12 col-md-4 col-lg-3 border-right hide-md hide-sm">
+            <div class="top-0 px-3 px-md-4 px-lg-4 overflow-auto" style="max-height: 80vh;">
+                <div class="mb-3">
+                    <h4 class="mb-1 d-flex py-lg-3 border-bottom flex-justify-between flex-items-center">
+                        Recent failures
+                    </h4>
+                    <ul id="recent-test-failures" class="list-style-none py-lg-3">
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 col-lg-6 px-3 px-md-4 px-lg-6 d-flex flex-auto">
+            <div class="p-2 mb-4" style="width: 100%;">
+                <div class="border-0 p-3 mb-3">
+                    <div style="text-align: center;">
+                        <h4 id="page-title">
+                            Test run report
+                        </h4>
                     </div>
                 </div>
-                <div>
-                    <h3 class="border-bottom p-3 mb-3">
-                        Run summary:
-                    </h3>
-                    <div class="border border-0 p-3 mb-3">
-                        <ul>
-                            <li id="total">Total: </li>
-                            <li id="passed">Success: </li>
-                            <li id="broken">Errors: </li>
-                            <li id="failed">Failures: </li>
-                            <li id="inconclusive">Inconclusive: </li>
-                            <li id="ignored">Ignored: </li>
-                            <li id="unknown">Unknown: </li>
-                        </ul>
+                <div class="columns" id="run-main-stats">
+                    <div class="one-third column">
+                        <div>
+                            <h4 class="border-bottom p-1 mb-2">
+                                Run information:
+                            </h4>
+                            <div class="border border-0 p-1 mb-2">
+                                <ul>
+                                    <li id="name">Name: </li>
+                                    <li id="sprint">Sprint: </li>
+                                    <li id="start">Start datetime: </li>
+                                    <li id="finish">Finish datetime: </li>
+                                    <li id="duration">Duration: </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="border-bottom p-1 mb-2">
+                                Run summary:
+                            </h4>
+                            <div class="border border-0 p-1 mb-2">
+                                <ul>
+                                    <li id="total">Total: </li>
+                                    <li id="passed">Success: </li>
+                                    <li id="broken">Errors: </li>
+                                    <li id="failed">Failures: </li>
+                                    <li id="inconclusive">Inconclusive: </li>
+                                    <li id="ignored">Ignored: </li>
+                                    <li id="unknown">Unknown: </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="two-thirds column">
+                        <div id="summary-pie">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="columns" id="run-test-list" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <div id="test-result-filter-buttons" class="BtnGroup float-right p-1 mb-2">
+                            <button id="0" class="btn BtnGroup-item btn-sm" type="button">Passed</button>
+                            <button id="1" class="btn BtnGroup-item btn-sm" type="button">Failed</button>
+                            <button id="2" class="btn BtnGroup-item btn-sm" type="button">Broken</button>
+                            <button id="3" class="btn BtnGroup-item btn-sm" type="button">Ignored</button>
+                            <button id="4" class="btn BtnGroup-item btn-sm" type="button">Inconclusive</button>
+                            <button id="5" class="btn BtnGroup-item btn-sm" type="button">Unknown</button>
+                        </div>
+                        <h4 class="border-bottom p-1 mb-2">
+                            Test list:
+                        </h4>
+                        <ul id="all-tests"></ul>
+                    </div>
+                </div>
+                <div class="columns" id="run-timeline" style="margin-top: -16px; display: none">
+                    <div class="column" style="width: 100%;">
+                        <h4 class="border-bottom p-1 mb-2">
+                            Run timeline:
+                        </h4>
+                        <div id="run-timeline-chart">
+
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="two-thirds column">
-                <div id="summary-pie">
-
-                </div>
-            </div>
         </div>
-        <div class="columns border" id="run-test-list" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <div id="test-result-filter-buttons" class="BtnGroup float-right p-3 mb-3">
-                    <button id="0" class="btn BtnGroup-item btn-sm" type="button">Passed</button>
-                    <button id="1" class="btn BtnGroup-item btn-sm" type="button">Failed</button>
-                    <button id="2" class="btn BtnGroup-item btn-sm" type="button">Broken</button>
-                    <button id="3" class="btn BtnGroup-item btn-sm" type="button">Ignored</button>
-                    <button id="4" class="btn BtnGroup-item btn-sm" type="button">Inconclusive</button>
-                    <button id="5" class="btn BtnGroup-item btn-sm" type="button">Unknown</button>
-                </div>
-                <h3 class="border-bottom p-3 mb-3">
-                    Test list:
-                </h3>
-                <ul id="all-tests"></ul>
+        <div class="ghpr-left-column border-left bg-gray col-12 col-md-3 col-lg-3 pr-5 hide-lg hide-md hide-sm">
+            <div class="mb-3 px-md-4">
+                <h4 class="mb-1 d-flex px-4 py-lg-3 border-bottom flex-justify-between flex-items-center">
+                    Brief results
+                </h4>
             </div>
-        </div>
-        <div class="columns border" id="run-timeline" style="margin-top: -16px; display: none">
-            <div class="column" style="width: 100%;">
-                <h3 class="border-bottom p-3 mb-3">
-                    Run timeline:
-                </h3>
-                <div id="run-timeline-chart">
-
+            <div class="overflow-auto" id="run-results">
+                <div class="mx-4 py-2 border-bottom">
+                    <div>
+                        <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">
+                            Run summary should be here...
+                        </a>
+                        <p class="f6 text-gray mb-2">
+                            Run summary should be here...
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
 </html>
-<footer>
-    <div class="border border-0 p-3 mb-3" style="text-align: center;">
-        <div id="copyright" style="position: relative;">
+<footer class="mx-1 py-1 border-top bottom-0">
+    <div class="border-0 pt-1 mb-1 text-center">
+        <div class="text-gray-dark" id="copyright" style="font-size: 10px">
         </div>
     </div>
 </footer>
