@@ -109,7 +109,7 @@
             <div class="top-0 px-3 px-md-4 px-lg-4 overflow-auto" style="max-height: 80vh;">
                 <div class="mb-3">
                     <h4 class="mb-1 d-flex py-lg-3 border-bottom flex-justify-between flex-items-center">
-                        Recent failures
+                        Recent test failures
                     </h4>
                     <ul id="recent-test-failures" class="list-style-none pl-0 py-lg-3"></ul>
                 </div>
@@ -202,6 +202,16 @@
             </div>
         </div>
         <div class="ghpr-left-column border-left bg-gray col-12 col-md-3 col-lg-3 pr-5 hide-lg hide-md hide-sm">
+            <div class="BtnGroup p-2 m-2 float-right">
+                <a id="btn-prev-from-run" class="btn BtnGroup-item btn-sm" type="button" href="">
+                    <img src="./../src/octicons/arrow-down.svg" class="ghpr-buttonicon" alt="" />
+                    Prev test from run
+                </a>
+                <a id="btn-next-from-run" class="btn BtnGroup-item btn-sm" type="button" href="">
+                    Next test from run
+                    <img src="./../src/octicons/arrow-up.svg" class="ghpr-buttonicon" alt="" />
+                </a>
+            </div>
             <div class="mb-3 px-md-4">
                 <h4 class="mb-1 d-flex px-4 py-lg-3 border-bottom flex-justify-between flex-items-center">
                     Brief results

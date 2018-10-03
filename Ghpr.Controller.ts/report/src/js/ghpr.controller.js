@@ -998,7 +998,7 @@ class LocalFileSystemPathsHelper {
             case PageType.TestRunPage:
                 return `./run_${guid}.json`;
             case PageType.TestPage:
-                return `./../../runs/run_${guid}.json`;
+                return `./../runs/run_${guid}.json`;
             default:
                 return "";
         }
@@ -1720,7 +1720,6 @@ class TestPageUpdater {
         const p = plotDiv.parentElement.parentElement.parentElement;
         const w = Math.max(300, Math.min(p.offsetWidth, 1100));
         const h = Math.max(300, Math.min(p.offsetHeight, 500));
-        console.log({ p: p, width: 0.95 * w, height: 0.95 * h });
         return { width: 0.95 * w, height: 0.95 * h };
     }
     static setTestRecentFailures(tests) {
@@ -1816,6 +1815,16 @@ class TestPageUpdater {
     }
     static updateTestPage(testGuid, itemName) {
         Controller.dataService.fromPage(PageType.TestPage).getLatestTest(testGuid, itemName, (t) => {
+            Controller.dataService.fromPage(PageType.TestPage).getRun(t.runGuid, (runDto) => {
+                var currentTestInRun = runDto.testsInfo.filter(ti => ti.guid === t.testInfo.guid)[0];
+                var ind = runDto.testsInfo.indexOf(currentTestInRun);
+                var prevTi = runDto.testsInfo[Math.max(ind - 1, 0)];
+                var nextTi = runDto.testsInfo[Math.min(ind + 1, runDto.testsInfo.length - 1)];
+                document.getElementById("btn-prev-from-run")
+                    .setAttribute("href", `index.html?testGuid=${prevTi.guid}&itemName=${prevTi.itemName}&currentTab=test-history`);
+                document.getElementById("btn-next-from-run")
+                    .setAttribute("href", `index.html?testGuid=${nextTi.guid}&itemName=${nextTi.itemName}&currentTab=test-history`);
+            });
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
             UrlHelper.insertParam("itemName", t.testInfo.itemName);
             this.updateReportName(Controller.reportSettings.reportName);
