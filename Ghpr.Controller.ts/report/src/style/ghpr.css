@@ -75,7 +75,7 @@ body > *:last-child { margin-bottom: 0 !important; }
 }
 
 .ghpr-buttonicon {
-    vertical-align: text-top;
+    vertical-align: text-bottom;
     height: 16px;
 }
 
