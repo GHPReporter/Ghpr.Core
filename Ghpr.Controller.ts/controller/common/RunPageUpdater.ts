@@ -134,7 +134,7 @@ class RunPageUpdater {
         const color = TestRunHelper.getColor(t);
         const result = TestRunHelper.getResult(t);
         const testHref = `./../tests/index.html?testGuid=${ti.guid}&itemName=${t.testInfo.itemName}`;
-        const testLi = `<li id="test-${ti.guid}" class="${result}" style="color: white;">
+        const testLi = `<li id="test-${ti.guid}" class="${result} ghpr-test" style="color: white;">
             <span class="ghpr-test-list-span" style="background-color: ${color};"></span>
             <a href="${testHref}"> ${t.name}</a></li>`;
         const failedTestLi = `<li><div class="width-full text-bold">
@@ -250,11 +250,41 @@ class RunPageUpdater {
                         const t = tests[j] as HTMLElement;
                         t.style.display = "none";
                     }
+                    const lis = document.getElementsByClassName("test-suite");
+                    for (let j = 0; j < lis.length; j++) {
+                        const li = lis[j] as HTMLElement;
+                        const liTests = li.getElementsByClassName("ghpr-test");
+                        let anyTestsDisplayed = false;
+                        for (let k = 0; k < liTests.length; k++) {
+                            const liTest = liTests[k] as HTMLElement;
+                            if (liTest.style.display !== "none") {
+                                anyTestsDisplayed = true;
+                            }
+                        }
+                        if (!anyTestsDisplayed) {
+                            li.style.display = "none";
+                        }
+                    }
                 } else {
                     btn.classList.remove("disabled");
                     for (let j = 0; j < tests.length; j++) {
                         const t = tests[j] as HTMLElement;
                         t.style.display = "";
+                    }
+                    const lis = document.getElementsByClassName("test-suite");
+                    for (let j = 0; j < lis.length; j++) {
+                        const li = lis[j] as HTMLElement;
+                        const liTests = li.getElementsByClassName("ghpr-test");
+                        let anyTestsDisplayed = false;
+                        for (let k = 0; k < liTests.length; k++) {
+                            const liTest = liTests[k] as HTMLElement;
+                            if (liTest.style.display !== "none") {
+                                anyTestsDisplayed = true;
+                            }
+                        }
+                        if (anyTestsDisplayed) {
+                            li.style.display = "";
+                        }
                     }
                 }
             };
