@@ -188,7 +188,7 @@ class RunPageUpdater {
         }
         const hierarchicalListElement = document.getElementById("all-tests-hierarchical");
         for (let j = 0; j <= len2; j++) {
-            const el = document.getElementById(ids[j]);
+            const el = hierarchicalListElement.querySelectorAll(`li[id="${ids[j]}"]`)[0];
             if (el === null || el === undefined) {
                 const li = `<li id="${ids[j]}" class="test-suite"><a>${arr[j]}</a><ul></ul></li>`;
                 if (j === 0) {
@@ -203,6 +203,18 @@ class RunPageUpdater {
                 }
             }
         }
+        const collapsedListElement = document.getElementById("all-tests-collapsed");
+        const collapsedId = `collapsed-${arr.join(".").replace(/\s/g, "_")}`;
+        const el = collapsedListElement.querySelectorAll(`li[id="${collapsedId}"]`)[0];
+        //if (el === null || el === undefined) {
+        //    const li = `<li id="${ids[j]}" class="test-suite"><a>${arr[j]}</a><ul></ul></li>`;
+        //    const firstUl = collapsedListElement.querySelector(`li[id="${ids[j - 1]}"]`).getElementsByTagName("ul")[0];
+        //    if (j !== len2) {
+        //        firstUl.innerHTML += li;
+        //    } else {
+        //        firstUl.innerHTML += testLi;
+        //    }
+        //}
         //make sure all tests are displayed with respect to filter buttons:
         const btns = document.getElementById("test-result-filter-buttons").getElementsByTagName("button");
         for (let i = 0; i < btns.length; i++) {
