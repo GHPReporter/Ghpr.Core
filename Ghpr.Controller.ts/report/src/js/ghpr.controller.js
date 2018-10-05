@@ -1192,6 +1192,9 @@ class RunPageUpdater {
                                 <span class="ghpr-test-list-span" style="background-color: ${color};"></span>
                                 <a class="f5 mb-2" href="${testHref}"> ${t.name}</a>
                               </div></li>`;
+        if (result === TestResult.Failed) {
+            document.getElementById("recent-test-failures").innerHTML += failedTestLi;
+        }
         this.plotlyTimelineData.push({
             x: [DateFormatter.format(ti.start), DateFormatter.format(ti.finish)],
             y: [1, 1],
@@ -1238,16 +1241,11 @@ class RunPageUpdater {
                 }
                 else {
                     const firstUl = hierarchicalListElement.querySelector(`li[id="${ids[j - 1]}"]`).getElementsByTagName("ul")[0];
-                    console.log(hierarchicalListElement);
-                    console.log(`#${ids[j - 1]}`);
                     if (j !== len2) {
                         firstUl.innerHTML += li;
                     }
                     else {
-                        document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += testLi;
-                        if (result === TestResult.Failed) {
-                            document.getElementById("recent-test-failures").innerHTML += failedTestLi;
-                        }
+                        firstUl.innerHTML += testLi;
                     }
                 }
             }
