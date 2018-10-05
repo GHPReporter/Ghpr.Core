@@ -181,20 +181,27 @@ class RunPageUpdater {
         }
         const ids: string[] = new Array();
         for (let j = 0; j < len2; j++) {
-            ids[j] = `id-${arr.slice(0, j + 1).join(".").replace(/\s/g, "_")}`;
+            ids[j] = `hierarchical-${arr.slice(0, j + 1).join(".").replace(/\s/g, "_")}`;
         }
+        const hierarchicalListElement = document.getElementById("all-tests-hierarchical");
         for (let j = 0; j <= len2; j++) {
             const el = document.getElementById(ids[j]);
             if (el === null || el === undefined) {
                 const li = `<li id="${ids[j]}" class="test-suite"><a>${arr[j]}</a><ul></ul></li>`;
                 if (j === 0) {
-                    document.getElementById("all-tests").innerHTML += li;
+                    hierarchicalListElement.innerHTML += li;
                 } else {
+                    const firstUl = hierarchicalListElement.querySelector(`li[id="${ids[j - 1]}"]`).getElementsByTagName("ul")[0];
+                    console.log(hierarchicalListElement);
+                    console.log(`#${ids[j - 1]}`);
                     if (j !== len2) {
-                        document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += li;
+                        firstUl.innerHTML += li;
+                        //document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += li;
                     } else {
-                        document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += testLi;
+                        firstUl.innerHTML += testLi;
+                        //document.getElementById(ids[j - 1]).getElementsByTagName("ul")[0].innerHTML += testLi;
                         if (result === TestResult.Failed) {
+                            //hierarchicalListElement.querySelector(`#recent-test-failures`).innerHTML += failedTestLi;
                             document.getElementById("recent-test-failures").innerHTML += failedTestLi;
                         }
                     }
@@ -219,7 +226,15 @@ class RunPageUpdater {
             }
         }
     }
-    
+
+    public static toExpandedList(): void {
+
+    }
+
+    public static toCollapsedList(): void {
+
+    }
+
     private static makeCollapsible(): void {
         const targets = document.getElementsByClassName("test-suite");
         for (let i = 0; i < targets.length; i++) {
@@ -337,7 +352,7 @@ class RunPageUpdater {
 
     static updateTestsList(run: RunDto): void {
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
-        document.getElementById("all-tests").innerHTML = "";
+        document.getElementById("all-tests-hierarchical").innerHTML = "";
         document.getElementById("recent-test-failures").innerHTML = "";
         var index = 0;
         Controller.init(PageType.TestRunPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
