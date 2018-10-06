@@ -1278,17 +1278,17 @@ class RunPageUpdater {
             }
         }
     }
-    static toExpandedList() {
+    static toHierarchicalList() {
         const collapsedList = document.getElementById("all-tests-collapsed");
-        const hierahicalList = document.getElementById("all-tests-hierarchical");
+        const hierarchicalList = document.getElementById("all-tests-hierarchical");
         collapsedList.style.display = "none";
-        hierahicalList.style.display = "";
+        hierarchicalList.style.display = "";
     }
     static toCollapsedList() {
         const collapsedList = document.getElementById("all-tests-collapsed");
-        const hierahicalList = document.getElementById("all-tests-hierarchical");
+        const hierarchicalList = document.getElementById("all-tests-hierarchical");
         collapsedList.style.display = "";
-        hierahicalList.style.display = "none";
+        hierarchicalList.style.display = "none";
     }
     static makeCollapsible() {
         const targets = document.getElementsByClassName("test-suite");

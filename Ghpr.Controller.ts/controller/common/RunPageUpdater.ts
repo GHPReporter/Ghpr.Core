@@ -232,18 +232,18 @@ class RunPageUpdater {
         }
     }
 
-    public static toExpandedList(): void {
+    public static toHierarchicalList(): void {
         const collapsedList = document.getElementById("all-tests-collapsed");
-        const hierahicalList = document.getElementById("all-tests-hierarchical");
+        const hierarchicalList = document.getElementById("all-tests-hierarchical");
         collapsedList.style.display = "none";
-        hierahicalList.style.display = "";
+        hierarchicalList.style.display = "";
     }
 
     public static toCollapsedList(): void {
         const collapsedList = document.getElementById("all-tests-collapsed");
-        const hierahicalList = document.getElementById("all-tests-hierarchical");
+        const hierarchicalList = document.getElementById("all-tests-hierarchical");
         collapsedList.style.display = "";
-        hierahicalList.style.display = "none";
+        hierarchicalList.style.display = "none";
     }
 
     private static makeCollapsible(): void {
