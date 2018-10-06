@@ -203,18 +203,16 @@ class RunPageUpdater {
                 }
             }
         }
+        const namespace = `${arr.join(".").replace(/\s/g, "_")}`;
         const collapsedListElement = document.getElementById("all-tests-collapsed");
-        const collapsedId = `collapsed-${arr.join(".").replace(/\s/g, "_")}`;
+        const collapsedId = `collapsed-${namespace}`;
         const el = collapsedListElement.querySelectorAll(`li[id="${collapsedId}"]`)[0];
-        //if (el === null || el === undefined) {
-        //    const li = `<li id="${ids[j]}" class="test-suite"><a>${arr[j]}</a><ul></ul></li>`;
-        //    const firstUl = collapsedListElement.querySelector(`li[id="${ids[j - 1]}"]`).getElementsByTagName("ul")[0];
-        //    if (j !== len2) {
-        //        firstUl.innerHTML += li;
-        //    } else {
-        //        firstUl.innerHTML += testLi;
-        //    }
-        //}
+        if (el === null || el === undefined) {
+            collapsedListElement.innerHTML +=
+                `<li id="${collapsedId}" class="test-suite"><a>${namespace}</a><ul></ul></li>`;
+        }
+        const li = collapsedListElement.querySelector(`li[id="${collapsedId}"]`).getElementsByTagName("ul")[0];
+        li.innerHTML += testLi;
         //make sure all tests are displayed with respect to filter buttons:
         const btns = document.getElementById("test-result-filter-buttons").getElementsByTagName("button");
         for (let i = 0; i < btns.length; i++) {
