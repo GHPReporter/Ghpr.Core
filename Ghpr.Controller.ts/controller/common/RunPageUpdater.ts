@@ -233,11 +233,17 @@ class RunPageUpdater {
     }
 
     public static toExpandedList(): void {
-
+        const collapsedList = document.getElementById("all-tests-collapsed");
+        const hierahicalList = document.getElementById("all-tests-hierarchical");
+        collapsedList.style.display = "none";
+        hierahicalList.style.display = "";
     }
 
     public static toCollapsedList(): void {
-
+        const collapsedList = document.getElementById("all-tests-collapsed");
+        const hierahicalList = document.getElementById("all-tests-hierarchical");
+        collapsedList.style.display = "";
+        hierahicalList.style.display = "none";
     }
 
     private static makeCollapsible(): void {

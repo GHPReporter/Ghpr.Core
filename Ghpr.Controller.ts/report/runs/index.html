@@ -169,7 +169,7 @@
                             Test list:
                         </h4>
                         <ul id="all-tests-hierarchical"></ul>
-                        <ul id="all-tests-collapsed"></ul>
+                        <ul id="all-tests-collapsed" style="display: none"></ul>
                     </div>
                 </div>
                 <div class="columns" id="run-timeline" style="margin-top: -16px; display: none">
@@ -186,11 +186,11 @@
         </div>
         <div class="ghpr-left-column border-left bg-gray col-12 col-md-3 col-lg-3 pr-5 hide-lg hide-md hide-sm">
             <div class="BtnGroup p-2 m-2 centered">
-                <button id="btn-prev-from-run" class="btn BtnGroup-item btn-sm" type="button" onclick="">
+                <button id="btn-prev-from-run" class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.toExpandedList();">
                     <img src="./../src/octicons/list-unordered.svg" class="ghpr-buttonicon" alt="" />
                     Hierarchical
                 </button>
-                <button id="btn-next-from-run" class="btn BtnGroup-item btn-sm" type="button" onclick="">
+                <button id="btn-next-from-run" class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.toCollapsedList();">
                     <img src="./../src/octicons/three-bars.svg" class="ghpr-buttonicon" alt="" />
                     Collapsed
                 </button>
