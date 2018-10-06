@@ -209,7 +209,7 @@ class RunPageUpdater {
         const el = collapsedListElement.querySelectorAll(`li[id="${collapsedId}"]`)[0];
         if (el === null || el === undefined) {
             collapsedListElement.innerHTML +=
-                `<li id="${collapsedId}" class="test-suite"><a>${namespace}</a><ul></ul></li>`;
+                `<li id="${collapsedId}" class="test-suite" style="list-style: none;"><a>${namespace}</a><ul></ul></li>`;
         }
         const li = collapsedListElement.querySelector(`li[id="${collapsedId}"]`).getElementsByTagName("ul")[0];
         li.innerHTML += testLi;
