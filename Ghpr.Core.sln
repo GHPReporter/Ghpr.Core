@@ -20,6 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.SimpleFileLogger", "Gh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.SerilogToSeqLogger", "Ghpr.SerilogToSeq\Ghpr.SerilogToSeqLogger.csproj", "{32EDF166-49DF-4235-A3B9-5877C1E7966C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3BC04007-9DF8-4F39-A964-D9738F647754}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.Core.Tests", "Ghpr.Core.Tests\Ghpr.Core.Tests.csproj", "{66E6F6BA-5B35-475A-A617-394696331F25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,9 +58,16 @@ Global
 		{32EDF166-49DF-4235-A3B9-5877C1E7966C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32EDF166-49DF-4235-A3B9-5877C1E7966C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32EDF166-49DF-4235-A3B9-5877C1E7966C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66E6F6BA-5B35-475A-A617-394696331F25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66E6F6BA-5B35-475A-A617-394696331F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66E6F6BA-5B35-475A-A617-394696331F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66E6F6BA-5B35-475A-A617-394696331F25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{66E6F6BA-5B35-475A-A617-394696331F25} = {3BC04007-9DF8-4F39-A964-D9738F647754}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1FE07638-8998-455C-8F67-6FD9AAB14EE8}
