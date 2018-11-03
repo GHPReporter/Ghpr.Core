@@ -61,23 +61,6 @@
             </h3>
         </div>
         <nav class="ghpr-pagenav-pane">
-            <div class="BtnGroup float-right" style="padding-right: 25%;">
-                <a id="btn-back" class="btn BtnGroup-item btn-sm" type="button" href="">
-                    <img src="./../src/octicons/sign-in.svg" class="ghpr-buttonicon" alt="" />
-                    Back
-                </a>
-                <button id="btn-prev" class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadPrev();">
-                    <img src="./../src/octicons/arrow-left.svg" class="ghpr-buttonicon" alt="" />
-                    Prev
-                </button>
-                <button id="btn-next" class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadNext();">
-                    Next
-                    <img src="./../src/octicons/arrow-right.svg" class="ghpr-buttonicon" alt="" />
-                </button>
-                <button class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadLatest();">
-                    Latest
-                </button>
-            </div>
             <a id="tab-run-main-stats" onclick="RunPageUpdater.showTab('run-main-stats', this);" class="ghpr-tab-a ghpr-pagenav-item selected">
                 <img src="./../src/octicons/graph.svg" class="ghpr-tabicon" alt="" />
                 Main
@@ -91,6 +74,23 @@
                 Timeline
             </a>
         </nav>
+        <div class="BtnGroup float-right ghpr-left-column col-12 col-md-4 col-lg-3 hide-md hide-sm">
+            <a id="btn-back" class="btn BtnGroup-item btn-sm" type="button" href="">
+                <img src="./../src/octicons/sign-in.svg" class="ghpr-buttonicon" alt="" />
+                Back
+            </a>
+            <button id="btn-prev" class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadPrev();">
+                <img src="./../src/octicons/arrow-left.svg" class="ghpr-buttonicon" alt="" />
+                Prev
+            </button>
+            <button id="btn-next" class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadNext();">
+                Next
+                <img src="./../src/octicons/arrow-right.svg" class="ghpr-buttonicon" alt="" />
+            </button>
+            <button class="btn BtnGroup-item btn-sm" type="button" onclick="RunPageUpdater.loadLatest();">
+                Latest
+            </button>
+        </div>
     </div>
     <div class="d-flex flex-wrap">
         <div id="progress-bar">
