@@ -15,8 +15,14 @@
     <copyright>Copyright Evgeniy Kosjakov © 2016-2018</copyright>
     <tags>.NET QA package HTML report reporting testing tool framework</tags>
     <dependencies>
-      <dependency id="Ghpr.Core" version="0.9.2.0" />
+      <dependency id="Ghpr.Core" version="0.9.3.0" />
       <dependency id="Newtonsoft.Json" version="11.0.2" />
+      <dependency id="Serilog" version="2.7.1" />
+      <dependency id="Serilog.Formatting.Compact" version="1.0.0" />
+      <dependency id="Serilog.Settings.AppSettings" version="2.2.2" />
+      <dependency id="Serilog.Sinks.File" version="4.0.0" />
+      <dependency id="Serilog.Sinks.PeriodicBatching" version="2.1.1" />
+      <dependency id="Serilog.Sinks.Seq" version="4.0.0" />
     </dependencies>
   </metadata>
   <files>
