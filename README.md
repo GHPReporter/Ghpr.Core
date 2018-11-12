@@ -11,7 +11,6 @@
   <a href="https://github.com/GHPReporter/GHPReporter.github.io/">Site Repo</a>
 </p>
 
-[![Language](http://gh-toprated.info/Badges/LanguageBadge?user=GHPReporter&repo=Ghpr.Core&theme=light&fontWeight=bold)](https://github.com/GHPReporter/Ghpr.Core)
 [![Build status](https://ci.appveyor.com/api/projects/status/ix1epmijw6uc780w?svg=true)](https://ci.appveyor.com/project/elv1s42/ghpr-core)
 [![Build status](https://dev.azure.com/ghpreporter/Ghpr.Core/_apis/build/status/Ghpr.Core-CI)](https://dev.azure.com/ghpreporter/Ghpr.Core/_build/latest?definitionId=2)
 [![NuGet Version](https://img.shields.io/nuget/v/Ghpr.Core.svg)](https://www.nuget.org/packages/Ghpr.Core)
