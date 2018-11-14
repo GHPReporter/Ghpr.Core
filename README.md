@@ -15,6 +15,7 @@
 [![Build status](https://dev.azure.com/ghpreporter/Ghpr.Core/_apis/build/status/Ghpr.Core-CI)](https://dev.azure.com/ghpreporter/Ghpr.Core/_build/latest?definitionId=2)
 [![NuGet Version](https://img.shields.io/nuget/v/Ghpr.Core.svg)](https://www.nuget.org/packages/Ghpr.Core)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FGHPReporter%2FGhpr.Core.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FGHPReporter%2FGhpr.Core?ref=badge_shield)
+[![CodeFactor](https://www.codefactor.io/repository/github/ghpreporter/ghpr.core/badge)](https://www.codefactor.io/repository/github/ghpreporter/ghpr.core)
 
 # Ghpr.Core
 
