@@ -1,17 +1,17 @@
 -
   branches:
     only:
-    - nuget  
+    - nuget
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     - npm install typescript -global
     - npm install ts-node -global
-  
+
   before_build:
     - nuget restore Ghpr.Core.sln
 
-  build_script: 
+  build_script:
     - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   after_build:
@@ -28,22 +28,22 @@
       secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
     artifact: nupkg
-    
+
 -
   branches:
     only:
-    - nuget-localfilesystem  
+    - nuget-localfilesystem
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     - npm install typescript -global
     - npm install ts-node -global
 
-  
+
   before_build:
     - nuget restore Ghpr.Core.sln
 
-  build_script: 
+  build_script:
     - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   after_build:
@@ -55,7 +55,7 @@
 
   deploy:
     provider: NuGet
-    server: 
+    server:
     api_key:
       secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
@@ -64,18 +64,18 @@
 -
   branches:
     only:
-    - nuget-simplefilelogger  
+    - nuget-simplefilelogger
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     - npm install typescript -global
     - npm install ts-node -global
 
-  
+
   before_build:
     - nuget restore Ghpr.Core.sln
 
-  build_script: 
+  build_script:
     - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   after_build:
@@ -87,27 +87,27 @@
 
   deploy:
     provider: NuGet
-    server: 
+    server:
     api_key:
       secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
     artifact: nupkg
-    
+
 -
   branches:
     only:
-    - nuget-serilogtoseqlogger  
+    - nuget-serilogtoseqlogger
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     - npm install typescript -global
     - npm install ts-node -global
 
-  
+
   before_build:
     - nuget restore Ghpr.Core.sln
 
-  build_script: 
+  build_script:
     - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   after_build:
@@ -119,12 +119,12 @@
 
   deploy:
     provider: NuGet
-    server: 
+    server:
     api_key:
       secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
     artifact: nupkg
-    
+
 -
   branches:
     only:
@@ -140,5 +140,5 @@
   before_build:
     - nuget restore Ghpr.Core.sln
 
-  build_script: 
+  build_script:
     - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
