@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 
