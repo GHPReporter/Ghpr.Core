@@ -412,7 +412,7 @@ class Differ {
         changes.forEach((change: any) => {
              res += this.getHtmlForOneChange(change);
         });
-        res = `<div style="word-wrap: break-word;  white-space: pre-wrap;">${res}</div>`; 
+        res = `<div style="word-wrap: break-word;  white-space: pre-wrap;">${res}</div>`;
         return res;
     }
 }
