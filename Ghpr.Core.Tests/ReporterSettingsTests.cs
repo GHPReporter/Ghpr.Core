@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 using NUnit.Framework;
@@ -6,12 +7,12 @@ using NUnit.Framework;
 namespace Ghpr.Core.Tests
 {
     [TestFixture]
-    public class SettingsTests
+    public class ReporterSettingsTests
     {
         [Test]
-        public void TestMethod()
+        public void LoadedCorrectly()
         {
-            var settings = "Ghpr.Core.Settings.json".LoadSettingsAs<ReporterSettings>();
+            var settings = "Ghpr.Core.Tests.Settings.json".LoadSettingsAs<ReporterSettings>();
             Assert.AreEqual("Awesome project", settings.ProjectName);
             Assert.AreEqual("Ghpr.LocalFileSystem.dll", settings.DataServiceFile);
             Assert.AreEqual("log.dll", settings.LoggerFile);
@@ -25,6 +26,15 @@ namespace Ghpr.Core.Tests
             Assert.AreEqual(5, settings.RunsToDisplay);
             Assert.AreEqual("Sprint name", settings.Sprint);
             Assert.AreEqual(7, settings.TestsToDisplay);
+        }
+
+        [Test]
+        public void FileNotFound()
+        {
+            Assert.Throws<FileNotFoundException>(() =>
+            {
+                "Ghpr.Core.Tests.Settings1.json".LoadSettingsAs<ReporterSettings>();
+            });
         }
     }
 }
