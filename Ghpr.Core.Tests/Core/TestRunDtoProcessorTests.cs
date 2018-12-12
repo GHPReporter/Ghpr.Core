@@ -55,7 +55,7 @@ namespace Ghpr.Core.Tests.Core
         [Test]
         public void TestInfoTest2()
         {
-            var now = DateTime.Now;
+            var now = DateTime.Now.AddSeconds(-3);
             var runGuid = Guid.NewGuid();
             var testGuid = Guid.NewGuid();
             var p = new TestRunDtoProcessor();
