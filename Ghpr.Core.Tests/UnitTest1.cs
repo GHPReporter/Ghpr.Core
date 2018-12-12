@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Ghpr.Core.Tests
 {
@@ -9,7 +8,7 @@ namespace Ghpr.Core.Tests
         [Test]
         public void TestMethod()
         {
-
+            var reporter = new Reporter();
         }
     }
 }

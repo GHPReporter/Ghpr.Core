@@ -1,5 +1,4 @@
-﻿using System;
-using Ghpr.Core.Common;
+﻿using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 
