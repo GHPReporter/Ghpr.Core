@@ -51,6 +51,7 @@
     <Compile Include="Core\ReportSettingsProviderTests.cs" />
     <Compile Include="Core\ReporterSettingsTests.cs" />
     <Compile Include="Core\RunDtoRepositoryTests.cs" />
+    <Compile Include="Core\TestRunDtoListExtensionsTests.cs" />
     <Compile Include="Core\TestRunDtoProcessorTests.cs" />
     <Compile Include="Core\TestRunDtoTests.cs" />
     <Compile Include="Core\TestRunsRepositoryTests.cs" />
