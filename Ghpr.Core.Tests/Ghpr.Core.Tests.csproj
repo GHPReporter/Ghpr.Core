@@ -47,9 +47,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PathsTests.cs" />
-    <Compile Include="ReportSettingsProviderTests.cs" />
-    <Compile Include="ReporterSettingsTests.cs" />
+    <Compile Include="Core\PathsTests.cs" />
+    <Compile Include="Core\ReportSettingsProviderTests.cs" />
+    <Compile Include="Core\ReporterSettingsTests.cs" />
+    <Compile Include="Core\TestRunsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

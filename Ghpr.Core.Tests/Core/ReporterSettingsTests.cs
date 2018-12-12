@@ -4,7 +4,7 @@ using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 using NUnit.Framework;
 
-namespace Ghpr.Core.Tests
+namespace Ghpr.Core.Tests.Core
 {
     [TestFixture]
     public class ReporterSettingsTests

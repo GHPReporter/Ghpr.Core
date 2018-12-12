@@ -64,7 +64,6 @@ namespace Ghpr.Core.Factories
                     sb.AppendLine();
                 }
                 var errorMessage = sb.ToString();
-                //Display or log the error based on your application.
                 throw new Exception(errorMessage);
             }
             if (implementationType == null)

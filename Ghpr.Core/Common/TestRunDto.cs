@@ -73,8 +73,6 @@ namespace Ghpr.Core.Common
         public List<TestEventDto> Events { get; set; }
         public List<TestDataDto> TestData { get; set; }
 
-        public bool FailedOrBroken => TestResult.Equals(TestResult.Broken) || TestResult.Equals(TestResult.Failed);
-
         public TestResult TestResult
         {
             get
