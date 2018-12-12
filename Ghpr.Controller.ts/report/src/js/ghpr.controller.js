@@ -820,7 +820,7 @@ class Differ {
         }
         return left.reduce((acc, cur, idx) => (acc && cur === right[idx]), true);
     }
-    ;
+    
     static all(type) {
         return (val) => ({
             type: type,

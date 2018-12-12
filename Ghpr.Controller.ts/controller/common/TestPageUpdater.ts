@@ -214,7 +214,7 @@ class TestPageUpdater {
         (historyDiv as any).on("plotly_click", (eventData: any) => {
             var url = `${eventData.points[0].customdata}`;
             window.open(url, "_self");
-        }); 
+        });
     }
 
     private static updateTestPage(testGuid: string, itemName: string): void {

@@ -14,7 +14,7 @@
 class RunPageUpdater {
 
     static currentRunIndex: number;
-    static runsToShow: number; 
+    static runsToShow: number;
     static reviveRun = JsonParser.reviveRun;
     static plotlyTimelineData = new Array();
 
@@ -226,7 +226,7 @@ class RunPageUpdater {
                 if (!btn.classList.contains("disabled")) {
                     t.style.display = "";
                 } else {
-                    t.style.display = "none";    
+                    t.style.display = "none";
                 }
             }
         }
