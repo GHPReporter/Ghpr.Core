@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Processors;
-using Ghpr.LocalFileSystem.Entities;
 using NUnit.Framework;
 
 namespace Ghpr.Core.Tests.Core
@@ -20,6 +19,63 @@ namespace Ghpr.Core.Tests.Core
             var testOnFinish = new TestRunDto();
             var finalTest = p.Process(testOnStart, testOnFinish, guid);
             Assert.AreEqual(guid, finalTest.RunGuid);
+        }
+
+        [Test]
+        public void TestInfoTest1()
+        {
+            var now = DateTime.Now;
+            var runGuid = Guid.NewGuid();
+            var testGuid = Guid.NewGuid();
+            var p = new TestRunDtoProcessor();
+            var testOnStart = new TestRunDto(testGuid, "Cool Test")
+            {
+                TestInfo = new ItemInfoDto
+                {
+                    Start = now,
+                    Finish = now.AddSeconds(2),
+                    ItemName = "item1"
+                }
+            };
+            var testOnFinish = new TestRunDto
+            {
+                TestInfo = new ItemInfoDto
+                {
+                    Start = now.AddSeconds(4),
+                    Finish = now.AddSeconds(6),
+                    ItemName = "item2"
+                }
+            };
+            var finalTest = p.Process(testOnStart, testOnFinish, runGuid);
+            Assert.AreEqual(testOnStart.TestInfo.Start, finalTest.TestInfo.Start);
+            Assert.AreEqual(testOnFinish.TestInfo.Finish, finalTest.TestInfo.Finish);
+            Assert.AreEqual(testOnFinish.TestInfo.ItemName, finalTest.TestInfo.ItemName);
+        }
+
+        [Test]
+        public void TestInfoTest2()
+        {
+            var now = DateTime.Now;
+            var runGuid = Guid.NewGuid();
+            var testGuid = Guid.NewGuid();
+            var p = new TestRunDtoProcessor();
+            var testOnStart = new TestRunDto(testGuid, "Cool Test")
+            {
+                TestInfo = new ItemInfoDto
+                {
+                    ItemName = "item1"
+                }
+            };
+            var testOnFinish = new TestRunDto
+            {
+                TestInfo = new ItemInfoDto
+                {
+                    Start = now.AddSeconds(4)
+                }
+            };
+            var finalTest = p.Process(testOnStart, testOnFinish, runGuid);
+            Assert.AreEqual(testOnFinish.TestInfo.Start, finalTest.TestInfo.Start);
+            Assert.True(finalTest.TestInfo.Finish > now);
         }
 
         [Test]
