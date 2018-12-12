@@ -32,6 +32,7 @@ namespace Ghpr.Core.Tests.Core
             const string newName = "Cool new name";
             repository.SetRunName(newName);
             Assert.AreEqual(newName, repository.CurrentRun.Name);
+            Assert.AreEqual(Guid.Parse(_settings.RunGuid), repository.RunGuid);
         }
 
         [Test]
