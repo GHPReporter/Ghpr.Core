@@ -50,6 +50,7 @@
     <Compile Include="Core\PathsTests.cs" />
     <Compile Include="Core\ReportSettingsProviderTests.cs" />
     <Compile Include="Core\ReporterSettingsTests.cs" />
+    <Compile Include="Core\RunDtoRepositoryTests.cs" />
     <Compile Include="Core\TestRunsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
