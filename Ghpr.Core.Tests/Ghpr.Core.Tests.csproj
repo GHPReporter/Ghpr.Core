@@ -47,6 +47,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ItemInfoDtoComparerTests.cs" />
     <Compile Include="Core\PathsTests.cs" />
     <Compile Include="Core\ReportSettingsProviderTests.cs" />
     <Compile Include="Core\ReporterSettingsTests.cs" />
