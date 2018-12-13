@@ -86,7 +86,7 @@ namespace Ghpr.Core.Common
             {
                 return null;
             }
-            var testOutput = AllTestOutputDtos?.FirstOrDefault(to => to.TestOutputInfo.Equals(test.Output));
+            var testOutput = AllTestOutputDtos?.FirstOrDefault(to => to.TestOutputInfo != null && to.TestOutputInfo.Equals(test.Output));
             return testOutput;
         }
 
@@ -106,8 +106,20 @@ namespace Ghpr.Core.Common
         public List<TestRunDto> GetTestRunsFromRun(RunDto run)
         {
             _dataReaderLogger.Debug("Getting run's test runs from Common cache");
-            var testRuns = run?.TestsInfo.Select(GetTestRun).ToList();
-            var res = testRuns == null ? null : testRuns.Any(t => t == null) ? null : testRuns;
+            var testRuns = new List<TestRunDto>();
+            var testInfos = run?.TestsInfo;
+            if (testInfos != null)
+            {
+                foreach (var testInfo in testInfos)
+                {
+                    var test = GetTestRun(testInfo);
+                    if (test != null)
+                    {
+                        testRuns.Add(test);
+                    }
+                }
+            }
+            var res = testRuns.Any() ? null : testRuns.Any(t => t == null) ? null : testRuns;
             return res;
         }
 

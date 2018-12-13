@@ -47,6 +47,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Common\CommonCacheTests.cs" />
     <Compile Include="Core\Comparers\ItemInfoDtoComparerTests.cs" />
     <Compile Include="Core\Factories\ReporterFactoryTests.cs" />
     <Compile Include="Core\MockTestDataProviderWithException.cs" />
