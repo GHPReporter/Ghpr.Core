@@ -4,7 +4,7 @@ using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
 using NUnit.Framework;
 
-namespace Ghpr.Core.Tests.Core
+namespace Ghpr.Core.Tests.Core.Extensions
 {
     [TestFixture]
     public class TestRunDtoListExtensionsTests

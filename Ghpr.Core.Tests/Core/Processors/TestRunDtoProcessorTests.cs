@@ -5,7 +5,7 @@ using Ghpr.Core.Extensions;
 using Ghpr.Core.Processors;
 using NUnit.Framework;
 
-namespace Ghpr.Core.Tests.Core
+namespace Ghpr.Core.Tests.Core.Processors
 {
     [TestFixture]
     public class TestRunDtoProcessorTests

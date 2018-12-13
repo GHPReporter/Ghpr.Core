@@ -37,6 +37,11 @@ namespace Ghpr.Core.Common
         {
         }
 
+        public IDataReaderService GetDataReader()
+        {
+            return this;
+        }
+
         public void InitializeDataReader(ReporterSettings settings, ILogger logger)
         {
             _dataReaderLogger = logger;
@@ -104,6 +109,11 @@ namespace Ghpr.Core.Common
             var testRuns = run?.TestsInfo.Select(GetTestRun).ToList();
             var res = testRuns == null ? null : testRuns.Any(t => t == null) ? null : testRuns;
             return res;
+        }
+
+        public IDataWriterService GetDataWriter()
+        {
+            return this;
         }
 
         public void InitializeDataWriter(ReporterSettings settings, ILogger logger)

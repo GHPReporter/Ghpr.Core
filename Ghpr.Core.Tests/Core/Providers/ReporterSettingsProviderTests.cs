@@ -2,10 +2,10 @@
 using Ghpr.Core.Providers;
 using NUnit.Framework;
 
-namespace Ghpr.Core.Tests.Core
+namespace Ghpr.Core.Tests.Core.Providers
 {
     [TestFixture]
-    public class ReportSettingsProviderTests
+    public class ReporterSettingsProviderTests
     {
         [TestCase(TestingFramework.MSTestV2, "Ghpr.MSTestV2.Settings.json")]
         [TestCase(TestingFramework.MSTest, "Ghpr.MSTest.Settings.json")]

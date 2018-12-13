@@ -1,7 +1,7 @@
 ﻿using Ghpr.Core.Utils;
 using NUnit.Framework;
 
-namespace Ghpr.Core.Tests.Core
+namespace Ghpr.Core.Tests.Core.Utils
 {
     [TestFixture]
     public class PathsTests
