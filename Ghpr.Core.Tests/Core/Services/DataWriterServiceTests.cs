@@ -17,7 +17,7 @@ namespace Ghpr.Core.Tests.Core.Services
             CommonCache.Instance.InitializeDataWriter(new ReporterSettings(), new EmptyLogger());
             var writer = new DataWriterService(new MockDataWriterService(), CommonCache.Instance);
             Assert.IsInstanceOf(typeof(MockDataWriterService), writer.GetDataWriter());
-            Assert.DoesNotThrow(() => { writer.SaveReportSettings(new ReportSettingsDto(1, 2, "", "")); });
+            Assert.DoesNotThrow(() => writer.SaveReportSettings(new ReportSettingsDto(1, 2, "", "")));
             Assert.DoesNotThrow(() => writer.SaveTestRun(new TestRunDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => writer.SaveReportSettings(new ReportSettingsDto(1, 2, "", "")));
             Assert.Throws<NullReferenceException>(() => writer.SaveRun(new RunDto()));

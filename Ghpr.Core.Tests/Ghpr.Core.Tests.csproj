@@ -48,12 +48,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Common\CommonCacheTests.cs" />
+    <Compile Include="Core\Common\TestCaseFullDtoTests.cs" />
+    <Compile Include="Core\Common\TestEventDtoTests.cs" />
     <Compile Include="Core\Comparers\ItemInfoDtoComparerTests.cs" />
     <Compile Include="Core\Factories\ReporterFactoryTests.cs" />
     <Compile Include="Core\MockDataReaderService.cs" />
     <Compile Include="Core\MockDataWriterService.cs" />
     <Compile Include="Core\MockTestDataProviderWithException.cs" />
     <Compile Include="Core\MockTestDataProvider.cs" />
+    <Compile Include="Core\Processors\ReportCleanUpProcessorTests.cs" />
     <Compile Include="Core\ReporterManagerTests.cs" />
     <Compile Include="Core\ReporterTests.cs" />
     <Compile Include="Core\Services\DataReaderServiceTests.cs" />
