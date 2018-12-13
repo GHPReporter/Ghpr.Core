@@ -1,4 +1,5 @@
-﻿using Ghpr.Core.Common;
+﻿using System;
+using Ghpr.Core.Common;
 using Ghpr.Core.Factories;
 using NUnit.Framework;
 
@@ -33,6 +34,35 @@ namespace Ghpr.Core.Tests.Core
             Assert.IsInstanceOf(typeof(MockTestDataProvider), r.TestDataProvider);
             r.SetTestDataProvider(new MockTestDataProviderWithException());
             Assert.IsInstanceOf(typeof(MockTestDataProviderWithException), r.TestDataProvider);
+        }
+
+
+        [Test]
+        public void LoggerTest()
+        {
+            var e = new Exception();
+            var o = new object();
+            var r = ReporterFactory.Build(new MockTestDataProvider());
+            Assert.DoesNotThrow(() => { r.Logger.SetUp(r.ReporterSettings); });
+            Assert.DoesNotThrow(() => { r.Logger.Info(o, e); });
+            Assert.DoesNotThrow(() => { r.Logger.Info("msg", e); });
+            Assert.DoesNotThrow(() => { r.Logger.Info("msg"); });
+            Assert.DoesNotThrow(() => { r.Logger.Warn(o, e); });
+            Assert.DoesNotThrow(() => { r.Logger.Warn("msg", e); });
+            Assert.DoesNotThrow(() => { r.Logger.Warn("msg"); });
+            Assert.DoesNotThrow(() => { r.Logger.Error(o, e); });
+            Assert.DoesNotThrow(() => { r.Logger.Error("msg", e); });
+            Assert.DoesNotThrow(() => { r.Logger.Error("msg"); });
+            Assert.DoesNotThrow(() => { r.Logger.Debug(o, e); });
+            Assert.DoesNotThrow(() => { r.Logger.Debug("msg", e); });
+            Assert.DoesNotThrow(() => { r.Logger.Debug("msg"); });
+            Assert.DoesNotThrow(() => { r.Logger.Fatal(o, e); });
+            Assert.DoesNotThrow(() => { r.Logger.Fatal("msg", e); });
+            Assert.DoesNotThrow(() => { r.Logger.Fatal("msg"); });
+            Assert.DoesNotThrow(() => { r.Logger.Exception(o, e); });
+            Assert.DoesNotThrow(() => { r.Logger.Exception("msg", e); });
+            Assert.DoesNotThrow(() => { r.Logger.Exception("msg"); });
+            Assert.DoesNotThrow(() => { r.Logger.TearDown(); });
         }
     }
 }
