@@ -50,10 +50,14 @@
     <Compile Include="Core\Common\CommonCacheTests.cs" />
     <Compile Include="Core\Comparers\ItemInfoDtoComparerTests.cs" />
     <Compile Include="Core\Factories\ReporterFactoryTests.cs" />
+    <Compile Include="Core\MockDataReaderService.cs" />
+    <Compile Include="Core\MockDataWriterService.cs" />
     <Compile Include="Core\MockTestDataProviderWithException.cs" />
     <Compile Include="Core\MockTestDataProvider.cs" />
     <Compile Include="Core\ReporterManagerTests.cs" />
     <Compile Include="Core\ReporterTests.cs" />
+    <Compile Include="Core\Services\DataReaderServiceTests.cs" />
+    <Compile Include="Core\Services\DataWriterServiceTests.cs" />
     <Compile Include="Core\Utils\PathsTests.cs" />
     <Compile Include="Core\Providers\ReporterSettingsProviderTests.cs" />
     <Compile Include="Core\Settings\ReporterSettingsTests.cs" />

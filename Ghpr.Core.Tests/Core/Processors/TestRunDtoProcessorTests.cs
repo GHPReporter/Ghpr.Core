@@ -101,7 +101,17 @@ namespace Ghpr.Core.Tests.Core.Processors
             var p = new TestRunDtoProcessor();
             var testOnStart = new TestRunDto(testGuid, "Cool Test")
             {
-                Events = new List<TestEventDto> { new TestEventDto("ev1"), new TestEventDto("ev2") }
+                Events = new List<TestEventDto>
+                {
+                    new TestEventDto("ev1")
+                    {
+                        Comment = "comment",
+                        EventInfo = new SimpleItemInfoDto { Date = DateTime.Now, ItemName = "item" },
+                        Finished = DateTime.Now,
+                        Started = DateTime.Now.AddSeconds(-3)
+                    },
+                    new TestEventDto("ev2")
+                }
             };
             var testOnFinish = new TestRunDto
             {
