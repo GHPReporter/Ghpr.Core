@@ -20,6 +20,7 @@ namespace Ghpr.Core.Tests.Core.Extensions
             Directory.Delete(path);
         }
 
+        [TestCase(null, "d98c1dd4-008f-04b2-e980-0998ecf8427e")]
         [TestCase("value", "60c16320-6e8d-af0b-8024-9c42e2be5804")]
         [TestCase("@#$%^&*", "13f43c69-dfa2-20cc-d646-f6640cc49968")]
         [TestCase("value  -  asdfa - s!", "5148c927-4668-af01-b893-28f44bb86689")]
