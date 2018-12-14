@@ -51,6 +51,7 @@
     <Compile Include="Core\Common\TestCaseFullDtoTests.cs" />
     <Compile Include="Core\Common\TestEventDtoTests.cs" />
     <Compile Include="Core\Comparers\ItemInfoDtoComparerTests.cs" />
+    <Compile Include="Core\Extensions\StringExtensionsTests.cs" />
     <Compile Include="Core\Factories\ReporterFactoryTests.cs" />
     <Compile Include="Core\MockDataReaderService.cs" />
     <Compile Include="Core\MockDataWriterService.cs" />

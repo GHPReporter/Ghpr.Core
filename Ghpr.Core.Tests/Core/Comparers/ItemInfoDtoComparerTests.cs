@@ -23,7 +23,6 @@ namespace Ghpr.Core.Tests.Core.Comparers
         {
             var now = DateTime.Now;
             var guid1 = Guid.NewGuid();
-            var guid2 = Guid.NewGuid();
             var dto1 = new ItemInfoDto();
             var dto2 = new ItemInfoDto();
             Assert.IsTrue(_comparer.Equals(dto1, dto2));
@@ -63,6 +62,15 @@ namespace Ghpr.Core.Tests.Core.Comparers
             dto2 = new ItemInfoDto { Guid = guid1, ItemName = "a1", Start = now, Finish = now.AddSeconds(2) };
             Assert.IsFalse(_comparer.Equals(dto1, dto2));
             Assert.IsFalse(_comparer.Equals(dto2, dto1));
+        }
+
+        [Test]
+        public void HashCodeTest()
+        {
+            var now = DateTime.Now;
+            var guid = Guid.NewGuid();
+            var dto = new ItemInfoDto { Guid = guid, ItemName = "a1", Start = now, Finish = now.AddSeconds(1) };
+            Assert.AreEqual(dto.GetHashCode(), _comparer.GetHashCode(dto));
         }
     }
 }
