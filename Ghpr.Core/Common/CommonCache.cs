@@ -238,8 +238,7 @@ namespace Ghpr.Core.Common
             var comparer = new SimpleItemInfoDtoComparer();
             if (screens.Any())
             {
-                screens.RemoveAll(s => s.TestScreenshotInfo != null && testScreenshot.TestScreenshotInfo != null
-                                       && s.TestGuid.Equals(testScreenshot.TestGuid)
+                screens.RemoveAll(s => s.TestGuid.Equals(testScreenshot.TestGuid)
                                        && comparer.Equals(s.TestScreenshotInfo, testScreenshot.TestScreenshotInfo));
             }
             screens.Add(testScreenshot);
