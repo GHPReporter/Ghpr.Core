@@ -64,11 +64,12 @@ namespace Ghpr.Core.Tests.Core.Common
                 TestGuid = Guid.NewGuid(),
                 TestScreenshotInfo = new SimpleItemInfoDto { Date = DateTime.Now, ItemName = "item" }
             }));
-            Assert.Throws<NullReferenceException>(() => cache.UpdateTestOutput(new ItemInfoDto(), new TestOutputDto()));
+            Assert.DoesNotThrow(() => cache.UpdateTestOutput(new ItemInfoDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => cache.DeleteRun(new ItemInfoDto()));
             Assert.DoesNotThrow(() => cache.DeleteTest(new TestRunDto()));
             Assert.Throws<NullReferenceException>(() => cache.DeleteTestOutput(new TestRunDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => cache.DeleteTestScreenshot(new TestRunDto(), new TestScreenshotDto()));
+            cache.TearDown();
         }
     }
 }

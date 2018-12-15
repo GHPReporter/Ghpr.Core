@@ -17,7 +17,7 @@ namespace Ghpr.Core.Tests.Core.Extensions
         {
             path.Create();
             Assert.IsTrue(Directory.Exists(path));
-            Directory.Delete(path);
+            Directory.Delete(path, true);
         }
 
         [TestCase(null, "d98c1dd4-008f-04b2-e980-0998ecf8427e")]

@@ -2,6 +2,6 @@
 {
     public interface ICommonCache : IDataReaderService, IDataWriterService
     {
-        
+        void TearDown();
     }
 }

@@ -28,11 +28,12 @@ namespace Ghpr.Core.Tests.Core.Services
                 TestGuid = Guid.NewGuid(),
                 TestScreenshotInfo = new SimpleItemInfoDto { Date = DateTime.Now, ItemName = "item" }
             }));
-            Assert.Throws<NullReferenceException>(() => writer.UpdateTestOutput(new ItemInfoDto(), new TestOutputDto()));
+            Assert.DoesNotThrow(() => writer.UpdateTestOutput(new ItemInfoDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => writer.DeleteRun(new ItemInfoDto()));
             Assert.DoesNotThrow(() => writer.DeleteTest(new TestRunDto()));
             Assert.Throws<NullReferenceException>(() => writer.DeleteTestOutput(new TestRunDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => writer.DeleteTestScreenshot(new TestRunDto(), new TestScreenshotDto()));
+            CommonCache.Instance.TearDown();
         }
     }
 }

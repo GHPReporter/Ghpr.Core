@@ -26,6 +26,7 @@ namespace Ghpr.Core.Tests.Core.Services
             Assert.DoesNotThrow(() => reader.GetTestOutput(new TestRunDto()));
             Assert.DoesNotThrow(() => reader.GetTestRunsFromRun(new RunDto()));
             Assert.DoesNotThrow(() => reader.GetTestScreenshots(new TestRunDto()));
+            CommonCache.Instance.TearDown();
         }
     }
 }

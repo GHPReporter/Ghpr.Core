@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
+using Ghpr.Core.Comparers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 
@@ -35,6 +36,12 @@ namespace Ghpr.Core.Common
 
         private CommonCache()
         {
+        }
+
+        public void TearDown()
+        {
+            _dataReaderLogger = null;
+            _dataWriterLogger = null;
         }
 
         public IDataReaderService GetDataReader()
@@ -75,8 +82,13 @@ namespace Ghpr.Core.Common
         public List<TestScreenshotDto> GetTestScreenshots(TestRunDto test)
         {
             _dataReaderLogger.Debug("Getting test screenshots from Common cache");
-            return AllTestScreenshotDtos?.Where(s => s.TestGuid.Equals(test.TestInfo.Guid) 
-                && s.TestScreenshotInfo.Date >= test.TestInfo.Start && s.TestScreenshotInfo.Date <= test.TestInfo.Finish).ToList();
+            return AllTestScreenshotDtos != null && AllTestScreenshotDtos.Any()
+                ? AllTestScreenshotDtos.Where(s => s.TestScreenshotInfo != null 
+                                                   && test.TestInfo != null
+                                                   && s.TestGuid.Equals(test.TestInfo.Guid) 
+                                                   && s.TestScreenshotInfo.Date >= test.TestInfo.Start 
+                                                   && s.TestScreenshotInfo.Date <= test.TestInfo.Finish).ToList()
+                : null;
         }
 
         public TestOutputDto GetTestOutput(TestRunDto test)
@@ -151,8 +163,8 @@ namespace Ghpr.Core.Common
             _cache.Set(AllTestRunDtosKey, tests, Offset);
 
             var outputs = AllTestOutputDtos ?? new List<TestOutputDto>();
-            outputs.RemoveAll(o => o.TestOutputInfo.Date.Equals(testOutput.TestOutputInfo.Date)
-                                   && o.TestOutputInfo.ItemName.Equals(testOutput.TestOutputInfo.ItemName));
+            var comparer = new SimpleItemInfoDtoComparer();
+            outputs.RemoveAll(o => comparer.Equals(o.TestOutputInfo, testOutput.TestOutputInfo));
             outputs.Add(testOutput);
             _cache.Set(AllTestOutputDtosKey, outputs, Offset);
             _dataWriterLogger.Debug("Saving test run and output in Common cache: Done");
@@ -223,7 +235,7 @@ namespace Ghpr.Core.Common
         {
             _dataWriterLogger.Debug($"Deleting test run screenshot with guid = {testRun.TestInfo.Guid}");
             var screens = AllTestScreenshotDtos ?? new List<TestScreenshotDto>();
-            screens.RemoveAll(s => s.TestGuid.Equals(testScreenshot.TestGuid)
+            screens.RemoveAll(s => s.TestScreenshotInfo != null && s.TestGuid.Equals(testScreenshot.TestGuid)
                                    && s.TestScreenshotInfo.Date.Equals(testScreenshot.TestScreenshotInfo.Date)
                                    && s.TestScreenshotInfo.ItemName.Equals(testScreenshot.TestScreenshotInfo.ItemName));
             screens.Add(testScreenshot);
