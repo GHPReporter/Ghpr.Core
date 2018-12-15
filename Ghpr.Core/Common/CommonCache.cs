@@ -184,11 +184,14 @@ namespace Ghpr.Core.Common
         public ItemInfoDto SaveRun(RunDto run)
         {
             _dataWriterLogger.Debug("Saving run in Common cache");
-            _cache.Set(run.RunInfo.Guid.ToString(), run, Offset);
-            var runs = AllRunDtos ?? new List<RunDto>();
-            runs.RemoveAll(r => r.RunInfo.Guid.Equals(run.RunInfo.Guid));
-            runs.Add(run);
-            _cache.Set(AllRunDtosKey, runs, Offset);
+            if (run.RunInfo != null)
+            {
+                _cache.Set(run.RunInfo.Guid.ToString(), run, Offset);
+                var runs = AllRunDtos ?? new List<RunDto>();
+                runs.RemoveAll(r => r.RunInfo.Guid.Equals(run.RunInfo.Guid));
+                runs.Add(run);
+                _cache.Set(AllRunDtosKey, runs, Offset);
+            }
             return run.RunInfo;
         }
 

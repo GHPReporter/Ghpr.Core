@@ -29,13 +29,14 @@ namespace Ghpr.Core.Tests.Core.Common
             Assert.Throws<NullReferenceException>(() => cache.GetTestScreenshots(new TestRunDto()));
             Assert.Throws<NullReferenceException>(() => cache.SaveReportSettings(new ReportSettingsDto(1, 2, "", "")));
             Assert.Throws<NullReferenceException>(() => cache.SaveRun(new RunDto()));
-            Assert.Throws<NullReferenceException>(() => cache.SaveScreenshot(new TestScreenshotDto
+            var scr = new TestScreenshotDto
             {
                 Base64Data = "adfas",
                 Format = "png",
                 TestGuid = Guid.NewGuid(),
-                TestScreenshotInfo = new SimpleItemInfoDto { Date = DateTime.Now, ItemName =  "item"}
-            }));
+                TestScreenshotInfo = new SimpleItemInfoDto {Date = DateTime.Now, ItemName = "item"}
+            };
+            Assert.Throws<NullReferenceException>(() => cache.SaveScreenshot(scr));
             Assert.Throws<NullReferenceException>(() => cache.UpdateTestOutput(new ItemInfoDto(), new TestOutputDto()));
             Assert.Throws<NullReferenceException>(() => cache.DeleteRun(new ItemInfoDto()));
             Assert.Throws<NullReferenceException>(() => cache.DeleteTest(new TestRunDto()));
@@ -56,19 +57,13 @@ namespace Ghpr.Core.Tests.Core.Common
             Assert.DoesNotThrow(() => cache.GetTestRunsFromRun(new RunDto()));
             Assert.DoesNotThrow(() => cache.GetTestScreenshots(new TestRunDto()));
             Assert.DoesNotThrow(() => cache.SaveReportSettings(new ReportSettingsDto(1, 2, "", "")));
-            Assert.Throws<NullReferenceException>(() => cache.SaveRun(new RunDto()));
-            Assert.DoesNotThrow(() => cache.SaveScreenshot(new TestScreenshotDto
-            {
-                Base64Data = "adfas",
-                Format = "png",
-                TestGuid = Guid.NewGuid(),
-                TestScreenshotInfo = new SimpleItemInfoDto { Date = DateTime.Now, ItemName = "item" }
-            }));
+            Assert.DoesNotThrow(() => cache.SaveRun(new RunDto()));
+            Assert.DoesNotThrow(() => cache.SaveScreenshot(scr));
             Assert.DoesNotThrow(() => cache.UpdateTestOutput(new ItemInfoDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => cache.DeleteRun(new ItemInfoDto()));
             Assert.DoesNotThrow(() => cache.DeleteTest(new TestRunDto()));
             Assert.Throws<NullReferenceException>(() => cache.DeleteTestOutput(new TestRunDto(), new TestOutputDto()));
-            Assert.DoesNotThrow(() => cache.DeleteTestScreenshot(new TestRunDto(), new TestScreenshotDto()));
+            Assert.DoesNotThrow(() => cache.DeleteTestScreenshot(new TestRunDto(), scr));
             cache.TearDown();
         }
     }

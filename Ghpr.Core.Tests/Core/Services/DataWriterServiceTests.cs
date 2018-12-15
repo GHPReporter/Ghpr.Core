@@ -20,19 +20,20 @@ namespace Ghpr.Core.Tests.Core.Services
             Assert.DoesNotThrow(() => writer.SaveReportSettings(new ReportSettingsDto(1, 2, "", "")));
             Assert.DoesNotThrow(() => writer.SaveTestRun(new TestRunDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => writer.SaveReportSettings(new ReportSettingsDto(1, 2, "", "")));
-            Assert.Throws<NullReferenceException>(() => writer.SaveRun(new RunDto()));
-            Assert.DoesNotThrow(() => writer.SaveScreenshot(new TestScreenshotDto
+            Assert.DoesNotThrow(() => writer.SaveRun(new RunDto()));
+            var scr = new TestScreenshotDto
             {
                 Base64Data = "adfas",
                 Format = "png",
                 TestGuid = Guid.NewGuid(),
-                TestScreenshotInfo = new SimpleItemInfoDto { Date = DateTime.Now, ItemName = "item" }
-            }));
+                TestScreenshotInfo = new SimpleItemInfoDto {Date = DateTime.Now, ItemName = "item"}
+            };
+            Assert.DoesNotThrow(() => writer.SaveScreenshot(scr));
             Assert.DoesNotThrow(() => writer.UpdateTestOutput(new ItemInfoDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => writer.DeleteRun(new ItemInfoDto()));
             Assert.DoesNotThrow(() => writer.DeleteTest(new TestRunDto()));
             Assert.Throws<NullReferenceException>(() => writer.DeleteTestOutput(new TestRunDto(), new TestOutputDto()));
-            Assert.DoesNotThrow(() => writer.DeleteTestScreenshot(new TestRunDto(), new TestScreenshotDto()));
+            Assert.DoesNotThrow(() => writer.DeleteTestScreenshot(new TestRunDto(), scr));
             CommonCache.Instance.TearDown();
         }
     }
