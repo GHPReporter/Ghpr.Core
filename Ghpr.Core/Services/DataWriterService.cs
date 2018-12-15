@@ -14,7 +14,12 @@ namespace Ghpr.Core.Services
             _dataWriterService = dataWriterService;
             _cache = cache;
         }
-        
+
+        public IDataWriterService GetDataWriter()
+        {
+            return _dataWriterService;
+        }
+
         public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
         {
             _dataWriterService.InitializeDataWriter(settings, logger);

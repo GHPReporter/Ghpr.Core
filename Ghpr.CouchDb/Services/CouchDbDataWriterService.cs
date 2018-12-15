@@ -9,6 +9,11 @@ namespace Ghpr.CouchDb.Services
 {
     public class CouchDbDataWriterService : IDataWriterService
     {
+        public IDataWriterService GetDataWriter()
+        {
+            return this;
+        }
+
         public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
         {
             var couchDbSettings = "Ghpr.CouchDb.Settings.json".LoadSettingsAs<CouchDbSettings>();

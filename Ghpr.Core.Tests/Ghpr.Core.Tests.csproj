@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.11.2\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.11.2\build\net35\NUnit3TestAdapter.props')" />
   <Import Project="..\packages\NUnit.3.11.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.11.0\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,7 +47,30 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Core\Common\CommonCacheTests.cs" />
+    <Compile Include="Core\Common\TestCaseFullDtoTests.cs" />
+    <Compile Include="Core\Common\TestEventDtoTests.cs" />
+    <Compile Include="Core\Comparers\ItemInfoDtoComparerTests.cs" />
+    <Compile Include="Core\Extensions\StringExtensionsTests.cs" />
+    <Compile Include="Core\Factories\ReporterFactoryTests.cs" />
+    <Compile Include="Core\MockDataReaderService.cs" />
+    <Compile Include="Core\MockDataWriterService.cs" />
+    <Compile Include="Core\MockTestDataProviderWithException.cs" />
+    <Compile Include="Core\MockTestDataProvider.cs" />
+    <Compile Include="Core\Processors\ReportCleanUpProcessorTests.cs" />
+    <Compile Include="Core\ReporterManagerTests.cs" />
+    <Compile Include="Core\ReporterTests.cs" />
+    <Compile Include="Core\Services\DataReaderServiceTests.cs" />
+    <Compile Include="Core\Services\DataWriterServiceTests.cs" />
+    <Compile Include="Core\Utils\PathsTests.cs" />
+    <Compile Include="Core\Providers\ReporterSettingsProviderTests.cs" />
+    <Compile Include="Core\Settings\ReporterSettingsTests.cs" />
+    <Compile Include="Core\Utils\RunDtoRepositoryTests.cs" />
+    <Compile Include="Core\Comparers\SimpleItemInfoDtoComparerTests.cs" />
+    <Compile Include="Core\Extensions\TestRunDtoListExtensionsTests.cs" />
+    <Compile Include="Core\Processors\TestRunDtoProcessorTests.cs" />
+    <Compile Include="Core\Common\TestRunDtoTests.cs" />
+    <Compile Include="Core\Utils\TestRunsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,8 +82,30 @@
       <Project>{40be674c-5954-4aba-b1ed-a890621ad306}</Project>
       <Name>Ghpr.LocalFileSystem</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ghpr.Logger\Ghpr.SimpleFileLogger.csproj">
+      <Project>{d155a663-873e-4ef4-8a93-e31cf81b7785}</Project>
+      <Name>Ghpr.SimpleFileLogger</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Ghpr.SpecFlow.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ghpr.NUnit.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ghpr.MSTestV2.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ghpr.MSTest.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ghpr.Core.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ghpr.Core.Tests.Settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
@@ -69,5 +115,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\NUnit.3.11.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.11.0\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.11.2\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.11.2\build\net35\NUnit3TestAdapter.props'))" />
   </Target>
 </Project>

@@ -139,8 +139,8 @@
 
 -
   branches:
-    only:
-    - master
+    except:
+    - /nuget*/
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe

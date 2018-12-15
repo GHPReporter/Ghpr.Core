@@ -4,9 +4,9 @@ using Ghpr.Core.Utils;
 
 namespace Ghpr.Core.Providers
 {
-    internal static class ReporterSettingsProvider
+    public static class ReporterSettingsProvider
     {
-        public static ReporterSettings Load(TestingFramework testingFramework)
+        public static string GetFileName(TestingFramework testingFramework)
         {
             string fileName;
             switch (testingFramework)
@@ -27,7 +27,12 @@ namespace Ghpr.Core.Providers
                     fileName = Paths.Files.CoreSettings;
                     break;
             }
-            var settings = Load(fileName);
+            return fileName;
+        }
+
+        public static ReporterSettings Load(TestingFramework testingFramework)
+        {
+            var settings = Load(GetFileName(testingFramework));
             return settings;
         }
 
