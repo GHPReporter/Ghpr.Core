@@ -236,8 +236,12 @@ namespace Ghpr.Core.Common
             _dataWriterLogger.Debug($"Deleting test run screenshot with guid = {testRun.TestInfo.Guid}");
             var screens = AllTestScreenshotDtos ?? new List<TestScreenshotDto>();
             var comparer = new SimpleItemInfoDtoComparer();
-            screens.RemoveAll(s => s.TestScreenshotInfo != null && s.TestGuid.Equals(testScreenshot.TestGuid)
-                                                                && comparer.Equals(s.TestScreenshotInfo, testScreenshot.TestScreenshotInfo));
+            if (screens.Any())
+            {
+                screens.RemoveAll(s => s.TestScreenshotInfo != null && testScreenshot.TestScreenshotInfo != null
+                                       && s.TestGuid.Equals(testScreenshot.TestGuid)
+                                       && comparer.Equals(s.TestScreenshotInfo, testScreenshot.TestScreenshotInfo));
+            }
             screens.Add(testScreenshot);
             _cache.Set(AllTestScreenshotDtosKey, screens, Offset);
         }
