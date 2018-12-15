@@ -62,7 +62,7 @@ namespace Ghpr.Core.Tests.Core.Common
             Assert.DoesNotThrow(() => cache.UpdateTestOutput(new ItemInfoDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => cache.DeleteRun(new ItemInfoDto()));
             Assert.DoesNotThrow(() => cache.DeleteTest(new TestRunDto()));
-            Assert.Throws<NullReferenceException>(() => cache.DeleteTestOutput(new TestRunDto(), new TestOutputDto()));
+            Assert.DoesNotThrow(() => cache.DeleteTestOutput(new TestRunDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => cache.DeleteTestScreenshot(new TestRunDto(), scr));
             cache.TearDown();
         }

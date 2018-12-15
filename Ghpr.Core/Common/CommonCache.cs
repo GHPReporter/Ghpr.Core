@@ -228,8 +228,8 @@ namespace Ghpr.Core.Common
         {
             _dataWriterLogger.Debug($"Deleting test run output with guid = {testRun.TestInfo.Guid}");
             var outputs = AllTestOutputDtos ?? new List<TestOutputDto>();
-            outputs.RemoveAll(o => o.TestOutputInfo.Date.Equals(testOutput.TestOutputInfo.Date)
-                                   && o.TestOutputInfo.ItemName.Equals(testOutput.TestOutputInfo.ItemName));
+            var comparer = new SimpleItemInfoDtoComparer();
+            outputs.RemoveAll(o => comparer.Equals(testOutput.TestOutputInfo, testOutput.TestOutputInfo));
             outputs.Add(testOutput);
             _cache.Set(AllTestOutputDtosKey, outputs, Offset);
         }

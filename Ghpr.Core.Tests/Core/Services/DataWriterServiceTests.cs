@@ -32,7 +32,7 @@ namespace Ghpr.Core.Tests.Core.Services
             Assert.DoesNotThrow(() => writer.UpdateTestOutput(new ItemInfoDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => writer.DeleteRun(new ItemInfoDto()));
             Assert.DoesNotThrow(() => writer.DeleteTest(new TestRunDto()));
-            Assert.Throws<NullReferenceException>(() => writer.DeleteTestOutput(new TestRunDto(), new TestOutputDto()));
+            Assert.DoesNotThrow(() => writer.DeleteTestOutput(new TestRunDto(), new TestOutputDto()));
             Assert.DoesNotThrow(() => writer.DeleteTestScreenshot(new TestRunDto(), scr));
             CommonCache.Instance.TearDown();
         }
