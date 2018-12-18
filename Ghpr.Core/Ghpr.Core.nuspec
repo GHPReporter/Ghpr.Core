@@ -12,10 +12,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Ghpr.Core: Core package for test run reporter (NUnit, SpecFlow, MSTest, MSTestV2)</description>
     <releaseNotes>https://github.com/GHPReporter/Ghpr.Core/blob/master/RELEASE_NOTES.md</releaseNotes>
-    <copyright>Copyright Evgeniy Kosjakov © 2016-2018</copyright>
+    <copyright>Copyright Evgeniy Kosjakov © 2016-2019</copyright>
     <tags>.NET QA package HTML report reporting testing tool framework NUnit SpecFlow MSTest MSTestV2</tags>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="11.0.2" />
+      <dependency id="Newtonsoft.Json" version="12.0.1" />
     </dependencies>
   </metadata>
   <files>
