@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
+using Ghpr.Core.Comparers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 
@@ -37,6 +38,17 @@ namespace Ghpr.Core.Common
         {
         }
 
+        public void TearDown()
+        {
+            _dataReaderLogger = null;
+            _dataWriterLogger = null;
+        }
+
+        public IDataReaderService GetDataReader()
+        {
+            return this;
+        }
+
         public void InitializeDataReader(ReporterSettings settings, ILogger logger)
         {
             _dataReaderLogger = logger;
@@ -70,8 +82,13 @@ namespace Ghpr.Core.Common
         public List<TestScreenshotDto> GetTestScreenshots(TestRunDto test)
         {
             _dataReaderLogger.Debug("Getting test screenshots from Common cache");
-            return AllTestScreenshotDtos?.Where(s => s.TestGuid.Equals(test.TestInfo.Guid) 
-                && s.TestScreenshotInfo.Date >= test.TestInfo.Start && s.TestScreenshotInfo.Date <= test.TestInfo.Finish).ToList();
+            return AllTestScreenshotDtos != null && AllTestScreenshotDtos.Any()
+                ? AllTestScreenshotDtos.Where(s => s.TestScreenshotInfo != null 
+                                                   && test.TestInfo != null
+                                                   && s.TestGuid.Equals(test.TestInfo.Guid) 
+                                                   && s.TestScreenshotInfo.Date >= test.TestInfo.Start 
+                                                   && s.TestScreenshotInfo.Date <= test.TestInfo.Finish).ToList()
+                : null;
         }
 
         public TestOutputDto GetTestOutput(TestRunDto test)
@@ -81,7 +98,7 @@ namespace Ghpr.Core.Common
             {
                 return null;
             }
-            var testOutput = AllTestOutputDtos?.FirstOrDefault(to => to.TestOutputInfo.Equals(test.Output));
+            var testOutput = AllTestOutputDtos?.FirstOrDefault(to => to.TestOutputInfo != null && to.TestOutputInfo.Equals(test.Output));
             return testOutput;
         }
 
@@ -101,9 +118,26 @@ namespace Ghpr.Core.Common
         public List<TestRunDto> GetTestRunsFromRun(RunDto run)
         {
             _dataReaderLogger.Debug("Getting run's test runs from Common cache");
-            var testRuns = run?.TestsInfo.Select(GetTestRun).ToList();
-            var res = testRuns == null ? null : testRuns.Any(t => t == null) ? null : testRuns;
+            var testRuns = new List<TestRunDto>();
+            var testInfos = run?.TestsInfo;
+            if (testInfos != null)
+            {
+                foreach (var testInfo in testInfos)
+                {
+                    var test = GetTestRun(testInfo);
+                    if (test != null)
+                    {
+                        testRuns.Add(test);
+                    }
+                }
+            }
+            var res = testRuns.Any() ? null : testRuns.Any(t => t == null) ? null : testRuns;
             return res;
+        }
+
+        public IDataWriterService GetDataWriter()
+        {
+            return this;
         }
 
         public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
@@ -129,8 +163,8 @@ namespace Ghpr.Core.Common
             _cache.Set(AllTestRunDtosKey, tests, Offset);
 
             var outputs = AllTestOutputDtos ?? new List<TestOutputDto>();
-            outputs.RemoveAll(o => o.TestOutputInfo.Date.Equals(testOutput.TestOutputInfo.Date)
-                                   && o.TestOutputInfo.ItemName.Equals(testOutput.TestOutputInfo.ItemName));
+            var comparer = new SimpleItemInfoDtoComparer();
+            outputs.RemoveAll(o => comparer.Equals(o.TestOutputInfo, testOutput.TestOutputInfo));
             outputs.Add(testOutput);
             _cache.Set(AllTestOutputDtosKey, outputs, Offset);
             _dataWriterLogger.Debug("Saving test run and output in Common cache: Done");
@@ -150,11 +184,14 @@ namespace Ghpr.Core.Common
         public ItemInfoDto SaveRun(RunDto run)
         {
             _dataWriterLogger.Debug("Saving run in Common cache");
-            _cache.Set(run.RunInfo.Guid.ToString(), run, Offset);
-            var runs = AllRunDtos ?? new List<RunDto>();
-            runs.RemoveAll(r => r.RunInfo.Guid.Equals(run.RunInfo.Guid));
-            runs.Add(run);
-            _cache.Set(AllRunDtosKey, runs, Offset);
+            if (run.RunInfo != null)
+            {
+                _cache.Set(run.RunInfo.Guid.ToString(), run, Offset);
+                var runs = AllRunDtos ?? new List<RunDto>();
+                runs.RemoveAll(r => r.RunInfo.Guid.Equals(run.RunInfo.Guid));
+                runs.Add(run);
+                _cache.Set(AllRunDtosKey, runs, Offset);
+            }
             return run.RunInfo;
         }
 
@@ -191,8 +228,8 @@ namespace Ghpr.Core.Common
         {
             _dataWriterLogger.Debug($"Deleting test run output with guid = {testRun.TestInfo.Guid}");
             var outputs = AllTestOutputDtos ?? new List<TestOutputDto>();
-            outputs.RemoveAll(o => o.TestOutputInfo.Date.Equals(testOutput.TestOutputInfo.Date)
-                                   && o.TestOutputInfo.ItemName.Equals(testOutput.TestOutputInfo.ItemName));
+            var comparer = new SimpleItemInfoDtoComparer();
+            outputs.RemoveAll(o => comparer.Equals(testOutput.TestOutputInfo, testOutput.TestOutputInfo));
             outputs.Add(testOutput);
             _cache.Set(AllTestOutputDtosKey, outputs, Offset);
         }
@@ -201,9 +238,12 @@ namespace Ghpr.Core.Common
         {
             _dataWriterLogger.Debug($"Deleting test run screenshot with guid = {testRun.TestInfo.Guid}");
             var screens = AllTestScreenshotDtos ?? new List<TestScreenshotDto>();
-            screens.RemoveAll(s => s.TestGuid.Equals(testScreenshot.TestGuid)
-                                   && s.TestScreenshotInfo.Date.Equals(testScreenshot.TestScreenshotInfo.Date)
-                                   && s.TestScreenshotInfo.ItemName.Equals(testScreenshot.TestScreenshotInfo.ItemName));
+            var comparer = new SimpleItemInfoDtoComparer();
+            if (screens.Any())
+            {
+                screens.RemoveAll(s => s.TestGuid.Equals(testScreenshot.TestGuid)
+                                       && comparer.Equals(s.TestScreenshotInfo, testScreenshot.TestScreenshotInfo));
+            }
             screens.Add(testScreenshot);
             _cache.Set(AllTestScreenshotDtosKey, screens, Offset);
         }

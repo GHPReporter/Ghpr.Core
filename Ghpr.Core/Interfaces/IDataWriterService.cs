@@ -1,11 +1,12 @@
-﻿using System;
-using Ghpr.Core.Common;
+﻿using Ghpr.Core.Common;
 using Ghpr.Core.Settings;
 
 namespace Ghpr.Core.Interfaces
 {
     public interface IDataWriterService
     {
+        IDataWriterService GetDataWriter();
+
         void InitializeDataWriter(ReporterSettings settings, ILogger logger);
         void SaveReportSettings(ReportSettingsDto reportSettings);
         ItemInfoDto SaveTestRun(TestRunDto testRun, TestOutputDto testOutput);

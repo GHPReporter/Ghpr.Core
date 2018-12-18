@@ -18,6 +18,9 @@ namespace Ghpr.Core.Processors
             finalTestRunDto.Screenshots
                 .AddRange(testRunDtoWhenStarted.Screenshots.Where(
                     s => !finalTestRunDto.Screenshots.Any(ts => ts.Date.Equals(s.Date))));
+            finalTestRunDto.TestData
+                .AddRange(testRunDtoWhenStarted.TestData.Where(
+                    s => !finalTestRunDto.TestData.Any(ts => ts.TestDataInfo.Date.Equals(s.TestDataInfo.Date))));
             finalTestRunDto.Events.
                 AddRange(testRunDtoWhenStarted.Events.Where(
                     e => !finalTestRunDto.Events.Any(te => te.Comment.Equals(e.Comment))));

@@ -64,7 +64,6 @@ namespace Ghpr.Core.Factories
                     sb.AppendLine();
                 }
                 var errorMessage = sb.ToString();
-                //Display or log the error based on your application.
                 throw new Exception(errorMessage);
             }
             if (implementationType == null)
@@ -109,7 +108,7 @@ namespace Ghpr.Core.Factories
                 Logger = logger,
                 TestDataProvider = testDataProvider,
                 ReporterSettings = settings,
-                ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay, settings.ReportName),
+                ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay, settings.ReportName, settings.ProjectName),
                 DataWriterService = new DataWriterService(dataWriterService, CommonCache.Instance),
                 DataReaderService = new DataReaderService(dataReaderService, CommonCache.Instance),
                 RunRepository = new RunDtoRepository(),

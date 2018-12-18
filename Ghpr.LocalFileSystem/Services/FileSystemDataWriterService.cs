@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
@@ -19,6 +18,11 @@ namespace Ghpr.LocalFileSystem.Services
     {
         private ILocationsProvider _locationsProvider;
         private ILogger _logger;
+
+        public IDataWriterService GetDataWriter()
+        {
+            return this;
+        }
 
         public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
         {

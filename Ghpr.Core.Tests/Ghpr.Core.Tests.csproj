@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.11.2\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.11.2\build\net35\NUnit3TestAdapter.props')" />
+  <Import Project="..\packages\NUnit.3.11.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.11.0\build\NUnit.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{66E6F6BA-5B35-475A-A617-394696331F25}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ghpr.Core.Tests</RootNamespace>
+    <AssemblyName>Ghpr.Core.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=3.11.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Common\CommonCacheTests.cs" />
+    <Compile Include="Core\Common\TestCaseFullDtoTests.cs" />
+    <Compile Include="Core\Common\TestEventDtoTests.cs" />
+    <Compile Include="Core\Comparers\ItemInfoDtoComparerTests.cs" />
+    <Compile Include="Core\Extensions\StringExtensionsTests.cs" />
+    <Compile Include="Core\Factories\ReporterFactoryTests.cs" />
+    <Compile Include="Core\MockDataReaderService.cs" />
+    <Compile Include="Core\MockDataWriterService.cs" />
+    <Compile Include="Core\MockTestDataProviderWithException.cs" />
+    <Compile Include="Core\MockTestDataProvider.cs" />
+    <Compile Include="Core\Processors\ReportCleanUpProcessorTests.cs" />
+    <Compile Include="Core\ReporterManagerTests.cs" />
+    <Compile Include="Core\ReporterTests.cs" />
+    <Compile Include="Core\Services\DataReaderServiceTests.cs" />
+    <Compile Include="Core\Services\DataWriterServiceTests.cs" />
+    <Compile Include="Core\Utils\PathsTests.cs" />
+    <Compile Include="Core\Providers\ReporterSettingsProviderTests.cs" />
+    <Compile Include="Core\Settings\ReporterSettingsTests.cs" />
+    <Compile Include="Core\Utils\RunDtoRepositoryTests.cs" />
+    <Compile Include="Core\Comparers\SimpleItemInfoDtoComparerTests.cs" />
+    <Compile Include="Core\Extensions\TestRunDtoListExtensionsTests.cs" />
+    <Compile Include="Core\Processors\TestRunDtoProcessorTests.cs" />
+    <Compile Include="Core\Common\TestRunDtoTests.cs" />
+    <Compile Include="Core\Utils\TestRunsRepositoryTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ghpr.Core\Ghpr.Core.csproj">
+      <Project>{8cde51df-b9d2-4945-a992-35e33decef36}</Project>
+      <Name>Ghpr.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ghpr.LocalFileSystem\Ghpr.LocalFileSystem.csproj">
+      <Project>{40be674c-5954-4aba-b1ed-a890621ad306}</Project>
+      <Name>Ghpr.LocalFileSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ghpr.Logger\Ghpr.SimpleFileLogger.csproj">
+      <Project>{d155a663-873e-4ef4-8a93-e31cf81b7785}</Project>
+      <Name>Ghpr.SimpleFileLogger</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Ghpr.SpecFlow.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ghpr.NUnit.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ghpr.MSTestV2.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ghpr.MSTest.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ghpr.Core.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ghpr.Core.Tests.Settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.11.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.11.0\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.11.2\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.11.2\build\net35\NUnit3TestAdapter.props'))" />
+  </Target>
+</Project>

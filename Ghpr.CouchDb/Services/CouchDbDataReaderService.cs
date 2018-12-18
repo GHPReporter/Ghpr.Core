@@ -9,6 +9,11 @@ namespace Ghpr.CouchDb.Services
 {
     public class CouchDbDataReaderService : IDataReaderService
     {
+        public IDataReaderService GetDataReader()
+        {
+            return this;
+        }
+
         public void InitializeDataReader(ReporterSettings settings, ILogger logger)
         {
             var couchDbSettings = "Ghpr.CouchDb.Settings.json".LoadSettingsAs<CouchDbSettings>();

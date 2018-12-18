@@ -103,5 +103,15 @@ namespace Ghpr.Core
                 action.Invoke(_reporter);
             }
         }
+
+        public static void TearDown()
+        {
+            lock (Lock)
+            {
+                _reporter?.TearDown();
+            }
+            _reporter = null;
+            _initialized = false;
+        }
     }
 }

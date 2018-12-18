@@ -17,6 +17,11 @@ namespace Ghpr.Core.Services
             _cache = cache;
         }
 
+        public IDataReaderService GetDataReader()
+        {
+            return _dataReaderService;
+        }
+
         public void InitializeDataReader(ReporterSettings settings, ILogger logger)
         {
             _dataReaderService.InitializeDataReader(settings, logger);

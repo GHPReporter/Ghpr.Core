@@ -8,7 +8,7 @@ class LocalFileSystemPathsHelper {
             case PageType.TestRunPage:
                 return `./run_${guid}.json`;
             case PageType.TestPage:
-                return `./../../runs/run_${guid}.json`;
+                return `./../runs/run_${guid}.json`;
             default:
                 return "";
         }

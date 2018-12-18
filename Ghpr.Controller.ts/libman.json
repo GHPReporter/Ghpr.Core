@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "Primer@10.8.1",
+      "destination": "report/src/style/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "https://unpkg.com/plotly.js@1.41.3/dist/plotly.min.js",
+      "destination": "report/src/js/",
+      "files": [
+        "plotly.min.js"
+      ]
+    }
+  ]
+}

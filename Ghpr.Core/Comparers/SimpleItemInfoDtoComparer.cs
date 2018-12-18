@@ -11,11 +11,30 @@ namespace Ghpr.Core.Comparers
             {
                 return true;
             }
-            if (x == null || y== null)
+            if (x == null || y == null)
             {
                 return false;
             }
-            return x.Date.Equals(y.Date) && x.ItemName.Equals(y.ItemName);
+            if (x.ItemName == null && y.ItemName != null)
+            {
+                return false;
+            }
+            if (x.ItemName != null && y.ItemName == null)
+            {
+                return false;
+            }
+            var datesEqual = x.Date.Equals(y.Date);
+            bool namesEqual = false;
+            if (x.ItemName == null && y.ItemName == null)
+            {
+                namesEqual = true;
+            }
+            else if (x.ItemName != null && y.ItemName != null)
+            {
+                namesEqual = x.ItemName.Equals(y.ItemName);
+            }
+
+            return  datesEqual && namesEqual;
         }
 
         public int GetHashCode(SimpleItemInfoDto obj)

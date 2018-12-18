@@ -33,8 +33,8 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -132,14 +132,6 @@
   <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\js\plotly.min.js">
       <Link>EmbeddedResources\Report\src\js\plotly.min.js</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\github.css">
-      <Link>EmbeddedResources\Report\src\style\github.css</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\primer.css">
-      <Link>EmbeddedResources\Report\src\style\primer.css</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -687,6 +679,21 @@
     <None Include="Ghpr.Core.Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\build.css">
+      <Link>EmbeddedResources\Report\src\style\build.css</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\logo.svg">
+      <Link>EmbeddedResources\Report\src\logo.svg</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\ghpr.css">
+      <Link>EmbeddedResources\Report\src\style\ghpr.css</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

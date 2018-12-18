@@ -14,11 +14,12 @@ namespace Ghpr.Core.EmbeddedResources
             new EmbeddedResource("ghpr.controller.js", ResourceType.GhprController, "src\\js",        "ghpr.controller.js", true ),
             new EmbeddedResource("plotly.min.js",      ResourceType.Plotly,         "src\\js",        "plotly.min.js",      true ),
             new EmbeddedResource("",                   ResourceType.Octicons,       "src\\octicons",  "octicons",           true ),
-            new EmbeddedResource("github.css",         ResourceType.Github,         "src\\style",     "github.css",         true ),
-            new EmbeddedResource("primer.css",         ResourceType.Primer,         "src\\style",     "primer.css",         true ),
+            new EmbeddedResource("ghpr.css",           ResourceType.GhprCss,        "src\\style",     "ghpr.css",           true ),
+            new EmbeddedResource("build.css",          ResourceType.Primer,         "src\\style",     "build.css",          true ),
             new EmbeddedResource("index.html",         ResourceType.TestPage,       "tests",          "tests.index.html",   true ),
             new EmbeddedResource("index.html",         ResourceType.TestRunPage,    "runs",           "runs.index.html",    true ),
             new EmbeddedResource("index.html",         ResourceType.MainPage,       "",               "Report.index.html",  true ),
+            new EmbeddedResource("logo.svg",           ResourceType.GhprLogo,       "src",            "logo.svg",           true ),
             new EmbeddedResource("favicon.ico",        ResourceType.Favicon,        "src",            "favicon.ico",        true )
         };
 
@@ -81,7 +82,7 @@ namespace Ghpr.Core.EmbeddedResources
                 ResourceType.GhprController,
                 ResourceType.Plotly,
                 ResourceType.Octicons,
-                ResourceType.Github,
+                ResourceType.GhprCss,
                 ResourceType.Primer,
                 ResourceType.MainPage,
                 ResourceType.TestRunPage,

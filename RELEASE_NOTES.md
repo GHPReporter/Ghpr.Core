@@ -1,5 +1,20 @@
 # Release notes
 
+## v0.9.3
+
+Includes several fixes/improvements:
+
+ - SpecFlow 2.4 is now supported: [Issue](https://github.com/GHPReporter/Ghpr.SpecFlow/issues/24)
+ - Entire report name now can be set up from `.json` settings: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/76)
+ - Octicons updated: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/77)
+ - Plotly library updated: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/75)
+ - Timeline chart (alpha version) added for tests run: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/62)
+ - Mapping bug fixed for test description: [Bug](https://github.com/GHPReporter/Ghpr.Core/pull/79). Special thanks to [@nunomdc](https://github.com/nunomdc) 
+ - Stack trace is now highlighted: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/78)
+ - Added support for MSTestV2 DataTestMethod tests: [Feature](https://github.com/GHPReporter/Ghpr.MSTestV2/issues/1)
+ - Test chart is now clickable. Each point on the test history chart leads to corresponding test: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/74)
+ - Runs chart is now clickable. Each bar on the chart leads to corresponding run page: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/73)
+
 ## v0.9.2.1
 
 This includes one new feature for MSTest package: [Related pull request](https://github.com/GHPReporter/Ghpr.MSTest/pull/9)

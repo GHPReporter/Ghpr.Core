@@ -18,6 +18,11 @@ namespace Ghpr.LocalFileSystem.Services
         private ILocationsProvider _locationsProvider;
         private ILogger _logger;
 
+        public IDataReaderService GetDataReader()
+        {
+            return this;
+        }
+
         public void InitializeDataReader(ReporterSettings settings, ILogger logger)
         {
             _locationsProvider = new LocationsProvider(settings.OutputPath);
