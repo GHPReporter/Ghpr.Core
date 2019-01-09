@@ -1,5 +1,13 @@
 # Release notes
 
+## v0.9.4
+
+Includes new UI for the report and some fixes:
+
+ - New UI created: [PR](https://github.com/GHPReporter/Ghpr.Core/pull/82)
+ - Unit tests, code coverage and code quality checks are added: [PR1](https://github.com/GHPReporter/Ghpr.Core/pull/97), [PR2](https://github.com/GHPReporter/Ghpr.Core/pull/96), [PR3](https://github.com/GHPReporter/Ghpr.Core/pull/95)
+ - MSTest V2: DataTestMethod is now supported: [Feature](https://github.com/GHPReporter/Ghpr.MSTestV2/issues/1)
+ 
 ## v0.9.3
 
 Includes several fixes/improvements:
