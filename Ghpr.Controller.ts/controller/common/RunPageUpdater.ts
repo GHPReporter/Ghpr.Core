@@ -19,7 +19,7 @@ class RunPageUpdater {
     static plotlyTimelineData = new Array();
 
     private static updateCopyright(coreVersion: string): void {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
     }
 
     private static updateReportName(reportName: string): void {

@@ -820,7 +820,7 @@ class Differ {
         }
         return left.reduce((acc, cur, idx) => (acc && cur === right[idx]), true);
     }
-    
+    ;
     static all(type) {
         return (val) => ({
             type: type,
@@ -1083,7 +1083,7 @@ class Controller {
 }
 class RunPageUpdater {
     static updateCopyright(coreVersion) {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
     }
     static updateReportName(reportName) {
         if (reportName === undefined) {
@@ -1547,7 +1547,7 @@ class ReportPageUpdater {
         document.getElementById("project-name").innerHTML = `${projectName}`;
     }
     static updateCopyright(coreVersion) {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
     }
     static updateRunsList(runs) {
         let fullList = "";
@@ -1690,7 +1690,7 @@ class ReportPageUpdater {
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
 class TestPageUpdater {
     static updateCopyright(coreVersion) {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
+        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
     }
     static updateReportName(reportName) {
         if (reportName === undefined) {
