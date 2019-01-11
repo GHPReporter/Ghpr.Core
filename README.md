@@ -57,6 +57,7 @@ Standard settings file is .json file with the following structure:
    "loggerFile": "",
    "sprint":"",
    "reportName": "GHP Report",
+   "projectName": "Awesome project",
    "runName":"",
    "runGuid":"",
    "realTimeGeneration":"True",
