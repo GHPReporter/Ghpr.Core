@@ -50,6 +50,7 @@
     "controller/common/RunPageUpdater.ts",
     "controller/common/ReportPageUpdater.ts",
     "controller/common/TestPageUpdater.ts",
-    "controller/common/Sorter.ts"
+    "controller/common/Sorter.ts",
+    "controller/common/DocumentHelper.ts"
   ]
 }

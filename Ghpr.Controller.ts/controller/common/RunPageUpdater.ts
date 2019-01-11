@@ -2,6 +2,7 @@
 ///<reference path="./PlotlyJs.ts"/>
 ///<reference path="./TestRunHelper.ts"/>
 ///<reference path="./../Controller.ts"/>
+///<reference path="./../common/DocumentHelper.ts"/>
 
 class RunPageUpdater {
 
@@ -9,10 +10,6 @@ class RunPageUpdater {
     static runsToShow: number;
     static reviveRun = JsonParser.reviveRun;
     static plotlyTimelineData = new Array();
-
-    private static updateCopyright(coreVersion: string): void {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
-    }
 
     private static updateReportName(reportName: string): void {
         if (reportName === undefined) {
@@ -322,7 +319,7 @@ class RunPageUpdater {
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
                 this.updateTimeline();
-                this.updateCopyright(reportSettings.coreVersion);
+                DocumentHelper.updateCopyright(reportSettings.coreVersion);
 
                 window.addEventListener("resize", () => {
                     const summaryPieDiv = document.getElementById("summary-pie");

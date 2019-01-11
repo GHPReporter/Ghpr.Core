@@ -2,6 +2,7 @@
 ///<reference path="./Color.ts"/>
 ///<reference path="./PlotlyJs.ts"/>
 ///<reference path="./../Controller.ts"/>
+///<reference path="./../common/DocumentHelper.ts"/>
 
 class ReportPageUpdater {
 
@@ -23,10 +24,6 @@ class ReportPageUpdater {
             projectName = "GHPReport";
         }
         document.getElementById("project-name").innerHTML = `${projectName}`;
-    }
-
-    private static updateCopyright(coreVersion: string): void {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
     }
 
     private static updateRunsList(runs: Array<RunDto>): void {
@@ -166,7 +163,7 @@ class ReportPageUpdater {
                 this.updatePlotlyBars(runs);
                 this.updateRunsInfo(runs, total);
                 this.updateRunsList(runs);
-                this.updateCopyright(reportSettings.coreVersion);
+                DocumentHelper.updateCopyright(reportSettings.coreVersion);
 
                 window.addEventListener("resize", () => {
                     const barsDiv = document.getElementById("runs-bars");

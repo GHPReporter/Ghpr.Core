@@ -2,17 +2,14 @@
 ///<reference path="./PlotlyJs.ts"/>
 ///<reference path="./Differ.ts"/>
 ///<reference path="./../Controller.ts"/>
+///<reference path="./../common/DocumentHelper.ts"/>
 
 class TestPageUpdater {
 
     static currentTest: number;
     static testVersionsCount: number;
     static reviveRun = JsonParser.reviveRun;
-        
-    private static updateCopyright(coreVersion: string): void {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
-    }
-
+       
     private static updateReportName(reportName: string): void {
         if (reportName === undefined) {
             reportName = "GHPReport";
@@ -225,7 +222,7 @@ class TestPageUpdater {
             this.updateTestData(t);
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
-            this.updateCopyright(Controller.reportSettings.coreVersion);
+            DocumentHelper.updateCopyright(Controller.reportSettings.coreVersion);
 
             window.addEventListener("resize", () => {
                 const historyDiv = document.getElementById("test-history-chart");

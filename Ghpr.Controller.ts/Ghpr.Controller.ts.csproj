@@ -587,6 +587,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="web.config" />
+    <TypeScriptCompile Include="controller\common\DocumentHelper.ts" />
     <TypeScriptCompile Include="controller\common\JsonParser.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\entities\SimpleItemInfo.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\entities\TestOutput.ts" />
