@@ -1081,16 +1081,21 @@ class Controller {
         req.send(null);
     }
 }
-class RunPageUpdater {
+class DocumentHelper {
     static updateCopyright(coreVersion) {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
+        this.setInnerHtmlById("copyright", `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`);
     }
     static updateReportName(reportName) {
-        if (reportName === undefined) {
-            reportName = "GHPReport";
-        }
-        document.getElementById("report-name").innerHTML = `${reportName}`;
+        this.setInnerHtmlById("report-name", reportName, "GHPReport");
     }
+    static setInnerHtmlById(id, value, defaultValue = "") {
+        if (value === undefined) {
+            value = defaultValue;
+        }
+        document.getElementById(id).innerHTML = value;
+    }
+}
+class RunPageUpdater {
     static updateRunInformation(run) {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
         document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
@@ -1366,7 +1371,7 @@ class RunPageUpdater {
             dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto) => {
                 UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
                 this.plotlyTimelineData = new Array();
-                this.updateReportName(reportSettings.reportName);
+                DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateRunInformation(runDto);
                 this.updateSummary(runDto);
                 this.updateBriefResults(runDto);
@@ -1374,7 +1379,7 @@ class RunPageUpdater {
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
                 this.updateTimeline();
-                this.updateCopyright(reportSettings.coreVersion);
+                DocumentHelper.updateCopyright(reportSettings.coreVersion);
                 window.addEventListener("resize", () => {
                     const summaryPieDiv = document.getElementById("summary-pie");
                     var summarySize = this.getSummaryPlotSize(summaryPieDiv);
@@ -1534,21 +1539,6 @@ class ReportPageUpdater {
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
-    static updateReportName(reportName) {
-        if (reportName === undefined) {
-            reportName = "GHPReport";
-        }
-        document.getElementById("report-name").innerHTML = `${reportName}`;
-    }
-    static updateProjectName(projectName) {
-        if (projectName === undefined) {
-            projectName = "GHPReport";
-        }
-        document.getElementById("project-name").innerHTML = `${projectName}`;
-    }
-    static updateCopyright(coreVersion) {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
-    }
     static updateRunsList(runs) {
         let fullList = "";
         let recentList = "";
@@ -1664,13 +1654,13 @@ class ReportPageUpdater {
         Controller.init(PageType.TestRunsPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunsPage).getLatestRuns((runs, total) => {
                 const latestRun = runs[0];
-                this.updateProjectName(reportSettings.projectName);
-                this.updateReportName(reportSettings.reportName);
+                DocumentHelper.setInnerHtmlById("project-name", reportSettings.projectName, "Awesome project");
+                DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateLatestRunInfo(latestRun);
                 this.updatePlotlyBars(runs);
                 this.updateRunsInfo(runs, total);
                 this.updateRunsList(runs);
-                this.updateCopyright(reportSettings.coreVersion);
+                DocumentHelper.updateCopyright(reportSettings.coreVersion);
                 window.addEventListener("resize", () => {
                     const barsDiv = document.getElementById("runs-bars");
                     var size = this.getPlotSize(barsDiv);
@@ -1689,15 +1679,6 @@ class ReportPageUpdater {
 }
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
 class TestPageUpdater {
-    static updateCopyright(coreVersion) {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
-    }
-    static updateReportName(reportName) {
-        if (reportName === undefined) {
-            reportName = "GHPReport";
-        }
-        document.getElementById("report-name").innerHTML = `${reportName}`;
-    }
     static updateRecentData(t) {
         document.getElementById("test-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
             <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Start datetime</a>
@@ -1881,7 +1862,7 @@ class TestPageUpdater {
             });
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
             UrlHelper.insertParam("itemName", t.testInfo.itemName);
-            this.updateReportName(Controller.reportSettings.reportName);
+            DocumentHelper.updateReportName(Controller.reportSettings.reportName);
             this.updateMainInformation(t);
             this.updateRecentData(t);
             this.updateOutput(t);
@@ -1890,7 +1871,7 @@ class TestPageUpdater {
             this.updateTestData(t);
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
-            this.updateCopyright(Controller.reportSettings.coreVersion);
+            DocumentHelper.updateCopyright(Controller.reportSettings.coreVersion);
             window.addEventListener("resize", () => {
                 const historyDiv = document.getElementById("test-history-chart");
                 var size = this.getTestHistoryPlotSize(historyDiv);

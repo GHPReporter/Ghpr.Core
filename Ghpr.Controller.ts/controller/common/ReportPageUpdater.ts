@@ -12,20 +12,6 @@ class ReportPageUpdater {
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
     }
 
-    private static updateReportName(reportName: string): void {
-        if (reportName === undefined) {
-            reportName = "GHPReport";
-        }
-        document.getElementById("report-name").innerHTML = `${reportName}`;
-    }
-
-    private static updateProjectName(projectName: string): void {
-        if (projectName === undefined) {
-            projectName = "GHPReport";
-        }
-        document.getElementById("project-name").innerHTML = `${projectName}`;
-    }
-
     private static updateRunsList(runs: Array<RunDto>): void {
         let fullList = "";
         let recentList = "";
@@ -157,8 +143,8 @@ class ReportPageUpdater {
         Controller.init(PageType.TestRunsPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
             dataService.fromPage(PageType.TestRunsPage).getLatestRuns((runs: Array<RunDto>, total: number) => {
                 const latestRun = runs[0];
-                this.updateProjectName(reportSettings.projectName);
-                this.updateReportName(reportSettings.reportName);
+                DocumentHelper.setInnerHtmlById("project-name", reportSettings.projectName, "Awesome project");
+                DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateLatestRunInfo(latestRun);
                 this.updatePlotlyBars(runs);
                 this.updateRunsInfo(runs, total);

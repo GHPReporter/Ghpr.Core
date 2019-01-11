@@ -1,10 +1,14 @@
 ﻿class DocumentHelper {
 
     public static updateCopyright(coreVersion: string): void {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`;
+        this.setInnerHtmlById("copyright", `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`);
     }
 
-    public static setInnerHtmlById(id: string, value: string, defaultValue: string = ""): void {
+    public static updateReportName(reportName: string): void {
+        this.setInnerHtmlById("report-name", reportName, "GHPReport");
+    }
+
+    public static setInnerHtmlById(id: string, value: string, defaultValue = ""): void {
         if (value === undefined) {
             value = defaultValue;
         }

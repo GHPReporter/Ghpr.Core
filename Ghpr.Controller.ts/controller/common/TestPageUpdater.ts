@@ -9,13 +9,6 @@ class TestPageUpdater {
     static currentTest: number;
     static testVersionsCount: number;
     static reviveRun = JsonParser.reviveRun;
-       
-    private static updateReportName(reportName: string): void {
-        if (reportName === undefined) {
-            reportName = "GHPReport";
-        }
-        document.getElementById("report-name").innerHTML = `${reportName}`;
-    }
 
     private static updateRecentData(t: TestRunDto): void {
         document.getElementById("test-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
@@ -213,7 +206,7 @@ class TestPageUpdater {
             });
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
             UrlHelper.insertParam("itemName", t.testInfo.itemName);
-            this.updateReportName(Controller.reportSettings.reportName);
+            DocumentHelper.updateReportName(Controller.reportSettings.reportName);
             this.updateMainInformation(t);
             this.updateRecentData(t);
             this.updateOutput(t);

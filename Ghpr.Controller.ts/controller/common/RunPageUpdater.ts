@@ -11,13 +11,6 @@ class RunPageUpdater {
     static reviveRun = JsonParser.reviveRun;
     static plotlyTimelineData = new Array();
 
-    private static updateReportName(reportName: string): void {
-        if (reportName === undefined) {
-            reportName = "GHPReport";
-        }
-        document.getElementById("report-name").innerHTML = `${reportName}`;
-    }
-
     private static updateRunInformation(run: RunDto): void {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
         document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
@@ -311,7 +304,7 @@ class RunPageUpdater {
             dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto: RunDto) => {
                 UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
                 this.plotlyTimelineData = new Array();
-                this.updateReportName(reportSettings.reportName);
+                DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateRunInformation(runDto);
                 this.updateSummary(runDto);
                 this.updateBriefResults(runDto);
