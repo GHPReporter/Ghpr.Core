@@ -18,11 +18,7 @@ class RunPageUpdater {
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
     }
-
-    private static updateTitle(run: RunDto): void {
-        document.getElementById("page-title").innerHTML = run.name;
-    }
-
+    
     static getSummaryPlotSize(plotDiv: HTMLElement): any {
         var p = plotDiv.parentElement;
         var w = Math.max(300, Math.min(p.offsetWidth, 800));
@@ -298,7 +294,7 @@ class RunPageUpdater {
             };
         }
     }
-    
+
     private static updateRunPage(runGuid: string): void {
         Controller.init(PageType.TestRunPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
             dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto: RunDto) => {
@@ -308,7 +304,7 @@ class RunPageUpdater {
                 this.updateRunInformation(runDto);
                 this.updateSummary(runDto);
                 this.updateBriefResults(runDto);
-                this.updateTitle(runDto);
+                DocumentHelper.setInnerHtmlById("page-title", runDto.name);
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
                 this.updateTimeline();
