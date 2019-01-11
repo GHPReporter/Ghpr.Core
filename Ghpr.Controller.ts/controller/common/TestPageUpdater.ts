@@ -1,22 +1,7 @@
-﻿///<reference path="./localFileSystem/entities/ItemInfo.ts"/>
-///<reference path="./localFileSystem/entities/ReportSettings.ts"/>
-///<reference path="./localFileSystem/entities/Run.ts"/>
-///<reference path="./localFileSystem/entities/TestRun.ts"/>
-///<reference path="./localFileSystem/entities/TestData.ts"/>
-///<reference path="./../enums/PageType.ts"/>
-///<reference path="./JsonParser.ts"/>
-///<reference path="./UrlHelper.ts"/>
-///<reference path="./DateFormatter.ts"/>
-///<reference path="./Color.ts"/>
+﻿///<reference path="./localFileSystem/entities/ReportSettings.ts"/>
 ///<reference path="./PlotlyJs.ts"/>
 ///<reference path="./Differ.ts"/>
-///<reference path="./TabsHelper.ts"/>
-///<reference path="./TestRunHelper.ts"/>
 ///<reference path="./../Controller.ts"/>
-///<reference path="./../dto/ReportSettingsDto.ts"/>
-///<reference path="./../dto/TestOutputDto.ts"/>
-///<reference path="./../dto/TestRunDto.ts"/>
-///<reference path="./../interfaces/IDataService.ts"/>
 
 class TestPageUpdater {
 

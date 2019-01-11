@@ -1,10 +1,4 @@
-﻿///<reference path="./localFileSystem/entities/ItemInfo.ts"/>
-///<reference path="./localFileSystem/entities/ReportSettings.ts"/>
-///<reference path="./localFileSystem/entities/Run.ts"/>
-///<reference path="./../enums/PageType.ts"/>
-///<reference path="./JsonParser.ts"/>
-///<reference path="./UrlHelper.ts"/>
-///<reference path="./DateFormatter.ts"/>
+﻿///<reference path="./localFileSystem/entities/ReportSettings.ts"/>
 ///<reference path="./Color.ts"/>
 ///<reference path="./PlotlyJs.ts"/>
 ///<reference path="./../Controller.ts"/>

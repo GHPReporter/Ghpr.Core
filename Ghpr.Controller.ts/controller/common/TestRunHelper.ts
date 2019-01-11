@@ -1,6 +1,5 @@
 ﻿///<reference path="./../dto/TestRunDto.ts"/>
 ///<reference path="./../dto/TestOutputDto.ts"/>
-///<reference path="./../enums/TestResult.ts"/>
 ///<reference path="./Color.ts"/>
 ///<reference path="./DateFormatter.ts"/>
 

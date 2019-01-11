@@ -1,7 +1,5 @@
 ﻿///<reference path="./../entities/Run.ts"/>
 ///<reference path="./../../../dto/RunDto.ts"/>
-///<reference path="./../entities/RunSummary.ts"/>
-///<reference path="./../../../dto/RunSummaryDto.ts"/>
 ///<reference path="./ItemInfoDtoMapper.ts"/>
 ///<reference path="./../../DateFormatter.ts"/>
 
