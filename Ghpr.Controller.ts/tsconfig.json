@@ -48,6 +48,7 @@
     "controller/Controller.ts",
     "controller/common/TestRunHelper.ts",
     "controller/common/RunPageUpdater.ts",
+    "controller/common/ReportPagePlotly.ts",
     "controller/common/ReportPageUpdater.ts",
     "controller/common/TestPageUpdater.ts",
     "controller/common/Sorter.ts",

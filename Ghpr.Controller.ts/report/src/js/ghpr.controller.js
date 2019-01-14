@@ -1103,9 +1103,6 @@ class RunPageUpdater {
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
     }
-    static updateTitle(run) {
-        document.getElementById("page-title").innerHTML = run.name;
-    }
     static getSummaryPlotSize(plotDiv) {
         var p = plotDiv.parentElement;
         var w = Math.max(300, Math.min(p.offsetWidth, 800));
@@ -1375,7 +1372,7 @@ class RunPageUpdater {
                 this.updateRunInformation(runDto);
                 this.updateSummary(runDto);
                 this.updateBriefResults(runDto);
-                this.updateTitle(runDto);
+                DocumentHelper.setInnerHtmlById("page-title", runDto.name);
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
                 this.updateTimeline();
@@ -1533,46 +1530,8 @@ class RunPageUpdater {
 RunPageUpdater.reviveRun = JsonParser.reviveRun;
 RunPageUpdater.plotlyTimelineData = new Array();
 RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list", "run-timeline"];
-class ReportPageUpdater {
-    static updateLatestRunInfo(latestRun) {
-        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;
-        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
-        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
-    }
-    static updateRunsList(runs) {
-        let fullList = "";
-        let recentList = "";
-        let runsResultsList = "";
-        const c = runs.length;
-        for (let i = 0; i < c; i++) {
-            const r = runs[i];
-            if (r.name === "") {
-                r.name = `${DateFormatter.format(r.runInfo.start)} - ${DateFormatter.format(r.runInfo.finish)}`;
-            }
-            fullList += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
-            recentList += `<li id=$run-${r.runInfo.guid}><div class="width-full text-bold">
-                            <a class="d-flex flex-items-baseline f5 mb-2" href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a>
-                            </div></li>`;
-            const bb = i === c - 1 ? "" : "border-bottom";
-            let passed = r.summary.success === r.summary.total;
-            const status = passed ? "All tests passed" : "Some errors detected";
-            const statusIconPath = passed ? "./src/octicons/check.svg" : "./src/octicons/alert.svg";
-            runsResultsList += `<div class="mx-4 py-2 my-2 ${bb}"><div class="mb-3">
-                    <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">${r.name}</a>
-                    <p class="f6 text-gray mb-2"><img src="${statusIconPath}" class="ghpr-tabicon" alt=""/>
-                        <b style="padding-left: 10px;">Status:</b> ${status}
-                    </p>
-                </div></div>`;
-        }
-        document.getElementById("all-runs").innerHTML = fullList;
-        document.getElementById("recent-runs").innerHTML = recentList;
-        document.getElementById("runs-results").innerHTML = runsResultsList;
-    }
-    static updateRunsInfo(runs, totalFiles) {
-        document.getElementById("total").innerHTML = `<b>Loaded runs:</b> ${runs.length}`;
-        document.getElementById("loaded").innerHTML = `<b>Total runs:</b> ${totalFiles}`;
-    }
-    static updatePlotlyBars(runs) {
+class ReportPagePlotly {
+    static updatePlotlyBars(runs, id) {
         let plotlyData = new Array();
         const passedY = new Array();
         const failedY = new Array();
@@ -1620,7 +1579,7 @@ class ReportPageUpdater {
             { x: failedX, y: failedY, name: "failed", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.failed } },
             { x: passedX, y: passedY, name: "passed", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.passed } }
         ];
-        const barsDiv = document.getElementById("runs-bars");
+        const barsDiv = document.getElementById(id);
         var size = this.getPlotSize(barsDiv);
         var layout = {
             title: "Runs statistics",
@@ -1650,6 +1609,51 @@ class ReportPageUpdater {
         var h = Math.max(400, Math.min(p.offsetHeight, 700));
         return { width: 0.95 * w, height: 0.85 * h };
     }
+    static relayout(id) {
+        const barsDiv = document.getElementById(id);
+        var size = this.getPlotSize(barsDiv);
+        Plotly.relayout(barsDiv, { width: size.width, height: size.height });
+    }
+}
+class ReportPageUpdater {
+    static updateLatestRunInfo(latestRun) {
+        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;
+        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
+        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
+    }
+    static updateRunsList(runs) {
+        let fullList = "";
+        let recentList = "";
+        let runsResultsList = "";
+        const c = runs.length;
+        for (let i = 0; i < c; i++) {
+            const r = runs[i];
+            if (r.name === "") {
+                r.name = `${DateFormatter.format(r.runInfo.start)} - ${DateFormatter.format(r.runInfo.finish)}`;
+            }
+            fullList += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
+            recentList += `<li id=$run-${r.runInfo.guid}><div class="width-full text-bold">
+                            <a class="d-flex flex-items-baseline f5 mb-2" href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a>
+                            </div></li>`;
+            const bb = i === c - 1 ? "" : "border-bottom";
+            let passed = r.summary.success === r.summary.total;
+            const status = passed ? "All tests passed" : "Some errors detected";
+            const statusIconPath = passed ? "./src/octicons/check.svg" : "./src/octicons/alert.svg";
+            runsResultsList += `<div class="mx-4 py-2 my-2 ${bb}"><div class="mb-3">
+                    <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">${r.name}</a>
+                    <p class="f6 text-gray mb-2"><img src="${statusIconPath}" class="ghpr-tabicon" alt=""/>
+                        <b style="padding-left: 10px;">Status:</b> ${status}
+                    </p>
+                </div></div>`;
+        }
+        document.getElementById("all-runs").innerHTML = fullList;
+        document.getElementById("recent-runs").innerHTML = recentList;
+        document.getElementById("runs-results").innerHTML = runsResultsList;
+    }
+    static updateRunsInfo(runs, totalFiles) {
+        document.getElementById("total").innerHTML = `<b>Loaded runs:</b> ${runs.length}`;
+        document.getElementById("loaded").innerHTML = `<b>Total runs:</b> ${totalFiles}`;
+    }
     static updatePage() {
         Controller.init(PageType.TestRunsPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunsPage).getLatestRuns((runs, total) => {
@@ -1657,14 +1661,12 @@ class ReportPageUpdater {
                 DocumentHelper.setInnerHtmlById("project-name", reportSettings.projectName, "Awesome project");
                 DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateLatestRunInfo(latestRun);
-                this.updatePlotlyBars(runs);
+                ReportPagePlotly.updatePlotlyBars(runs, "runs-bars");
                 this.updateRunsInfo(runs, total);
                 this.updateRunsList(runs);
                 DocumentHelper.updateCopyright(reportSettings.coreVersion);
                 window.addEventListener("resize", () => {
-                    const barsDiv = document.getElementById("runs-bars");
-                    var size = this.getPlotSize(barsDiv);
-                    Plotly.relayout(barsDiv, { width: size.width, height: size.height });
+                    ReportPagePlotly.relayout("runs-bars");
                 });
             });
         });
