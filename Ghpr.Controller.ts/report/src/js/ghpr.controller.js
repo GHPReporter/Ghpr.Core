@@ -1687,6 +1687,90 @@ class ReportPageUpdater {
     }
 }
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
+class TestPagePlotly {
+    static setTestHistory(tests, currentTestNumber, id) {
+        const historyDiv = document.getElementById(id);
+        const dataX = new Array();
+        const dataY = new Array();
+        const urls = new Array();
+        const tickvals = new Array();
+        const ticktext = new Array();
+        const colors = new Array();
+        const c = tests.length;
+        for (let i = 0; i < c; i++) {
+            const t = tests[i];
+            const ti = t.testInfo;
+            dataX[i] = ti.finish;
+            colors[i] = TestRunHelper.getColor(t);
+            const j = c - i - 1;
+            dataY[i] = t.duration;
+            tickvals[i] = j;
+            ticktext[i] = `test ${j}`;
+            urls[i] = `index.html?testGuid=${ti.guid}&itemName=${ti.itemName}&currentTab=test-history`;
+        }
+        const historyTrace = {
+            x: dataX,
+            y: dataY,
+            customdata: urls,
+            name: "Test history",
+            hoverinfo: "x",
+            type: "scatter",
+            showlegend: false,
+            marker: {
+                color: colors,
+                size: 25,
+                line: { color: Color.unknown, width: 4 }
+            },
+            mode: "lines+markers",
+            line: { shape: "spline", color: Color.unknown, width: 8 },
+            textfont: { family: "Helvetica, arial, sans-serif" }
+        };
+        const index = currentTestNumber;
+        const currentTest = {
+            x: [dataX[index]],
+            y: [dataY[index]],
+            customdata: [urls[index]],
+            name: "Current test",
+            type: "scatter",
+            mode: "markers",
+            hoverinfo: "name",
+            showlegend: false,
+            marker: {
+                color: [TestRunHelper.getColor(tests[index])],
+                size: 40,
+                line: { color: Color.unknown, width: 8 }
+            }
+        };
+        var size = this.getTestHistoryPlotSize(historyDiv);
+        const layout = {
+            title: "Test history",
+            xaxis: {
+                title: "Finish datetime"
+            },
+            yaxis: {
+                title: "Test duration (sec.)"
+            },
+            width: size.width,
+            height: size.height
+        };
+        Plotly.newPlot(historyDiv, [historyTrace, currentTest], layout);
+        historyDiv.on("plotly_click", (eventData) => {
+            var url = `${eventData.points[0].customdata}`;
+            window.open(url, "_self");
+        });
+    }
+    static getTestHistoryPlotSize(plotDiv) {
+        const p = plotDiv.parentElement.parentElement.parentElement;
+        const w = Math.max(300, Math.min(p.offsetWidth, 1100));
+        const h = Math.max(300, Math.min(p.offsetHeight, 500));
+        return { width: 0.95 * w, height: 0.95 * h };
+    }
+    static relayoutTestHistory(id) {
+        const historyDiv = document.getElementById(id);
+        var size = this.getTestHistoryPlotSize(historyDiv);
+        Plotly.relayout(historyDiv, { width: size.width, height: size.height });
+    }
+}
 class TestPageUpdater {
     static updateRecentData(t) {
         document.getElementById("test-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
@@ -1760,12 +1844,6 @@ class TestPageUpdater {
         document.getElementById("test-message").innerHTML = `<b>Message:</b><br>${TestRunHelper.getMessage(t)}`;
         document.getElementById("test-stack-trace").innerHTML = `<b>Stack trace:</b><br><code style="white-space: pre-wrap">${TestRunHelper.getStackTrace(t)}</code>`;
     }
-    static getTestHistoryPlotSize(plotDiv) {
-        const p = plotDiv.parentElement.parentElement.parentElement;
-        const w = Math.max(300, Math.min(p.offsetWidth, 1100));
-        const h = Math.max(300, Math.min(p.offsetHeight, 500));
-        return { width: 0.95 * w, height: 0.95 * h };
-    }
     static setTestRecentFailures(tests) {
         const recentFailuresDiv = document.getElementById("recent-test-failures");
         recentFailuresDiv.innerHTML = "";
@@ -1783,79 +1861,6 @@ class TestPageUpdater {
                               </div></li>`;
             }
         }
-    }
-    static setTestHistory(tests) {
-        const historyDiv = document.getElementById("test-history-chart");
-        let plotlyData = new Array();
-        const dataX = new Array();
-        const dataY = new Array();
-        const urls = new Array();
-        const tickvals = new Array();
-        const ticktext = new Array();
-        const colors = new Array();
-        const c = tests.length;
-        for (let i = 0; i < c; i++) {
-            const t = tests[i];
-            const ti = t.testInfo;
-            dataX[i] = ti.finish;
-            colors[i] = TestRunHelper.getColor(t);
-            const j = c - i - 1;
-            dataY[i] = t.duration;
-            tickvals[i] = j;
-            ticktext[i] = `test ${j}`;
-            urls[i] = `index.html?testGuid=${ti.guid}&itemName=${ti.itemName}&currentTab=test-history`;
-        }
-        const historyTrace = {
-            x: dataX,
-            y: dataY,
-            customdata: urls,
-            name: "Test history",
-            hoverinfo: "x",
-            type: "scatter",
-            showlegend: false,
-            marker: {
-                color: colors,
-                size: 25,
-                line: { color: Color.unknown, width: 4 }
-            },
-            mode: "lines+markers",
-            line: { shape: "spline", color: Color.unknown, width: 8 },
-            textfont: { family: "Helvetica, arial, sans-serif" }
-        };
-        const index = this.currentTest;
-        const currentTest = {
-            x: [dataX[index]],
-            y: [dataY[index]],
-            customdata: [urls[index]],
-            name: "Current test",
-            type: "scatter",
-            mode: "markers",
-            hoverinfo: "name",
-            showlegend: false,
-            marker: {
-                color: [TestRunHelper.getColor(tests[index])],
-                size: 40,
-                line: { color: Color.unknown, width: 8 }
-            }
-        };
-        plotlyData = [historyTrace, currentTest];
-        var size = this.getTestHistoryPlotSize(historyDiv);
-        const layout = {
-            title: "Test history",
-            xaxis: {
-                title: "Finish datetime"
-            },
-            yaxis: {
-                title: "Test duration (sec.)"
-            },
-            width: size.width,
-            height: size.height
-        };
-        Plotly.newPlot(historyDiv, plotlyData, layout);
-        historyDiv.on("plotly_click", (eventData) => {
-            var url = `${eventData.points[0].customdata}`;
-            window.open(url, "_self");
-        });
     }
     static updateTestPage(testGuid, itemName) {
         Controller.dataService.fromPage(PageType.TestPage).getLatestTest(testGuid, itemName, (t) => {
@@ -1882,16 +1887,14 @@ class TestPageUpdater {
             this.updateTestHistory();
             DocumentHelper.updateCopyright(Controller.reportSettings.coreVersion);
             window.addEventListener("resize", () => {
-                const historyDiv = document.getElementById("test-history-chart");
-                var size = this.getTestHistoryPlotSize(historyDiv);
-                Plotly.relayout(historyDiv, { width: size.width, height: size.height });
+                TestPagePlotly.relayoutTestHistory("test-history-chart");
             });
         });
     }
     static updateTestHistory() {
         const guid = UrlHelper.getParam("testGuid");
         Controller.dataService.fromPage(PageType.TestPage).getLatestTests(guid, (testRunDtos, total) => {
-            this.setTestHistory(testRunDtos);
+            TestPagePlotly.setTestHistory(testRunDtos, this.currentTest, "test-history-chart");
             this.setTestRecentFailures(testRunDtos);
         });
     }

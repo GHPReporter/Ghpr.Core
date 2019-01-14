@@ -599,6 +599,7 @@
     <TypeScriptCompile Include="controller\common\localFileSystem\mappers\TestRunDtoMapper.ts" />
     <TypeScriptCompile Include="controller\common\ReportPagePlotly.ts" />
     <TypeScriptCompile Include="controller\common\RunPagePlotly.ts" />
+    <TypeScriptCompile Include="controller\common\TestPagePlotly.ts" />
     <TypeScriptCompile Include="controller\Controller.ts" />
     <TypeScriptCompile Include="controller\dto\SimpleItemInfoDto.ts" />
     <TypeScriptCompile Include="controller\dto\TestOutputDto.ts" />
