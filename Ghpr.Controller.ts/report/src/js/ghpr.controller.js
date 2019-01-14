@@ -1082,6 +1082,21 @@ class Controller {
     }
 }
 class RunPagePlotly {
+    static addTestRunDto(t, color) {
+        this.plotlyTimelineData.push({
+            x: [DateFormatter.format(t.testInfo.start), DateFormatter.format(t.testInfo.finish)],
+            y: [1, 1],
+            type: "scatter",
+            opacity: 0.5,
+            line: { color: color, width: 20 },
+            mode: "lines",
+            name: t.name,
+            showlegend: false
+        });
+    }
+    static resetTimelineData() {
+        this.plotlyTimelineData = new Array();
+    }
     static getSummaryPlotSize(plotDiv) {
         var p = plotDiv.parentElement;
         var w = Math.max(300, Math.min(p.offsetWidth, 800));
@@ -1094,7 +1109,7 @@ class RunPagePlotly {
         var h = Math.max(400, Math.min(p.offsetHeight, 500));
         return { width: 1.00 * w, height: 1.00 * h };
     }
-    static updateTimeline(data, id) {
+    static updateTimeline(id) {
         const timelineDiv = document.getElementById(id);
         var size = this.getTimelinePlotSize(timelineDiv);
         var layout = {
@@ -1108,7 +1123,7 @@ class RunPagePlotly {
             width: size.width,
             height: size.height
         };
-        Plotly.react(timelineDiv, data, layout);
+        Plotly.react(timelineDiv, this.plotlyTimelineData, layout);
     }
     static updateSummary(run, id) {
         const s = run.summary;
@@ -1156,6 +1171,7 @@ class RunPagePlotly {
         Plotly.relayout(timelinePieDiv, { width: timelineSize.width, height: timelineSize.height });
     }
 }
+RunPagePlotly.plotlyTimelineData = new Array();
 class DocumentHelper {
     static updateCopyright(coreVersion) {
         this.setInnerHtmlById("copyright", `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`);
@@ -1218,16 +1234,7 @@ class RunPageUpdater {
         if (result === TestResult.Failed) {
             document.getElementById("recent-test-failures").innerHTML += failedTestLi;
         }
-        this.plotlyTimelineData.push({
-            x: [DateFormatter.format(ti.start), DateFormatter.format(ti.finish)],
-            y: [1, 1],
-            type: "scatter",
-            opacity: 0.5,
-            line: { color: color, width: 20 },
-            mode: "lines",
-            name: t.name,
-            showlegend: false
-        });
+        RunPagePlotly.addTestRunDto(t, color);
         const nameIndex = t.fullName.lastIndexOf(t.name);
         let nameRemoved = false;
         let fn = t.fullName;
@@ -1388,7 +1395,7 @@ class RunPageUpdater {
         Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto) => {
                 UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
-                this.plotlyTimelineData = new Array();
+                RunPagePlotly.resetTimelineData();
                 DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateRunInformation(runDto);
                 RunPagePlotly.updateSummary(runDto, "summary-pie");
@@ -1396,7 +1403,7 @@ class RunPageUpdater {
                 DocumentHelper.setInnerHtmlById("page-title", runDto.name);
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
-                RunPagePlotly.updateTimeline(this.plotlyTimelineData, "run-timeline-chart");
+                RunPagePlotly.updateTimeline("run-timeline-chart");
                 DocumentHelper.updateCopyright(reportSettings.coreVersion);
                 window.addEventListener("resize", () => {
                     RunPagePlotly.relayoutSummaryPlot("summary-pie");
@@ -1415,7 +1422,7 @@ class RunPageUpdater {
                 this.addTest(testRunDto, c, i);
                 if (i === c - 1) {
                     this.makeCollapsible();
-                    RunPagePlotly.updateTimeline(this.plotlyTimelineData, "run-timeline-chart");
+                    RunPagePlotly.updateTimeline("run-timeline-chart");
                 }
                 index++;
             });
@@ -1529,7 +1536,6 @@ class RunPageUpdater {
     }
 }
 RunPageUpdater.reviveRun = JsonParser.reviveRun;
-RunPageUpdater.plotlyTimelineData = new Array();
 RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list", "run-timeline"];
 class ReportPagePlotly {
     static updatePlotlyBars(runs, id) {

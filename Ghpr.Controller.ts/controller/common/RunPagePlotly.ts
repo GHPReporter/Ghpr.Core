@@ -4,6 +4,26 @@
 
 class RunPagePlotly {
 
+    static plotlyTimelineData = new Array();
+
+    static addTestRunDto(t: TestRunDto, color: string): void {
+        this.plotlyTimelineData.push(
+            {
+                x: [DateFormatter.format(t.testInfo.start), DateFormatter.format(t.testInfo.finish)],
+                y: [1, 1],
+                type: "scatter",
+                opacity: 0.5,
+                line: { color: color, width: 20 },
+                mode: "lines",
+                name: t.name,
+                showlegend: false
+            }
+        );
+    }
+    static resetTimelineData(): void {
+        this.plotlyTimelineData = new Array();
+    }
+
     static getSummaryPlotSize(plotDiv: HTMLElement): any {
         var p = plotDiv.parentElement;
         var w = Math.max(300, Math.min(p.offsetWidth, 800));
@@ -18,7 +38,7 @@ class RunPagePlotly {
         return { width: 1.00 * w, height: 1.00 * h };
     }
 
-    static updateTimeline(data: any[], id: string): void {
+    static updateTimeline(id: string): void {
         const timelineDiv = document.getElementById(id);
         var size = this.getTimelinePlotSize(timelineDiv);
         var layout = {
@@ -32,7 +52,7 @@ class RunPagePlotly {
             width: size.width,
             height: size.height
         };
-        Plotly.react(timelineDiv, data, layout);
+        Plotly.react(timelineDiv, this.plotlyTimelineData, layout);
     }
 
     static updateSummary(run: RunDto, id: string): void {

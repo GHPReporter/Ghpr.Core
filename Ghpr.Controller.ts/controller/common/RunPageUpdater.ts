@@ -9,7 +9,6 @@ class RunPageUpdater {
     static currentRunIndex: number;
     static runsToShow: number;
     static reviveRun = JsonParser.reviveRun;
-    static plotlyTimelineData = new Array();
 
     private static updateRunInformation(run: RunDto): void {
         document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
@@ -61,18 +60,8 @@ class RunPageUpdater {
             document.getElementById("recent-test-failures").innerHTML += failedTestLi;
         }
 
-        this.plotlyTimelineData.push(
-            {
-                x: [DateFormatter.format(ti.start), DateFormatter.format(ti.finish)],
-                y: [1, 1],
-                type: "scatter",
-                opacity: 0.5,
-                line: { color: color, width: 20 },
-                mode: "lines",
-                name: t.name,
-                showlegend: false
-            }
-        );
+        RunPagePlotly.addTestRunDto(t, color);
+
         //getting correct namespace to build hierarchical test list
         const nameIndex = t.fullName.lastIndexOf(t.name);
         let nameRemoved = false;
@@ -237,7 +226,7 @@ class RunPageUpdater {
         Controller.init(PageType.TestRunPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
             dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto: RunDto) => {
                 UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
-                this.plotlyTimelineData = new Array();
+                RunPagePlotly.resetTimelineData();
                 DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateRunInformation(runDto);
                 RunPagePlotly.updateSummary(runDto, "summary-pie");
@@ -245,7 +234,7 @@ class RunPageUpdater {
                 DocumentHelper.setInnerHtmlById("page-title", runDto.name);
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
-                RunPagePlotly.updateTimeline(this.plotlyTimelineData, "run-timeline-chart");
+                RunPagePlotly.updateTimeline("run-timeline-chart");
                 DocumentHelper.updateCopyright(reportSettings.coreVersion);
                 window.addEventListener("resize", () => {
                     RunPagePlotly.relayoutSummaryPlot("summary-pie");
@@ -265,7 +254,7 @@ class RunPageUpdater {
                 this.addTest(testRunDto, c, i);
                 if (i === c - 1) {
                     this.makeCollapsible();
-                    RunPagePlotly.updateTimeline(this.plotlyTimelineData, "run-timeline-chart");
+                    RunPagePlotly.updateTimeline("run-timeline-chart");
                 }
                 index++;
             });
