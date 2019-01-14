@@ -1,5 +1,5 @@
 ﻿///<reference path="./localFileSystem/entities/ReportSettings.ts"/>
-///<reference path="./PlotlyJs.ts"/>
+///<reference path="./RunPagePlotly.ts"/>
 ///<reference path="./TestRunHelper.ts"/>
 ///<reference path="./../Controller.ts"/>
 ///<reference path="./../common/DocumentHelper.ts"/>
@@ -19,20 +19,6 @@ class RunPageUpdater {
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
     }
     
-    static getSummaryPlotSize(plotDiv: HTMLElement): any {
-        var p = plotDiv.parentElement;
-        var w = Math.max(300, Math.min(p.offsetWidth, 800));
-        var h = Math.max(400, Math.min(p.offsetHeight, 500));
-        return { width: 0.95 * w, height: 0.95 * h };
-    }
-
-    static getTimelinePlotSize(plotDiv: HTMLElement): any {
-        var p = plotDiv.parentElement.parentElement.parentElement;
-        var w = Math.max(300, Math.min(p.offsetWidth, 1000));
-        var h = Math.max(400, Math.min(p.offsetHeight, 500));
-        return { width: 1.00 * w, height: 1.00 * h };
-    }
-
     private static updateBriefResults(run: RunDto): void {
         const s = run.summary;
         document.getElementById("run-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
@@ -59,54 +45,6 @@ class RunPageUpdater {
             </div></div>`;
     }
 
-    private static updateSummary(run: RunDto): void {
-        const s = run.summary;
-        document.getElementById("total").innerHTML = `<b>Total:</b> ${s.total}`;
-        document.getElementById("passed").innerHTML = `<b>Success:</b> ${s.success}`;
-        document.getElementById("broken").innerHTML = `<b>Errors:</b> ${s.errors}`;
-        document.getElementById("failed").innerHTML = `<b>Failures:</b> ${s.failures}`;
-        document.getElementById("inconclusive").innerHTML = `<b>Inconclusive:</b> ${s.inconclusive}`;
-        document.getElementById("ignored").innerHTML = `<b>Ignored:</b> ${s.ignored}`;
-        document.getElementById("unknown").innerHTML = `<b>Unknown:</b> ${s.unknown}`;
-
-        const pieDiv = document.getElementById("summary-pie");
-
-        var size = this.getSummaryPlotSize(pieDiv);
-
-        var data = [
-            {
-                values: [s.success, s.errors, s.failures, s.inconclusive, s.ignored, s.unknown],
-                labels: ["Passed", "Broken", "Failed", "Inconclusive", "Ignored", "Unknown"],
-                marker: {
-                    colors: [
-                        Color.passed, Color.broken, Color.failed, Color.inconclusive, Color.ignored, Color.unknown
-                    ],
-                    line: {
-                        color: "white",
-                        width: 2
-                    }
-                },
-                outsidetextfont: {
-                    family: "Helvetica, arial, sans-serif"
-                },
-                textfont: {
-                    family: "Helvetica, arial, sans-serif"
-                },
-                textinfo: "label+percent",
-                type: "pie",
-                hole: 0.35
-            }
-        ];
-
-        var layout = {
-            margin: { t: 20 },
-            width: size.width,
-            height: size.height
-        };
-
-        Plotly.react(pieDiv, data, layout);
-    }
-    
     private static addTest(t: TestRunDto, c: number, i: number): void {
         const ti = t.testInfo;
         const color = TestRunHelper.getColor(t);
@@ -302,41 +240,19 @@ class RunPageUpdater {
                 this.plotlyTimelineData = new Array();
                 DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateRunInformation(runDto);
-                this.updateSummary(runDto);
+                RunPagePlotly.updateSummary(runDto, "summary-pie");
                 this.updateBriefResults(runDto);
                 DocumentHelper.setInnerHtmlById("page-title", runDto.name);
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
-                this.updateTimeline();
+                RunPagePlotly.updateTimeline(this.plotlyTimelineData, "run-timeline-chart");
                 DocumentHelper.updateCopyright(reportSettings.coreVersion);
-
                 window.addEventListener("resize", () => {
-                    const summaryPieDiv = document.getElementById("summary-pie");
-                    var summarySize = this.getSummaryPlotSize(summaryPieDiv);
-                    Plotly.relayout(summaryPieDiv, { width: summarySize.width, height: summarySize.height });
-                    const timelinePieDiv = document.getElementById("run-timeline-chart");
-                    var timelineSize = this.getTimelinePlotSize(timelinePieDiv);
-                    Plotly.relayout(timelinePieDiv, { width: timelineSize.width, height: timelineSize.height });
+                    RunPagePlotly.relayoutSummaryPlot("summary-pie");
+                    RunPagePlotly.relayoutTimelinePlot("run-timeline-chart");
                 });
             });
         });
-    }
-    
-    static updateTimeline(): void {
-        const timelineDiv = document.getElementById("run-timeline-chart");
-        var size = this.getTimelinePlotSize(timelineDiv);
-        var layout = {
-            title: "Timeline",
-            yaxis: {
-                showgrid: false,
-                zeroline: false,
-                showline: false,
-                showticklabels: false
-            },
-            width: size.width,
-            height: size.height
-        };
-        Plotly.react(timelineDiv, this.plotlyTimelineData, layout);
     }
 
     static updateTestsList(run: RunDto): void {
@@ -349,7 +265,7 @@ class RunPageUpdater {
                 this.addTest(testRunDto, c, i);
                 if (i === c - 1) {
                     this.makeCollapsible();
-                    this.updateTimeline();
+                    RunPagePlotly.updateTimeline(this.plotlyTimelineData, "run-timeline-chart");
                 }
                 index++;
             });

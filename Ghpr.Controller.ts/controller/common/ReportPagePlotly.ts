@@ -12,19 +12,15 @@ class ReportPagePlotly {
         const inconclY: Array<number> = new Array();
         const ignoredY: Array<number> = new Array();
         const unknownY: Array<number> = new Array();
-
         const passedX: Array<number> = new Array();
         const failedX: Array<number> = new Array();
         const brokenX: Array<number> = new Array();
         const inconclX: Array<number> = new Array();
         const ignoredX: Array<number> = new Array();
         const unknownX: Array<number> = new Array();
-
         const tickvals: Array<number> = new Array();
         const ticktext: Array<string> = new Array();
-
         const runGuids: Array<string> = new Array();
-
         const c = runs.length;
         for (let i = 0; i < c; i++) {
             let s = runs[i].summary;
@@ -34,7 +30,6 @@ class ReportPagePlotly {
             inconclY[i] = s.inconclusive;
             ignoredY[i] = s.ignored;
             unknownY[i] = s.unknown;
-
             let j = c - i - 1;
             passedX[i] = j;
             failedX[i] = j;
@@ -42,10 +37,8 @@ class ReportPagePlotly {
             inconclX[i] = j;
             ignoredX[i] = j;
             unknownX[i] = j;
-
             tickvals[i] = j;
             ticktext[i] = `run ${j}`;
-
             let ri = runs[i].runInfo;
             runGuids[i] = `${ri.guid}`;
         }
@@ -59,11 +52,8 @@ class ReportPagePlotly {
             { x: failedX, y: failedY, name: "failed", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.failed } },
             { x: passedX, y: passedY, name: "passed", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.passed } }
         ];
-
         const barsDiv = document.getElementById(id);
-
         var size = this.getPlotSize(barsDiv);
-
         var layout = {
             title: "Runs statistics",
             xaxis: {
@@ -79,9 +69,7 @@ class ReportPagePlotly {
             width: size.width,
             height: size.height
         };
-
         Plotly.react(barsDiv, plotlyData, layout);
-
         (barsDiv as any).on("plotly_click", (eventData: any) => {
             var url = `./runs/index.html?runGuid=${eventData.points[0].customdata}`;
             var win = window.open(url, "_blank");

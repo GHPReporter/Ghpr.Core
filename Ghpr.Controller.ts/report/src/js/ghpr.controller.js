@@ -1081,28 +1081,7 @@ class Controller {
         req.send(null);
     }
 }
-class DocumentHelper {
-    static updateCopyright(coreVersion) {
-        this.setInnerHtmlById("copyright", `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`);
-    }
-    static updateReportName(reportName) {
-        this.setInnerHtmlById("report-name", reportName, "GHPReport");
-    }
-    static setInnerHtmlById(id, value, defaultValue = "") {
-        if (value === undefined) {
-            value = defaultValue;
-        }
-        document.getElementById(id).innerHTML = value;
-    }
-}
-class RunPageUpdater {
-    static updateRunInformation(run) {
-        document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
-        document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
-        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
-        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
-        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
-    }
+class RunPagePlotly {
     static getSummaryPlotSize(plotDiv) {
         var p = plotDiv.parentElement;
         var w = Math.max(300, Math.min(p.offsetWidth, 800));
@@ -1115,41 +1094,25 @@ class RunPageUpdater {
         var h = Math.max(400, Math.min(p.offsetHeight, 500));
         return { width: 1.00 * w, height: 1.00 * h };
     }
-    static updateBriefResults(run) {
-        const s = run.summary;
-        document.getElementById("run-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Total</a>
-            <p class="f6 text-gray mb-2">${s.total}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Success</a>
-            <p class="f6 text-gray mb-2">${s.success}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Errors</a>
-            <p class="f6 text-gray mb-2">${s.errors}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Failures</a>
-            <p class="f6 text-gray mb-2">${s.failures}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Inconclusive</a>
-            <p class="f6 text-gray mb-2">${s.inconclusive}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Ignored</a>
-            <p class="f6 text-gray mb-2">${s.ignored}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Unknown</a>
-            <p class="f6 text-gray mb-2">${s.unknown}</p>
-            </div></div>`;
+    static updateTimeline(data, id) {
+        const timelineDiv = document.getElementById(id);
+        var size = this.getTimelinePlotSize(timelineDiv);
+        var layout = {
+            title: "Timeline",
+            yaxis: {
+                showgrid: false,
+                zeroline: false,
+                showline: false,
+                showticklabels: false
+            },
+            width: size.width,
+            height: size.height
+        };
+        Plotly.react(timelineDiv, data, layout);
     }
-    static updateSummary(run) {
+    static updateSummary(run, id) {
         const s = run.summary;
-        document.getElementById("total").innerHTML = `<b>Total:</b> ${s.total}`;
-        document.getElementById("passed").innerHTML = `<b>Success:</b> ${s.success}`;
-        document.getElementById("broken").innerHTML = `<b>Errors:</b> ${s.errors}`;
-        document.getElementById("failed").innerHTML = `<b>Failures:</b> ${s.failures}`;
-        document.getElementById("inconclusive").innerHTML = `<b>Inconclusive:</b> ${s.inconclusive}`;
-        document.getElementById("ignored").innerHTML = `<b>Ignored:</b> ${s.ignored}`;
-        document.getElementById("unknown").innerHTML = `<b>Unknown:</b> ${s.unknown}`;
-        const pieDiv = document.getElementById("summary-pie");
+        const pieDiv = document.getElementById(id);
         var size = this.getSummaryPlotSize(pieDiv);
         var data = [
             {
@@ -1181,6 +1144,64 @@ class RunPageUpdater {
             height: size.height
         };
         Plotly.react(pieDiv, data, layout);
+    }
+    static relayoutSummaryPlot(id) {
+        const summaryPieDiv = document.getElementById(id);
+        var summarySize = this.getSummaryPlotSize(summaryPieDiv);
+        Plotly.relayout(summaryPieDiv, { width: summarySize.width, height: summarySize.height });
+    }
+    static relayoutTimelinePlot(id) {
+        const timelinePieDiv = document.getElementById(id);
+        var timelineSize = this.getTimelinePlotSize(timelinePieDiv);
+        Plotly.relayout(timelinePieDiv, { width: timelineSize.width, height: timelineSize.height });
+    }
+}
+class DocumentHelper {
+    static updateCopyright(coreVersion) {
+        this.setInnerHtmlById("copyright", `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`);
+    }
+    static updateReportName(reportName) {
+        this.setInnerHtmlById("report-name", reportName, "GHPReport");
+    }
+    static setInnerHtmlById(id, value, defaultValue = "") {
+        if (value === undefined) {
+            value = defaultValue;
+        }
+        document.getElementById(id).innerHTML = value;
+    }
+}
+class RunPageUpdater {
+    static updateRunInformation(run) {
+        document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
+        document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
+        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
+        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
+        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
+    }
+    static updateBriefResults(run) {
+        const s = run.summary;
+        document.getElementById("run-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Total</a>
+            <p class="f6 text-gray mb-2">${s.total}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Success</a>
+            <p class="f6 text-gray mb-2">${s.success}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Errors</a>
+            <p class="f6 text-gray mb-2">${s.errors}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Failures</a>
+            <p class="f6 text-gray mb-2">${s.failures}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Inconclusive</a>
+            <p class="f6 text-gray mb-2">${s.inconclusive}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Ignored</a>
+            <p class="f6 text-gray mb-2">${s.ignored}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Unknown</a>
+            <p class="f6 text-gray mb-2">${s.unknown}</p>
+            </div></div>`;
     }
     static addTest(t, c, i) {
         const ti = t.testInfo;
@@ -1370,39 +1391,19 @@ class RunPageUpdater {
                 this.plotlyTimelineData = new Array();
                 DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateRunInformation(runDto);
-                this.updateSummary(runDto);
+                RunPagePlotly.updateSummary(runDto, "summary-pie");
                 this.updateBriefResults(runDto);
                 DocumentHelper.setInnerHtmlById("page-title", runDto.name);
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
-                this.updateTimeline();
+                RunPagePlotly.updateTimeline(this.plotlyTimelineData, "run-timeline-chart");
                 DocumentHelper.updateCopyright(reportSettings.coreVersion);
                 window.addEventListener("resize", () => {
-                    const summaryPieDiv = document.getElementById("summary-pie");
-                    var summarySize = this.getSummaryPlotSize(summaryPieDiv);
-                    Plotly.relayout(summaryPieDiv, { width: summarySize.width, height: summarySize.height });
-                    const timelinePieDiv = document.getElementById("run-timeline-chart");
-                    var timelineSize = this.getTimelinePlotSize(timelinePieDiv);
-                    Plotly.relayout(timelinePieDiv, { width: timelineSize.width, height: timelineSize.height });
+                    RunPagePlotly.relayoutSummaryPlot("summary-pie");
+                    RunPagePlotly.relayoutTimelinePlot("run-timeline-chart");
                 });
             });
         });
-    }
-    static updateTimeline() {
-        const timelineDiv = document.getElementById("run-timeline-chart");
-        var size = this.getTimelinePlotSize(timelineDiv);
-        var layout = {
-            title: "Timeline",
-            yaxis: {
-                showgrid: false,
-                zeroline: false,
-                showline: false,
-                showticklabels: false
-            },
-            width: size.width,
-            height: size.height
-        };
-        Plotly.react(timelineDiv, this.plotlyTimelineData, layout);
     }
     static updateTestsList(run) {
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
@@ -1414,7 +1415,7 @@ class RunPageUpdater {
                 this.addTest(testRunDto, c, i);
                 if (i === c - 1) {
                     this.makeCollapsible();
-                    this.updateTimeline();
+                    RunPagePlotly.updateTimeline(this.plotlyTimelineData, "run-timeline-chart");
                 }
                 index++;
             });
