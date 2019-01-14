@@ -59,9 +59,7 @@ class RunPageUpdater {
         if (result === TestResult.Failed) {
             document.getElementById("recent-test-failures").innerHTML += failedTestLi;
         }
-
         RunPagePlotly.addTestRunDto(t, color);
-
         //getting correct namespace to build hierarchical test list
         const nameIndex = t.fullName.lastIndexOf(t.name);
         let nameRemoved = false;
