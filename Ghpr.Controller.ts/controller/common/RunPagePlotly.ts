@@ -6,14 +6,14 @@ class RunPagePlotly {
 
     static plotlyTimelineData = new Array();
 
-    static addTestRunDto(t: TestRunDto, color: string): void {
+    static addTestRunDto(t: TestRunDto): void {
         this.plotlyTimelineData.push(
             {
                 x: [DateFormatter.format(t.testInfo.start), DateFormatter.format(t.testInfo.finish)],
                 y: [1, 1],
                 type: "scatter",
                 opacity: 0.5,
-                line: { color: color, width: 20 },
+                line: { color: TestRunHelper.getColor(t), width: 20 },
                 mode: "lines",
                 name: t.name,
                 showlegend: false

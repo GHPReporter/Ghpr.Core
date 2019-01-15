@@ -1082,13 +1082,13 @@ class Controller {
     }
 }
 class RunPagePlotly {
-    static addTestRunDto(t, color) {
+    static addTestRunDto(t) {
         this.plotlyTimelineData.push({
             x: [DateFormatter.format(t.testInfo.start), DateFormatter.format(t.testInfo.finish)],
             y: [1, 1],
             type: "scatter",
             opacity: 0.5,
-            line: { color: color, width: 20 },
+            line: { color: TestRunHelper.getColor(t), width: 20 },
             mode: "lines",
             name: t.name,
             showlegend: false
@@ -1234,7 +1234,6 @@ class RunPageUpdater {
         if (result === TestResult.Failed) {
             document.getElementById("recent-test-failures").innerHTML += failedTestLi;
         }
-        RunPagePlotly.addTestRunDto(t, color);
         const nameIndex = t.fullName.lastIndexOf(t.name);
         let nameRemoved = false;
         let fn = t.fullName;
@@ -1420,6 +1419,7 @@ class RunPageUpdater {
         Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunPage).getRunTests(run, (testRunDto, c, i) => {
                 this.addTest(testRunDto, c, i);
+                RunPagePlotly.addTestRunDto(testRunDto);
                 if (i === c - 1) {
                     this.makeCollapsible();
                     RunPagePlotly.updateTimeline("run-timeline-chart");

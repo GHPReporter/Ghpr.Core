@@ -59,7 +59,6 @@ class RunPageUpdater {
         if (result === TestResult.Failed) {
             document.getElementById("recent-test-failures").innerHTML += failedTestLi;
         }
-        RunPagePlotly.addTestRunDto(t, color);
         //getting correct namespace to build hierarchical test list
         const nameIndex = t.fullName.lastIndexOf(t.name);
         let nameRemoved = false;
@@ -250,6 +249,7 @@ class RunPageUpdater {
         Controller.init(PageType.TestRunPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
             dataService.fromPage(PageType.TestRunPage).getRunTests(run, (testRunDto: TestRunDto, c: number, i: number) => {
                 this.addTest(testRunDto, c, i);
+                RunPagePlotly.addTestRunDto(testRunDto);
                 if (i === c - 1) {
                     this.makeCollapsible();
                     RunPagePlotly.updateTimeline("run-timeline-chart");
