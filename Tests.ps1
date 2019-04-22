@@ -1,0 +1,1 @@
+& .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"nunit3-console.exe" "-targetargs:""Ghpr.Core.Tests\bin\Release\Ghpr.Core.Tests.dll""" -filter:"+[Ghpr.Core*]* -[Ghpr.Core.Tests*]*" -output:opencoverCoverage.xml
