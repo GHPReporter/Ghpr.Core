@@ -25,6 +25,7 @@ namespace Ghpr.SimpleFileLogger
             {
                 _loggerLogLevel = LogLevel.Info;
             }
+            Info("Logger was set up");
         }
         
         private void Write(string msg, LogLevel messageLogLevel)
