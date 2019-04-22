@@ -16,6 +16,7 @@
 [![NuGet Version](https://img.shields.io/nuget/v/Ghpr.Core.svg)](https://www.nuget.org/packages/Ghpr.Core)
 [![Coverage Status](https://coveralls.io/repos/github/GHPReporter/Ghpr.Core/badge.svg?branch=master)](https://coveralls.io/github/GHPReporter/Ghpr.Core?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0a299da7eea3464a8652ee5d2fea28f5)](https://www.codacy.com/app/GHPReporter/Ghpr.Core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GHPReporter/Ghpr.Core&amp;utm_campaign=Badge_Grade)
+[![codecov](https://codecov.io/gh/GHPReporter/Ghpr.Core/branch/master/graph/badge.svg)](https://codecov.io/gh/GHPReporter/Ghpr.Core)
 [![CodeFactor](https://www.codefactor.io/repository/github/ghpreporter/ghpr.core/badge)](https://www.codefactor.io/repository/github/ghpreporter/ghpr.core)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FGHPReporter%2FGhpr.Core.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FGHPReporter%2FGhpr.Core?ref=badge_shield)
 
