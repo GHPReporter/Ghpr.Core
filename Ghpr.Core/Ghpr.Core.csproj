@@ -70,6 +70,7 @@
     <Compile Include="Interfaces\ITestRunDtoProcessor.cs" />
     <Compile Include="Interfaces\ITestRunsRepository.cs" />
     <Compile Include="Processors\TestRunDtoProcessor.cs" />
+    <Compile Include="Settings\ProjectSettings.cs" />
     <Compile Include="Settings\ReporterSettings.cs" />
     <Compile Include="Common\ReportSettingsDto.cs" />
     <Compile Include="Common\RunDto.cs" />
