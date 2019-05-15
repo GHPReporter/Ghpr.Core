@@ -6,7 +6,7 @@ namespace Ghpr.Core.Utils
 {
     public class EmptyLogger : ILogger
     {
-        public void SetUp(ReporterSettings reporterSettings)
+        public void SetUp(ProjectSettings reporterSettings)
         {
         }
 

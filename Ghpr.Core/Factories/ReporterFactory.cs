@@ -82,23 +82,24 @@ namespace Ghpr.Core.Factories
 
         private static IReporter InitializeReporter(ReporterSettings settings, ITestDataProvider testDataProvider)
         {
-            if (settings.OutputPath == null)
+            var projectSettings = settings.DefaultSettings;
+            if (projectSettings.OutputPath == null)
             {
-                throw new ArgumentNullException(nameof(settings.OutputPath),
+                throw new ArgumentNullException(nameof(projectSettings.OutputPath),
                     "Reporter Output path must be specified. Please fix your .json settings file.");
             }
 
-            var logger = CreateInstanceFromFile<ILogger>(settings.LoggerFile, new EmptyLogger());
-            logger.SetUp(settings);
+            var logger = CreateInstanceFromFile<ILogger>(projectSettings.LoggerFile, new EmptyLogger());
+            logger.SetUp(projectSettings);
 
-            var dataWriterService = CreateInstanceFromFile<IDataWriterService>(settings.DataServiceFile);
-            dataWriterService.InitializeDataWriter(settings, logger);
+            var dataWriterService = CreateInstanceFromFile<IDataWriterService>(projectSettings.DataServiceFile);
+            dataWriterService.InitializeDataWriter(projectSettings, logger);
 
-            var dataReaderService = CreateInstanceFromFile<IDataReaderService>(settings.DataServiceFile);
-            dataReaderService.InitializeDataReader(settings, logger);
+            var dataReaderService = CreateInstanceFromFile<IDataReaderService>(projectSettings.DataServiceFile);
+            dataReaderService.InitializeDataReader(projectSettings, logger);
 
-            CommonCache.Instance.InitializeDataReader(settings, logger);
-            CommonCache.Instance.InitializeDataWriter(settings, logger);
+            CommonCache.Instance.InitializeDataReader(projectSettings, logger);
+            CommonCache.Instance.InitializeDataWriter(projectSettings, logger);
 
             var actionHelper = new ActionHelper(logger);
 
@@ -107,8 +108,8 @@ namespace Ghpr.Core.Factories
                 Action = actionHelper,
                 Logger = logger,
                 TestDataProvider = testDataProvider,
-                ReporterSettings = settings,
-                ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay, settings.ReportName, settings.ProjectName),
+                ReporterSettings = projectSettings,
+                ReportSettings = new ReportSettingsDto(projectSettings.RunsToDisplay, projectSettings.TestsToDisplay, projectSettings.ReportName, projectSettings.ProjectName),
                 DataWriterService = new DataWriterService(dataWriterService, CommonCache.Instance),
                 DataReaderService = new DataReaderService(dataReaderService, CommonCache.Instance),
                 RunRepository = new RunDtoRepository(),

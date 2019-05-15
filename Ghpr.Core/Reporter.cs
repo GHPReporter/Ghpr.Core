@@ -18,7 +18,7 @@ namespace Ghpr.Core
         public IDataReaderService DataReaderService { get; internal set; }
         public bool TestRunStarted { get; internal set; }
         public ReportSettingsDto ReportSettings { get; internal set; }
-        public ReporterSettings ReporterSettings { get; internal set; }
+        public ProjectSettings ReporterSettings { get; internal set; }
         public IActionHelper Action { get; internal set; }
         public ITestDataProvider TestDataProvider { get; internal set; }
         public ILogger Logger { get; internal set; }

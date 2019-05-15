@@ -97,6 +97,7 @@
     <Compile Include="Helpers\ActionHelper.cs" />
     <Compile Include="ReporterManager.cs" />
     <Compile Include="Settings\RetentionSettings.cs" />
+    <Compile Include="Settings\SpecificProjectSettings.cs" />
     <Compile Include="Utils\EmptyLogger.cs" />
     <Compile Include="Utils\Paths.cs" />
     <Compile Include="Utils\SettingsLoader.cs" />

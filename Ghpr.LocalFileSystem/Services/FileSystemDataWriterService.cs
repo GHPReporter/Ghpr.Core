@@ -24,7 +24,7 @@ namespace Ghpr.LocalFileSystem.Services
             return this;
         }
 
-        public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
+        public void InitializeDataWriter(ProjectSettings settings, ILogger logger)
         {
             _locationsProvider = new LocationsProvider(settings.OutputPath);
             _logger = logger;

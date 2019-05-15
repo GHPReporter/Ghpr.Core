@@ -5,11 +5,17 @@ namespace Ghpr.Core.Settings
     [JsonObject(MemberSerialization.OptIn)]
     public class ProjectSettings
     {
-        [JsonProperty(PropertyName = "projectNamePattern")]
-        public string Pattern { get; set; }
-
         [JsonProperty(PropertyName = "outputPath")]
         public string OutputPath { get; set; }
+
+        [JsonProperty(PropertyName = "dataServiceFile")]
+        public string DataServiceFile { get; set; }
+
+        [JsonProperty(PropertyName = "loggerFile")]
+        public string LoggerFile { get; set; }
+
+        [JsonProperty(PropertyName = "sprint")]
+        public string Sprint { get; set; }
 
         [JsonProperty(PropertyName = "reportName")]
         public string ReportName { get; set; }

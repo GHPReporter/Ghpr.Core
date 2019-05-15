@@ -15,10 +15,10 @@ namespace Ghpr.SimpleFileLogger
         private LogLevel _loggerLogLevel;
         private static readonly ReaderWriterLock Locker = new ReaderWriterLock();
         
-        public void SetUp(ReporterSettings reporterSettings)
+        public void SetUp(ProjectSettings project)
         {
             var settings = "Ghpr.SimpleFileLogger.Settings.json".LoadSettingsAs<LoggerSettings>();
-            _outputPath = settings.OutputPath ?? reporterSettings.OutputPath;
+            _outputPath = settings.OutputPath ?? project.OutputPath;
             _fileName = settings.FileName ?? "GhprLog.txt";
             var success = Enum.TryParse(settings.LogLevel, out _loggerLogLevel);
             if (!success)

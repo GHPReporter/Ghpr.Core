@@ -9,7 +9,7 @@ namespace Ghpr.SerilogToSeqLogger
     {
         private static Serilog.ILogger SerilogLogger => Log.Logger;
 
-        public void SetUp(ReporterSettings reporterSettings)
+        public void SetUp(ProjectSettings reporterSettings)
         {
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.AppSettings()

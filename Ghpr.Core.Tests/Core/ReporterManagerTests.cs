@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
-using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 using NUnit.Framework;
 
@@ -37,23 +34,26 @@ namespace Ghpr.Core.Tests.Core
             ReporterManager.TearDown();
             var s = new ReporterSettings
             {
-                RunGuid = Guid.NewGuid().ToString(),
-                DataServiceFile = "Ghpr.LocalFileSystem.dll",
-                LoggerFile = "",
-                OutputPath = @"\\server\folder",
-                ProjectName = "cool project",
-                RealTimeGeneration = true,
-                ReportName = "report name",
-                Retention = new RetentionSettings
+                DefaultSettings = new ProjectSettings
                 {
-                    Amount = 3,
-                    Till = DateTime.Now
-                },
-                RunName = "run name",
-                RunsToDisplay = 7
+                    RunGuid = Guid.NewGuid().ToString(),
+                    DataServiceFile = "Ghpr.LocalFileSystem.dll",
+                    LoggerFile = "",
+                    OutputPath = @"\\server\folder",
+                    ProjectName = "cool project",
+                    RealTimeGeneration = true,
+                    ReportName = "report name",
+                    Retention = new RetentionSettings
+                    {
+                        Amount = 3,
+                        Till = DateTime.Now
+                    },
+                    RunName = "run name",
+                    RunsToDisplay = 7
+                }
             };
             ReporterManager.Initialize(s, new MockTestDataProvider());
-            Assert.AreEqual(s.OutputPath, ReporterManager.OutputPath);
+            Assert.AreEqual(s.DefaultSettings.OutputPath, ReporterManager.OutputPath);
         }
 
         [Test]

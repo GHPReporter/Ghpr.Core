@@ -49,7 +49,7 @@ namespace Ghpr.Core.Common
             return this;
         }
 
-        public void InitializeDataReader(ReporterSettings settings, ILogger logger)
+        public void InitializeDataReader(ProjectSettings settings, ILogger logger)
         {
             _dataReaderLogger = logger;
             _dataReaderLogger.Debug("Data reader initialized in Common cache");
@@ -140,7 +140,7 @@ namespace Ghpr.Core.Common
             return this;
         }
 
-        public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
+        public void InitializeDataWriter(ProjectSettings settings, ILogger logger)
         {
             _dataWriterLogger = logger;
             _dataWriterLogger.Debug("Data writer initialized in Common cache");

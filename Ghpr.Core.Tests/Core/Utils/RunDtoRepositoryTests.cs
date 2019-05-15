@@ -9,8 +9,8 @@ namespace Ghpr.Core.Tests.Core.Utils
     [TestFixture]
     public class RunDtoRepositoryTests
     {
-        private readonly ReporterSettings _settings = 
-            "Ghpr.Core.Tests.Settings.json".LoadSettingsAs<ReporterSettings>();
+        private readonly ProjectSettings _settings = 
+            "Ghpr.Core.Tests.Settings.json".LoadSettingsAs<ReporterSettings>().DefaultSettings;
 
         [Test]
         public void CurrentRunIsNullBeforeStarted()

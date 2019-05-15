@@ -42,8 +42,8 @@ namespace Ghpr.Core.Tests.Core.Common
             Assert.Throws<NullReferenceException>(() => cache.DeleteTest(new TestRunDto()));
             Assert.Throws<NullReferenceException>(() => cache.DeleteTestOutput(new TestRunDto(), new TestOutputDto()));
             Assert.Throws<NullReferenceException>(() => cache.DeleteTestScreenshot(new TestRunDto(), new TestScreenshotDto()));
-            cache.InitializeDataWriter(settings, logger);
-            cache.InitializeDataReader(settings, logger);
+            cache.InitializeDataWriter(settings.DefaultSettings, logger);
+            cache.InitializeDataReader(settings.DefaultSettings, logger);
             Assert.IsInstanceOf(typeof(CommonCache), cache.GetDataReader());
             Assert.IsInstanceOf(typeof(CommonCache), cache.GetDataWriter());
             Assert.DoesNotThrow(() => cache.SaveTestRun(new TestRunDto(), new TestOutputDto()));

@@ -13,8 +13,8 @@ namespace Ghpr.Core.Tests.Core.Services
         [Test]
         public void TestCreation()
         {
-            CommonCache.Instance.InitializeDataReader(new ReporterSettings(), new EmptyLogger());
-            CommonCache.Instance.InitializeDataWriter(new ReporterSettings(), new EmptyLogger());
+            CommonCache.Instance.InitializeDataReader(new ProjectSettings(), new EmptyLogger());
+            CommonCache.Instance.InitializeDataWriter(new ProjectSettings(), new EmptyLogger());
             var writer = new DataWriterService(new MockDataWriterService(), CommonCache.Instance);
             Assert.IsInstanceOf(typeof(MockDataWriterService), writer.GetDataWriter());
             Assert.DoesNotThrow(() => writer.SaveReportSettings(new ReportSettingsDto(1, 2, "", "")));
