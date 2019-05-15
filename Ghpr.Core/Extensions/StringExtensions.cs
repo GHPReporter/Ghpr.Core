@@ -59,5 +59,10 @@ namespace Ghpr.Core.Extensions
                 RegexOptions.IgnoreCase | RegexOptions.Singleline
             ).IsMatch(str);
         }
+
+        public static string ValueOrDefault(this string str, string def)
+        {
+            return string.IsNullOrEmpty(str) ? def : str;
+        }
     }
 }
