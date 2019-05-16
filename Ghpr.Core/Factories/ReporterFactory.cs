@@ -13,6 +13,7 @@ using Ghpr.Core.Providers;
 using Ghpr.Core.Services;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
+using Newtonsoft.Json.Linq;
 
 namespace Ghpr.Core.Factories
 {
@@ -83,17 +84,22 @@ namespace Ghpr.Core.Factories
 
         private static IReporter InitializeReporter(ReporterSettings settings, ITestDataProvider testDataProvider, string projectName = "")
         {
-            var reporterProjectSettings = new ProjectSettings();
+            ProjectSettings reporterProjectSettings;
             if (!string.IsNullOrEmpty(projectName) && settings.Projects.Any(s => projectName.Like(s.Pattern)))
             {
                 var specificProjectSettings = settings.Projects.First(s => projectName.Like(s.Pattern));
                 reporterProjectSettings =
                     specificProjectSettings.Settings.GetFromSourceOrDefault(settings.DefaultSettings);
             }
+            else
+            {
+                reporterProjectSettings = settings.DefaultSettings;
+            }
             if (reporterProjectSettings.OutputPath == null)
             {
                 throw new ArgumentNullException(nameof(reporterProjectSettings.OutputPath),
-                    "Reporter Output path must be specified. Please fix your .json settings file.");
+                    "Reporter Output path must be specified! Please fix your .json settings file. " +
+                    $"Your settings are: {JToken.FromObject(settings)}");
             }
 
             var logger = CreateInstanceFromFile<ILogger>(reporterProjectSettings.LoggerFile, new EmptyLogger());
