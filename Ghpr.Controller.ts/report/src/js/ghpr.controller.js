@@ -1193,6 +1193,13 @@ class RunPageUpdater {
         document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
         document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
         document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
+        document.getElementById("total").innerHTML = `<b>Total: </b> ${run.summary.total}`;
+        document.getElementById("passed").innerHTML = `<b>Success: </b> ${run.summary.success}`;
+        document.getElementById("broken").innerHTML = `<b>Errors: </b> ${run.summary.errors}`;
+        document.getElementById("failed").innerHTML = `<b>Failures: </b> ${run.summary.failures}`;
+        document.getElementById("inconclusive").innerHTML = `<b>Inconclusive: </b> ${run.summary.inconclusive}`;
+        document.getElementById("ignored").innerHTML = `<b>Ignored: </b> ${run.summary.ignored}`;
+        document.getElementById("unknown").innerHTML = `<b>Unknown: </b> ${run.summary.unknown}`;
     }
     static updateBriefResults(run) {
         const s = run.summary;
