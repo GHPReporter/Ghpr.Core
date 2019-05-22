@@ -252,6 +252,7 @@ class RunPageUpdater {
     static updateTestsList(run: RunDto): void {
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
         document.getElementById("all-tests-hierarchical").innerHTML = "";
+        document.getElementById("all-tests-collapsed").innerHTML = "";
         document.getElementById("recent-test-failures").innerHTML = "";
         var index = 0;
         Controller.init(PageType.TestRunPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
