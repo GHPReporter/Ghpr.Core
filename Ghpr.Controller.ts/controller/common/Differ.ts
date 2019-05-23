@@ -1,6 +1,4 @@
 ﻿///<reference path="./localFileSystem/entities/TestRun.ts"/>
-///<reference path="./../enums/TestResult.ts"/>
-///<reference path="./Color.ts"/>
 ///<reference path="./TestRunHelper.ts"/>
 
 class Differ {

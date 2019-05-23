@@ -39,7 +39,7 @@ namespace Ghpr.Core.Tests.Core.Extensions
             var uri = new Uri(typeof(ReporterSettings).Assembly.CodeBase);
             var settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", "Ghpr.Core.Settings.json");
             var s = settingsPath.LoadAs<ReporterSettings>();
-            Assert.AreEqual("C:\\_GHPReporter_Core_Report", s.OutputPath);
+            Assert.AreEqual("C:\\_GHPReporter_Core_Report", s.DefaultSettings.OutputPath);
         }
     }
 }

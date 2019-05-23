@@ -40,19 +40,23 @@ namespace Ghpr.Core.Tests.Core.Factories
         {
             var s = new ReporterSettings
             {
-                RunGuid = Guid.NewGuid().ToString(),
-                DataServiceFile = "Ghpr.LocalFileSystem.dll",
-                LoggerFile = "",
-                OutputPath = @"\\server\folder",
-                ProjectName = "cool project",
-                RealTimeGeneration = true,
-                ReportName = "report name",
-                Retention = new RetentionSettings
+                DefaultSettings = new ProjectSettings
                 {
-                    Amount = 3, Till = DateTime.Now
-                },
-                RunName = "run name",
-                RunsToDisplay = 7
+                    RunGuid = Guid.NewGuid().ToString(),
+                    DataServiceFile = "Ghpr.LocalFileSystem.dll",
+                    LoggerFile = "",
+                    OutputPath = @"\\server\folder",
+                    ProjectName = "cool project",
+                    RealTimeGeneration = true,
+                    ReportName = "report name",
+                    Retention = new RetentionSettings
+                    {
+                        Amount = 3,
+                        Till = DateTime.Now
+                    },
+                    RunName = "run name",
+                    RunsToDisplay = 7
+                }
             };
             var r = ReporterFactory.Build(s, _provider);
             Assert.NotNull(r.ReporterSettings);
@@ -65,22 +69,22 @@ namespace Ghpr.Core.Tests.Core.Factories
             Assert.IsInstanceOf(typeof(MockTestDataProvider), r.TestDataProvider);
             Assert.IsInstanceOf(typeof(FileSystemDataReaderService), r.DataReaderService.GetDataReader());
             Assert.IsInstanceOf(typeof(FileSystemDataWriterService), r.DataWriterService.GetDataWriter());
-            Assert.AreEqual(s.ProjectName, r.ReporterSettings.ProjectName);
-            Assert.AreEqual(s.ReportName, r.ReporterSettings.ReportName);
-            Assert.AreEqual(s.RunGuid, r.ReporterSettings.RunGuid);
-            Assert.AreEqual(s.DataServiceFile, r.ReporterSettings.DataServiceFile);
-            Assert.AreEqual(s.LoggerFile, r.ReporterSettings.LoggerFile);
-            Assert.AreEqual(s.OutputPath, r.ReporterSettings.OutputPath);
-            Assert.AreEqual(s.RealTimeGeneration, r.ReporterSettings.RealTimeGeneration);
-            Assert.AreEqual(s.Retention.Till, r.ReporterSettings.Retention.Till);
-            Assert.AreEqual(s.Retention.Amount, r.ReporterSettings.Retention.Amount);
-            Assert.AreEqual(s.RunName, r.ReporterSettings.RunName);
-            Assert.AreEqual(s.RunsToDisplay, r.ReporterSettings.RunsToDisplay);
-            Assert.AreEqual(s.OutputPath, r.ReporterSettings.OutputPath);
-            Assert.AreEqual(s.RunsToDisplay, r.ReportSettings.RunsToDisplay);
-            Assert.AreEqual(s.TestsToDisplay, r.ReportSettings.TestsToDisplay);
-            Assert.AreEqual(s.ProjectName, r.ReportSettings.ProjectName);
-            Assert.AreEqual(s.ReportName, r.ReportSettings.ReportName);
+            Assert.AreEqual(s.DefaultSettings.ProjectName, r.ReporterSettings.ProjectName);
+            Assert.AreEqual(s.DefaultSettings.ReportName, r.ReporterSettings.ReportName);
+            Assert.AreEqual(s.DefaultSettings.RunGuid, r.ReporterSettings.RunGuid);
+            Assert.AreEqual(s.DefaultSettings.DataServiceFile, r.ReporterSettings.DataServiceFile);
+            Assert.AreEqual(s.DefaultSettings.LoggerFile, r.ReporterSettings.LoggerFile);
+            Assert.AreEqual(s.DefaultSettings.OutputPath, r.ReporterSettings.OutputPath);
+            Assert.AreEqual(s.DefaultSettings.RealTimeGeneration, r.ReporterSettings.RealTimeGeneration);
+            Assert.AreEqual(s.DefaultSettings.Retention.Till, r.ReporterSettings.Retention.Till);
+            Assert.AreEqual(s.DefaultSettings.Retention.Amount, r.ReporterSettings.Retention.Amount);
+            Assert.AreEqual(s.DefaultSettings.RunName, r.ReporterSettings.RunName);
+            Assert.AreEqual(s.DefaultSettings.RunsToDisplay, r.ReporterSettings.RunsToDisplay);
+            Assert.AreEqual(s.DefaultSettings.OutputPath, r.ReporterSettings.OutputPath);
+            Assert.AreEqual(s.DefaultSettings.RunsToDisplay, r.ReportSettings.RunsToDisplay);
+            Assert.AreEqual(s.DefaultSettings.TestsToDisplay, r.ReportSettings.TestsToDisplay);
+            Assert.AreEqual(s.DefaultSettings.ProjectName, r.ReportSettings.ProjectName);
+            Assert.AreEqual(s.DefaultSettings.ReportName, r.ReportSettings.ReportName);
         }
 
         [TestCase(TestingFramework.NUnit, "C:\\_GHPReporter_NUnit_Report")]

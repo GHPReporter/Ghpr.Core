@@ -12,7 +12,7 @@ namespace Ghpr.Core.Tests.Core
             return this;
         }
 
-        public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
+        public void InitializeDataWriter(ProjectSettings settings, ILogger logger)
         {
         }
 

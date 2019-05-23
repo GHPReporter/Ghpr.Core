@@ -1,6 +1,5 @@
 ﻿/// <reference path="./common/localFileSystem/LocalFileSystemDataService.ts" />
 /// <reference path="./common/localFileSystem/LocalFileSystemPathsHelper.ts" />
-/// <reference path="./enums/PageType.ts"/>
 
 class Controller {
     static reportSettings: ReportSettingsDto;

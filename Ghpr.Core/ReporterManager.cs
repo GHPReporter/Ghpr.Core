@@ -21,32 +21,32 @@ namespace Ghpr.Core
             _initialized = false;
         }
 
-        public static void Initialize(ITestDataProvider testDataProvider)
+        public static void Initialize(ITestDataProvider testDataProvider, string projectName = "")
         {
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = ReporterFactory.Build(testDataProvider);
+                _reporter = ReporterFactory.Build(testDataProvider, projectName);
                 _initialized = true;
             }
         }
 
-        public static void Initialize(ReporterSettings settings, ITestDataProvider testDataProvider)
+        public static void Initialize(ReporterSettings settings, ITestDataProvider testDataProvider, string projectName = "")
         {
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = ReporterFactory.Build(settings, testDataProvider);
+                _reporter = ReporterFactory.Build(settings, testDataProvider, projectName);
                 _initialized = true;
             }
         }
 
-        public static void Initialize(TestingFramework framework, ITestDataProvider testDataProvider)
+        public static void Initialize(TestingFramework framework, ITestDataProvider testDataProvider, string projectName = "")
         {
             lock (Lock)
             {
                 if (_initialized) return;
-                _reporter = ReporterFactory.Build(framework, testDataProvider);
+                _reporter = ReporterFactory.Build(framework, testDataProvider, projectName);
                 _initialized = true;
             }
         }

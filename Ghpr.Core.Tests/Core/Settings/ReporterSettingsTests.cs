@@ -12,7 +12,7 @@ namespace Ghpr.Core.Tests.Core.Settings
         [Test]
         public void LoadedCorrectly()
         {
-            var settings = "Ghpr.Core.Tests.Settings.json".LoadSettingsAs<ReporterSettings>();
+            var settings = "Ghpr.Core.Tests.Settings.json".LoadSettingsAs<ReporterSettings>().DefaultSettings;
             Assert.AreEqual("Awesome project", settings.ProjectName);
             Assert.AreEqual("Ghpr.LocalFileSystem.dll", settings.DataServiceFile);
             Assert.AreEqual("log.dll", settings.LoggerFile);

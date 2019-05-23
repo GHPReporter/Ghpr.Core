@@ -24,7 +24,7 @@ namespace Ghpr.Core.Tests.Core.Providers
         public void LoadSettingsByEnum(TestingFramework framework, string expectedLocation)
         {
             var settings = ReporterSettingsProvider.Load(framework);
-            Assert.AreEqual(expectedLocation, settings.OutputPath);
+            Assert.AreEqual(expectedLocation, settings.DefaultSettings.OutputPath);
         }
 
         [TestCase("Ghpr.MSTestV2.Settings.json", "C:\\_GHPReporter_MSTestV2_Report")]
@@ -35,7 +35,7 @@ namespace Ghpr.Core.Tests.Core.Providers
         public void LoadSettingsByFileName(string fileName, string expectedLocation)
         {
             var settings = ReporterSettingsProvider.Load(fileName);
-            Assert.AreEqual(expectedLocation, settings.OutputPath);
+            Assert.AreEqual(expectedLocation, settings.DefaultSettings.OutputPath);
         }
     }
 }

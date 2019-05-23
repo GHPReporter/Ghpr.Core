@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Evgeniy Kosjakov")]
 [assembly: AssemblyProduct("Ghpr.Core.Tests")]
-[assembly: AssemblyCopyright("Copyright © Evgeniy Kosjakov 2016-2018")]
+[assembly: AssemblyCopyright("Copyright © Evgeniy Kosjakov 2016-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

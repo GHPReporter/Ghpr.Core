@@ -14,7 +14,7 @@ namespace Ghpr.CouchDb.Services
             return this;
         }
 
-        public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
+        public void InitializeDataWriter(ProjectSettings settings, ILogger logger)
         {
             var couchDbSettings = "Ghpr.CouchDb.Settings.json".LoadSettingsAs<CouchDbSettings>();
             Database = new CouchDbDatabase(couchDbSettings, logger);

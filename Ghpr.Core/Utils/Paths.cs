@@ -42,6 +42,7 @@ namespace Ghpr.Core.Utils
             public static string ReportSettings = "ReportSettings.json";
             public string Tests = "tests.json";
             public string Runs = "runs.json";
+            public string RunsBackup = "runs_backup.json";
         }
 
         public static string GetScreenKey(int count)

@@ -3,6 +3,8 @@
     only:
     - nuget
 
+  image: Visual Studio 2017
+
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     - npm install typescript -global
@@ -36,6 +38,8 @@
   branches:
     only:
     - nuget-localfilesystem
+
+  image: Visual Studio 2017
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
@@ -72,6 +76,8 @@
     only:
     - nuget-simplefilelogger
 
+  image: Visual Studio 2017
+
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     - npm install typescript -global
@@ -106,6 +112,8 @@
   branches:
     only:
     - nuget-serilogtoseqlogger
+
+  image: Visual Studio 2017
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
@@ -142,6 +150,8 @@
     except:
     - /nuget*/
 
+  image: Visual Studio 2017
+
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     - npm install @types/node -global
@@ -156,4 +166,7 @@
     - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   test_script:
-  - ps: .\TestsAndCoverage.ps1
+  - ps: .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"nunit3-console.exe" "-targetargs:""Ghpr.Core.Tests\bin\Release\Ghpr.Core.Tests.dll""" -filter:"+[Ghpr.Core*]* -[Ghpr.Core.Tests*]*" -output:opencoverCoverage.xml
+
+  on_finish:
+  - ps: .\Coverage.ps1

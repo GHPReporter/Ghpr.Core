@@ -1,15 +1,6 @@
 ﻿///<reference path="./../../interfaces/IDataService.ts"/>
-///<reference path="./../../dto/RunDto.ts"/>
-///<reference path="./../../dto/ReportSettingsDto.ts"/>
-///<reference path="./../../dto/TestRunDto.ts"/>
-///<reference path="./../../dto/ItemInfoDto.ts"/>
-///<reference path="./../../dto/TestScreenshotDto.ts"/>
-///<reference path="./entities/Run.ts"/>
-///<reference path="./entities/ItemInfo.ts"/>
 ///<reference path="./mappers/RunDtoMapper.ts"/>
-///<reference path="./mappers/ItemInfoDtoMapper.ts"/>
 ///<reference path="./mappers/TestScreenshotDtoMapper.ts"/>
-///<reference path="./../../enums/PageType.ts"/>
 ///<reference path="./../ProgressBar.ts"/>
 ///<reference path="./../JsonParser.ts"/>
 

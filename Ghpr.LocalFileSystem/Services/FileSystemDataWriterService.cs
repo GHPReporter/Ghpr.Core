@@ -24,7 +24,7 @@ namespace Ghpr.LocalFileSystem.Services
             return this;
         }
 
-        public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
+        public void InitializeDataWriter(ProjectSettings settings, ILogger logger)
         {
             _locationsProvider = new LocationsProvider(settings.OutputPath);
             _logger = logger;
@@ -100,6 +100,7 @@ namespace Ghpr.LocalFileSystem.Services
             var reportSettings = reportSettingsDto.Map();
             var fullPath = reportSettings.Save(_locationsProvider.SrcFolderPath, Paths.Files.ReportSettings);
             _logger.Info($"Report settings were saved: '{fullPath}'");
+            _logger.Debug($"Report settings were saved correctly: {JsonConvert.SerializeObject(reportSettings, Formatting.Indented)}");
         }
 
         public ItemInfoDto SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)

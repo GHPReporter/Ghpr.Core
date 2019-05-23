@@ -1,11 +1,5 @@
 ﻿///<reference path="./../entities/TestRun.ts"/>
-///<reference path="./../entities/TestEvent.ts"/>
-///<reference path="./../entities/TestScreenshot.ts"/>
-///<reference path="./../entities/TestData.ts"/>
 ///<reference path="./../../../dto/TestRunDto.ts"/>
-///<reference path="./../../../dto/TestEventDto.ts"/>
-///<reference path="./../../../dto/TestScreenshotDto.ts"/>
-///<reference path="./../../../dto/TestDataDto.ts"/>
 ///<reference path="./ItemInfoDtoMapper.ts"/>
 ///<reference path="./SimpleItemInfoDtoMapper.ts"/>
 

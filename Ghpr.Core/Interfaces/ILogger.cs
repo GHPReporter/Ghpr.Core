@@ -5,7 +5,7 @@ namespace Ghpr.Core.Interfaces
 {
     public interface ILogger
     {
-        void SetUp(ReporterSettings reporterSettings);
+        void SetUp(ProjectSettings reporterSettings);
 
         void Info(string message);
         void Info(string message, Exception exception);

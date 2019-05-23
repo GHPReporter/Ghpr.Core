@@ -47,9 +47,13 @@
     "controller/common/JsonParser.ts",
     "controller/Controller.ts",
     "controller/common/TestRunHelper.ts",
+    "controller/common/RunPagePlotly.ts",
     "controller/common/RunPageUpdater.ts",
+    "controller/common/ReportPagePlotly.ts",
     "controller/common/ReportPageUpdater.ts",
+    "controller/common/TestPagePlotly.ts",
     "controller/common/TestPageUpdater.ts",
-    "controller/common/Sorter.ts"
+    "controller/common/Sorter.ts",
+    "controller/common/DocumentHelper.ts"
   ]
 }

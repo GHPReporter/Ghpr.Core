@@ -13,8 +13,8 @@ namespace Ghpr.Core.Tests.Core.Services
         [Test]
         public void TestCreation()
         {
-            CommonCache.Instance.InitializeDataReader(new ReporterSettings(), new EmptyLogger());
-            CommonCache.Instance.InitializeDataWriter(new ReporterSettings(), new EmptyLogger());
+            CommonCache.Instance.InitializeDataReader(new ProjectSettings(), new EmptyLogger());
+            CommonCache.Instance.InitializeDataWriter(new ProjectSettings(), new EmptyLogger());
             var reader = new DataReaderService(new MockDataReaderService(), CommonCache.Instance);
             Assert.IsInstanceOf(typeof(MockDataReaderService), reader.GetDataReader());
             Assert.DoesNotThrow(() => reader.GetTestRun(new ItemInfoDto()));

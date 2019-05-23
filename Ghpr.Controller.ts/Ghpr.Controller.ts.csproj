@@ -587,6 +587,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="web.config" />
+    <TypeScriptCompile Include="controller\common\DocumentHelper.ts" />
     <TypeScriptCompile Include="controller\common\JsonParser.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\entities\SimpleItemInfo.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\entities\TestOutput.ts" />
@@ -596,6 +597,9 @@
     <TypeScriptCompile Include="controller\common\localFileSystem\mappers\ItemInfoDtoMapper.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\mappers\RunDtoMapper.ts" />
     <TypeScriptCompile Include="controller\common\localFileSystem\mappers\TestRunDtoMapper.ts" />
+    <TypeScriptCompile Include="controller\common\ReportPagePlotly.ts" />
+    <TypeScriptCompile Include="controller\common\RunPagePlotly.ts" />
+    <TypeScriptCompile Include="controller\common\TestPagePlotly.ts" />
     <TypeScriptCompile Include="controller\Controller.ts" />
     <TypeScriptCompile Include="controller\dto\SimpleItemInfoDto.ts" />
     <TypeScriptCompile Include="controller\dto\TestOutputDto.ts" />

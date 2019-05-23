@@ -820,7 +820,7 @@ class Differ {
         }
         return left.reduce((acc, cur, idx) => (acc && cur === right[idx]), true);
     }
-    
+    ;
     static all(type) {
         return (val) => ({
             type: type,
@@ -1081,25 +1081,21 @@ class Controller {
         req.send(null);
     }
 }
-class RunPageUpdater {
-    static updateCopyright(coreVersion) {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
+class RunPagePlotly {
+    static addTestRunDto(t) {
+        this.plotlyTimelineData.push({
+            x: [DateFormatter.format(t.testInfo.start), DateFormatter.format(t.testInfo.finish)],
+            y: [1, 1],
+            type: "scatter",
+            opacity: 0.5,
+            line: { color: TestRunHelper.getColor(t), width: 20 },
+            mode: "lines",
+            name: t.name,
+            showlegend: false
+        });
     }
-    static updateReportName(reportName) {
-        if (reportName === undefined) {
-            reportName = "GHPReport";
-        }
-        document.getElementById("report-name").innerHTML = `${reportName}`;
-    }
-    static updateRunInformation(run) {
-        document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
-        document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
-        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
-        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
-        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
-    }
-    static updateTitle(run) {
-        document.getElementById("page-title").innerHTML = run.name;
+    static resetTimelineData() {
+        this.plotlyTimelineData = new Array();
     }
     static getSummaryPlotSize(plotDiv) {
         var p = plotDiv.parentElement;
@@ -1113,41 +1109,25 @@ class RunPageUpdater {
         var h = Math.max(400, Math.min(p.offsetHeight, 500));
         return { width: 1.00 * w, height: 1.00 * h };
     }
-    static updateBriefResults(run) {
-        const s = run.summary;
-        document.getElementById("run-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Total</a>
-            <p class="f6 text-gray mb-2">${s.total}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Success</a>
-            <p class="f6 text-gray mb-2">${s.success}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Errors</a>
-            <p class="f6 text-gray mb-2">${s.errors}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Failures</a>
-            <p class="f6 text-gray mb-2">${s.failures}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Inconclusive</a>
-            <p class="f6 text-gray mb-2">${s.inconclusive}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Ignored</a>
-            <p class="f6 text-gray mb-2">${s.ignored}</p>
-            </div></div><div class="mx-4 py-2 border-bottom"><div>
-            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Unknown</a>
-            <p class="f6 text-gray mb-2">${s.unknown}</p>
-            </div></div>`;
+    static updateTimeline(id) {
+        const timelineDiv = document.getElementById(id);
+        var size = this.getTimelinePlotSize(timelineDiv);
+        var layout = {
+            title: "Timeline",
+            yaxis: {
+                showgrid: false,
+                zeroline: false,
+                showline: false,
+                showticklabels: false
+            },
+            width: size.width,
+            height: size.height
+        };
+        Plotly.react(timelineDiv, this.plotlyTimelineData, layout);
     }
-    static updateSummary(run) {
+    static updateSummary(run, id) {
         const s = run.summary;
-        document.getElementById("total").innerHTML = `<b>Total:</b> ${s.total}`;
-        document.getElementById("passed").innerHTML = `<b>Success:</b> ${s.success}`;
-        document.getElementById("broken").innerHTML = `<b>Errors:</b> ${s.errors}`;
-        document.getElementById("failed").innerHTML = `<b>Failures:</b> ${s.failures}`;
-        document.getElementById("inconclusive").innerHTML = `<b>Inconclusive:</b> ${s.inconclusive}`;
-        document.getElementById("ignored").innerHTML = `<b>Ignored:</b> ${s.ignored}`;
-        document.getElementById("unknown").innerHTML = `<b>Unknown:</b> ${s.unknown}`;
-        const pieDiv = document.getElementById("summary-pie");
+        const pieDiv = document.getElementById(id);
         var size = this.getSummaryPlotSize(pieDiv);
         var data = [
             {
@@ -1180,6 +1160,72 @@ class RunPageUpdater {
         };
         Plotly.react(pieDiv, data, layout);
     }
+    static relayoutSummaryPlot(id) {
+        const summaryPieDiv = document.getElementById(id);
+        var summarySize = this.getSummaryPlotSize(summaryPieDiv);
+        Plotly.relayout(summaryPieDiv, { width: summarySize.width, height: summarySize.height });
+    }
+    static relayoutTimelinePlot(id) {
+        const timelinePieDiv = document.getElementById(id);
+        var timelineSize = this.getTimelinePlotSize(timelinePieDiv);
+        Plotly.relayout(timelinePieDiv, { width: timelineSize.width, height: timelineSize.height });
+    }
+}
+RunPagePlotly.plotlyTimelineData = new Array();
+class DocumentHelper {
+    static updateCopyright(coreVersion) {
+        this.setInnerHtmlById("copyright", `Copyright 2015 - 2019 © GhpReporter (version ${coreVersion})`);
+    }
+    static updateReportName(reportName) {
+        this.setInnerHtmlById("report-name", reportName, "GHPReport");
+    }
+    static setInnerHtmlById(id, value, defaultValue = "") {
+        if (value === undefined) {
+            value = defaultValue;
+        }
+        document.getElementById(id).innerHTML = value;
+    }
+}
+class RunPageUpdater {
+    static updateRunInformation(run) {
+        document.getElementById("name").innerHTML = `<b>Name:</b> ${run.name}`;
+        document.getElementById("sprint").innerHTML = `<b>Sprint:</b> ${run.sprint}`;
+        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(run.runInfo.start)}`;
+        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(run.runInfo.finish)}`;
+        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(run.runInfo.start, run.runInfo.finish)}`;
+        document.getElementById("total").innerHTML = `<b>Total: </b> ${run.summary.total}`;
+        document.getElementById("passed").innerHTML = `<b>Success: </b> ${run.summary.success}`;
+        document.getElementById("broken").innerHTML = `<b>Errors: </b> ${run.summary.errors}`;
+        document.getElementById("failed").innerHTML = `<b>Failures: </b> ${run.summary.failures}`;
+        document.getElementById("inconclusive").innerHTML = `<b>Inconclusive: </b> ${run.summary.inconclusive}`;
+        document.getElementById("ignored").innerHTML = `<b>Ignored: </b> ${run.summary.ignored}`;
+        document.getElementById("unknown").innerHTML = `<b>Unknown: </b> ${run.summary.unknown}`;
+    }
+    static updateBriefResults(run) {
+        const s = run.summary;
+        document.getElementById("run-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Total</a>
+            <p class="f6 text-gray mb-2">${s.total}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Success</a>
+            <p class="f6 text-gray mb-2">${s.success}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Errors</a>
+            <p class="f6 text-gray mb-2">${s.errors}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Failures</a>
+            <p class="f6 text-gray mb-2">${s.failures}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Inconclusive</a>
+            <p class="f6 text-gray mb-2">${s.inconclusive}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Ignored</a>
+            <p class="f6 text-gray mb-2">${s.ignored}</p>
+            </div></div><div class="mx-4 py-2 border-bottom"><div>
+            <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Unknown</a>
+            <p class="f6 text-gray mb-2">${s.unknown}</p>
+            </div></div>`;
+    }
     static addTest(t, c, i) {
         const ti = t.testInfo;
         const color = TestRunHelper.getColor(t);
@@ -1195,16 +1241,6 @@ class RunPageUpdater {
         if (result === TestResult.Failed) {
             document.getElementById("recent-test-failures").innerHTML += failedTestLi;
         }
-        this.plotlyTimelineData.push({
-            x: [DateFormatter.format(ti.start), DateFormatter.format(ti.finish)],
-            y: [1, 1],
-            type: "scatter",
-            opacity: 0.5,
-            line: { color: color, width: 20 },
-            mode: "lines",
-            name: t.name,
-            showlegend: false
-        });
         const nameIndex = t.fullName.lastIndexOf(t.name);
         let nameRemoved = false;
         let fn = t.fullName;
@@ -1365,54 +1401,36 @@ class RunPageUpdater {
         Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunPage).getRun(runGuid, (runDto) => {
                 UrlHelper.insertParam("runGuid", runDto.runInfo.guid);
-                this.plotlyTimelineData = new Array();
-                this.updateReportName(reportSettings.reportName);
+                RunPagePlotly.resetTimelineData();
+                DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateRunInformation(runDto);
-                this.updateSummary(runDto);
+                RunPagePlotly.updateSummary(runDto, "summary-pie");
                 this.updateBriefResults(runDto);
-                this.updateTitle(runDto);
+                DocumentHelper.setInnerHtmlById("page-title", runDto.name);
                 this.updateTestFilterButtons();
                 this.updateTestsList(runDto);
-                this.updateTimeline();
-                this.updateCopyright(reportSettings.coreVersion);
+                RunPagePlotly.updateTimeline("run-timeline-chart");
+                DocumentHelper.updateCopyright(reportSettings.coreVersion);
                 window.addEventListener("resize", () => {
-                    const summaryPieDiv = document.getElementById("summary-pie");
-                    var summarySize = this.getSummaryPlotSize(summaryPieDiv);
-                    Plotly.relayout(summaryPieDiv, { width: summarySize.width, height: summarySize.height });
-                    const timelinePieDiv = document.getElementById("run-timeline-chart");
-                    var timelineSize = this.getTimelinePlotSize(timelinePieDiv);
-                    Plotly.relayout(timelinePieDiv, { width: timelineSize.width, height: timelineSize.height });
+                    RunPagePlotly.relayoutSummaryPlot("summary-pie");
+                    RunPagePlotly.relayoutTimelinePlot("run-timeline-chart");
                 });
             });
         });
     }
-    static updateTimeline() {
-        const timelineDiv = document.getElementById("run-timeline-chart");
-        var size = this.getTimelinePlotSize(timelineDiv);
-        var layout = {
-            title: "Timeline",
-            yaxis: {
-                showgrid: false,
-                zeroline: false,
-                showline: false,
-                showticklabels: false
-            },
-            width: size.width,
-            height: size.height
-        };
-        Plotly.react(timelineDiv, this.plotlyTimelineData, layout);
-    }
     static updateTestsList(run) {
         document.getElementById("btn-back").setAttribute("href", `./../index.html`);
         document.getElementById("all-tests-hierarchical").innerHTML = "";
+        document.getElementById("all-tests-collapsed").innerHTML = "";
         document.getElementById("recent-test-failures").innerHTML = "";
         var index = 0;
         Controller.init(PageType.TestRunPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunPage).getRunTests(run, (testRunDto, c, i) => {
                 this.addTest(testRunDto, c, i);
+                RunPagePlotly.addTestRunDto(testRunDto);
                 if (i === c - 1) {
                     this.makeCollapsible();
-                    this.updateTimeline();
+                    RunPagePlotly.updateTimeline("run-timeline-chart");
                 }
                 index++;
             });
@@ -1526,63 +1544,9 @@ class RunPageUpdater {
     }
 }
 RunPageUpdater.reviveRun = JsonParser.reviveRun;
-RunPageUpdater.plotlyTimelineData = new Array();
 RunPageUpdater.runPageTabsIds = ["run-main-stats", "run-test-list", "run-timeline"];
-class ReportPageUpdater {
-    static updateLatestRunInfo(latestRun) {
-        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;
-        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
-        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
-    }
-    static updateReportName(reportName) {
-        if (reportName === undefined) {
-            reportName = "GHPReport";
-        }
-        document.getElementById("report-name").innerHTML = `${reportName}`;
-    }
-    static updateProjectName(projectName) {
-        if (projectName === undefined) {
-            projectName = "GHPReport";
-        }
-        document.getElementById("project-name").innerHTML = `${projectName}`;
-    }
-    static updateCopyright(coreVersion) {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
-    }
-    static updateRunsList(runs) {
-        let fullList = "";
-        let recentList = "";
-        let runsResultsList = "";
-        const c = runs.length;
-        for (let i = 0; i < c; i++) {
-            const r = runs[i];
-            if (r.name === "") {
-                r.name = `${DateFormatter.format(r.runInfo.start)} - ${DateFormatter.format(r.runInfo.finish)}`;
-            }
-            fullList += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
-            recentList += `<li id=$run-${r.runInfo.guid}><div class="width-full text-bold">
-                            <a class="d-flex flex-items-baseline f5 mb-2" href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a>
-                            </div></li>`;
-            const bb = i === c - 1 ? "" : "border-bottom";
-            let passed = r.summary.success === r.summary.total;
-            const status = passed ? "All tests passed" : "Some errors detected";
-            const statusIconPath = passed ? "./src/octicons/check.svg" : "./src/octicons/alert.svg";
-            runsResultsList += `<div class="mx-4 py-2 my-2 ${bb}"><div class="mb-3">
-                    <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">${r.name}</a>
-                    <p class="f6 text-gray mb-2"><img src="${statusIconPath}" class="ghpr-tabicon" alt=""/>
-                        <b style="padding-left: 10px;">Status:</b> ${status}
-                    </p>
-                </div></div>`;
-        }
-        document.getElementById("all-runs").innerHTML = fullList;
-        document.getElementById("recent-runs").innerHTML = recentList;
-        document.getElementById("runs-results").innerHTML = runsResultsList;
-    }
-    static updateRunsInfo(runs, totalFiles) {
-        document.getElementById("total").innerHTML = `<b>Loaded runs:</b> ${runs.length}`;
-        document.getElementById("loaded").innerHTML = `<b>Total runs:</b> ${totalFiles}`;
-    }
-    static updatePlotlyBars(runs) {
+class ReportPagePlotly {
+    static updatePlotlyBars(runs, id) {
         let plotlyData = new Array();
         const passedY = new Array();
         const failedY = new Array();
@@ -1630,7 +1594,7 @@ class ReportPageUpdater {
             { x: failedX, y: failedY, name: "failed", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.failed } },
             { x: passedX, y: passedY, name: "passed", customdata: runGuids, type: t, hoverinfo: hi, marker: { color: Color.passed } }
         ];
-        const barsDiv = document.getElementById("runs-bars");
+        const barsDiv = document.getElementById(id);
         var size = this.getPlotSize(barsDiv);
         var layout = {
             title: "Runs statistics",
@@ -1660,21 +1624,64 @@ class ReportPageUpdater {
         var h = Math.max(400, Math.min(p.offsetHeight, 700));
         return { width: 0.95 * w, height: 0.85 * h };
     }
+    static relayout(id) {
+        const barsDiv = document.getElementById(id);
+        var size = this.getPlotSize(barsDiv);
+        Plotly.relayout(barsDiv, { width: size.width, height: size.height });
+    }
+}
+class ReportPageUpdater {
+    static updateLatestRunInfo(latestRun) {
+        document.getElementById("start").innerHTML = `<b>Start datetime:</b> ${DateFormatter.format(latestRun.runInfo.start)}`;
+        document.getElementById("finish").innerHTML = `<b>Finish datetime:</b> ${DateFormatter.format(latestRun.runInfo.finish)}`;
+        document.getElementById("duration").innerHTML = `<b>Duration:</b> ${DateFormatter.diff(latestRun.runInfo.start, latestRun.runInfo.finish)}`;
+    }
+    static updateRunsList(runs) {
+        let fullList = "";
+        let recentList = "";
+        let runsResultsList = "";
+        const c = runs.length;
+        for (let i = 0; i < c; i++) {
+            const r = runs[i];
+            if (r.name === "") {
+                r.name = `${DateFormatter.format(r.runInfo.start)} - ${DateFormatter.format(r.runInfo.finish)}`;
+            }
+            fullList += `<li id=$run-${r.runInfo.guid}>Run #${c - i - 1}: <a href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a></li>`;
+            recentList += `<li id=$run-${r.runInfo.guid}><div class="width-full text-bold">
+                            <a class="d-flex flex-items-baseline f5 mb-2" href="./runs/index.html?runGuid=${r.runInfo.guid}">${r.name}</a>
+                            </div></li>`;
+            const bb = i === c - 1 ? "" : "border-bottom";
+            let passed = r.summary.success === r.summary.total;
+            const status = passed ? "All tests passed" : "Some errors detected";
+            const statusIconPath = passed ? "./src/octicons/check.svg" : "./src/octicons/alert.svg";
+            runsResultsList += `<div class="mx-4 py-2 my-2 ${bb}"><div class="mb-3">
+                    <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">${r.name}</a>
+                    <p class="f6 text-gray mb-2"><img src="${statusIconPath}" class="ghpr-tabicon" alt=""/>
+                        <b style="padding-left: 10px;">Status:</b> ${status}
+                    </p>
+                </div></div>`;
+        }
+        document.getElementById("all-runs").innerHTML = fullList;
+        document.getElementById("recent-runs").innerHTML = recentList;
+        document.getElementById("runs-results").innerHTML = runsResultsList;
+    }
+    static updateRunsInfo(runs, totalFiles) {
+        document.getElementById("total").innerHTML = `<b>Loaded runs:</b> ${runs.length}`;
+        document.getElementById("loaded").innerHTML = `<b>Total runs:</b> ${totalFiles}`;
+    }
     static updatePage() {
         Controller.init(PageType.TestRunsPage, (dataService, reportSettings) => {
             dataService.fromPage(PageType.TestRunsPage).getLatestRuns((runs, total) => {
                 const latestRun = runs[0];
-                this.updateProjectName(reportSettings.projectName);
-                this.updateReportName(reportSettings.reportName);
+                DocumentHelper.setInnerHtmlById("project-name", reportSettings.projectName, "Awesome project");
+                DocumentHelper.updateReportName(reportSettings.reportName);
                 this.updateLatestRunInfo(latestRun);
-                this.updatePlotlyBars(runs);
+                ReportPagePlotly.updatePlotlyBars(runs, "runs-bars");
                 this.updateRunsInfo(runs, total);
                 this.updateRunsList(runs);
-                this.updateCopyright(reportSettings.coreVersion);
+                DocumentHelper.updateCopyright(reportSettings.coreVersion);
                 window.addEventListener("resize", () => {
-                    const barsDiv = document.getElementById("runs-bars");
-                    var size = this.getPlotSize(barsDiv);
-                    Plotly.relayout(barsDiv, { width: size.width, height: size.height });
+                    ReportPagePlotly.relayout("runs-bars");
                 });
             });
         });
@@ -1688,16 +1695,91 @@ class ReportPageUpdater {
     }
 }
 ReportPageUpdater.reportPageTabsIds = ["runs-stats", "runs-list"];
-class TestPageUpdater {
-    static updateCopyright(coreVersion) {
-        document.getElementById("copyright").innerHTML = `Copyright 2015 - 2018 © GhpReporter (version ${coreVersion})`;
-    }
-    static updateReportName(reportName) {
-        if (reportName === undefined) {
-            reportName = "GHPReport";
+class TestPagePlotly {
+    static setTestHistory(tests, currentTestNumber, id) {
+        const historyDiv = document.getElementById(id);
+        const dataX = new Array();
+        const dataY = new Array();
+        const urls = new Array();
+        const tickvals = new Array();
+        const ticktext = new Array();
+        const colors = new Array();
+        const c = tests.length;
+        for (let i = 0; i < c; i++) {
+            const t = tests[i];
+            const ti = t.testInfo;
+            dataX[i] = ti.finish;
+            colors[i] = TestRunHelper.getColor(t);
+            const j = c - i - 1;
+            dataY[i] = t.duration;
+            tickvals[i] = j;
+            ticktext[i] = `test ${j}`;
+            urls[i] = `index.html?testGuid=${ti.guid}&itemName=${ti.itemName}&currentTab=test-history`;
         }
-        document.getElementById("report-name").innerHTML = `${reportName}`;
+        const historyTrace = {
+            x: dataX,
+            y: dataY,
+            customdata: urls,
+            name: "Test history",
+            hoverinfo: "x",
+            type: "scatter",
+            showlegend: false,
+            marker: {
+                color: colors,
+                size: 25,
+                line: { color: Color.unknown, width: 4 }
+            },
+            mode: "lines+markers",
+            line: { shape: "spline", color: Color.unknown, width: 8 },
+            textfont: { family: "Helvetica, arial, sans-serif" }
+        };
+        const index = currentTestNumber;
+        const currentTest = {
+            x: [dataX[index]],
+            y: [dataY[index]],
+            customdata: [urls[index]],
+            name: "Current test",
+            type: "scatter",
+            mode: "markers",
+            hoverinfo: "name",
+            showlegend: false,
+            marker: {
+                color: [TestRunHelper.getColor(tests[index])],
+                size: 40,
+                line: { color: Color.unknown, width: 8 }
+            }
+        };
+        var size = this.getTestHistoryPlotSize(historyDiv);
+        const layout = {
+            title: "Test history",
+            xaxis: {
+                title: "Finish datetime"
+            },
+            yaxis: {
+                title: "Test duration (sec.)"
+            },
+            width: size.width,
+            height: size.height
+        };
+        Plotly.newPlot(historyDiv, [historyTrace, currentTest], layout);
+        historyDiv.on("plotly_click", (eventData) => {
+            var url = `${eventData.points[0].customdata}`;
+            window.open(url, "_self");
+        });
     }
+    static getTestHistoryPlotSize(plotDiv) {
+        const p = plotDiv.parentElement.parentElement.parentElement;
+        const w = Math.max(300, Math.min(p.offsetWidth, 1100));
+        const h = Math.max(300, Math.min(p.offsetHeight, 500));
+        return { width: 0.95 * w, height: 0.95 * h };
+    }
+    static relayoutTestHistory(id) {
+        const historyDiv = document.getElementById(id);
+        var size = this.getTestHistoryPlotSize(historyDiv);
+        Plotly.relayout(historyDiv, { width: size.width, height: size.height });
+    }
+}
+class TestPageUpdater {
     static updateRecentData(t) {
         document.getElementById("test-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
             <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">Start datetime</a>
@@ -1770,12 +1852,6 @@ class TestPageUpdater {
         document.getElementById("test-message").innerHTML = `<b>Message:</b><br>${TestRunHelper.getMessage(t)}`;
         document.getElementById("test-stack-trace").innerHTML = `<b>Stack trace:</b><br><code style="white-space: pre-wrap">${TestRunHelper.getStackTrace(t)}</code>`;
     }
-    static getTestHistoryPlotSize(plotDiv) {
-        const p = plotDiv.parentElement.parentElement.parentElement;
-        const w = Math.max(300, Math.min(p.offsetWidth, 1100));
-        const h = Math.max(300, Math.min(p.offsetHeight, 500));
-        return { width: 0.95 * w, height: 0.95 * h };
-    }
     static setTestRecentFailures(tests) {
         const recentFailuresDiv = document.getElementById("recent-test-failures");
         recentFailuresDiv.innerHTML = "";
@@ -1794,79 +1870,6 @@ class TestPageUpdater {
             }
         }
     }
-    static setTestHistory(tests) {
-        const historyDiv = document.getElementById("test-history-chart");
-        let plotlyData = new Array();
-        const dataX = new Array();
-        const dataY = new Array();
-        const urls = new Array();
-        const tickvals = new Array();
-        const ticktext = new Array();
-        const colors = new Array();
-        const c = tests.length;
-        for (let i = 0; i < c; i++) {
-            const t = tests[i];
-            const ti = t.testInfo;
-            dataX[i] = ti.finish;
-            colors[i] = TestRunHelper.getColor(t);
-            const j = c - i - 1;
-            dataY[i] = t.duration;
-            tickvals[i] = j;
-            ticktext[i] = `test ${j}`;
-            urls[i] = `index.html?testGuid=${ti.guid}&itemName=${ti.itemName}&currentTab=test-history`;
-        }
-        const historyTrace = {
-            x: dataX,
-            y: dataY,
-            customdata: urls,
-            name: "Test history",
-            hoverinfo: "x",
-            type: "scatter",
-            showlegend: false,
-            marker: {
-                color: colors,
-                size: 25,
-                line: { color: Color.unknown, width: 4 }
-            },
-            mode: "lines+markers",
-            line: { shape: "spline", color: Color.unknown, width: 8 },
-            textfont: { family: "Helvetica, arial, sans-serif" }
-        };
-        const index = this.currentTest;
-        const currentTest = {
-            x: [dataX[index]],
-            y: [dataY[index]],
-            customdata: [urls[index]],
-            name: "Current test",
-            type: "scatter",
-            mode: "markers",
-            hoverinfo: "name",
-            showlegend: false,
-            marker: {
-                color: [TestRunHelper.getColor(tests[index])],
-                size: 40,
-                line: { color: Color.unknown, width: 8 }
-            }
-        };
-        plotlyData = [historyTrace, currentTest];
-        var size = this.getTestHistoryPlotSize(historyDiv);
-        const layout = {
-            title: "Test history",
-            xaxis: {
-                title: "Finish datetime"
-            },
-            yaxis: {
-                title: "Test duration (sec.)"
-            },
-            width: size.width,
-            height: size.height
-        };
-        Plotly.newPlot(historyDiv, plotlyData, layout);
-        historyDiv.on("plotly_click", (eventData) => {
-            var url = `${eventData.points[0].customdata}`;
-            window.open(url, "_self");
-        });
-    }
     static updateTestPage(testGuid, itemName) {
         Controller.dataService.fromPage(PageType.TestPage).getLatestTest(testGuid, itemName, (t) => {
             Controller.dataService.fromPage(PageType.TestPage).getRun(t.runGuid, (runDto) => {
@@ -1881,7 +1884,7 @@ class TestPageUpdater {
             });
             UrlHelper.insertParam("testGuid", t.testInfo.guid);
             UrlHelper.insertParam("itemName", t.testInfo.itemName);
-            this.updateReportName(Controller.reportSettings.reportName);
+            DocumentHelper.updateReportName(Controller.reportSettings.reportName);
             this.updateMainInformation(t);
             this.updateRecentData(t);
             this.updateOutput(t);
@@ -1890,18 +1893,16 @@ class TestPageUpdater {
             this.updateTestData(t);
             document.getElementById("btn-back").setAttribute("href", `./../runs/index.html?runGuid=${t.runGuid}`);
             this.updateTestHistory();
-            this.updateCopyright(Controller.reportSettings.coreVersion);
+            DocumentHelper.updateCopyright(Controller.reportSettings.coreVersion);
             window.addEventListener("resize", () => {
-                const historyDiv = document.getElementById("test-history-chart");
-                var size = this.getTestHistoryPlotSize(historyDiv);
-                Plotly.relayout(historyDiv, { width: size.width, height: size.height });
+                TestPagePlotly.relayoutTestHistory("test-history-chart");
             });
         });
     }
     static updateTestHistory() {
         const guid = UrlHelper.getParam("testGuid");
         Controller.dataService.fromPage(PageType.TestPage).getLatestTests(guid, (testRunDtos, total) => {
-            this.setTestHistory(testRunDtos);
+            TestPagePlotly.setTestHistory(testRunDtos, this.currentTest, "test-history-chart");
             this.setTestRecentFailures(testRunDtos);
         });
     }

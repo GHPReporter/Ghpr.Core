@@ -10,7 +10,7 @@ namespace Ghpr.Core.Interfaces
         Guid RunGuid { get; }
 
         void SetRunName(string runName);
-        void OnRunStarted(ReporterSettings settings, DateTime runStartDateTime);
+        void OnRunStarted(ProjectSettings settings, DateTime runStartDateTime);
         void OnRunFinished(DateTime runFinishDateTime);
         void OnTestFinished(TestRunDto testRun);
     }

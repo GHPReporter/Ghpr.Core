@@ -13,7 +13,7 @@ namespace Ghpr.LocalFileSystem.Extensions
     {
         public static string SaveRunInfo(this ItemInfo runInfo, ILocationsProvider locationsProvider)
         {
-            return runInfo.SaveItemInfo(locationsProvider.RunsFolderPath, locationsProvider.Paths.File.Runs);
+            return runInfo.SaveItemInfo(locationsProvider.RunsFolderPath, locationsProvider.Paths.File.Runs, true);
         }
 
         public static string SaveTestInfo(this ItemInfo testInfo, ILocationsProvider locationsProvider)
@@ -21,7 +21,7 @@ namespace Ghpr.LocalFileSystem.Extensions
             return testInfo.SaveItemInfo(locationsProvider.GetTestFolderPath(testInfo.Guid), locationsProvider.Paths.File.Tests, false);
         }
 
-        public static string SaveItemInfo(this ItemInfo itemInfo, string path, string filename, bool removeExisting = true)
+        public static string SaveItemInfo(this ItemInfo itemInfo, string path, string filename, bool removeExisting)
         {
             var serializer = new JsonSerializer();
             path.Create();

@@ -17,7 +17,7 @@ namespace Ghpr.Core.Utils
             CurrentRun.Name = runName;
         }
 
-        public void OnRunStarted(ReporterSettings settings, DateTime runStartDateTime)
+        public void OnRunStarted(ProjectSettings settings, DateTime runStartDateTime)
         {
             CurrentRun = new RunDto
             {

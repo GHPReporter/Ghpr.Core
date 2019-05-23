@@ -2,7 +2,6 @@
 ///<reference path="./TestDataDto.ts"/>
 ///<reference path="./TestEventDto.ts"/>
 ///<reference path="./ItemInfoDto.ts"/>
-///<reference path="./SimpleItemInfoDto.ts"/>
 ///<reference path="./../enums/TestResult.ts"/>
 
 class TestRunDto {

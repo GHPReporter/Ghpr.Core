@@ -8,7 +8,7 @@ namespace Ghpr.Core.Interfaces
     public interface IReporter
     {
         ReportSettingsDto ReportSettings { get; }
-        ReporterSettings ReporterSettings { get; }
+        ProjectSettings ReporterSettings { get; }
         bool TestRunStarted { get; }
 
         IRunDtoRepository RunRepository { get; }

@@ -22,7 +22,7 @@ namespace Ghpr.Core.Services
             return _dataReaderService;
         }
 
-        public void InitializeDataReader(ReporterSettings settings, ILogger logger)
+        public void InitializeDataReader(ProjectSettings settings, ILogger logger)
         {
             _dataReaderService.InitializeDataReader(settings, logger);
             _cache.InitializeDataWriter(settings, logger);

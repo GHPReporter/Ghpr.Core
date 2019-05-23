@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
+using Ghpr.Core.Extensions;
 using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Processors;
@@ -12,24 +13,25 @@ using Ghpr.Core.Providers;
 using Ghpr.Core.Services;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
+using Newtonsoft.Json.Linq;
 
 namespace Ghpr.Core.Factories
 {
     public static class ReporterFactory
     {
-        public static IReporter Build(ITestDataProvider testDataProvider)
+        public static IReporter Build(ITestDataProvider testDataProvider, string projectName = "")
         {
-            return InitializeReporter(ReporterSettingsProvider.Load(Paths.Files.CoreSettings), testDataProvider);
+            return InitializeReporter(ReporterSettingsProvider.Load(Paths.Files.CoreSettings), testDataProvider, projectName);
         }
 
-        public static IReporter Build(ReporterSettings settings, ITestDataProvider testDataProvider)
+        public static IReporter Build(ReporterSettings settings, ITestDataProvider testDataProvider, string projectName = "")
         {
-            return InitializeReporter(settings, testDataProvider);
+            return InitializeReporter(settings, testDataProvider, projectName);
         }
 
-        public static IReporter Build(TestingFramework framework, ITestDataProvider testDataProvider)
+        public static IReporter Build(TestingFramework framework, ITestDataProvider testDataProvider, string projectName = "")
         {
-            return InitializeReporter(ReporterSettingsProvider.Load(framework), testDataProvider);
+            return InitializeReporter(ReporterSettingsProvider.Load(framework), testDataProvider, projectName);
         }
 
         private static T CreateInstanceFromFile<T>(string fileName, T defaultImplementation = null) where T : class
@@ -80,25 +82,37 @@ namespace Ghpr.Core.Factories
             return instance;
         }
 
-        private static IReporter InitializeReporter(ReporterSettings settings, ITestDataProvider testDataProvider)
+        private static IReporter InitializeReporter(ReporterSettings settings, ITestDataProvider testDataProvider, string projectName = "")
         {
-            if (settings.OutputPath == null)
+            ProjectSettings reporterProjectSettings;
+            if (!string.IsNullOrEmpty(projectName) && settings.Projects.Any(s => projectName.Like(s.Pattern)))
             {
-                throw new ArgumentNullException(nameof(settings.OutputPath),
-                    "Reporter Output path must be specified. Please fix your .json settings file.");
+                var specificProjectSettings = settings.Projects.First(s => projectName.Like(s.Pattern));
+                reporterProjectSettings =
+                    specificProjectSettings.Settings.GetFromSourceOrDefault(settings.DefaultSettings);
+            }
+            else
+            {
+                reporterProjectSettings = settings.DefaultSettings;
+            }
+            if (reporterProjectSettings.OutputPath == null)
+            {
+                throw new ArgumentNullException(nameof(reporterProjectSettings.OutputPath),
+                    "Reporter Output path must be specified! Please fix your .json settings file. " +
+                    $"Your settings are: {JToken.FromObject(settings)}");
             }
 
-            var logger = CreateInstanceFromFile<ILogger>(settings.LoggerFile, new EmptyLogger());
-            logger.SetUp(settings);
+            var logger = CreateInstanceFromFile<ILogger>(reporterProjectSettings.LoggerFile, new EmptyLogger());
+            logger.SetUp(reporterProjectSettings);
 
-            var dataWriterService = CreateInstanceFromFile<IDataWriterService>(settings.DataServiceFile);
-            dataWriterService.InitializeDataWriter(settings, logger);
+            var dataWriterService = CreateInstanceFromFile<IDataWriterService>(reporterProjectSettings.DataServiceFile);
+            dataWriterService.InitializeDataWriter(reporterProjectSettings, logger);
 
-            var dataReaderService = CreateInstanceFromFile<IDataReaderService>(settings.DataServiceFile);
-            dataReaderService.InitializeDataReader(settings, logger);
+            var dataReaderService = CreateInstanceFromFile<IDataReaderService>(reporterProjectSettings.DataServiceFile);
+            dataReaderService.InitializeDataReader(reporterProjectSettings, logger);
 
-            CommonCache.Instance.InitializeDataReader(settings, logger);
-            CommonCache.Instance.InitializeDataWriter(settings, logger);
+            CommonCache.Instance.InitializeDataReader(reporterProjectSettings, logger);
+            CommonCache.Instance.InitializeDataWriter(reporterProjectSettings, logger);
 
             var actionHelper = new ActionHelper(logger);
 
@@ -107,8 +121,9 @@ namespace Ghpr.Core.Factories
                 Action = actionHelper,
                 Logger = logger,
                 TestDataProvider = testDataProvider,
-                ReporterSettings = settings,
-                ReportSettings = new ReportSettingsDto(settings.RunsToDisplay, settings.TestsToDisplay, settings.ReportName, settings.ProjectName),
+                ReporterSettings = reporterProjectSettings,
+                ReportSettings = new ReportSettingsDto(reporterProjectSettings.RunsToDisplay, 
+                    reporterProjectSettings.TestsToDisplay, reporterProjectSettings.ReportName, reporterProjectSettings.ProjectName),
                 DataWriterService = new DataWriterService(dataWriterService, CommonCache.Instance),
                 DataReaderService = new DataReaderService(dataReaderService, CommonCache.Instance),
                 RunRepository = new RunDtoRepository(),

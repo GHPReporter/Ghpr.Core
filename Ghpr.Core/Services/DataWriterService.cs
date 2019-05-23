@@ -20,7 +20,7 @@ namespace Ghpr.Core.Services
             return _dataWriterService;
         }
 
-        public void InitializeDataWriter(ReporterSettings settings, ILogger logger)
+        public void InitializeDataWriter(ProjectSettings settings, ILogger logger)
         {
             _dataWriterService.InitializeDataWriter(settings, logger);
             _cache.InitializeDataWriter(settings, logger);
