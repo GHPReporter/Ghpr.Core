@@ -48,8 +48,10 @@
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+    - npm install @types/node -global
     - npm install typescript -global
     - npm install ts-node -global
+    - npm install @types/node --save
 
 
   before_build:
@@ -59,7 +61,10 @@
     - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   test_script:
-  - ps: .\TestsAndCoverage.ps1
+  - ps: .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"nunit3-console.exe" "-targetargs:""Ghpr.Core.Tests\bin\Release\Ghpr.Core.Tests.dll""" -filter:"+[Ghpr.Core*]* -[Ghpr.Core.Tests*]*" -output:opencoverCoverage.xml
+
+  on_finish:
+  - ps: .\Coverage.ps1
 
   after_build:
     - nuget pack "Ghpr.LocalFileSystem/Ghpr.LocalFileSystem.csproj" -Prop Configuration=Release;OutDir=bin\Release;Platform=AnyCPU
@@ -85,9 +90,10 @@
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+    - npm install @types/node -global
     - npm install typescript -global
     - npm install ts-node -global
-
+    - npm install @types/node --save
 
   before_build:
     - nuget restore Ghpr.Core.sln
@@ -96,7 +102,10 @@
     - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   test_script:
-  - ps: .\TestsAndCoverage.ps1
+  - ps: .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"nunit3-console.exe" "-targetargs:""Ghpr.Core.Tests\bin\Release\Ghpr.Core.Tests.dll""" -filter:"+[Ghpr.Core*]* -[Ghpr.Core.Tests*]*" -output:opencoverCoverage.xml
+
+  on_finish:
+  - ps: .\Coverage.ps1
 
   after_build:
     - nuget pack "Ghpr.Logger/Ghpr.SimpleFileLogger.csproj" -Prop Configuration=Release;OutDir=bin\Release;Platform=AnyCPU
@@ -122,8 +131,10 @@
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+    - npm install @types/node -global
     - npm install typescript -global
     - npm install ts-node -global
+    - npm install @types/node --save
 
 
   before_build:
@@ -133,7 +144,10 @@
     - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   test_script:
-  - ps: .\TestsAndCoverage.ps1
+  - ps: .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"nunit3-console.exe" "-targetargs:""Ghpr.Core.Tests\bin\Release\Ghpr.Core.Tests.dll""" -filter:"+[Ghpr.Core*]* -[Ghpr.Core.Tests*]*" -output:opencoverCoverage.xml
+
+  on_finish:
+  - ps: .\Coverage.ps1
 
   after_build:
     - nuget pack "Ghpr.SerilogToSeq/Ghpr.SerilogToSeqLogger.csproj" -Prop Configuration=Release;OutDir=bin\Release;Platform=AnyCPU
