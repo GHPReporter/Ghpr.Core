@@ -53,38 +53,62 @@ You can find it [here](https://github.com/GHPReporter/Ghpr.Core/blob/master/RELE
 Standard settings file is .json file with the following structure:
 ``` json
 {
-   "outputPath":"C:\\_GHPReporter_Core_Report",
-   "dataServiceFile": "Ghpr.LocalFileSystem.dll",
-   "loggerFile": "",
-   "sprint":"",
-   "reportName": "GHP Report",
-   "projectName": "Awesome project",
-   "runName":"",
-   "runGuid":"",
-   "realTimeGeneration":"True",
-   "runsToDisplay": "5",
-   "testsToDisplay": "5", 
-   "retention": {
-    "amount": 10,
-    "till": "2018-06-29 10:00:00"
-  }
+  "default": {
+    "outputPath": "C:\\_GHPReporter_Core_Report",
+    "dataServiceFile": "Ghpr.LocalFileSystem.dll",
+    "loggerFile": "",
+    "sprint": "",
+    "reportName": "GHP Report",
+    "projectName": "Awesome project",
+    "runName": "",
+    "runGuid": "",
+    "realTimeGeneration": "True",
+    "runsToDisplay": "5",
+    "testsToDisplay": "5",
+    "retention": {
+      "amount": 1000,
+      "till": "2017-01-25 10:00:00"
+    }
+  },
+  "projects": [
+    {
+      "pattern": "*CoolTests.dll",
+      "settings": {
+        "outputPath": "C:\\_GHPReporter_Core_Report\\CoolTests"
+      }
+    },
+    {
+      "pattern": "*AwesomeTests.dll",
+      "settings": {
+        "outputPath": "C:\\_GHPReporter_Core_Report\\AwesomeTests"
+      }
+    }
+  ]
 }
 ```
 For Ghpr.Core it is called `Ghpr.Core.Settings.json`. This file is included in NuGet package. For different testing frameworks (MSTest, NUnit, SpecFlow) there are separate settings files. Separate files are needed to let Ghpr.Core use different settings for different testing frameworks. 
 
-Parameter `runsToDisplay`: if > 0 the reporter will load only this specified number of the latest runs on test run page.
+The `default` section stands for defalut configuration, which includes the following information:
 
-Parameter `testsToDisplay`: if > 0 the reporter will load only this specified number of the latest test runs on test history page.
+ - `runsToDisplay`: if > 0 the reporter will load only this specified number of the latest runs on test run page.
 
-Parameter `dataServiceFile`: the name of the library which contains implementation of IDataService, will be distributed as a separate NuGet package will you should include as a dependency in your solution with tests. Can't be empty.
+ - `testsToDisplay`: if > 0 the reporter will load only this specified number of the latest test runs on test history page.
 
-Parameter `loggerFile`: the name the library that will be used for internal logging of Ghpr itself.
+ - `dataServiceFile`: the name of the library which contains implementation of IDataService, will be distributed as a separate NuGet package will you should include as a dependency in your solution with tests. Can't be empty.
 
-`retention` - settings for running clean up job:
+ - `loggerFile`: the name the library that will be used for internal logging of Ghpr itself.
 
-   `amount` - total runs that will be left, all other will be deleted.
+ - `retention` - settings for running clean up job:
+
+   - `amount` - total runs that will be left, all other will be deleted.
    
-   `till` - all runs with finish date older than  this value will be deleted. Date format is `yyyy-MM-dd hh:mm:ss`
+   - `till` - all runs with finish date older than  this value will be deleted. Date format is `yyyy-MM-dd hh:mm:ss`
+   
+`projects` section is the array of pairs `pattern` and `settings`.
+ 
+ - `pattern` - is a wildcard for you project name.
+ 
+ - `settings` - has the same structure as `default` sections. If your project name matches the pattern then `settings` section will be applied (instead of `default` section) as GHPReporter settings for your test run.
 
 # View report locally
 
