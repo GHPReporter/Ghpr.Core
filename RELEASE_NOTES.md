@@ -78,7 +78,7 @@ The idea is that in the future several ways of working with data will be support
 
 ## v0.8 and earlier
 
-Previous releases included such feature as:
+Previous releases included such features as:
 
  - Test history
  - Runs history
