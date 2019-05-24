@@ -1,6 +1,14 @@
 # Release notes
 
-## v0.9.4
+## v0.9.9
+
+Includes new way of working with `.settings.json` files (**BRAKING CHANGE!**):
+
+ - New settings file structure: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/107). For more details, please read [`readme` file](https://github.com/GHPReporter/Ghpr.Core#about-settings-file)
+ - Fixed small issue with collapsed test list view
+ - Fixed small issue with run summary data
+ 
+ ## v0.9.4
 
 Includes new UI for the report and some fixes:
 
