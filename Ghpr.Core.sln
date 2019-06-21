@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3BC04007
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.Core.Tests", "Ghpr.Core.Tests\Ghpr.Core.Tests.csproj", "{66E6F6BA-5B35-475A-A617-394696331F25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.Core.Core", "Ghpr.Core.Core\Ghpr.Core.Core.csproj", "{BC8DEEAF-5236-4A51-9B3F-D28E3DBB6EF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{66E6F6BA-5B35-475A-A617-394696331F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66E6F6BA-5B35-475A-A617-394696331F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66E6F6BA-5B35-475A-A617-394696331F25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC8DEEAF-5236-4A51-9B3F-D28E3DBB6EF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC8DEEAF-5236-4A51-9B3F-D28E3DBB6EF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC8DEEAF-5236-4A51-9B3F-D28E3DBB6EF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC8DEEAF-5236-4A51-9B3F-D28E3DBB6EF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
