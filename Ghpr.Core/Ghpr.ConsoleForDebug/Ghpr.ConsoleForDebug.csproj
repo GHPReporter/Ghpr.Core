@@ -66,10 +66,6 @@
       <Project>{d155a663-873e-4ef4-8a93-e31cf81b7785}</Project>
       <Name>Ghpr.SimpleFileLogger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Ghpr.SerilogToSeq\Ghpr.SerilogToSeqLogger.csproj">
-      <Project>{32edf166-49df-4235-a3b9-5877c1e7966c}</Project>
-      <Name>Ghpr.SerilogToSeqLogger</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ghpr.Core.csproj">
       <Project>{8cde51df-b9d2-4945-a992-35e33decef36}</Project>
       <Name>Ghpr.Core</Name>
