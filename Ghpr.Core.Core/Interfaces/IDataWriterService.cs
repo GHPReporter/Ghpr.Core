@@ -1,7 +1,7 @@
-﻿using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Settings;
+﻿using Ghpr.Core.Common;
+using Ghpr.Core.Settings;
 
-namespace Ghpr.Core.Core.Interfaces
+namespace Ghpr.Core.Interfaces
 {
     public interface IDataWriterService
     {

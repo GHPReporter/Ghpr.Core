@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp2.1</TargetFrameworks>
+    <AssemblyName>Ghpr.Core</AssemblyName>
+    <RootNamespace>Ghpr.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

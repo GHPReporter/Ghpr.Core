@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ghpr.Core.Core.Common;
+using Ghpr.Core.Common;
 
-namespace Ghpr.Core.Core.Extensions
+namespace Ghpr.Core.Extensions
 {
     public static class TestRunDtoListExtensions
     {

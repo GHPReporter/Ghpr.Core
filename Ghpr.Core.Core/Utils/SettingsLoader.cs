@@ -2,7 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Ghpr.Core.Core.Utils
+namespace Ghpr.Core.Utils
 {
     public static class SettingsLoader
     {

@@ -1,6 +1,6 @@
-﻿using Ghpr.Core.Core.Enums;
+﻿using Ghpr.Core.Enums;
 
-namespace Ghpr.Core.Core.Interfaces
+namespace Ghpr.Core.Interfaces
 {
     public interface IEmbeddedResource
     {

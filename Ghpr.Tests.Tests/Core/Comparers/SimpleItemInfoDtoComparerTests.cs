@@ -1,6 +1,6 @@
 ﻿using System;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Comparers;
+using Ghpr.Core.Common;
+using Ghpr.Core.Comparers;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core.Comparers

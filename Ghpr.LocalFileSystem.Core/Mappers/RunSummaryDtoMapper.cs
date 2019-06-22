@@ -1,4 +1,4 @@
-﻿using Ghpr.Core.Core.Common;
+﻿using Ghpr.Core.Common;
 using Ghpr.LocalFileSystem.Core.Entities;
 
 namespace Ghpr.LocalFileSystem.Core.Mappers

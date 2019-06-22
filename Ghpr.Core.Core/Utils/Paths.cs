@@ -1,6 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 
-namespace Ghpr.Core.Core.Utils
+namespace Ghpr.Core.Utils
 {
     public class Paths
     {

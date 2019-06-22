@@ -1,6 +1,6 @@
-﻿using Ghpr.Core.Core.Common;
+﻿using Ghpr.Core.Common;
 
-namespace Ghpr.Core.Core.Interfaces
+namespace Ghpr.Core.Interfaces
 {
     public interface ITestRunsRepository
     {

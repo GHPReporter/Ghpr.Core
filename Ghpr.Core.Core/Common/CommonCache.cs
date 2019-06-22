@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ghpr.Core.Core.Comparers;
-using Ghpr.Core.Core.Interfaces;
-using Ghpr.Core.Core.Settings;
+using Ghpr.Core.Comparers;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Ghpr.Core.Core.Common
+namespace Ghpr.Core.Common
 {
     public class CommonCache : ICommonCache
     {

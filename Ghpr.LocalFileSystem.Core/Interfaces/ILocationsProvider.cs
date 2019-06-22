@@ -1,5 +1,5 @@
 ﻿using System;
-using Ghpr.Core.Core.Utils;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.LocalFileSystem.Core.Interfaces
 {

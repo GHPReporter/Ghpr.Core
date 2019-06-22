@@ -1,5 +1,5 @@
-﻿using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Enums;
+﻿using Ghpr.Core.Common;
+using Ghpr.Core.Enums;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core.Common

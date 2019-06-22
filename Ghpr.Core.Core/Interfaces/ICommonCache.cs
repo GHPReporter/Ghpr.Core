@@ -1,4 +1,4 @@
-﻿namespace Ghpr.Core.Core.Interfaces
+﻿namespace Ghpr.Core.Interfaces
 {
     public interface ICommonCache : IDataReaderService, IDataWriterService
     {

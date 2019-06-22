@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Interfaces;
-using Ghpr.Core.Core.Settings;
+using Ghpr.Core.Common;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 using Ghpr.LocalFileSystem.Core.Entities;
 using Ghpr.LocalFileSystem.Core.Extensions;
 using Ghpr.LocalFileSystem.Core.Interfaces;

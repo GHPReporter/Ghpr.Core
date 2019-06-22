@@ -1,8 +1,8 @@
-﻿using Ghpr.Core.Core.Enums;
-using Ghpr.Core.Core.Settings;
-using Ghpr.Core.Core.Utils;
+﻿using Ghpr.Core.Enums;
+using Ghpr.Core.Settings;
+using Ghpr.Core.Utils;
 
-namespace Ghpr.Core.Core.Providers
+namespace Ghpr.Core.Providers
 {
     public static class ReporterSettingsProvider
     {

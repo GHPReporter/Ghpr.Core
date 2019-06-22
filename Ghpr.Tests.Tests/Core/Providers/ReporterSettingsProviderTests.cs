@@ -1,5 +1,5 @@
-﻿using Ghpr.Core.Core.Enums;
-using Ghpr.Core.Core.Providers;
+﻿using Ghpr.Core.Enums;
+using Ghpr.Core.Providers;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core.Providers

@@ -1,7 +1,7 @@
 ﻿using System;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Interfaces;
-using Ghpr.Core.Core.Settings;
+using Ghpr.Core.Common;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 
 namespace Ghpr.Tests.Tests.Core
 {

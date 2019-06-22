@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Ghpr.Core.Core.Settings
+namespace Ghpr.Core.Settings
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class ReporterSettings

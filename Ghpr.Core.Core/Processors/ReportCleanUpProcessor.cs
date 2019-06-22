@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using Ghpr.Core.Core.Interfaces;
-using Ghpr.Core.Core.Settings;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 
-namespace Ghpr.Core.Core.Processors
+namespace Ghpr.Core.Processors
 {
     public class ReportCleanUpProcessor : IReportCleanUpProcessor
     {

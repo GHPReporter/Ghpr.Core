@@ -1,4 +1,4 @@
-﻿namespace Ghpr.Core.Core.Enums
+﻿namespace Ghpr.Core.Enums
 {
     public enum ResourceType
     {

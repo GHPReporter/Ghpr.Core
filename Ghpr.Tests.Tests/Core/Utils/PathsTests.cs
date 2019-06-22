@@ -1,4 +1,4 @@
-﻿using Ghpr.Core.Core.Utils;
+﻿using Ghpr.Core.Utils;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core.Utils

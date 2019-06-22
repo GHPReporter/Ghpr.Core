@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
-using Ghpr.Core.Core.Extensions;
-using Ghpr.Core.Core.Interfaces;
-using Ghpr.Core.Core.Settings;
-using Ghpr.Core.Core.Utils;
+using Ghpr.Core.Extensions;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
+using Ghpr.Core.Utils;
 
 namespace Ghpr.SimpleFileLogger.Core
 {

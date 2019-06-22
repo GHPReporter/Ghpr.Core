@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Ghpr.Core.Core.Extensions;
+using Ghpr.Core.Extensions;
 using Ghpr.LocalFileSystem.Core.Comparers;
 using Ghpr.LocalFileSystem.Core.Entities;
 using Ghpr.LocalFileSystem.Core.Interfaces;

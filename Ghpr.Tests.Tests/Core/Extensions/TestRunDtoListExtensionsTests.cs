@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Extensions;
+using Ghpr.Core.Common;
+using Ghpr.Core.Extensions;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core.Extensions

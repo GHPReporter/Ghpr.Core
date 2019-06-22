@@ -1,5 +1,5 @@
 ﻿using System;
-using Ghpr.Core.Core.Common;
+using Ghpr.Core.Common;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core.Common

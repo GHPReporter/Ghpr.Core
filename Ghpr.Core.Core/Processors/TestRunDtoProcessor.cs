@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Extensions;
-using Ghpr.Core.Core.Interfaces;
+using Ghpr.Core.Common;
+using Ghpr.Core.Extensions;
+using Ghpr.Core.Interfaces;
 
-namespace Ghpr.Core.Core.Processors
+namespace Ghpr.Core.Processors
 {
     public class TestRunDtoProcessor : ITestRunDtoProcessor
     {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.EmbeddedResources;
-using Ghpr.Core.Core.Extensions;
-using Ghpr.Core.Core.Interfaces;
-using Ghpr.Core.Core.Settings;
+using Ghpr.Core.Common;
+using Ghpr.Core.EmbeddedResources;
+using Ghpr.Core.Extensions;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 
-namespace Ghpr.Core.Core
+namespace Ghpr.Core
 {
     public class Reporter : IReporter
     {

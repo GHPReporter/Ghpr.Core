@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ghpr.Core.Core.Enums;
+using Ghpr.Core.Enums;
 
-namespace Ghpr.Core.Core.Common
+namespace Ghpr.Core.Common
 {
     public class TestRunDto
     {

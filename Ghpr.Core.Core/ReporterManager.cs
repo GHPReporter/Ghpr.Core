@@ -1,11 +1,11 @@
 ﻿using System;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Enums;
-using Ghpr.Core.Core.Factories;
-using Ghpr.Core.Core.Interfaces;
-using Ghpr.Core.Core.Settings;
+using Ghpr.Core.Common;
+using Ghpr.Core.Enums;
+using Ghpr.Core.Factories;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 
-namespace Ghpr.Core.Core
+namespace Ghpr.Core
 {
     public static class ReporterManager
     {

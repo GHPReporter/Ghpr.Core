@@ -1,7 +1,7 @@
-﻿using Ghpr.Core.Core.Helpers;
-using Ghpr.Core.Core.Processors;
-using Ghpr.Core.Core.Settings;
-using Ghpr.Core.Core.Utils;
+﻿using Ghpr.Core.Helpers;
+using Ghpr.Core.Processors;
+using Ghpr.Core.Settings;
+using Ghpr.Core.Utils;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core.Processors

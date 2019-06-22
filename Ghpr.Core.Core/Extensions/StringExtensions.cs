@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
-namespace Ghpr.Core.Core.Extensions
+namespace Ghpr.Core.Extensions
 {
     public static class StringExtensions
     {

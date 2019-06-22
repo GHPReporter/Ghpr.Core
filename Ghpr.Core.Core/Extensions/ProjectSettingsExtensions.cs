@@ -1,6 +1,6 @@
-﻿using Ghpr.Core.Core.Settings;
+﻿using Ghpr.Core.Settings;
 
-namespace Ghpr.Core.Core.Extensions
+namespace Ghpr.Core.Extensions
 {
     public static class ProjectSettingsExtensions
     {

@@ -3,19 +3,19 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Enums;
-using Ghpr.Core.Core.Extensions;
-using Ghpr.Core.Core.Helpers;
-using Ghpr.Core.Core.Interfaces;
-using Ghpr.Core.Core.Processors;
-using Ghpr.Core.Core.Providers;
-using Ghpr.Core.Core.Services;
-using Ghpr.Core.Core.Settings;
-using Ghpr.Core.Core.Utils;
+using Ghpr.Core.Common;
+using Ghpr.Core.Enums;
+using Ghpr.Core.Extensions;
+using Ghpr.Core.Helpers;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Processors;
+using Ghpr.Core.Providers;
+using Ghpr.Core.Services;
+using Ghpr.Core.Settings;
+using Ghpr.Core.Utils;
 using Newtonsoft.Json.Linq;
 
-namespace Ghpr.Core.Core.Factories
+namespace Ghpr.Core.Factories
 {
     public static class ReporterFactory
     {

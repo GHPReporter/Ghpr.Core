@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Ghpr.Core.Core.Common;
+using Ghpr.Core.Common;
 
-namespace Ghpr.Core.Core.Comparers
+namespace Ghpr.Core.Comparers
 {
     public class ItemInfoDtoComparer : IEqualityComparer<ItemInfoDto>
     {

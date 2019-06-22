@@ -1,5 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
-namespace Ghpr.Core.Core.Enums
+namespace Ghpr.Core.Enums
 {
     public enum TestingFramework
     {

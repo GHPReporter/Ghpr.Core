@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Interfaces;
+using Ghpr.Core.Common;
+using Ghpr.Core.Interfaces;
 
-namespace Ghpr.Core.Core.Utils
+namespace Ghpr.Core.Utils
 {
     public class TestRunsRepository : ITestRunsRepository
     {

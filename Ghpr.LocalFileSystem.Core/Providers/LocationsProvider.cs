@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Ghpr.Core.Core.Utils;
+using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Core.Interfaces;
 
 namespace Ghpr.LocalFileSystem.Core.Providers

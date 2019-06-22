@@ -1,9 +1,9 @@
 ﻿using System;
-using Ghpr.Core.Core.Enums;
-using Ghpr.Core.Core.Factories;
-using Ghpr.Core.Core.Interfaces;
-using Ghpr.Core.Core.Settings;
-using Ghpr.Core.Core.Utils;
+using Ghpr.Core.Enums;
+using Ghpr.Core.Factories;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
+using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Core.Services;
 using NUnit.Framework;
 

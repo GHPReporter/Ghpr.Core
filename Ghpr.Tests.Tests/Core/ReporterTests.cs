@@ -1,6 +1,6 @@
 ﻿using System;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Factories;
+using Ghpr.Core.Common;
+using Ghpr.Core.Factories;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core

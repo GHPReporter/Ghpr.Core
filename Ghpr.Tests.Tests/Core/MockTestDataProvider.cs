@@ -1,5 +1,5 @@
 ﻿using System;
-using Ghpr.Core.Core.Interfaces;
+using Ghpr.Core.Interfaces;
 
 namespace Ghpr.Tests.Tests.Core
 {

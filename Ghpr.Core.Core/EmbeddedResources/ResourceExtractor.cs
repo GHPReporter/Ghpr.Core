@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Ghpr.Core.Core.Enums;
-using Ghpr.Core.Core.Extensions;
-using Ghpr.Core.Core.Interfaces;
+using Ghpr.Core.Enums;
+using Ghpr.Core.Extensions;
+using Ghpr.Core.Interfaces;
 
-namespace Ghpr.Core.Core.EmbeddedResources
+namespace Ghpr.Core.EmbeddedResources
 {
     public static class ResourceExtractor
     {

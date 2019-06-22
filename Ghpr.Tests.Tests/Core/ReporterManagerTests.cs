@@ -1,8 +1,8 @@
 ﻿using System;
-using Ghpr.Core.Core;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Enums;
-using Ghpr.Core.Core.Settings;
+using Ghpr.Core;
+using Ghpr.Core.Common;
+using Ghpr.Core.Enums;
+using Ghpr.Core.Settings;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core

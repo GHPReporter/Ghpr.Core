@@ -1,7 +1,7 @@
 ﻿using System;
-using Ghpr.Core.Core.Interfaces;
+using Ghpr.Core.Interfaces;
 
-namespace Ghpr.Core.Core.Helpers
+namespace Ghpr.Core.Helpers
 {
     public class ActionHelper : IActionHelper
     {

@@ -1,4 +1,4 @@
-﻿using Ghpr.Core.Core.Common;
+﻿using Ghpr.Core.Common;
 using Ghpr.LocalFileSystem.Core.Entities;
 using Ghpr.LocalFileSystem.Core.Providers;
 

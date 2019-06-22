@@ -1,7 +1,7 @@
 ﻿using System;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.Settings;
-using Ghpr.Core.Core.Utils;
+using Ghpr.Core.Common;
+using Ghpr.Core.Settings;
+using Ghpr.Core.Utils;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core.Utils

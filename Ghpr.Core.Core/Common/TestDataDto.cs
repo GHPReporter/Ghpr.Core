@@ -1,4 +1,4 @@
-﻿namespace Ghpr.Core.Core.Common
+﻿namespace Ghpr.Core.Common
 {
     public class TestDataDto
     {

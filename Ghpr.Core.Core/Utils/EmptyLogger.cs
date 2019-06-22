@@ -1,8 +1,8 @@
 ﻿using System;
-using Ghpr.Core.Core.Interfaces;
-using Ghpr.Core.Core.Settings;
+using Ghpr.Core.Interfaces;
+using Ghpr.Core.Settings;
 
-namespace Ghpr.Core.Core.Utils
+namespace Ghpr.Core.Utils
 {
     public class EmptyLogger : ILogger
     {

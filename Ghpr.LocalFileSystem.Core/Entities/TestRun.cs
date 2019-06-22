@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ghpr.Core.Core.Enums;
+using Ghpr.Core.Enums;
 using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Core.Entities

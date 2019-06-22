@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ghpr.Core.Core.Common
+namespace Ghpr.Core.Common
 {
     public class RunDto
     {

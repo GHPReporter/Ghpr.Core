@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ghpr.Core.Core.Common;
-using Ghpr.Core.Core.EmbeddedResources;
-using Ghpr.Core.Core.Factories;
+using Ghpr.Core.Common;
+using Ghpr.Core.EmbeddedResources;
+using Ghpr.Core.Factories;
 
 namespace Ghpr.ConsoleAppForDebug
 {
