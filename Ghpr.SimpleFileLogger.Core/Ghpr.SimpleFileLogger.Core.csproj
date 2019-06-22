@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ghpr.Core.Core\Ghpr.Core.Core.csproj" />
+    <ProjectReference Include="..\Ghpr.Core.Core\Ghpr.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,15 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.Controller.ts", "Ghpr.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3BC04007-9DF8-4F39-A964-D9738F647754}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.LocalFileSystem.Core", "Ghpr.LocalFileSystem.Core\Ghpr.LocalFileSystem.Core.csproj", "{6E900E6D-9E50-46FC-8B3C-724902B3802A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.LocalFileSystem.Core", "Ghpr.LocalFileSystem.Core\Ghpr.LocalFileSystem.Core.csproj", "{6E900E6D-9E50-46FC-8B3C-724902B3802A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.ConsoleAppForDebug", "Ghpr.ConsoleAppForDebug\Ghpr.ConsoleAppForDebug.csproj", "{9CB47855-C91E-4D1F-88F1-26FA91C2E861}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.ConsoleAppForDebug", "Ghpr.ConsoleAppForDebug\Ghpr.ConsoleAppForDebug.csproj", "{9CB47855-C91E-4D1F-88F1-26FA91C2E861}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.SimpleFileLogger.Core", "Ghpr.SimpleFileLogger.Core\Ghpr.SimpleFileLogger.Core.csproj", "{483471B5-91A9-42B4-BB55-63C29956A817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.SimpleFileLogger.Core", "Ghpr.SimpleFileLogger.Core\Ghpr.SimpleFileLogger.Core.csproj", "{483471B5-91A9-42B4-BB55-63C29956A817}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.Tests.Tests", "Ghpr.Tests.Tests\Ghpr.Tests.Tests.csproj", "{80772C79-6702-47F8-990E-C4D38587AAFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.Tests.Tests", "Ghpr.Tests.Tests\Ghpr.Tests.Tests.csproj", "{80772C79-6702-47F8-990E-C4D38587AAFF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.Core.Core", "Ghpr.Core.Core\Ghpr.Core.Core.csproj", "{EB7A4DC8-C8B3-445B-B357-B63AFCAC253A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.Core", "Ghpr.Core.Core\Ghpr.Core.csproj", "{EB7A4DC8-C8B3-445B-B357-B63AFCAC253A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
