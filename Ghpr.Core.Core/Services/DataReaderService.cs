@@ -1,0 +1,88 @@
+﻿using System;
+using System.Collections.Generic;
+using Ghpr.Core.Core.Common;
+using Ghpr.Core.Core.Interfaces;
+using Ghpr.Core.Core.Settings;
+
+namespace Ghpr.Core.Core.Services
+{
+    public class DataReaderService : IDataReaderService
+    {
+        private readonly IDataReaderService _dataReaderService;
+        private readonly ICommonCache _cache;
+
+        public DataReaderService(IDataReaderService dataReaderService, ICommonCache cache)
+        {
+            _dataReaderService = dataReaderService;
+            _cache = cache;
+        }
+
+        public IDataReaderService GetDataReader()
+        {
+            return _dataReaderService;
+        }
+
+        public void InitializeDataReader(ProjectSettings settings, ILogger logger)
+        {
+            _dataReaderService.InitializeDataReader(settings, logger);
+            _cache.InitializeDataWriter(settings, logger);
+        }
+
+        public ReportSettingsDto GetReportSettings()
+        {
+            return _cache.GetReportSettings() 
+                   ?? _dataReaderService.GetReportSettings();
+        }
+
+        public TestRunDto GetLatestTestRun(Guid testGuid)
+        {
+            return _cache.GetLatestTestRun(testGuid) 
+                   ?? _dataReaderService.GetLatestTestRun(testGuid);
+        }
+
+        public TestRunDto GetTestRun(ItemInfoDto testInfo)
+        {
+            return _cache.GetTestRun(testInfo) 
+                   ?? _dataReaderService.GetTestRun(testInfo);
+        }
+
+        public List<ItemInfoDto> GetTestInfos(Guid testGuid)
+        {
+            return _cache.GetTestInfos(testGuid) 
+                   ?? _dataReaderService.GetTestInfos(testGuid);
+        }
+
+        public List<TestScreenshotDto> GetTestScreenshots(TestRunDto testInfo)
+        {
+            return _cache.GetTestScreenshots(testInfo) 
+                   ?? _dataReaderService.GetTestScreenshots(testInfo);
+        }
+
+        public TestOutputDto GetTestOutput(TestRunDto testInfo)
+        {
+            return _cache.GetTestOutput(testInfo) 
+                   ?? _dataReaderService.GetTestOutput(testInfo);
+        }
+
+        public RunDto GetRun(Guid runGuid)
+        {
+            return _cache.GetRun(runGuid) 
+                   ?? _dataReaderService.GetRun(runGuid);
+        }
+
+        public List<ItemInfoDto> GetRunInfos()
+        {
+            var runInfosFromCache = _cache.GetRunInfos();
+            runInfosFromCache = runInfosFromCache?.Count == 1 ? null : _cache.GetRunInfos();
+            var res = runInfosFromCache ?? _dataReaderService.GetRunInfos();
+            return res;
+        }
+
+        public List<TestRunDto> GetTestRunsFromRun(RunDto runGuid)
+        {
+            var testRunsFromCache = _cache.GetTestRunsFromRun(runGuid);
+            var res = testRunsFromCache ?? _dataReaderService.GetTestRunsFromRun(runGuid);
+            return res;
+        }
+    }
+}

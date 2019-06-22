@@ -1,0 +1,22 @@
+﻿using Ghpr.Core.Core.Common;
+using Ghpr.Core.Core.Settings;
+
+namespace Ghpr.Core.Core.Interfaces
+{
+    public interface IDataWriterService
+    {
+        IDataWriterService GetDataWriter();
+
+        void InitializeDataWriter(ProjectSettings settings, ILogger logger);
+        void SaveReportSettings(ReportSettingsDto reportSettings);
+        ItemInfoDto SaveTestRun(TestRunDto testRun, TestOutputDto testOutput);
+        void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput);
+        ItemInfoDto SaveRun(RunDto run);
+        SimpleItemInfoDto SaveScreenshot(TestScreenshotDto testScreenshot);
+
+        void DeleteRun(ItemInfoDto runInfo);
+        void DeleteTest(TestRunDto testRun);
+        void DeleteTestOutput(TestRunDto testRun, TestOutputDto testOutput);
+        void DeleteTestScreenshot(TestRunDto testRun, TestScreenshotDto testScreenshot);
+    }
+}
