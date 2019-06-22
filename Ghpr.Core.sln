@@ -3,24 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.Core", "Ghpr.Core\Ghpr.Core.csproj", "{8CDE51DF-B9D2-4945-A992-35E33DECEF36}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DCA2417E-5063-4831-9FA0-751F6438A700} = {DCA2417E-5063-4831-9FA0-751F6438A700}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.Controller.ts", "Ghpr.Controller.ts\Ghpr.Controller.ts.csproj", "{DCA2417E-5063-4831-9FA0-751F6438A700}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.LocalFileSystem", "Ghpr.LocalFileSystem\Ghpr.LocalFileSystem.csproj", "{40BE674C-5954-4ABA-B1ED-A890621AD306}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.ConsoleForDebug", "Ghpr.Core\Ghpr.ConsoleForDebug\Ghpr.ConsoleForDebug.csproj", "{7458DB00-D683-4466-8E08-3534E4680E94}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.SimpleFileLogger", "Ghpr.Logger\Ghpr.SimpleFileLogger.csproj", "{D155A663-873E-4EF4-8A93-E31CF81B7785}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3BC04007-9DF8-4F39-A964-D9738F647754}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.Core.Tests", "Ghpr.Core.Tests\Ghpr.Core.Tests.csproj", "{66E6F6BA-5B35-475A-A617-394696331F25}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.Core.Core", "Ghpr.Core.Core\Ghpr.Core.Core.csproj", "{BC8DEEAF-5236-4A51-9B3F-D28E3DBB6EF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.LocalFileSystem.Core", "Ghpr.LocalFileSystem.Core\Ghpr.LocalFileSystem.Core.csproj", "{6E900E6D-9E50-46FC-8B3C-724902B3802A}"
 EndProject
@@ -30,40 +15,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.SimpleFileLogger.Core"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghpr.Tests.Tests", "Ghpr.Tests.Tests\Ghpr.Tests.Tests.csproj", "{80772C79-6702-47F8-990E-C4D38587AAFF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.Core.Core", "Ghpr.Core.Core\Ghpr.Core.Core.csproj", "{EB7A4DC8-C8B3-445B-B357-B63AFCAC253A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8CDE51DF-B9D2-4945-A992-35E33DECEF36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8CDE51DF-B9D2-4945-A992-35E33DECEF36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8CDE51DF-B9D2-4945-A992-35E33DECEF36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8CDE51DF-B9D2-4945-A992-35E33DECEF36}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCA2417E-5063-4831-9FA0-751F6438A700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCA2417E-5063-4831-9FA0-751F6438A700}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCA2417E-5063-4831-9FA0-751F6438A700}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCA2417E-5063-4831-9FA0-751F6438A700}.Release|Any CPU.Build.0 = Release|Any CPU
-		{40BE674C-5954-4ABA-B1ED-A890621AD306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{40BE674C-5954-4ABA-B1ED-A890621AD306}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{40BE674C-5954-4ABA-B1ED-A890621AD306}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{40BE674C-5954-4ABA-B1ED-A890621AD306}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7458DB00-D683-4466-8E08-3534E4680E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7458DB00-D683-4466-8E08-3534E4680E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7458DB00-D683-4466-8E08-3534E4680E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7458DB00-D683-4466-8E08-3534E4680E94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D155A663-873E-4EF4-8A93-E31CF81B7785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D155A663-873E-4EF4-8A93-E31CF81B7785}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D155A663-873E-4EF4-8A93-E31CF81B7785}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D155A663-873E-4EF4-8A93-E31CF81B7785}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66E6F6BA-5B35-475A-A617-394696331F25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66E6F6BA-5B35-475A-A617-394696331F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66E6F6BA-5B35-475A-A617-394696331F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66E6F6BA-5B35-475A-A617-394696331F25}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC8DEEAF-5236-4A51-9B3F-D28E3DBB6EF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC8DEEAF-5236-4A51-9B3F-D28E3DBB6EF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC8DEEAF-5236-4A51-9B3F-D28E3DBB6EF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC8DEEAF-5236-4A51-9B3F-D28E3DBB6EF2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E900E6D-9E50-46FC-8B3C-724902B3802A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E900E6D-9E50-46FC-8B3C-724902B3802A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E900E6D-9E50-46FC-8B3C-724902B3802A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -80,12 +43,15 @@ Global
 		{80772C79-6702-47F8-990E-C4D38587AAFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80772C79-6702-47F8-990E-C4D38587AAFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80772C79-6702-47F8-990E-C4D38587AAFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB7A4DC8-C8B3-445B-B357-B63AFCAC253A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB7A4DC8-C8B3-445B-B357-B63AFCAC253A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB7A4DC8-C8B3-445B-B357-B63AFCAC253A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB7A4DC8-C8B3-445B-B357-B63AFCAC253A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{66E6F6BA-5B35-475A-A617-394696331F25} = {3BC04007-9DF8-4F39-A964-D9738F647754}
 		{80772C79-6702-47F8-990E-C4D38587AAFF} = {3BC04007-9DF8-4F39-A964-D9738F647754}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
