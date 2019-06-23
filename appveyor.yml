@@ -185,7 +185,7 @@
     - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   test_script:
-  - ps: "%userprofile%\.nuget\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe" -register:user -target:"nunit3-console.exe" "-targetargs:""Ghpr.Tests.Tests\bin\Release\netcoreapp2.1\Ghpr.Core.Tests.dll""" -filter:"+[Ghpr.Core*]* -[Ghpr.Tests.Tests*]*" -output:opencoverCoverage.xml
+  - ps: $env:USERPROFILE\.nuget\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"nunit3-console.exe" "-targetargs:""Ghpr.Tests.Tests\bin\Release\netcoreapp2.1\Ghpr.Core.Tests.dll""" -filter:"+[Ghpr.Core*]* -[Ghpr.Tests.Tests*]*" -output:opencoverCoverage.xml
 
   on_finish:
   - ps: .\Coverage.ps1
