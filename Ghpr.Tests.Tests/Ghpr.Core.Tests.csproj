@@ -5,6 +5,7 @@
     <IsPackable>false</IsPackable>
     <RootNamespace>Ghpr.Core.Tests</RootNamespace>
     <AssemblyName>Ghpr.Core.Tests</AssemblyName>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
