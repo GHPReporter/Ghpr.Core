@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp2.1</TargetFrameworks>
+    <RootNamespace>Ghpr.SimpleFileLogger</RootNamespace>
+    <AssemblyName>Ghpr.SimpleFileLogger</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

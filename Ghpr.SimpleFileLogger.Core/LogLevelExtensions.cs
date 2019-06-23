@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ghpr.SimpleFileLogger.Core
+namespace Ghpr.SimpleFileLogger
 {
     public static class LogLevelExtensions
     {

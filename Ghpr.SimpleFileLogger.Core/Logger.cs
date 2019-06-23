@@ -6,7 +6,7 @@ using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 
-namespace Ghpr.SimpleFileLogger.Core
+namespace Ghpr.SimpleFileLogger
 {
     public class Logger : ILogger
     {

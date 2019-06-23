@@ -1,4 +1,4 @@
-﻿namespace Ghpr.SimpleFileLogger.Core
+﻿namespace Ghpr.SimpleFileLogger
 {
     public enum LogLevel
     {
