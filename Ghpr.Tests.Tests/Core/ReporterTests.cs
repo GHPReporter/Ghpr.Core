@@ -35,8 +35,7 @@ namespace Ghpr.Core.Tests.Core
             r.SetTestDataProvider(new MockTestDataProviderWithException());
             Assert.IsInstanceOf(typeof(MockTestDataProviderWithException), r.TestDataProvider);
         }
-
-
+        
         [Test]
         public void LoggerTest()
         {

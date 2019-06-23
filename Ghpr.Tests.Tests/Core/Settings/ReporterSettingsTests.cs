@@ -20,7 +20,8 @@ namespace Ghpr.Core.Tests.Core.Settings
             Assert.AreEqual(true, settings.RealTimeGeneration);
             Assert.AreEqual("GHP Report", settings.ReportName);
             Assert.AreEqual(10, settings.Retention.Amount);
-            Assert.AreEqual(new DateTime(2018, 8, 20, 10, 15, 42), settings.Retention.Till);//"2018-08-20 10:15:42"
+            Assert.AreEqual(new DateTime(2018, 8, 20, 10, 15, 42),
+                settings.Retention.Till); //"2018-08-20 10:15:42"
             Assert.AreEqual("66e6f6ba-5b35-475a-a617-394696331f28", settings.RunGuid);
             Assert.AreEqual("Awesome run", settings.RunName);
             Assert.AreEqual(5, settings.RunsToDisplay);

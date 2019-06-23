@@ -155,7 +155,6 @@ namespace Ghpr.SimpleFileLogger
 
         public void TearDown()
         {
-            
         }
     }
 }
