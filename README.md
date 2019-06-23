@@ -11,7 +11,7 @@
   <a href="https://github.com/GHPReporter/GHPReporter.github.io/">Site Repo</a>
 </p>
 
-[![Build status](https://ci.appveyor.com/api/projects/status/ix1epmijw6uc780w?svg=true)](https://ci.appveyor.com/project/elv1s42/ghpr-core)
+[![Build status](https://ci.appveyor.com/api/projects/status/ix1epmijw6uc780w/branch/master?svg=true)](https://ci.appveyor.com/project/elv1s42/ghpr-core/branch/master)
 [![Build status](https://dev.azure.com/ghpreporter/Ghpr.Core/_apis/build/status/Ghpr.Core-CI)](https://dev.azure.com/ghpreporter/Ghpr.Core/_build/latest?definitionId=2)
 [![NuGet Version](https://img.shields.io/nuget/v/Ghpr.Core.svg)](https://www.nuget.org/packages/Ghpr.Core)
 [![Coverage Status](https://coveralls.io/repos/github/GHPReporter/Ghpr.Core/badge.svg?branch=master)](https://coveralls.io/github/GHPReporter/Ghpr.Core?branch=master)
