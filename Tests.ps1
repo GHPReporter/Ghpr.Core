@@ -1,4 +1,4 @@
-$opencover = "$($env:USERPROFILE)\.nuget\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe"
+$opencover = "$($env:USERPROFILE)\.nuget\packages\opencover\4.7.922\tools\OpenCover.Console.exe"
 
 write-host "======= OPENCOVER PATH: " $opencover " ======="
 
