@@ -24,6 +24,5 @@ namespace Ghpr.LocalFileSystem.Providers
         {
             return $"img_{creationDateTime:yyyyMMdd_HHmmssfff}.json";
         }
-
     }
 }
