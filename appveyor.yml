@@ -179,10 +179,10 @@
     - npm install @types/node --save
 
   before_build:
-    - nuget restore Ghpr.Core.sln
+    - dotnet restore Ghpr.Core.sln
 
   build_script:
-    - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
+    - dotnet build Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   test_script:
   - ps: .\Tests.ps1
