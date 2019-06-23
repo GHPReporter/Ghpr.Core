@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using Ghpr.Core.Utils;
-using Ghpr.LocalFileSystem.Core.Interfaces;
+using Ghpr.LocalFileSystem.Interfaces;
 
-namespace Ghpr.LocalFileSystem.Core.Providers
+namespace Ghpr.LocalFileSystem.Providers
 {
     public class LocationsProvider : ILocationsProvider
     {

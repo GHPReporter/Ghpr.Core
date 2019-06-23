@@ -1,7 +1,7 @@
 ﻿using Ghpr.Core.Common;
-using Ghpr.LocalFileSystem.Core.Entities;
+using Ghpr.LocalFileSystem.Entities;
 
-namespace Ghpr.LocalFileSystem.Core.Mappers
+namespace Ghpr.LocalFileSystem.Mappers
 {
     public static class SimpleItemInfoDtoMapper
     {

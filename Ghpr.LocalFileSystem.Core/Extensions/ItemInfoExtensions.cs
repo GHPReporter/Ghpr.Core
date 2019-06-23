@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 using Ghpr.Core.Extensions;
-using Ghpr.LocalFileSystem.Core.Comparers;
-using Ghpr.LocalFileSystem.Core.Entities;
-using Ghpr.LocalFileSystem.Core.Interfaces;
+using Ghpr.LocalFileSystem.Comparers;
+using Ghpr.LocalFileSystem.Entities;
+using Ghpr.LocalFileSystem.Interfaces;
 using Newtonsoft.Json;
 
-namespace Ghpr.LocalFileSystem.Core.Extensions
+namespace Ghpr.LocalFileSystem.Extensions
 {
     public static class ItemInfoExtensions
     {

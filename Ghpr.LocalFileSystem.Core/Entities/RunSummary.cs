@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Ghpr.LocalFileSystem.Core.Entities
+namespace Ghpr.LocalFileSystem.Entities
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class RunSummary

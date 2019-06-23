@@ -1,7 +1,7 @@
 ﻿using System;
 using Ghpr.Core.Utils;
 
-namespace Ghpr.LocalFileSystem.Core.Interfaces
+namespace Ghpr.LocalFileSystem.Interfaces
 {
     public interface ILocationsProvider
     {

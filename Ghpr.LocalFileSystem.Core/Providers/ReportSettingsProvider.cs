@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using Ghpr.Core.Extensions;
-using Ghpr.LocalFileSystem.Core.Entities;
+using Ghpr.LocalFileSystem.Entities;
 using Newtonsoft.Json;
 
-namespace Ghpr.LocalFileSystem.Core.Providers
+namespace Ghpr.LocalFileSystem.Providers
 {
     public static class ReportSettingsProvider
     {

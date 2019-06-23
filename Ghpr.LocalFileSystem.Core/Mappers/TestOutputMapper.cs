@@ -1,8 +1,8 @@
 ﻿using Ghpr.Core.Common;
-using Ghpr.LocalFileSystem.Core.Entities;
-using Ghpr.LocalFileSystem.Core.Providers;
+using Ghpr.LocalFileSystem.Entities;
+using Ghpr.LocalFileSystem.Providers;
 
-namespace Ghpr.LocalFileSystem.Core.Mappers
+namespace Ghpr.LocalFileSystem.Mappers
 {
     public static class TestOutputMapper
     {

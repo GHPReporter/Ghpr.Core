@@ -4,7 +4,7 @@ using Ghpr.Core.Factories;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
-using Ghpr.LocalFileSystem.Core.Services;
+using Ghpr.LocalFileSystem.Services;
 using NUnit.Framework;
 
 namespace Ghpr.Tests.Tests.Core.Factories

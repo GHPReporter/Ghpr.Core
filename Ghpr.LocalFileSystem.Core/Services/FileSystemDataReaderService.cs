@@ -5,13 +5,13 @@ using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
-using Ghpr.LocalFileSystem.Core.Entities;
-using Ghpr.LocalFileSystem.Core.Extensions;
-using Ghpr.LocalFileSystem.Core.Interfaces;
-using Ghpr.LocalFileSystem.Core.Mappers;
-using Ghpr.LocalFileSystem.Core.Providers;
+using Ghpr.LocalFileSystem.Entities;
+using Ghpr.LocalFileSystem.Extensions;
+using Ghpr.LocalFileSystem.Interfaces;
+using Ghpr.LocalFileSystem.Mappers;
+using Ghpr.LocalFileSystem.Providers;
 
-namespace Ghpr.LocalFileSystem.Core.Services
+namespace Ghpr.LocalFileSystem.Services
 {
     public class FileSystemDataReaderService : IDataReaderService
     {

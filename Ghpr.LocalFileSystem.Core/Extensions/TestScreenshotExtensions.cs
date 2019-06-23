@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using Ghpr.Core.Extensions;
-using Ghpr.LocalFileSystem.Core.Entities;
-using Ghpr.LocalFileSystem.Core.Providers;
+using Ghpr.LocalFileSystem.Entities;
+using Ghpr.LocalFileSystem.Providers;
 using Newtonsoft.Json;
 
-namespace Ghpr.LocalFileSystem.Core.Extensions
+namespace Ghpr.LocalFileSystem.Extensions
 {
     public static class TestScreenshotExtensions
     {

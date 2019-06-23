@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Ghpr.LocalFileSystem.Core.Entities;
+using Ghpr.LocalFileSystem.Entities;
 
-namespace Ghpr.LocalFileSystem.Core.Comparers
+namespace Ghpr.LocalFileSystem.Comparers
 {
     public class ItemInfoComparer : IEqualityComparer<ItemInfo>
     {

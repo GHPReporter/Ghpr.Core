@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Ghpr.Core.Enums;
 using Newtonsoft.Json;
 
-namespace Ghpr.LocalFileSystem.Core.Entities
+namespace Ghpr.LocalFileSystem.Entities
 {
     public class TestRun
     {

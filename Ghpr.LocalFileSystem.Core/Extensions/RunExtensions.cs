@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using Ghpr.LocalFileSystem.Core.Entities;
+using Ghpr.LocalFileSystem.Entities;
 using Newtonsoft.Json;
 
-namespace Ghpr.LocalFileSystem.Core.Extensions
+namespace Ghpr.LocalFileSystem.Extensions
 {
     public static class RunExtensions
     {
