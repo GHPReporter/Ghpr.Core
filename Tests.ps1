@@ -1,3 +1,5 @@
+dotnet test Ghpr.Tests.Tests\Ghpr.Core.Tests.csproj
+
 $opencover = "$($env:USERPROFILE)\.nuget\packages\opencover\4.7.922\tools\OpenCover.Console.exe"
 write-host "======= OPENCOVER PATH: " $opencover " ======="
 
