@@ -3,7 +3,7 @@ using Ghpr.Core.Common;
 using Ghpr.Core.Factories;
 using NUnit.Framework;
 
-namespace Ghpr.Tests.Tests.Core
+namespace Ghpr.Core.Tests.Core
 {
     [TestFixture]
     public class ReporterTests

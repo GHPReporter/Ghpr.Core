@@ -4,7 +4,7 @@ using Ghpr.Core.Common;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 
-namespace Ghpr.Tests.Tests.Core
+namespace Ghpr.Core.Tests.Core
 {
     public class MockDataReaderService : IDataReaderService
     {

@@ -5,7 +5,7 @@ using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 using NUnit.Framework;
 
-namespace Ghpr.Tests.Tests.Core.Services
+namespace Ghpr.Core.Tests.Core.Services
 {
     [TestFixture]
     public class DataWriterServiceTests

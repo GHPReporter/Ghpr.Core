@@ -7,7 +7,7 @@ using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Services;
 using NUnit.Framework;
 
-namespace Ghpr.Tests.Tests.Core.Factories
+namespace Ghpr.Core.Tests.Core.Factories
 {
     [TestFixture]
     public class ReporterFactoryTests

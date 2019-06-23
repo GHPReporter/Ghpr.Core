@@ -2,7 +2,7 @@
 using Ghpr.Core.Enums;
 using NUnit.Framework;
 
-namespace Ghpr.Tests.Tests.Core.Common
+namespace Ghpr.Core.Tests.Core.Common
 {
     [TestFixture]
     public class TestRunDtoTests

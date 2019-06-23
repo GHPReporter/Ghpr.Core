@@ -2,7 +2,7 @@
 using Ghpr.Core.Providers;
 using NUnit.Framework;
 
-namespace Ghpr.Tests.Tests.Core.Providers
+namespace Ghpr.Core.Tests.Core.Providers
 {
     [TestFixture]
     public class ReporterSettingsProviderTests

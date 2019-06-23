@@ -4,7 +4,7 @@ using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 using NUnit.Framework;
 
-namespace Ghpr.Tests.Tests.Core.Utils
+namespace Ghpr.Core.Tests.Core.Utils
 {
     [TestFixture]
     public class RunDtoRepositoryTests

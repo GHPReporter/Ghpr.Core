@@ -1,7 +1,7 @@
 ﻿using System;
 using Ghpr.Core.Interfaces;
 
-namespace Ghpr.Tests.Tests.Core
+namespace Ghpr.Core.Tests.Core
 {
     public class MockTestDataProvider : ITestDataProvider
     {

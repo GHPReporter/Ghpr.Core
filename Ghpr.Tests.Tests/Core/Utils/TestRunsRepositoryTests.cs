@@ -3,7 +3,7 @@ using Ghpr.Core.Common;
 using Ghpr.Core.Utils;
 using NUnit.Framework;
 
-namespace Ghpr.Tests.Tests.Core.Utils
+namespace Ghpr.Core.Tests.Core.Utils
 {
     [TestFixture]
     public class TestRunsRepositoryTests

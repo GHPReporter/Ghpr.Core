@@ -4,7 +4,7 @@ using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 using NUnit.Framework;
 
-namespace Ghpr.Tests.Tests.Core.Common
+namespace Ghpr.Core.Tests.Core.Common
 {
     [TestFixture]
     public class CommonCacheTests

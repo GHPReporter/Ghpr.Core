@@ -3,7 +3,7 @@ using Ghpr.Core.Common;
 using Ghpr.Core.Comparers;
 using NUnit.Framework;
 
-namespace Ghpr.Tests.Tests.Core.Comparers
+namespace Ghpr.Core.Tests.Core.Comparers
 {
     [TestFixture]
     public class SimpleItemInfoDtoComparerTests

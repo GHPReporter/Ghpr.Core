@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.ConsoleAppForDebug", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.SimpleFileLogger.Core", "Ghpr.SimpleFileLogger.Core\Ghpr.SimpleFileLogger.Core.csproj", "{483471B5-91A9-42B4-BB55-63C29956A817}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.Tests.Tests", "Ghpr.Tests.Tests\Ghpr.Tests.Tests.csproj", "{80772C79-6702-47F8-990E-C4D38587AAFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.Core.Tests", "Ghpr.Tests.Tests\Ghpr.Core.Tests.csproj", "{80772C79-6702-47F8-990E-C4D38587AAFF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghpr.Core", "Ghpr.Core.Core\Ghpr.Core.csproj", "{EB7A4DC8-C8B3-445B-B357-B63AFCAC253A}"
 EndProject

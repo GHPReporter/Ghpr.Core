@@ -1,11 +1,10 @@
 ﻿using System;
-using Ghpr.Core;
 using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Settings;
 using NUnit.Framework;
 
-namespace Ghpr.Tests.Tests.Core
+namespace Ghpr.Core.Tests.Core
 {
     [TestFixture]
     public class ReporterManagerTests
