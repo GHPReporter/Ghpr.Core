@@ -2,4 +2,4 @@ $opencover = "$($env:USERPROFILE)\.nuget\packages\OpenCover.4.7.922\tools\OpenCo
 
 write-host "======= OPENCOVER PATH: " $opencover " ======="
 
-$opencover -register:user -target:"nunit3-console.exe" "-targetargs:""Ghpr.Tests.Tests\bin\Release\netcoreapp2.1\Ghpr.Core.Tests.dll""" -filter:"+[Ghpr.Core*]* -[Ghpr.Tests.Tests*]*" -output:opencoverCoverage.xml
+& $opencover -register:user -target:"nunit3-console.exe" "-targetargs:""Ghpr.Tests.Tests\bin\Release\netcoreapp2.1\Ghpr.Core.Tests.dll""" -filter:"+[Ghpr.Core*]* -[Ghpr.Tests.Tests*]*" -output:opencoverCoverage.xml
