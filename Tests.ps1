@@ -7,7 +7,7 @@ write-host "======= BUILD PATH: " $build " ======="
 $sourceRoot = "$($env:USERPROFILE)\.nuget\packages\nunit.consolerunner\3.10.0\tools"
 write-host "======= SOURCE PATH: " $sourceRoot " ======="
 
-$destinationRoot = $build + "\Ghpr.Tests.Tests\bin\Release\netcoreapp2.1\"
+$destinationRoot = $build + "\Ghpr.Tests.Tests\bin\Release\netcoreapp2.1"
 write-host "======= DESTINATION PATH: " $destinationRoot " ======="
 
 Copy-Item -Path $sourceRoot -Filter "*.*" -Recurse -Destination $destinationRoot -Container -Verbose
