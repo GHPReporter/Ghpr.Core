@@ -10,7 +10,6 @@ using Ghpr.Core.Helpers;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Processors;
 using Ghpr.Core.Providers;
-using Ghpr.Core.Services;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 using Newtonsoft.Json.Linq;
@@ -54,8 +53,7 @@ namespace Ghpr.Core.Factories
                 foreach (var exSub in ex.LoaderExceptions)
                 {
                     sb.AppendLine(exSub.Message);
-                    var exFileNotFound = exSub as FileNotFoundException;
-                    if (exFileNotFound != null)
+                    if (exSub is FileNotFoundException exFileNotFound)
                     {
                         if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
                         {
@@ -73,8 +71,7 @@ namespace Ghpr.Core.Factories
                 throw new NullReferenceException($"Can't find implementation of {typeof(T)} in {fileName} file. " +
                                                  "Please fix your .json settings file.");
             }
-            var instance = Activator.CreateInstance(implementationType) as T;
-            if (instance == null)
+            if (!(Activator.CreateInstance(implementationType) is T instance))
             {
                 throw new NullReferenceException($"Can't find create instance of type {implementationType} from {fileName} file. " +
                                                  "Please fix your .json settings file.");
@@ -110,10 +107,7 @@ namespace Ghpr.Core.Factories
 
             var dataReaderService = CreateInstanceFromFile<IDataReaderService>(reporterProjectSettings.DataServiceFile);
             dataReaderService.InitializeDataReader(reporterProjectSettings, logger);
-
-            CommonCache.Instance.InitializeDataReader(reporterProjectSettings, logger);
-            CommonCache.Instance.InitializeDataWriter(reporterProjectSettings, logger);
-
+            
             var actionHelper = new ActionHelper(logger);
 
             var reporter = new Reporter
@@ -124,8 +118,8 @@ namespace Ghpr.Core.Factories
                 ReporterSettings = reporterProjectSettings,
                 ReportSettings = new ReportSettingsDto(reporterProjectSettings.RunsToDisplay, 
                     reporterProjectSettings.TestsToDisplay, reporterProjectSettings.ReportName, reporterProjectSettings.ProjectName),
-                DataWriterService = new DataWriterService(dataWriterService, CommonCache.Instance),
-                DataReaderService = new DataReaderService(dataReaderService, CommonCache.Instance),
+                DataWriterService = dataWriterService,
+                DataReaderService = dataReaderService,
                 RunRepository = new RunDtoRepository(),
                 TestRunsRepository = new TestRunsRepository(),
                 TestRunProcessor = new TestRunDtoProcessor(),
