@@ -1,0 +1,219 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.1</TargetFrameworks>
+    <AssemblyName>Ghpr.Core</AssemblyName>
+    <RootNamespace>Ghpr.Core</RootNamespace>
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\index.html" Link="EmbeddedResources\Report\index.html" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\runs\index.html" Link="EmbeddedResources\Report\runs\index.html" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\favicon.ico" Link="EmbeddedResources\Report\src\favicon.ico" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\js\ghpr.controller.js" Link="EmbeddedResources\Report\src\js\ghpr.controller.js" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\js\plotly.min.js" Link="EmbeddedResources\Report\src\js\plotly.min.js" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\logo.svg" Link="EmbeddedResources\Report\src\logo.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\alert.svg" Link="EmbeddedResources\Report\src\octicons\alert.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\archive.svg" Link="EmbeddedResources\Report\src\octicons\archive.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\arrow-both.svg" Link="EmbeddedResources\Report\src\octicons\arrow-both.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\arrow-down.svg" Link="EmbeddedResources\Report\src\octicons\arrow-down.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\arrow-left.svg" Link="EmbeddedResources\Report\src\octicons\arrow-left.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\arrow-right.svg" Link="EmbeddedResources\Report\src\octicons\arrow-right.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\arrow-small-down.svg" Link="EmbeddedResources\Report\src\octicons\arrow-small-down.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\arrow-small-left.svg" Link="EmbeddedResources\Report\src\octicons\arrow-small-left.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\arrow-small-right.svg" Link="EmbeddedResources\Report\src\octicons\arrow-small-right.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\arrow-small-up.svg" Link="EmbeddedResources\Report\src\octicons\arrow-small-up.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\arrow-up.svg" Link="EmbeddedResources\Report\src\octicons\arrow-up.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\beaker.svg" Link="EmbeddedResources\Report\src\octicons\beaker.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\bell.svg" Link="EmbeddedResources\Report\src\octicons\bell.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\bold.svg" Link="EmbeddedResources\Report\src\octicons\bold.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\book.svg" Link="EmbeddedResources\Report\src\octicons\book.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\bookmark.svg" Link="EmbeddedResources\Report\src\octicons\bookmark.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\briefcase.svg" Link="EmbeddedResources\Report\src\octicons\briefcase.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\broadcast.svg" Link="EmbeddedResources\Report\src\octicons\broadcast.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\browser.svg" Link="EmbeddedResources\Report\src\octicons\browser.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\bug.svg" Link="EmbeddedResources\Report\src\octicons\bug.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\calendar.svg" Link="EmbeddedResources\Report\src\octicons\calendar.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\check.svg" Link="EmbeddedResources\Report\src\octicons\check.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\checklist.svg" Link="EmbeddedResources\Report\src\octicons\checklist.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\chevron-down.svg" Link="EmbeddedResources\Report\src\octicons\chevron-down.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\chevron-left.svg" Link="EmbeddedResources\Report\src\octicons\chevron-left.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\chevron-right.svg" Link="EmbeddedResources\Report\src\octicons\chevron-right.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\chevron-up.svg" Link="EmbeddedResources\Report\src\octicons\chevron-up.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\circle-slash.svg" Link="EmbeddedResources\Report\src\octicons\circle-slash.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\circuit-board.svg" Link="EmbeddedResources\Report\src\octicons\circuit-board.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\clippy.svg" Link="EmbeddedResources\Report\src\octicons\clippy.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\clock.svg" Link="EmbeddedResources\Report\src\octicons\clock.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\cloud-download.svg" Link="EmbeddedResources\Report\src\octicons\cloud-download.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\cloud-upload.svg" Link="EmbeddedResources\Report\src\octicons\cloud-upload.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\code.svg" Link="EmbeddedResources\Report\src\octicons\code.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\comment-discussion.svg" Link="EmbeddedResources\Report\src\octicons\comment-discussion.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\comment.svg" Link="EmbeddedResources\Report\src\octicons\comment.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\credit-card.svg" Link="EmbeddedResources\Report\src\octicons\credit-card.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\dash.svg" Link="EmbeddedResources\Report\src\octicons\dash.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\dashboard.svg" Link="EmbeddedResources\Report\src\octicons\dashboard.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\database.svg" Link="EmbeddedResources\Report\src\octicons\database.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\desktop-download.svg" Link="EmbeddedResources\Report\src\octicons\desktop-download.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\device-camera-video.svg" Link="EmbeddedResources\Report\src\octicons\device-camera-video.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\device-camera.svg" Link="EmbeddedResources\Report\src\octicons\device-camera.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\device-desktop.svg" Link="EmbeddedResources\Report\src\octicons\device-desktop.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\device-mobile.svg" Link="EmbeddedResources\Report\src\octicons\device-mobile.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\diff-added.svg" Link="EmbeddedResources\Report\src\octicons\diff-added.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\diff-ignored.svg" Link="EmbeddedResources\Report\src\octicons\diff-ignored.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\diff-modified.svg" Link="EmbeddedResources\Report\src\octicons\diff-modified.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\diff-removed.svg" Link="EmbeddedResources\Report\src\octicons\diff-removed.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\diff-renamed.svg" Link="EmbeddedResources\Report\src\octicons\diff-renamed.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\diff.svg" Link="EmbeddedResources\Report\src\octicons\diff.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\ellipsis.svg" Link="EmbeddedResources\Report\src\octicons\ellipsis.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\eye.svg" Link="EmbeddedResources\Report\src\octicons\eye.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\file-binary.svg" Link="EmbeddedResources\Report\src\octicons\file-binary.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\file-code.svg" Link="EmbeddedResources\Report\src\octicons\file-code.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\file-directory.svg" Link="EmbeddedResources\Report\src\octicons\file-directory.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\file-media.svg" Link="EmbeddedResources\Report\src\octicons\file-media.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\file-pdf.svg" Link="EmbeddedResources\Report\src\octicons\file-pdf.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\file-submodule.svg" Link="EmbeddedResources\Report\src\octicons\file-submodule.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\file-symlink-directory.svg" Link="EmbeddedResources\Report\src\octicons\file-symlink-directory.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\file-symlink-file.svg" Link="EmbeddedResources\Report\src\octicons\file-symlink-file.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\file-zip.svg" Link="EmbeddedResources\Report\src\octicons\file-zip.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\file.svg" Link="EmbeddedResources\Report\src\octicons\file.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\flame.svg" Link="EmbeddedResources\Report\src\octicons\flame.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\fold.svg" Link="EmbeddedResources\Report\src\octicons\fold.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\gear.svg" Link="EmbeddedResources\Report\src\octicons\gear.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\gift.svg" Link="EmbeddedResources\Report\src\octicons\gift.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\gist-secret.svg" Link="EmbeddedResources\Report\src\octicons\gist-secret.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\gist.svg" Link="EmbeddedResources\Report\src\octicons\gist.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\git-branch.svg" Link="EmbeddedResources\Report\src\octicons\git-branch.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\git-commit.svg" Link="EmbeddedResources\Report\src\octicons\git-commit.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\git-compare.svg" Link="EmbeddedResources\Report\src\octicons\git-compare.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\git-merge.svg" Link="EmbeddedResources\Report\src\octicons\git-merge.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\git-pull-request.svg" Link="EmbeddedResources\Report\src\octicons\git-pull-request.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\globe.svg" Link="EmbeddedResources\Report\src\octicons\globe.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\grabber.svg" Link="EmbeddedResources\Report\src\octicons\grabber.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\graph.svg" Link="EmbeddedResources\Report\src\octicons\graph.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\heart.svg" Link="EmbeddedResources\Report\src\octicons\heart.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\history.svg" Link="EmbeddedResources\Report\src\octicons\history.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\home.svg" Link="EmbeddedResources\Report\src\octicons\home.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\horizontal-rule.svg" Link="EmbeddedResources\Report\src\octicons\horizontal-rule.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\hubot.svg" Link="EmbeddedResources\Report\src\octicons\hubot.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\inbox.svg" Link="EmbeddedResources\Report\src\octicons\inbox.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\info.svg" Link="EmbeddedResources\Report\src\octicons\info.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\issue-closed.svg" Link="EmbeddedResources\Report\src\octicons\issue-closed.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\issue-opened.svg" Link="EmbeddedResources\Report\src\octicons\issue-opened.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\issue-reopened.svg" Link="EmbeddedResources\Report\src\octicons\issue-reopened.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\italic.svg" Link="EmbeddedResources\Report\src\octicons\italic.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\jersey.svg" Link="EmbeddedResources\Report\src\octicons\jersey.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\kebab-horizontal.svg" Link="EmbeddedResources\Report\src\octicons\kebab-horizontal.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\kebab-vertical.svg" Link="EmbeddedResources\Report\src\octicons\kebab-vertical.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\key.svg" Link="EmbeddedResources\Report\src\octicons\key.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\keyboard.svg" Link="EmbeddedResources\Report\src\octicons\keyboard.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\law.svg" Link="EmbeddedResources\Report\src\octicons\law.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\light-bulb.svg" Link="EmbeddedResources\Report\src\octicons\light-bulb.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\link-external.svg" Link="EmbeddedResources\Report\src\octicons\link-external.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\link.svg" Link="EmbeddedResources\Report\src\octicons\link.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\list-ordered.svg" Link="EmbeddedResources\Report\src\octicons\list-ordered.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\list-unordered.svg" Link="EmbeddedResources\Report\src\octicons\list-unordered.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\location.svg" Link="EmbeddedResources\Report\src\octicons\location.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\lock.svg" Link="EmbeddedResources\Report\src\octicons\lock.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\logo-gist.svg" Link="EmbeddedResources\Report\src\octicons\logo-gist.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\logo-github.svg" Link="EmbeddedResources\Report\src\octicons\logo-github.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\mail-read.svg" Link="EmbeddedResources\Report\src\octicons\mail-read.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\mail.svg" Link="EmbeddedResources\Report\src\octicons\mail.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\mark-github.svg" Link="EmbeddedResources\Report\src\octicons\mark-github.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\markdown.svg" Link="EmbeddedResources\Report\src\octicons\markdown.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\megaphone.svg" Link="EmbeddedResources\Report\src\octicons\megaphone.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\mention.svg" Link="EmbeddedResources\Report\src\octicons\mention.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\milestone.svg" Link="EmbeddedResources\Report\src\octicons\milestone.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\mirror.svg" Link="EmbeddedResources\Report\src\octicons\mirror.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\mortar-board.svg" Link="EmbeddedResources\Report\src\octicons\mortar-board.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\mute.svg" Link="EmbeddedResources\Report\src\octicons\mute.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\no-newline.svg" Link="EmbeddedResources\Report\src\octicons\no-newline.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\note.svg" Link="EmbeddedResources\Report\src\octicons\note.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\octoface.svg" Link="EmbeddedResources\Report\src\octicons\octoface.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\organization.svg" Link="EmbeddedResources\Report\src\octicons\organization.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\package.svg" Link="EmbeddedResources\Report\src\octicons\package.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\paintcan.svg" Link="EmbeddedResources\Report\src\octicons\paintcan.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\pencil.svg" Link="EmbeddedResources\Report\src\octicons\pencil.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\person.svg" Link="EmbeddedResources\Report\src\octicons\person.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\pin.svg" Link="EmbeddedResources\Report\src\octicons\pin.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\plug.svg" Link="EmbeddedResources\Report\src\octicons\plug.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\plus-small.svg" Link="EmbeddedResources\Report\src\octicons\plus-small.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\plus.svg" Link="EmbeddedResources\Report\src\octicons\plus.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\primitive-dot.svg" Link="EmbeddedResources\Report\src\octicons\primitive-dot.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\primitive-square.svg" Link="EmbeddedResources\Report\src\octicons\primitive-square.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\project.svg" Link="EmbeddedResources\Report\src\octicons\project.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\pulse.svg" Link="EmbeddedResources\Report\src\octicons\pulse.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\question.svg" Link="EmbeddedResources\Report\src\octicons\question.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\quote.svg" Link="EmbeddedResources\Report\src\octicons\quote.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\radio-tower.svg" Link="EmbeddedResources\Report\src\octicons\radio-tower.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\reply.svg" Link="EmbeddedResources\Report\src\octicons\reply.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\repo-clone.svg" Link="EmbeddedResources\Report\src\octicons\repo-clone.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\repo-force-push.svg" Link="EmbeddedResources\Report\src\octicons\repo-force-push.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\repo-forked.svg" Link="EmbeddedResources\Report\src\octicons\repo-forked.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\repo-pull.svg" Link="EmbeddedResources\Report\src\octicons\repo-pull.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\repo-push.svg" Link="EmbeddedResources\Report\src\octicons\repo-push.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\repo.svg" Link="EmbeddedResources\Report\src\octicons\repo.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\report.svg" Link="EmbeddedResources\Report\src\octicons\report.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\rocket.svg" Link="EmbeddedResources\Report\src\octicons\rocket.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\rss.svg" Link="EmbeddedResources\Report\src\octicons\rss.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\ruby.svg" Link="EmbeddedResources\Report\src\octicons\ruby.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\screen-full.svg" Link="EmbeddedResources\Report\src\octicons\screen-full.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\screen-normal.svg" Link="EmbeddedResources\Report\src\octicons\screen-normal.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\search.svg" Link="EmbeddedResources\Report\src\octicons\search.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\server.svg" Link="EmbeddedResources\Report\src\octicons\server.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\settings.svg" Link="EmbeddedResources\Report\src\octicons\settings.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\shield.svg" Link="EmbeddedResources\Report\src\octicons\shield.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\sign-in.svg" Link="EmbeddedResources\Report\src\octicons\sign-in.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\sign-out.svg" Link="EmbeddedResources\Report\src\octicons\sign-out.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\smiley.svg" Link="EmbeddedResources\Report\src\octicons\smiley.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\squirrel.svg" Link="EmbeddedResources\Report\src\octicons\squirrel.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\star.svg" Link="EmbeddedResources\Report\src\octicons\star.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\stop.svg" Link="EmbeddedResources\Report\src\octicons\stop.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\sync.svg" Link="EmbeddedResources\Report\src\octicons\sync.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\tag.svg" Link="EmbeddedResources\Report\src\octicons\tag.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\tasklist.svg" Link="EmbeddedResources\Report\src\octicons\tasklist.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\telescope.svg" Link="EmbeddedResources\Report\src\octicons\telescope.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\terminal.svg" Link="EmbeddedResources\Report\src\octicons\terminal.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\text-size.svg" Link="EmbeddedResources\Report\src\octicons\text-size.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\three-bars.svg" Link="EmbeddedResources\Report\src\octicons\three-bars.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\thumbsdown.svg" Link="EmbeddedResources\Report\src\octicons\thumbsdown.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\thumbsup.svg" Link="EmbeddedResources\Report\src\octicons\thumbsup.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\tools.svg" Link="EmbeddedResources\Report\src\octicons\tools.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\trashcan.svg" Link="EmbeddedResources\Report\src\octicons\trashcan.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\triangle-down.svg" Link="EmbeddedResources\Report\src\octicons\triangle-down.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\triangle-left.svg" Link="EmbeddedResources\Report\src\octicons\triangle-left.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\triangle-right.svg" Link="EmbeddedResources\Report\src\octicons\triangle-right.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\triangle-up.svg" Link="EmbeddedResources\Report\src\octicons\triangle-up.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\unfold.svg" Link="EmbeddedResources\Report\src\octicons\unfold.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\unmute.svg" Link="EmbeddedResources\Report\src\octicons\unmute.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\unverified.svg" Link="EmbeddedResources\Report\src\octicons\unverified.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\verified.svg" Link="EmbeddedResources\Report\src\octicons\verified.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\versions.svg" Link="EmbeddedResources\Report\src\octicons\versions.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\watch.svg" Link="EmbeddedResources\Report\src\octicons\watch.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\x.svg" Link="EmbeddedResources\Report\src\octicons\x.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\octicons\zap.svg" Link="EmbeddedResources\Report\src\octicons\zap.svg" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\build.css" Link="EmbeddedResources\Report\src\style\build.css" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\style\ghpr.css" Link="EmbeddedResources\Report\src\style\ghpr.css" />
+    <EmbeddedResource Include="..\Ghpr.Controller.ts\report\tests\index.html" Link="EmbeddedResources\Report\tests\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EmbeddedResources\Report\runs\" />
+    <Folder Include="EmbeddedResources\Report\src\js\" />
+    <Folder Include="EmbeddedResources\Report\src\octicons\" />
+    <Folder Include="EmbeddedResources\Report\src\style\" />
+    <Folder Include="EmbeddedResources\Report\tests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Ghpr.Core.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

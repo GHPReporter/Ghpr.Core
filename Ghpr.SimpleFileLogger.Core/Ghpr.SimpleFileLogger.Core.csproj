@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.1</TargetFrameworks>
+    <RootNamespace>Ghpr.SimpleFileLogger</RootNamespace>
+    <AssemblyName>Ghpr.SimpleFileLogger</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Ghpr.SimpleFileLogger.Settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Ghpr.SimpleFileLogger.Settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ghpr.Core.Core\Ghpr.Core.csproj" />
+  </ItemGroup>
+
+</Project>

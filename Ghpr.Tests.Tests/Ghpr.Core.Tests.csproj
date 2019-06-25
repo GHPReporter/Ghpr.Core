@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Ghpr.Core.Tests</RootNamespace>
+    <AssemblyName>Ghpr.Core.Tests</AssemblyName>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Codecov" Version="1.5.0" />
+    <PackageReference Include="Microsoft.NETCore.Runtime.CoreCLR" Version="2.0.8" />
+    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="NUnit.Console" Version="3.10.0" />
+    <PackageReference Include="NUnit.ConsoleRunner" Version="3.10.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
+    <PackageReference Include="OpenCover" Version="4.7.922" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ghpr.Core.Core\Ghpr.Core.csproj" />
+    <ProjectReference Include="..\Ghpr.LocalFileSystem.Core\Ghpr.LocalFileSystem.Core.csproj" />
+    <ProjectReference Include="..\Ghpr.SimpleFileLogger.Core\Ghpr.SimpleFileLogger.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Ghpr.Core.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ghpr.Core.Tests.Settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Ghpr.MSTest.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ghpr.MSTestV2.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ghpr.NUnit.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ghpr.SpecFlow.Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

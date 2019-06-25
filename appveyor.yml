@@ -179,13 +179,13 @@
     - npm install @types/node --save
 
   before_build:
-    - nuget restore Ghpr.Core.sln
+    - dotnet restore Ghpr.Core.sln
 
   build_script:
-    - msbuild Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
+    - dotnet build Ghpr.Core.sln /p:Configuration=Release /t:Rebuild
 
   test_script:
-  - ps: .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"nunit3-console.exe" "-targetargs:""Ghpr.Core.Tests\bin\Release\Ghpr.Core.Tests.dll""" -filter:"+[Ghpr.Core*]* -[Ghpr.Core.Tests*]*" -output:opencoverCoverage.xml
+  - ps: .\Tests.ps1
 
   on_finish:
   - ps: .\Coverage.ps1
