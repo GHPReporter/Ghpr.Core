@@ -21,8 +21,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ghpr.Core.Core\Ghpr.Core.csproj" />
-    <ProjectReference Include="..\Ghpr.LocalFileSystem.Core\Ghpr.LocalFileSystem.Core.csproj" />
-    <ProjectReference Include="..\Ghpr.SimpleFileLogger.Core\Ghpr.SimpleFileLogger.Core.csproj" />
+    <ProjectReference Include="..\Ghpr.LocalFileSystem.Core\Ghpr.LocalFileSystem.csproj" />
+    <ProjectReference Include="..\Ghpr.SimpleFileLogger.Core\Ghpr.SimpleFileLogger.csproj" />
   </ItemGroup>
 
   <ItemGroup>
