@@ -7,8 +7,6 @@ namespace Ghpr.Core.Interfaces
 {
     public interface IDataReaderService
     {
-        IDataReaderService GetDataReader();
-
         void InitializeDataReader(ProjectSettings settings, ILogger logger);
 
         ReportSettingsDto GetReportSettings();

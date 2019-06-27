@@ -4,7 +4,6 @@ using Ghpr.Core.Factories;
 using Ghpr.Core.Interfaces;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
-using Ghpr.LocalFileSystem.Services;
 using NUnit.Framework;
 
 namespace Ghpr.Core.Tests.Core.Factories
@@ -26,8 +25,6 @@ namespace Ghpr.Core.Tests.Core.Factories
             Assert.NotNull(r.Logger);
             Assert.IsInstanceOf(typeof(EmptyLogger), r.Logger);
             Assert.IsInstanceOf(typeof(MockTestDataProvider), r.TestDataProvider);
-            Assert.IsInstanceOf(typeof(FileSystemDataReaderService), r.DataReaderService.GetDataReader());
-            Assert.IsInstanceOf(typeof(FileSystemDataWriterService), r.DataWriterService.GetDataWriter());
             Assert.AreEqual("C:\\_GHPReporter_Core_Report", r.ReporterSettings.OutputPath);
             Assert.AreEqual(r.ReporterSettings.RunsToDisplay, r.ReportSettings.RunsToDisplay);
             Assert.AreEqual(r.ReporterSettings.TestsToDisplay, r.ReportSettings.TestsToDisplay);
@@ -67,8 +64,6 @@ namespace Ghpr.Core.Tests.Core.Factories
             Assert.NotNull(r.Logger);
             Assert.IsInstanceOf(typeof(EmptyLogger), r.Logger);
             Assert.IsInstanceOf(typeof(MockTestDataProvider), r.TestDataProvider);
-            Assert.IsInstanceOf(typeof(FileSystemDataReaderService), r.DataReaderService.GetDataReader());
-            Assert.IsInstanceOf(typeof(FileSystemDataWriterService), r.DataWriterService.GetDataWriter());
             Assert.AreEqual(s.DefaultSettings.ProjectName, r.ReporterSettings.ProjectName);
             Assert.AreEqual(s.DefaultSettings.ReportName, r.ReporterSettings.ReportName);
             Assert.AreEqual(s.DefaultSettings.RunGuid, r.ReporterSettings.RunGuid);
@@ -102,8 +97,6 @@ namespace Ghpr.Core.Tests.Core.Factories
             Assert.NotNull(r.Logger);
             Assert.IsInstanceOf(typeof(EmptyLogger), r.Logger);
             Assert.IsInstanceOf(typeof(MockTestDataProvider), r.TestDataProvider);
-            Assert.IsInstanceOf(typeof(FileSystemDataReaderService), r.DataReaderService.GetDataReader());
-            Assert.IsInstanceOf(typeof(FileSystemDataWriterService), r.DataWriterService.GetDataWriter());
             Assert.AreEqual(outputPath, r.ReporterSettings.OutputPath);
             Assert.AreEqual(r.ReporterSettings.RunsToDisplay, r.ReportSettings.RunsToDisplay);
             Assert.AreEqual(r.ReporterSettings.TestsToDisplay, r.ReportSettings.TestsToDisplay);
