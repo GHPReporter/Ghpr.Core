@@ -16,7 +16,7 @@ namespace Ghpr.Core.Providers
 
         public static string GetRunFileName(Guid runGuid)
         {
-            return $"run_{runGuid.ToString().ToLower()}.json";
+            return $"run_{runGuid.ToString("D").ToLower()}.json";
         }
 
         public static string GetScreenshotFileName(DateTime creationDateTime)

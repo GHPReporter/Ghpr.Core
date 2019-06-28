@@ -59,10 +59,10 @@ namespace Ghpr.LocalFileSystem.Services
         public List<TestScreenshotDto> GetTestScreenshots(TestRunDto test)
         {
             var screens = new List<TestScreenshotDto>();
-            foreach (var simpleItemInfoDto in test.Screenshots)
+            foreach (var simpleItemInfo in test.Screenshots)
             {
                 var screenPath =
-                    _locationsProvider.GetTestScreenshotFullPath(test.TestInfo.Guid, simpleItemInfoDto.Date);
+                    _locationsProvider.GetTestScreenshotFullPath(test.TestInfo.Guid, simpleItemInfo.Date);
                 var screen = screenPath.LoadTestScreenshot();
                 if (screen != null)
                 {
@@ -101,9 +101,9 @@ namespace Ghpr.LocalFileSystem.Services
         public List<TestRunDto> GetTestRunsFromRun(RunDto runDto)
         {
             var tests = new List<TestRunDto>();
-            foreach (var itemInfoDto in runDto.TestsInfo)
+            foreach (var itemInfo in runDto.TestsInfo)
             {
-                var test = GetTestRun(itemInfoDto);
+                var test = GetTestRun(itemInfo);
                 if (test != null)
                 {
                     tests.Add(test);
