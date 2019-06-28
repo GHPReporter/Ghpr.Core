@@ -32,7 +32,7 @@ namespace Ghpr.Core.Common
             TestData = new List<TestDataDto>();
         }
 
-        public TestRunDto(Guid guid, string name = "", string fullName = "")
+        public TestRunDto(Guid guid, string name = "", string fullName = "") : this()
         {
             TestInfo = new ItemInfoDto
             {
@@ -42,44 +42,10 @@ namespace Ghpr.Core.Common
             };
             Name = name;
             FullName = fullName;
-            Description = "";
-            TestStackTrace = "";
-            TestMessage = "";
-            Result = "";
-            Duration = 0.0;
-            Output = new SimpleItemInfoDto();
-            Priority = "";
-            TestType = "";
-            Categories = new string[] { };
-            RunGuid = Guid.Empty;
-            Screenshots = new List<SimpleItemInfoDto>();
-            Events = new List<TestEventDto>();
-            TestData = new List<TestDataDto>();
         }
 
-        public TestRunDto(string guid = "", string name = "", string fullName = "")
+        public TestRunDto(string guid, string name = "", string fullName = "") : this(guid.Equals("") ? Guid.Empty : Guid.Parse(guid), name, fullName)
         {
-            TestInfo = new ItemInfoDto
-            {
-                Guid = guid.Equals("") ? Guid.Empty : Guid.Parse(guid),
-                Start = default(DateTime),
-                Finish = default(DateTime)
-            };
-            Name = name;
-            FullName = fullName;
-            Description = "";
-            TestStackTrace = "";
-            TestMessage = "";
-            Result = "";
-            Duration = 0.0;
-            Output = new SimpleItemInfoDto();
-            Priority = "";
-            TestType = "";
-            Categories = new string[] { };
-            RunGuid = Guid.Empty;
-            Screenshots = new List<SimpleItemInfoDto>();
-            Events = new List<TestEventDto>();
-            TestData = new List<TestDataDto>();
         }
 
         [JsonProperty(PropertyName = "name")]
