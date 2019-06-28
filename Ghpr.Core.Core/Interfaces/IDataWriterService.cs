@@ -5,7 +5,8 @@ namespace Ghpr.Core.Interfaces
 {
     public interface IDataWriterService
     {
-        void InitializeDataWriter(ProjectSettings settings, ILogger logger);
+        void InitializeDataWriter(ProjectSettings settings, ILogger logger, IDataReaderService reader);
+
         void SaveReportSettings(ReportSettingsDto reportSettings);
         ItemInfoDto SaveTestRun(TestRunDto testRun, TestOutputDto testOutput);
         void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput);

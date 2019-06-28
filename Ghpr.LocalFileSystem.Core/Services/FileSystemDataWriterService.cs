@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
@@ -18,11 +20,15 @@ namespace Ghpr.LocalFileSystem.Services
     {
         private ILocationsProvider _locationsProvider;
         private ILogger _logger;
+        private IDataReaderService _reader;
+        private Dictionary<Guid, ItemInfoDto> _processedTests;
 
-        public void InitializeDataWriter(ProjectSettings settings, ILogger logger)
+        public void InitializeDataWriter(ProjectSettings settings, ILogger logger, IDataReaderService reader)
         {
             _locationsProvider = new LocationsProvider(settings.OutputPath);
             _logger = logger;
+            _processedTests = new Dictionary<Guid, ItemInfoDto>();
+            _reader = reader;
         }
         
         public ItemInfoDto SaveRun(RunDto runDto)
@@ -48,10 +54,21 @@ namespace Ghpr.LocalFileSystem.Services
         public SimpleItemInfoDto SaveScreenshot(TestScreenshotDto screenshotDto)
         {
             var testScreenshot = screenshotDto.Map();
-            var path = _locationsProvider.GetScreenshotFolderPath(testScreenshot.TestGuid);
+            var testGuid = testScreenshot.TestGuid;
+            var path = _locationsProvider.GetScreenshotFolderPath(testGuid);
             testScreenshot.Save(path);
             _logger.Info($"Screenshot was saved: '{path}'");
             _logger.Debug($"Screenshot data was saved correctly: {JsonConvert.SerializeObject(testScreenshot, Formatting.Indented)}");
+            if (_processedTests.ContainsKey(testGuid))
+            {
+                var testRun = _reader.GetTestRun(_processedTests[testGuid]);
+                if (testRun.Screenshots.All(s => s.Date != testScreenshot.TestScreenshotInfo.Date))
+                {
+                    testRun.Screenshots.Add(testScreenshot.TestScreenshotInfo.ToDto());
+                    var output = _reader.GetTestOutput(testRun);
+                    SaveTestRun(testRun, output);
+                }
+            }
             return testScreenshot.TestScreenshotInfo.ToDto();
         }
 
@@ -113,7 +130,10 @@ namespace Ghpr.LocalFileSystem.Services
                     if (imgFile.CreationTime > testRun.TestInfo.Start)
                     {
                         _logger.Info($"New img file found: {imgFile.CreationTime}, {imgFile.Name}");
-                        testRun.Screenshots.Add(img.TestScreenshotInfo);
+                        if (testRun.Screenshots.All(s => s.Date != img.TestScreenshotInfo.Date))
+                        {
+                            testRun.Screenshots.Add(img.TestScreenshotInfo);
+                        }
                     }
                 }
             }
@@ -125,6 +145,12 @@ namespace Ghpr.LocalFileSystem.Services
             var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);
             _logger.Info($"Test runs Info was saved: '{testRunsInfoFullPath}'");
             _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testRun, Formatting.Indented)}");
+
+            if (!_processedTests.ContainsKey(testRunDto.TestInfo.Guid))
+            {
+                _processedTests.Add(testRunDto.TestInfo.Guid, testRunDto.TestInfo);
+            }
+
             return testRun.TestInfo.ToDto();
         }
 

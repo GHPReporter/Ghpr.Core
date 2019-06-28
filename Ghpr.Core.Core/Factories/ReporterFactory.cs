@@ -102,11 +102,11 @@ namespace Ghpr.Core.Factories
             var logger = CreateInstanceFromFile<ILogger>(reporterProjectSettings.LoggerFile, new EmptyLogger());
             logger.SetUp(reporterProjectSettings);
 
-            var dataWriterService = CreateInstanceFromFile<IDataWriterService>(reporterProjectSettings.DataServiceFile);
-            dataWriterService.InitializeDataWriter(reporterProjectSettings, logger);
-
             var dataReaderService = CreateInstanceFromFile<IDataReaderService>(reporterProjectSettings.DataServiceFile);
             dataReaderService.InitializeDataReader(reporterProjectSettings, logger);
+
+            var dataWriterService = CreateInstanceFromFile<IDataWriterService>(reporterProjectSettings.DataServiceFile);
+            dataWriterService.InitializeDataWriter(reporterProjectSettings, logger, dataReaderService);
             
             var actionHelper = new ActionHelper(logger);
 
