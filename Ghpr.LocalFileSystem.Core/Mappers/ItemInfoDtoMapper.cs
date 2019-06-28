@@ -1,6 +1,6 @@
 ﻿using Ghpr.Core.Common;
+using Ghpr.Core.Providers;
 using Ghpr.LocalFileSystem.Entities;
-using Ghpr.LocalFileSystem.Providers;
 
 namespace Ghpr.LocalFileSystem.Mappers
 {

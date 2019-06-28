@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Ghpr.Core.Extensions;
+using Ghpr.Core.Providers;
 using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Providers;
 using Newtonsoft.Json;

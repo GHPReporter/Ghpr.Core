@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ghpr.LocalFileSystem.Providers
+namespace Ghpr.Core.Providers
 {
     public static class NamesProvider
     {

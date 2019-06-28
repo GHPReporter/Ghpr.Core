@@ -5,6 +5,7 @@ using System.Linq;
 using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Interfaces;
+using Ghpr.Core.Providers;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Entities;
