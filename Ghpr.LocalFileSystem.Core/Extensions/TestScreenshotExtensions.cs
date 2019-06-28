@@ -1,15 +1,14 @@
 ﻿using System.IO;
+using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Providers;
-using Ghpr.LocalFileSystem.Entities;
-using Ghpr.LocalFileSystem.Providers;
 using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Extensions
 {
     public static class TestScreenshotExtensions
     {
-        public static string Save(this TestScreenshot testScreenshot, string path)
+        public static string Save(this TestScreenshotDto testScreenshot, string path)
         {
             path.Create();
             var fullPath = Path.Combine(path, NamesProvider.GetScreenshotFileName(testScreenshot.TestScreenshotInfo.Date));
@@ -24,15 +23,15 @@ namespace Ghpr.LocalFileSystem.Extensions
             return fullPath;
         }
 
-        public static TestScreenshot LoadTestScreenshot(this string fullPath)
+        public static TestScreenshotDto LoadTestScreenshot(this string fullPath)
         {
-            TestScreenshot testScreenshot = null;
+            TestScreenshotDto testScreenshot = null;
             if (File.Exists(fullPath))
             {
                 using (var file = File.OpenText(fullPath))
                 {
                     var serializer = new JsonSerializer();
-                    testScreenshot = (TestScreenshot)serializer.Deserialize(file, typeof(TestScreenshot));
+                    testScreenshot = (TestScreenshotDto)serializer.Deserialize(file, typeof(TestScreenshotDto));
                 }
             }
             return testScreenshot;

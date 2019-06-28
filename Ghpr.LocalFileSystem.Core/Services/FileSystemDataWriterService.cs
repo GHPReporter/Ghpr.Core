@@ -8,10 +8,8 @@ using Ghpr.Core.Interfaces;
 using Ghpr.Core.Providers;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
-using Ghpr.LocalFileSystem.Entities;
 using Ghpr.LocalFileSystem.Extensions;
 using Ghpr.LocalFileSystem.Interfaces;
-using Ghpr.LocalFileSystem.Mappers;
 using Ghpr.LocalFileSystem.Providers;
 using Newtonsoft.Json;
 
@@ -34,43 +32,44 @@ namespace Ghpr.LocalFileSystem.Services
         
         public ItemInfoDto SaveRun(RunDto runDto)
         {
-            var run = runDto.Map();
-            var runGuid = run.RunInfo.Guid;
+            runDto.RunInfo.ItemName = NamesProvider.GetRunFileName(runDto.RunInfo.Guid);
+            var runGuid = runDto.RunInfo.Guid;
             var fileName = NamesProvider.GetRunFileName(runGuid);
-            run.RunInfo.ItemName = fileName;
+            runDto.RunInfo.ItemName = fileName;
             _locationsProvider.RunsFolderPath.Create();
             var fullRunPath = _locationsProvider.GetRunFullPath(runGuid);
             using (var file = File.CreateText(fullRunPath))
             {
                 var serializer = new JsonSerializer();
-                serializer.Serialize(file, run);
+                serializer.Serialize(file, runDto);
             }
             _logger.Info($"Run was saved: '{fullRunPath}'");
-            var runsInfoFullPath = run.RunInfo.SaveRunInfo(_locationsProvider);
+            var runsInfoFullPath = runDto.RunInfo.SaveRunInfo(_locationsProvider);
             _logger.Info($"Runs Info was saved: '{runsInfoFullPath}'");
-            _logger.Debug($"Run data was saved correctly: {JsonConvert.SerializeObject(run, Formatting.Indented)}");
-            return run.RunInfo.ToDto();
+            _logger.Debug($"Run data was saved correctly: {JsonConvert.SerializeObject(runDto, Formatting.Indented)}");
+            return runDto.RunInfo;
         }
 
         public SimpleItemInfoDto SaveScreenshot(TestScreenshotDto screenshotDto)
         {
-            var testScreenshot = screenshotDto.Map();
-            var testGuid = testScreenshot.TestGuid;
+            screenshotDto.TestScreenshotInfo.ItemName =
+                NamesProvider.GetScreenshotFileName(screenshotDto.TestScreenshotInfo.Date);
+            var testGuid = screenshotDto.TestGuid;
             var path = _locationsProvider.GetScreenshotFolderPath(testGuid);
-            testScreenshot.Save(path);
+            screenshotDto.Save(path);
             _logger.Info($"Screenshot was saved: '{path}'");
-            _logger.Debug($"Screenshot data was saved correctly: {JsonConvert.SerializeObject(testScreenshot, Formatting.Indented)}");
+            _logger.Debug($"Screenshot data was saved correctly: {JsonConvert.SerializeObject(screenshotDto, Formatting.Indented)}");
             if (_processedTests.ContainsKey(testGuid))
             {
                 var testRun = _reader.GetTestRun(_processedTests[testGuid]);
-                if (testRun.Screenshots.All(s => s.Date != testScreenshot.TestScreenshotInfo.Date))
+                if (testRun.Screenshots.All(s => s.Date != screenshotDto.TestScreenshotInfo.Date))
                 {
-                    testRun.Screenshots.Add(testScreenshot.TestScreenshotInfo.ToDto());
+                    testRun.Screenshots.Add(screenshotDto.TestScreenshotInfo);
                     var output = _reader.GetTestOutput(testRun);
                     SaveTestRun(testRun, output);
                 }
             }
-            return testScreenshot.TestScreenshotInfo.ToDto();
+            return screenshotDto.TestScreenshotInfo;
         }
 
         public void DeleteRun(ItemInfoDto runInfo)
@@ -79,7 +78,7 @@ namespace Ghpr.LocalFileSystem.Services
             _logger.Debug($"Deleting Run: {runFullPath}");
             File.Delete(runFullPath);
             _locationsProvider.RunsFolderPath
-                .DeleteItemsFromItemInfosFile(_locationsProvider.Paths.File.Runs, new List<ItemInfo>(1){runInfo.MapRunInfo()});
+                .DeleteItemsFromItemInfosFile(_locationsProvider.Paths.File.Runs, new List<ItemInfoDto>(1){runInfo});
         }
 
         public void DeleteTest(TestRunDto testRun)
@@ -89,7 +88,7 @@ namespace Ghpr.LocalFileSystem.Services
             _logger.Debug($"Deleting Test: {testFullPath}");
             File.Delete(testFullPath);
             _locationsProvider.GetTestFolderPath(testRun.TestInfo.Guid)
-                .DeleteItemsFromItemInfosFile(_locationsProvider.Paths.File.Tests, new List<ItemInfo>(1) { testRun.TestInfo.MapTestRunInfo() });
+                .DeleteItemsFromItemInfosFile(_locationsProvider.Paths.File.Tests, new List<ItemInfoDto>(1) { testRun.TestInfo });
         }
 
         public void DeleteTestOutput(TestRunDto testRun, TestOutputDto testOutput)
@@ -110,17 +109,16 @@ namespace Ghpr.LocalFileSystem.Services
 
         public void SaveReportSettings(ReportSettingsDto reportSettingsDto)
         {
-            var reportSettings = reportSettingsDto.Map();
-            var fullPath = reportSettings.Save(_locationsProvider.SrcFolderPath, Paths.Files.ReportSettings);
+            var fullPath = reportSettingsDto.Save(_locationsProvider.SrcFolderPath, Paths.Files.ReportSettings);
             _logger.Info($"Report settings were saved: '{fullPath}'");
-            _logger.Debug($"Report settings were saved correctly: {JsonConvert.SerializeObject(reportSettings, Formatting.Indented)}");
+            _logger.Debug($"Report settings were saved correctly: {JsonConvert.SerializeObject(reportSettingsDto, Formatting.Indented)}");
         }
 
         public ItemInfoDto SaveTestRun(TestRunDto testRunDto, TestOutputDto testOutputDto)
         {
-            var testOutput = testOutputDto.Map();
-            var testRun = testRunDto.Map(testOutput.TestOutputInfo.ToDto());
-            var imgFolder = _locationsProvider.GetScreenshotFolderPath(testRun.TestInfo.Guid);
+            testRunDto.TestInfo.ItemName = NamesProvider.GetTestRunFileName(testRunDto.TestInfo.Finish);
+            testOutputDto.TestOutputInfo.ItemName = NamesProvider.GetTestOutputFileName(testRunDto.TestInfo.Finish);
+            var imgFolder = _locationsProvider.GetScreenshotFolderPath(testRunDto.TestInfo.Guid);
             if (Directory.Exists(imgFolder))
             {
                 var imgFiles = new DirectoryInfo(imgFolder).GetFiles("*.json");
@@ -128,35 +126,37 @@ namespace Ghpr.LocalFileSystem.Services
                 foreach (var imgFile in imgFiles)
                 {
                     var img = Path.Combine(imgFolder, imgFile.Name).LoadTestScreenshot();
-                    if (imgFile.CreationTime > testRun.TestInfo.Start)
+                    if (imgFile.CreationTime > testRunDto.TestInfo.Start)
                     {
                         _logger.Info($"New img file found: {imgFile.CreationTime}, {imgFile.Name}");
-                        if (testRun.Screenshots.All(s => s.Date != img.TestScreenshotInfo.Date))
+                        if (testRunDto.Screenshots.All(s => s.Date != img.TestScreenshotInfo.Date))
                         {
-                            testRun.Screenshots.Add(img.TestScreenshotInfo);
+                            testRunDto.Screenshots.Add(img.TestScreenshotInfo);
                         }
                     }
                 }
             }
-            var testOutputFullPath = testOutput.Save(_locationsProvider.GetTestOutputFolderPath(testRun.TestInfo.Guid));
+            var testOutputFullPath = testOutputDto.Save(_locationsProvider.GetTestOutputFolderPath(testRunDto.TestInfo.Guid));
             _logger.Info($"Test output was saved: '{testOutputFullPath}'");
-            _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testOutput, Formatting.Indented)}");
-            var testRunFullPath = testRun.Save(_locationsProvider.GetTestFolderPath(testRun.TestInfo.Guid));
+            _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testOutputDto, Formatting.Indented)}");
+            var testRunFullPath = testRunDto.Save(_locationsProvider.GetTestFolderPath(testRunDto.TestInfo.Guid));
             _logger.Info($"Test run was saved: '{testRunFullPath}'");
-            var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);
+            var testRunsInfoFullPath = testRunDto.TestInfo.SaveTestInfo(_locationsProvider);
             _logger.Info($"Test runs Info was saved: '{testRunsInfoFullPath}'");
-            _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testRun, Formatting.Indented)}");
+            _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testRunDto, Formatting.Indented)}");
 
             if (!_processedTests.ContainsKey(testRunDto.TestInfo.Guid))
             {
                 _processedTests.Add(testRunDto.TestInfo.Guid, testRunDto.TestInfo);
             }
 
-            return testRun.TestInfo.ToDto();
+            return testRunDto.TestInfo;
         }
 
         public void UpdateTestOutput(ItemInfoDto testInfo, TestOutputDto testOutput)
         {
+            testInfo.ItemName = NamesProvider.GetTestRunFileName(testInfo.Finish);
+            testOutput.TestOutputInfo.ItemName = NamesProvider.GetTestOutputFileName(testInfo.Finish);
             var outputFolderPath = _locationsProvider.GetTestOutputFolderPath(testInfo.Guid);
             var outputFileName = NamesProvider.GetTestOutputFileName(testInfo.Finish);
             var existingOutput = Path.Combine(outputFolderPath, outputFileName).LoadTestOutput();

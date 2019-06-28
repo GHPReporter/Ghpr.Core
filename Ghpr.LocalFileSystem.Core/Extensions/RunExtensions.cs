@@ -1,21 +1,21 @@
 ﻿using System.IO;
-using Ghpr.LocalFileSystem.Entities;
+using Ghpr.Core.Common;
 using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Extensions
 {
     public static class RunExtensions
     {
-        public static Run LoadRun(this string path, string fileName)
+        public static RunDto LoadRun(this string path, string fileName)
         {
-            Run run = null;
+            RunDto run = null;
             var fullRunPath = Path.Combine(path, fileName);
             if (File.Exists(fullRunPath))
             {
                 using (var file = File.OpenText(fullRunPath))
                 {
                     var serializer = new JsonSerializer();
-                    run = (Run)serializer.Deserialize(file, typeof(Run));
+                    run = (RunDto)serializer.Deserialize(file, typeof(RunDto));
                 }
             }
             return run;
