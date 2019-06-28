@@ -8,16 +8,24 @@ namespace Ghpr.Core.Common
     public class TestRunDto
     {
         [JsonConstructor]
-        public TestRunDto()
+        public TestRunDto() : this(Guid.Empty)
+        {
+        }
+
+        public TestRunDto(string guid, string name = "", string fullName = "") : this(guid.Equals("") ? Guid.Empty : Guid.Parse(guid), name, fullName)
+        {
+        }
+
+        public TestRunDto(Guid guid, string name = "", string fullName = "") 
         {
             TestInfo = new ItemInfoDto
             {
-                Guid = Guid.Empty,
-                Start = DateTime.Now,
+                Guid = guid,
+                Start = default(DateTime),
                 Finish = default(DateTime)
             };
-            Name = "";
-            FullName = "";
+            Name = name;
+            FullName = fullName;
             Description = "";
             TestStackTrace = "";
             TestMessage = "";
@@ -30,22 +38,6 @@ namespace Ghpr.Core.Common
             Screenshots = new List<SimpleItemInfoDto>();
             Events = new List<TestEventDto>();
             TestData = new List<TestDataDto>();
-        }
-
-        public TestRunDto(Guid guid, string name = "", string fullName = "") : this()
-        {
-            TestInfo = new ItemInfoDto
-            {
-                Guid = guid,
-                Start = default(DateTime),
-                Finish = default(DateTime)
-            };
-            Name = name;
-            FullName = fullName;
-        }
-
-        public TestRunDto(string guid, string name = "", string fullName = "") : this(guid.Equals("") ? Guid.Empty : Guid.Parse(guid), name, fullName)
-        {
         }
 
         [JsonProperty(PropertyName = "name")]
