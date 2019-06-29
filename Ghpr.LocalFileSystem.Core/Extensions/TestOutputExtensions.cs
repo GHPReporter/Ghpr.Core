@@ -1,14 +1,14 @@
 ﻿using System.IO;
+using Ghpr.Core.Common;
 using Ghpr.Core.Extensions;
-using Ghpr.LocalFileSystem.Entities;
-using Ghpr.LocalFileSystem.Providers;
+using Ghpr.Core.Providers;
 using Newtonsoft.Json;
 
 namespace Ghpr.LocalFileSystem.Extensions
 {
     public static class TestOutputExtensions
     {
-        public static string Save(this TestOutput testOutput, string path)
+        public static string Save(this TestOutputDto testOutput, string path)
         {
             path.Create();
             var fullPath = Path.Combine(path, NamesProvider.GetTestOutputFileName(testOutput.TestOutputInfo.Date));
@@ -20,13 +20,13 @@ namespace Ghpr.LocalFileSystem.Extensions
             return fullPath;
         }
 
-        public static TestOutput LoadTestOutput(this string fullPath)
+        public static TestOutputDto LoadTestOutput(this string fullPath)
         {
-            TestOutput testOutput;
+            TestOutputDto testOutput;
             using (var file = File.OpenText(fullPath))
             {
                 var serializer = new JsonSerializer();
-                testOutput = (TestOutput)serializer.Deserialize(file, typeof(TestOutput));
+                testOutput = (TestOutputDto)serializer.Deserialize(file, typeof(TestOutputDto));
             }
             return testOutput;
         }

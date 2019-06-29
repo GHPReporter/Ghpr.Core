@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ghpr.LocalFileSystem.Providers
+namespace Ghpr.Core.Providers
 {
     public static class NamesProvider
     {
@@ -16,8 +16,7 @@ namespace Ghpr.LocalFileSystem.Providers
 
         public static string GetRunFileName(Guid runGuid)
         {
-            var fileName = $"run_{runGuid.ToString().ToLower()}.json";
-            return fileName;
+            return $"run_{runGuid.ToString("D").ToLower()}.json";
         }
 
         public static string GetScreenshotFileName(DateTime creationDateTime)

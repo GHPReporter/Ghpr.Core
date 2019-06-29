@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Ghpr.Core.Providers;
 using Ghpr.Core.Utils;
 using Ghpr.LocalFileSystem.Interfaces;
 
