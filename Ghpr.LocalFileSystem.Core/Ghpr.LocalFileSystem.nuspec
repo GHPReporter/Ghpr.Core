@@ -15,11 +15,23 @@
     <copyright>Copyright Evgeniy Kosjakov © 2016-2019</copyright>
     <tags>.NET QA package HTML report reporting testing tool framework</tags>
     <dependencies>
-      <dependency id="Ghpr.Core" version="0.9.9.0" />
+      <dependency id="Ghpr.Core" version="0.9.9.1" />
       <dependency id="Newtonsoft.Json" version="12.0.2" />
     </dependencies>
   </metadata>
   <files>
-    <file src=".\bin\Release\Ghpr.LocalFileSystem.dll" target="lib\net452" />
+    <file src=".\bin\Release\net45\Ghpr.LocalFileSystem.dll" target="lib\net45" />
+    <file src=".\bin\Release\net451\Ghpr.LocalFileSystem.dll" target="lib\net451" />
+    <file src=".\bin\Release\net452\Ghpr.LocalFileSystem.dll" target="lib\net452" />
+    <file src=".\bin\Release\net46\Ghpr.LocalFileSystem.dll" target="lib\net46" />
+    <file src=".\bin\Release\net461\Ghpr.LocalFileSystem.dll" target="lib\net461" />
+    <file src=".\bin\Release\net462\Ghpr.LocalFileSystem.dll" target="lib\net462" />
+    <file src=".\bin\Release\net47\Ghpr.LocalFileSystem.dll" target="lib\net47" />
+    <file src=".\bin\Release\net471\Ghpr.LocalFileSystem.dll" target="lib\net471" />
+    <file src=".\bin\Release\net472\Ghpr.LocalFileSystem.dll" target="lib\net472" />
+    <file src=".\bin\Release\netcoreapp2.0\Ghpr.LocalFileSystem.dll" target="lib\netcoreapp2.0" />
+    <file src=".\bin\Release\netcoreapp2.1\Ghpr.LocalFileSystem.dll" target="lib\netcoreapp2.1" />
+    <file src=".\bin\Release\netcoreapp2.2\Ghpr.LocalFileSystem.dll" target="lib\netcoreapp2.2" />
+    <file src=".\bin\Release\netstandard2.0\Ghpr.LocalFileSystem.dll" target="lib\netstandard2.0" />
   </files>
 </package>

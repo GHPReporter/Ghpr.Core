@@ -4,6 +4,17 @@
     <TargetFrameworks>netstandard2.0;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;net45;net451;net452;net46;net461;net462;net47;net471;net472</TargetFrameworks>
     <RootNamespace>Ghpr.LocalFileSystem</RootNamespace>
     <AssemblyName>Ghpr.LocalFileSystem</AssemblyName>
+    <Version>0.9.9.1</Version>
+    <Authors>Evgeniy Kosjakov</Authors>
+    <Company>GhpReporter</Company>
+    <Copyright>Copyright Evgeniy Kosjakov © 2016-2019</Copyright>
+    <PackageLicenseUrl>https://github.com/GHPReporter/Ghpr.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>http://ghpreporter.github.io/</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/GHPReporter/GHPReporter.github.io/blob/master/img/logo-small.png?raw=true</PackageIconUrl>
+    <RepositoryUrl>https://github.com/GHPReporter/Ghpr.Core</RepositoryUrl>
+    <PackageTags>.NET QA package HTML report reporting testing tool framework</PackageTags>
+    <PackageReleaseNotes>https://github.com/GHPReporter/Ghpr.Core/blob/master/RELEASE_NOTES.md</PackageReleaseNotes>
+    <Description>Ghpr.LocalFileSystem: Data provider package to work with local files</Description>
   </PropertyGroup>
 
   <ItemGroup>
