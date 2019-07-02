@@ -25,7 +25,7 @@
   - ps: .\Coverage.ps1
 
   after_build:
-    - dotnet pack "Ghpr.Core.Core/Ghpr.Core.csproj" /p:NuspecFile="Ghpr.Core.Core/Ghpr.Core.nuspec"
+    - dotnet pack -c Release "Ghpr.Core.Core/Ghpr.Core.csproj" /p:NuspecFile="Ghpr.Core.nuspec"
 
   artifacts:
     - path: '*.nupkg'
