@@ -28,7 +28,7 @@
     - dotnet pack -c Release "Ghpr.Core.Core/Ghpr.Core.csproj" /p:NuspecFile="Ghpr.Core.nuspec"
 
   artifacts:
-    - path: '*.nupkg'
+    - path: '.\bin\Release\**.nupkg'
       name: nupkg
 
   deploy:
