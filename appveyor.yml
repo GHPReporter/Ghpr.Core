@@ -108,7 +108,7 @@
   - ps: .\Coverage.ps1
 
   after_build:
-    - dotnet pack -c Release "Ghpr.Logger.Core/Ghpr.SimpleFileLogger.csproj" /p:NuspecFile="Ghpr.Logger.nuspec"
+    - dotnet pack -c Release "Ghpr.SimpleFileLogger.Core/Ghpr.SimpleFileLogger.csproj" /p:NuspecFile="Ghpr.Logger.nuspec"
 
   artifacts:
     - path: '**\*.nupkg'
