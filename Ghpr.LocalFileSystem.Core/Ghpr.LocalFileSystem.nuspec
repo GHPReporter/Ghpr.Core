@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package >
   <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <id>Ghpr.LocalFileSystem</id>
+    <version>0.9.9.1</version>
+    <title>Ghpr.LocalFileSystem</title>
+    <authors>Evgeniy Kosjakov</authors>
+    <owners>Evgeniy Kosjakov</owners>
     <licenseUrl>https://github.com/GHPReporter/Ghpr.Core/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/GHPReporter/Ghpr.Core</projectUrl>
     <iconUrl>https://github.com/GHPReporter/GHPReporter.github.io/blob/master/img/logo-small.png?raw=true</iconUrl>

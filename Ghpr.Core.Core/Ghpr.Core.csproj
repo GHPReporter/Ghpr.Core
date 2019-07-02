@@ -23,6 +23,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Ghpr.Core.Settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Ghpr.Core.Settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\index.html" Link="EmbeddedResources\Report\index.html" />
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\runs\index.html" Link="EmbeddedResources\Report\runs\index.html" />
     <EmbeddedResource Include="..\Ghpr.Controller.ts\report\src\favicon.ico" Link="EmbeddedResources\Report\src\favicon.ico" />
@@ -222,12 +232,6 @@
     <Folder Include="EmbeddedResources\Report\src\octicons\" />
     <Folder Include="EmbeddedResources\Report\src\style\" />
     <Folder Include="EmbeddedResources\Report\tests\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Ghpr.Core.Settings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
