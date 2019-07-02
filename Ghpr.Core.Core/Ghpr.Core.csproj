@@ -226,7 +226,7 @@
 
   <ItemGroup>
     <None Update="Ghpr.Core.Settings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
