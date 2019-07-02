@@ -67,10 +67,10 @@
   - ps: .\Coverage.ps1
 
   after_build:
-    - nuget pack "Ghpr.LocalFileSystem.Core/Ghpr.LocalFileSystem.csproj" -Prop Configuration=Release;OutDir=bin\Release;Platform=AnyCPU
+    - dotnet pack -c Release "Ghpr.LocalFileSystem.Core/Ghpr.LocalFileSystem.csproj" /p:NuspecFile="Ghpr.LocalFileSystem.nuspec"
 
   artifacts:
-    - path: '*.nupkg'
+    - path: '**\*.nupkg'
       name: nupkg
 
   deploy:
@@ -108,10 +108,10 @@
   - ps: .\Coverage.ps1
 
   after_build:
-    - nuget pack "Ghpr.Logger.Core/Ghpr.SimpleFileLogger.csproj" -Prop Configuration=Release;OutDir=bin\Release;Platform=AnyCPU
+    - dotnet pack -c Release "Ghpr.Logger.Core/Ghpr.SimpleFileLogger.csproj" /p:NuspecFile="Ghpr.Logger.nuspec"
 
   artifacts:
-    - path: '*.nupkg'
+    - path: '**\*.nupkg'
       name: nupkg
 
   deploy:
