@@ -118,6 +118,7 @@ namespace Ghpr.LocalFileSystem.Services
         {
             testRun.TestInfo.ItemName = NamesProvider.GetTestRunFileName(testRun.TestInfo.Finish);
             testOutput.TestOutputInfo.ItemName = NamesProvider.GetTestOutputFileName(testRun.TestInfo.Finish);
+            testRun.Output.ItemName = testOutput.TestOutputInfo.ItemName;
             var imgFolder = _locationsProvider.GetScreenshotFolderPath(testRun.TestInfo.Guid);
             if (Directory.Exists(imgFolder))
             {
@@ -138,7 +139,7 @@ namespace Ghpr.LocalFileSystem.Services
             }
             var testOutputFullPath = testOutput.Save(_locationsProvider.GetTestOutputFolderPath(testRun.TestInfo.Guid));
             _logger.Info($"Test output was saved: '{testOutputFullPath}'");
-            _logger.Debug($"Test run data was saved correctly: {JsonConvert.SerializeObject(testOutput, Formatting.Indented)}");
+            _logger.Debug($"Test run output data was saved correctly: {JsonConvert.SerializeObject(testOutput, Formatting.Indented)}");
             var testRunFullPath = testRun.Save(_locationsProvider.GetTestFolderPath(testRun.TestInfo.Guid));
             _logger.Info($"Test run was saved: '{testRunFullPath}'");
             var testRunsInfoFullPath = testRun.TestInfo.SaveTestInfo(_locationsProvider);
