@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Ghpr.LocalFileSystem</id>
-    <version>0.9.9.1</version>
+    <version>0.9.9.2</version>
     <title>Ghpr.LocalFileSystem</title>
     <authors>Evgeniy Kosjakov</authors>
     <owners>Evgeniy Kosjakov</owners>
