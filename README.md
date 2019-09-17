@@ -117,12 +117,13 @@ The `default` section stands for defalut configuration, which includes the follo
  - Go to `about:config`
  - Find `security.fileuri.strict_origin_policy` parameter
  - Set it to `false`
+ - Please make sure to restart the browser
  
 #### Chrome
 
- - Close your Chrome
- - Launch it with `--allow-file-access-from-files` option:
-    - eg C:\PATH TO\chrome.exe --allow-file-access-from-files
+ - Close your all instances of your Chrome
+ - Launch the new instance with `--allow-file-access-from-files` option:
+    - eg C:\PATH_TO\chrome.exe --allow-file-access-from-files
 
 # How to publish the report in Jenkins
 
