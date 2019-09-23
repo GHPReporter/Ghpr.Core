@@ -4,4 +4,5 @@
     coreVersion: string;
     reportName: string;
     projectName: string;
+    escapeTestOutput: boolean;
 }

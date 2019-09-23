@@ -256,3 +256,5 @@ Ghpr.Core/.vs/Ghpr.Core/DesignTimeBuild/.dtbcache
 .vs/Ghpr.Core/v15/Server/sqlite3/storage.ide-wal
 .vs/Ghpr.Core/v15/Server/sqlite3/storage.ide-shm
 .vs/Ghpr.Core/DesignTimeBuild/.dtbcache
+*.ide-wal
+*.ide-shm
