@@ -19,7 +19,7 @@ namespace Ghpr.Core.Tests.Core
 
         public ReportSettingsDto GetReportSettings()
         {
-            return new ReportSettingsDto(3, 5, "report", "project");
+            return new ReportSettingsDto(3, 5, "report", "project", false);
         }
 
         public TestRunDto GetLatestTestRun(Guid testGuid)
