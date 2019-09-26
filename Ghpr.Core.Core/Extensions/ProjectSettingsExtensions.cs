@@ -21,7 +21,8 @@ namespace Ghpr.Core.Extensions
                     : source.RealTimeGeneration,
                 RunsToDisplay = source.RunsToDisplay == 0 ? defaultSettings.RunsToDisplay : source.RunsToDisplay,
                 TestsToDisplay = source.TestsToDisplay == 0 ? defaultSettings.TestsToDisplay : source.TestsToDisplay,
-                Retention = source.Retention ?? defaultSettings.Retention
+                Retention = source.Retention ?? defaultSettings.Retention,
+                EscapeTestOutput = source.EscapeTestOutput
             };
             return ps;
         }
