@@ -34,12 +34,6 @@ Easy-to-use .NET test reporting tool for several testing frameworks
 |SpecFlow|[Ghpr.SpecFlow](https://github.com/GHPReporter/Ghpr.SpecFlow)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.SpecFlowPlugin.svg)](https://www.nuget.org/packages/Ghpr.SpecFlowPlugin)|[View examples](https://github.com/GHPReporter/Ghpr.SpecFlow.Examples)|[![Build status](https://ci.appveyor.com/api/projects/status/jtmugpb1axnpc97g?svg=true)](https://ci.appveyor.com/project/elv1s42/ghpr-specflow)|
 |Console App|[Ghpr.Console](https://github.com/GHPReporter/Ghpr.Console)|[![NuGet Version](https://img.shields.io/nuget/v/Ghpr.Console.svg)](https://www.nuget.org/packages/Ghpr.Console)|-|[![Build status](https://ci.appveyor.com/api/projects/status/1nhj8penho50h2ro?svg=true)](https://ci.appveyor.com/project/elv1s42/ghpr-console)|
 
-# Packages diagram
-
-<p align="center">
-  <a href="https://raw.githubusercontent.com/GHPReporter/Ghpr.Core/master/packages.png"><img src="https://raw.githubusercontent.com/GHPReporter/Ghpr.Core/master/packages.png" alt="Diagram"></a>
-</p>
-
 # Demo Report
 
 You can view [Demo report](http://ghpreporter.github.io/report/) on our [site](http://ghpreporter.github.io/)
