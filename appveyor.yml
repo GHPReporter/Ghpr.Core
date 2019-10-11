@@ -33,7 +33,7 @@
 
   deploy:
     provider: NuGet
-    server: 
+    server:
     api_key:
       secure: crLYbWXNgfrzYazkV18cEBRKnl90ee0wjWUfZGIDhkZcZg1ZlGbbsqRdr8JLmU3O
     skip_symbols: false
