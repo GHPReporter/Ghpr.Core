@@ -1,4 +1,5 @@
-﻿using Ghpr.Core.Settings;
+﻿using Ghpr.Core.Common;
+using Ghpr.Core.Settings;
 
 namespace Ghpr.Core.Extensions
 {
@@ -25,6 +26,19 @@ namespace Ghpr.Core.Extensions
                 EscapeTestOutput = source.EscapeTestOutput
             };
             return ps;
+        }
+
+        public static ReportSettingsDto ExtractReportSettingsDto(this ProjectSettings projectSettings)
+        {
+            var dto = new ReportSettingsDto
+            {
+                RunsToDisplay = projectSettings.RunsToDisplay,
+                TestsToDisplay = projectSettings.TestsToDisplay, 
+                ReportName = projectSettings.ReportName,
+                ProjectName = projectSettings.ProjectName, 
+                EscapeTestOutput = projectSettings.EscapeTestOutput
+            };
+            return dto;
         }
     }
 }

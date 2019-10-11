@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Ghpr.Core.Common;
 using Ghpr.Core.Enums;
 using Ghpr.Core.Extensions;
 using Ghpr.Core.Helpers;
@@ -116,9 +115,7 @@ namespace Ghpr.Core.Factories
                 Logger = logger,
                 TestDataProvider = testDataProvider,
                 ReporterSettings = reporterProjectSettings,
-                ReportSettings = new ReportSettingsDto(reporterProjectSettings.RunsToDisplay, 
-                    reporterProjectSettings.TestsToDisplay, reporterProjectSettings.ReportName, 
-                    reporterProjectSettings.ProjectName, reporterProjectSettings.EscapeTestOutput),
+                ReportSettings = reporterProjectSettings.ExtractReportSettingsDto(),
                 DataWriterService = dataWriterService,
                 DataReaderService = dataReaderService,
                 RunRepository = new RunDtoRepository(),

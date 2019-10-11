@@ -27,6 +27,7 @@ namespace Ghpr.Core.Tests.Core.Settings
             Assert.AreEqual(5, settings.RunsToDisplay);
             Assert.AreEqual("Sprint name", settings.Sprint);
             Assert.AreEqual(7, settings.TestsToDisplay);
+            Assert.AreEqual(true, settings.EscapeTestOutput);
         }
 
         [Test]

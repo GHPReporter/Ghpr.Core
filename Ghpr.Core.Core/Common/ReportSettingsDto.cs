@@ -23,14 +23,9 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "escapeTestOutput")]
         public bool EscapeTestOutput { get; set; }
 
-        public ReportSettingsDto(int runs, int tests, string reportName, string projectName, bool escapeTestOutput)
+        public ReportSettingsDto()
         {
-            RunsToDisplay = runs;
-            TestsToDisplay = tests;
             CoreVersion = typeof(ReportSettingsDto).Assembly.GetName().Version.ToString();
-            ReportName = reportName;
-            ProjectName = projectName;
-            EscapeTestOutput = escapeTestOutput;
         }
     }
 }

@@ -11,6 +11,7 @@
     "realTimeGeneration": "True",
     "runsToDisplay": "5",
     "testsToDisplay": "5",
+    "escapeTestOutput": false,
     "retention": {
       "amount": 1000,
       "till": "2017-01-25 10:00:00"
