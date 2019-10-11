@@ -3,7 +3,7 @@
     only:
     - nuget
 
-  image: Visual Studio 2017
+  image: Visual Studio 2019
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
@@ -44,7 +44,7 @@
     only:
     - nuget-localfilesystem
 
-  image: Visual Studio 2017
+  image: Visual Studio 2019
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
@@ -86,7 +86,7 @@
     only:
     - nuget-simplefilelogger
 
-  image: Visual Studio 2017
+  image: Visual Studio 2019
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
@@ -127,7 +127,7 @@
     except:
     - /nuget*/
 
-  image: Visual Studio 2017
+  image: Visual Studio 2019
 
   install:
     - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
