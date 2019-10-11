@@ -9,14 +9,21 @@ namespace Ghpr.ConsoleAppForDebug
     public class Program
     {
         public static void Main(string[] args)
-        { 
+        {
             var reporter = ReporterFactory.Build(new DummyTestDataProvider());
-            
+
             ResourceExtractor.ExtractReportBase(reporter.ReporterSettings.OutputPath);
 
             reporter.Logger.Info("STARTED");
 
-            var reportSettings = new ReportSettingsDto(5, 7, "Awesome report", "Awesome project");
+            var reportSettings = new ReportSettingsDto
+            {
+                RunsToDisplay = 5,
+                TestsToDisplay = 7,
+                ReportName = "Awesome report",
+                ProjectName = "Awesome project",
+                EscapeTestOutput = false
+            };
             reporter.DataWriterService.SaveReportSettings(reportSettings);
             reporter.DataWriterService.SaveReportSettings(reportSettings);
             reporter.DataWriterService.SaveReportSettings(reportSettings);
@@ -34,30 +41,30 @@ namespace Ghpr.ConsoleAppForDebug
                 Sprint = "Sprint 1",
                 TestsInfo = new List<ItemInfoDto>()
             };
-        reporter.DataWriterService.SaveRun(run);
+            reporter.DataWriterService.SaveRun(run);
             reporter.DataWriterService.SaveRun(run);
 
             reporter.Logger.Info("RUN SAVED");
 
             var testGuid = Guid.NewGuid();
-        var screen = new TestScreenshotDto
-        {
-            TestScreenshotInfo = new SimpleItemInfoDto
+            var screen = new TestScreenshotDto
             {
-                Date = DateTime.Now,
-                ItemName = "Screenshot"
-            },
-            Base64Data = "ASDJasdkajasdfas==",
-            TestGuid = testGuid
-        };
-        var test = new TestRunDto(testGuid, "Test", "Test.FullName");
-        var testInfo = new ItemInfoDto
-        {
-            Start = DateTime.Now.AddSeconds(-2),
-            Finish = DateTime.Now.AddSeconds(2),
-            Guid = testGuid
-        };
-        test.TestInfo = testInfo;
+                TestScreenshotInfo = new SimpleItemInfoDto
+                {
+                    Date = DateTime.Now,
+                    ItemName = "Screenshot"
+                },
+                Base64Data = "ASDJasdkajasdfas==",
+                TestGuid = testGuid
+            };
+            var test = new TestRunDto(testGuid, "Test", "Test.FullName");
+            var testInfo = new ItemInfoDto
+            {
+                Start = DateTime.Now.AddSeconds(-2),
+                Finish = DateTime.Now.AddSeconds(2),
+                Guid = testGuid
+            };
+            test.TestInfo = testInfo;
             reporter.DataWriterService.SaveScreenshot(screen);
             reporter.DataWriterService.SaveTestRun(test, new TestOutputDto
             {

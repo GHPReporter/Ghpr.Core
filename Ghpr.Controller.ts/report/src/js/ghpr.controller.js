@@ -1053,8 +1053,8 @@ class LocalFileSystemPathsHelper {
     }
 }
 class Controller {
-    static init(pagetype, callback) {
-        const settingsPath = LocalFileSystemPathsHelper.getReportSettingsPath(pagetype);
+    static init(pageType, callback) {
+        const settingsPath = LocalFileSystemPathsHelper.getReportSettingsPath(pageType);
         const req = new XMLHttpRequest();
         req.overrideMimeType("application/json");
         req.open("get", settingsPath, true);
@@ -1814,8 +1814,8 @@ class TestPageUpdater {
     }
     static updateOutput(t) {
         Controller.dataService.fromPage(PageType.TestPage).getTestOutput(t, (to) => {
-            let o = Differ.safeTagsReplace(TestRunHelper.getOutput(to));
-            let eo = Differ.safeTagsReplace(TestRunHelper.getExtraOutput(to));
+            let o = this.reportSettings.escapeTestOutput ? Differ.safeTagsReplace(TestRunHelper.getOutput(to)) : TestRunHelper.getOutput(to);
+            let eo = this.reportSettings.escapeTestOutput ? Differ.safeTagsReplace(TestRunHelper.getExtraOutput(to)) : TestRunHelper.getExtraOutput(to);
             document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
     		<div style="word-wrap: break-word;  white-space: pre-wrap;">${o}</div>`;
             document.getElementById("test-extra-output-string").innerHTML = `<b>Additional log:</b><br>
@@ -2001,6 +2001,7 @@ class TestPageUpdater {
     }
     static initializePage() {
         Controller.init(PageType.TestPage, (dataService, reportSettings) => {
+            this.reportSettings = reportSettings;
             const isLatest = UrlHelper.getParam("loadLatest");
             if (isLatest !== "true") {
                 UrlHelper.removeParam("loadLatest");
@@ -2019,7 +2020,6 @@ class TestPageUpdater {
         TabsHelper.showTab(idToShow, caller, this.runPageTabsIds);
     }
 }
-TestPageUpdater.reviveRun = JsonParser.reviveRun;
 TestPageUpdater.runPageTabsIds = ["test-history", "test-output", "test-extra-output", "test-failure", "test-screenshots", "test-data"];
 class Sorter {
     static itemInfoByFinishDate(a, b) {

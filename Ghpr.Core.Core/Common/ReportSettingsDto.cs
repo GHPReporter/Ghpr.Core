@@ -20,13 +20,12 @@ namespace Ghpr.Core.Common
         [JsonProperty(PropertyName = "projectName")]
         public string ProjectName { get; set; }
 
-        public ReportSettingsDto(int runs, int tests, string reportName, string projectName)
+        [JsonProperty(PropertyName = "escapeTestOutput")]
+        public bool EscapeTestOutput { get; set; }
+
+        public ReportSettingsDto()
         {
-            RunsToDisplay = runs;
-            TestsToDisplay = tests;
             CoreVersion = typeof(ReportSettingsDto).Assembly.GetName().Version.ToString();
-            ReportName = reportName;
-            ProjectName = projectName;
         }
     }
 }

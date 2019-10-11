@@ -1,4 +1,5 @@
-﻿using Ghpr.Core.Settings;
+﻿using Ghpr.Core.Common;
+using Ghpr.Core.Settings;
 
 namespace Ghpr.Core.Extensions
 {
@@ -21,9 +22,23 @@ namespace Ghpr.Core.Extensions
                     : source.RealTimeGeneration,
                 RunsToDisplay = source.RunsToDisplay == 0 ? defaultSettings.RunsToDisplay : source.RunsToDisplay,
                 TestsToDisplay = source.TestsToDisplay == 0 ? defaultSettings.TestsToDisplay : source.TestsToDisplay,
-                Retention = source.Retention ?? defaultSettings.Retention
+                Retention = source.Retention ?? defaultSettings.Retention,
+                EscapeTestOutput = source.EscapeTestOutput
             };
             return ps;
+        }
+
+        public static ReportSettingsDto ExtractReportSettingsDto(this ProjectSettings projectSettings)
+        {
+            var dto = new ReportSettingsDto
+            {
+                RunsToDisplay = projectSettings.RunsToDisplay,
+                TestsToDisplay = projectSettings.TestsToDisplay, 
+                ReportName = projectSettings.ReportName,
+                ProjectName = projectSettings.ProjectName, 
+                EscapeTestOutput = projectSettings.EscapeTestOutput
+            };
+            return dto;
         }
     }
 }

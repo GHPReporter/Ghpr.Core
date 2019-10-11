@@ -38,6 +38,9 @@ namespace Ghpr.Core.Settings
         [JsonProperty(PropertyName = "testsToDisplay")]
         public int TestsToDisplay { get; set; }
 
+        [JsonProperty(PropertyName = "escapeTestOutput")]
+        public bool EscapeTestOutput { get; set; }
+
         [JsonProperty(PropertyName = "retention")]
         public RetentionSettings Retention { get; set; }
     }

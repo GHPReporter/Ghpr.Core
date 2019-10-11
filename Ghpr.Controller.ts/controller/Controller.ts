@@ -5,8 +5,8 @@ class Controller {
     static reportSettings: ReportSettingsDto;
     static dataService: IDataService;
 
-    static init(pagetype: PageType, callback: (dataService: IDataService, reportSettings: ReportSettingsDto) => void): void {
-        const settingsPath = LocalFileSystemPathsHelper.getReportSettingsPath(pagetype);
+    static init(pageType: PageType, callback: (dataService: IDataService, reportSettings: ReportSettingsDto) => void): void {
+        const settingsPath = LocalFileSystemPathsHelper.getReportSettingsPath(pageType);
         const req = new XMLHttpRequest();
         req.overrideMimeType("application/json");
         req.open("get", settingsPath, true);

@@ -19,7 +19,14 @@ namespace Ghpr.Core.Tests.Core
 
         public ReportSettingsDto GetReportSettings()
         {
-            return new ReportSettingsDto(3, 5, "report", "project");
+            return new ReportSettingsDto
+            {
+                RunsToDisplay = 3,
+                TestsToDisplay = 5,
+                ReportName = "report",
+                ProjectName = "project",
+                EscapeTestOutput = false
+            };
         }
 
         public TestRunDto GetLatestTestRun(Guid testGuid)

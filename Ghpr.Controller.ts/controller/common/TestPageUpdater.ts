@@ -8,7 +8,7 @@ class TestPageUpdater {
 
     static currentTest: number;
     static testVersionsCount: number;
-    static reviveRun = JsonParser.reviveRun;
+    static reportSettings: ReportSettingsDto;
 
     private static updateRecentData(t: TestRunDto): void {
         document.getElementById("test-results").innerHTML = `<div class="mx-4 py-2 border-bottom"><div>
@@ -46,8 +46,8 @@ class TestPageUpdater {
 
     private static updateOutput(t: TestRunDto): void {
         Controller.dataService.fromPage(PageType.TestPage).getTestOutput(t, (to: TestOutputDto) => {
-            let o = Differ.safeTagsReplace(TestRunHelper.getOutput(to));
-            let eo = Differ.safeTagsReplace(TestRunHelper.getExtraOutput(to));
+            let o = this.reportSettings.escapeTestOutput ? Differ.safeTagsReplace(TestRunHelper.getOutput(to)) : TestRunHelper.getOutput(to);
+            let eo = this.reportSettings.escapeTestOutput ? Differ.safeTagsReplace(TestRunHelper.getExtraOutput(to)) : TestRunHelper.getExtraOutput(to);
             document.getElementById("test-output-string").innerHTML = `<b>Test log:</b><br>
     		<div style="word-wrap: break-word;  white-space: pre-wrap;">${o}</div>`;
             document.getElementById("test-extra-output-string").innerHTML = `<b>Additional log:</b><br>
@@ -245,6 +245,7 @@ class TestPageUpdater {
 
     static initializePage(): void {
         Controller.init(PageType.TestPage, (dataService: IDataService, reportSettings: ReportSettingsDto) => {
+            this.reportSettings = reportSettings;
             const isLatest = UrlHelper.getParam("loadLatest");
             if (isLatest !== "true") {
                 UrlHelper.removeParam("loadLatest");
