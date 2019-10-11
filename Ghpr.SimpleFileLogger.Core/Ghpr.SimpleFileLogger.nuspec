@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Ghpr.SimpleFileLogger</id>
-    <version>0.9.9.1</version>
+    <version>0.9.9.9</version>
     <title>Ghpr.SimpleFileLogger</title>
     <authors>Evgeniy Kosjakov</authors>
     <owners>Evgeniy Kosjakov</owners>
@@ -15,7 +15,7 @@
     <copyright>Copyright Evgeniy Kosjakov © 2016-2019</copyright>
     <tags>.NET QA package HTML report reporting testing tool framework</tags>
     <dependencies>
-      <dependency id="Ghpr.Core" version="0.9.9.1" />
+      <dependency id="Ghpr.Core" version="0.9.9.9" />
       <dependency id="Newtonsoft.Json" version="12.0.2" />
     </dependencies>
   </metadata>
@@ -32,6 +32,7 @@
     <file src=".\bin\Release\netcoreapp2.0\Ghpr.SimpleFileLogger.dll" target="lib\netcoreapp2.0" />
     <file src=".\bin\Release\netcoreapp2.1\Ghpr.SimpleFileLogger.dll" target="lib\netcoreapp2.1" />
     <file src=".\bin\Release\netcoreapp2.2\Ghpr.SimpleFileLogger.dll" target="lib\netcoreapp2.2" />
+    <file src=".\bin\Release\netcoreapp2.2\Ghpr.SimpleFileLogger.dll" target="lib\netcoreapp3.0" />
     <file src=".\bin\Release\netstandard2.0\Ghpr.SimpleFileLogger.dll" target="lib\netstandard2.0" />
     <file src=".\bin\Release\net45\Ghpr.SimpleFileLogger.Settings.json" target="content" />
   </files>
