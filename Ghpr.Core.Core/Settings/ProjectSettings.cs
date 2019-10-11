@@ -43,6 +43,5 @@ namespace Ghpr.Core.Settings
 
         [JsonProperty(PropertyName = "retention")]
         public RetentionSettings Retention { get; set; }
-        
     }
 }
