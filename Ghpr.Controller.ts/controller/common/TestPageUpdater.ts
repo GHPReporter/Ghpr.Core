@@ -74,7 +74,7 @@ class TestPageUpdater {
                 const src = `data:image/${s.format};base64, ${s.base64Data}`;
                 const date = DateFormatter.format(s.testScreenshotInfo.date);
                 const alt = s.testScreenshotInfo.itemName;
-                screenshots += `<li><b>Screenshot ${date}:</b><a href="${src}" target="_blank"><img src="${src}" alt="${alt}" style="max-width: 100%;"></img></a></li>`;
+                screenshots += `<li><b>Screenshot ${date}:</b><br><a href="${src}" target="_blank"><img src="${src}" alt="${alt}" style="max-width: 100%;"></img></a></li>`;
             }
             if (screenshots === "") {
                 screenshots = "-";
