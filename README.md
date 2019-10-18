@@ -59,6 +59,7 @@ Standard settings file is .json file with the following structure:
     "realTimeGeneration": "True",
     "runsToDisplay": "5",
     "testsToDisplay": "5",
+    "escapeTestOutput":  false,
     "retention": {
       "amount": 1000,
       "till": "2017-01-25 10:00:00"
@@ -91,6 +92,8 @@ The `default` section stands for defalut configuration, which includes the follo
  - `dataServiceFile`: the name of the library which contains implementation of IDataService, will be distributed as a separate NuGet package will you should include as a dependency in your solution with tests. Can't be empty.
 
  - `loggerFile`: the name the library that will be used for internal logging of Ghpr itself.
+ 
+ - `escapeTestOutput`: boolean value to tell Ghpr to escape some characters like `<` and `>` inside test output tabs.
 
  - `retention` - settings for running clean up job:
 
