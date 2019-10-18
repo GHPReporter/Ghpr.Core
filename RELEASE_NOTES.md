@@ -1,5 +1,15 @@
 # Release notes
 
+ ## v0.9.9.9
+
+Includes some new features and bug fixes:
+
+ - Escaping test output is optional now: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/128) 
+ - Added support for .NET Framework v4.6.2 (and other Framework versions): [Feature](https://github.com/GHPReporter/Ghpr.NUnit/issues/31)
+ - .NET Core 2.0 support: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/54)
+ -.NET Core 3.0 is supported too: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/131)
+ - Fixed bug with screenshot sizing: [Bug](https://github.com/GHPReporter/Ghpr.Core/issues/134)
+ 
 ## v0.9.9
 
 Includes new way of working with `.settings.json` files (**BRAKING CHANGE!**):
