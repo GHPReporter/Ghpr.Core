@@ -573,19 +573,21 @@ class TestRunHelper {
         return this.getColorByResult(result);
     }
     static getResult(t) {
-        if (t.result.indexOf("Passed") > -1) {
+        const r = t.result;
+        if (r.indexOf("Passed") > -1 || r.indexOf("passed") > -1) {
             return TestResult.Passed;
         }
-        if (t.result.indexOf("Error") > -1) {
+        if (r.indexOf("Error") > -1 || r.indexOf("Error") > -1) {
             return TestResult.Broken;
         }
-        if (t.result.indexOf("Failed") > -1 || t.result.indexOf("Failure") > -1) {
+        if (r.indexOf("Failed") > -1 || r.indexOf("Failure") > -1 || r.indexOf("failed") > -1 || r.indexOf("failure") > -1) {
             return TestResult.Failed;
         }
-        if (t.result.indexOf("Inconclusive") > -1) {
+        if (r.indexOf("Inconclusive") > -1 || r.indexOf("inconclusive") > -1) {
             return TestResult.Inconclusive;
         }
-        if (t.result.indexOf("Ignored") > -1 || t.result.indexOf("Skipped") > -1) {
+        if (r.indexOf("Ignored") > -1 || r.indexOf("Skipped") > -1 || r.indexOf("ignored") > -1 || r.indexOf("skipped") > -1
+            || r.indexOf("notexecuted") > -1 || r.indexOf("NotExecuted") > -1) {
             return TestResult.Ignored;
         }
         return TestResult.Unknown;

@@ -25,6 +25,7 @@ namespace Ghpr.Core.Tests.Core.Common
         [TestCase("skipped", TestResult.Ignored)]
         [TestCase("Ignored", TestResult.Ignored)]
         [TestCase("notexecuted", TestResult.Ignored)]
+        [TestCase("NotExecuted", TestResult.Ignored)]
         [TestCase("as1dfd2fa4sd", TestResult.Unknown)]
         [TestCase("123", TestResult.Unknown)]
         [TestCase("!@#$%^&*(", TestResult.Unknown)]
