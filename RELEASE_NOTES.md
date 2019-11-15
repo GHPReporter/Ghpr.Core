@@ -1,5 +1,15 @@
 # Release notes
 
+ ## v0.9.10
+
+Includes some minor bug fixes and improvements:
+
+ - Fixed screenshots bug in the `Ghpr.Nunit`: [Bug](https://github.com/GHPReporter/Ghpr.NUnit/issues/67) 
+ - Added support for .NET Framework v4.8 for `Ghpr.Core` and `Ghpr.NUnit`
+ - Fixed test status bug in `Ghpr.Core`: [Bug](https://github.com/GHPReporter/Ghpr.Core/issues/138)
+ - Fixed `Ghpr.NUnit` DateTime bug: [Bug](https://github.com/GHPReporter/Ghpr.NUnit/issues/68)
+ - Fixed `Ghpr.MSTestV2` bug report generation: [Bug](https://github.com/GHPReporter/Ghpr.MSTestV2/issues/20)
+
  ## v0.9.9.9
 
 Includes some new features and bug fixes:
@@ -7,7 +17,7 @@ Includes some new features and bug fixes:
  - Escaping test output is optional now: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/128) 
  - Added support for .NET Framework v4.6.2 (and other Framework versions): [Feature](https://github.com/GHPReporter/Ghpr.NUnit/issues/31)
  - .NET Core 2.0 support: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/54)
- -.NET Core 3.0 is supported too: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/131)
+ - .NET Core 3.0 is supported too: [Feature](https://github.com/GHPReporter/Ghpr.Core/issues/131)
  - Fixed bug with screenshot sizing: [Bug](https://github.com/GHPReporter/Ghpr.Core/issues/134)
  - Added new favicon for the report
  
