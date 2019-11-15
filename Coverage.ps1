@@ -12,7 +12,7 @@ else {
 
 $result = $LASTEXITCODE
 
-$codecov = "$($env:USERPROFILE)\.nuget\packages\codecov\1.5.0\tools\codecov.exe"
+$codecov = "$($env:USERPROFILE)\.nuget\packages\codecov\1.9.0\tools\codecov.exe"
 write-output "======= CODECOV PATH: " $codecov " ======="
 
 & $codecov -f "opencoverCoverage.xml"
