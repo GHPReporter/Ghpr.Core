@@ -9,6 +9,7 @@ Includes some minor bug fixes and improvements:
  - Fixed test status bug in `Ghpr.Core`: [Bug](https://github.com/GHPReporter/Ghpr.Core/issues/138)
  - Fixed `Ghpr.NUnit` DateTime bug: [Bug](https://github.com/GHPReporter/Ghpr.NUnit/issues/68)
  - Fixed `Ghpr.MSTestV2` bug report generation: [Bug](https://github.com/GHPReporter/Ghpr.MSTestV2/issues/20)
+ - Fixed cleanup job for `Ghpr.Console`: [Bug](https://github.com/GHPReporter/Ghpr.NUnit/issues/72)
 
  ## v0.9.9.9
 
