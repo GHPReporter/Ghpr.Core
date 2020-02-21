@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Ghpr.Core.Exceptions;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
 using NUnit.Framework;
@@ -33,7 +34,7 @@ namespace Ghpr.Core.Tests.Core.Settings
         [Test]
         public void FileNotFound()
         {
-            Assert.Throws<ApplicationException>(() =>
+            Assert.Throws<ReadSettingsFileException>(() =>
             {
                 "Ghpr.Core.Tests.Settings1.json".LoadSettingsAs<ReporterSettings>();
             });

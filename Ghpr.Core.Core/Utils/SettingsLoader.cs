@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Ghpr.Core.Exceptions;
 using Newtonsoft.Json;
 
 namespace Ghpr.Core.Utils
@@ -28,8 +29,8 @@ namespace Ghpr.Core.Utils
 
             if (exception != null)
             {
-                throw new ApplicationException($"Unable to read the settings from file '{fileName}'. " +
-                                               $"Full path: '{settingsPath}'", exception);
+                throw new ReadSettingsFileException($"Unable to read the settings from file '{fileName}'. " +
+                                                    $"Full path: '{settingsPath}'", exception);
             }
             return settings;
         }
