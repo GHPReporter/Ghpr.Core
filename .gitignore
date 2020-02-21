@@ -258,3 +258,5 @@ Ghpr.Core/.vs/Ghpr.Core/DesignTimeBuild/.dtbcache
 .vs/Ghpr.Core/DesignTimeBuild/.dtbcache
 *.ide-wal
 *.ide-shm
+*.testlog
+*.manifest

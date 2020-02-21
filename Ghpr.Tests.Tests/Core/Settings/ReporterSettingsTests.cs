@@ -33,7 +33,7 @@ namespace Ghpr.Core.Tests.Core.Settings
         [Test]
         public void FileNotFound()
         {
-            Assert.Throws<FileNotFoundException>(() =>
+            Assert.Throws<ApplicationException>(() =>
             {
                 "Ghpr.Core.Tests.Settings1.json".LoadSettingsAs<ReporterSettings>();
             });
