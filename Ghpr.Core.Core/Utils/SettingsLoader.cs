@@ -8,12 +8,29 @@ namespace Ghpr.Core.Utils
     {
         public static T LoadSettingsAs<T>(this string fileName)
         {
-            var uri = new Uri(typeof(T).Assembly.CodeBase);
-            var settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", fileName);
-            var settings = JsonConvert.DeserializeObject<T>(File.ReadAllText(settingsPath), new JsonSerializerSettings
+            var settings = default(T);
+            var settingsPath = "";
+            Exception exception = null;
+            try
             {
-                DateFormatString = "yyyy-MM-dd HH:mm:ss"
-            });
+                var uri = new Uri(typeof(T).Assembly.CodeBase);
+                settingsPath = Path.Combine(Path.GetDirectoryName(uri.LocalPath) ?? "", fileName);
+                var fileContent = File.ReadAllText(settingsPath);
+                settings = JsonConvert.DeserializeObject<T>(fileContent, new JsonSerializerSettings
+                {
+                    DateFormatString = "yyyy-MM-dd HH:mm:ss"
+                });
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
+
+            if (exception != null)
+            {
+                throw new ApplicationException($"Unable to read the settings from file '{fileName}'. " +
+                                               $"Full path: '{settingsPath}'", exception);
+            }
             return settings;
         }
     }
