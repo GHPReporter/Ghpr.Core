@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Ghpr.Core.Exceptions;
 using Ghpr.Core.Settings;
 using Ghpr.Core.Utils;
