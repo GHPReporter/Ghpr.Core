@@ -1,5 +1,12 @@
 # Release notes
 
+ ## v0.9.11
+
+Includes some minor bug fixes and improvements for `Ghpr.NUnit`, `Ghpr.MSTestV2` and `Ghpr.Console`:
+
+ - Screenshots are now saved when generating the report from `.trx` file: [Bug](https://github.com/GHPReporter/Ghpr.MSTestV2/issues/19) 
+ - The `Ghpr.NUnit` is now working with .NET Core: [Bug](https://github.com/GHPReporter/Ghpr.NUnit/issues/77)
+
  ## v0.9.10
 
 Includes some minor bug fixes and improvements:
