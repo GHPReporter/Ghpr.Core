@@ -5,10 +5,10 @@
     <AssemblyName>Ghpr.Core</AssemblyName>
     <RootNamespace>Ghpr.Core</RootNamespace>
     <DebugType>Full</DebugType>
-    <AssemblyVersion>0.9.10</AssemblyVersion>
-    <FileVersion>0.9.10</FileVersion>
+    <AssemblyVersion>0.9.12</AssemblyVersion>
+    <FileVersion>0.9.12</FileVersion>
     <NeutralLanguage />
-    <Version>0.9.10</Version>
+    <Version>0.9.12</Version>
     <Authors>Evgeniy Kosjakov</Authors>
     <Company>GhpReporter</Company>
     <PackageLicenseUrl>https://github.com/GHPReporter/Ghpr.Core/blob/master/LICENSE</PackageLicenseUrl>
@@ -17,7 +17,7 @@
     <PackageReleaseNotes>https://github.com/GHPReporter/Ghpr.Core/blob/master/RELEASE_NOTES.md</PackageReleaseNotes>
     <RepositoryType />
     <RepositoryUrl>https://github.com/GHPReporter/Ghpr.Core</RepositoryUrl>
-    <Copyright>Copyright Evgeniy Kosjakov © 2016-2019</Copyright>
+    <Copyright>Copyright Evgeniy Kosjakov © 2016-2020</Copyright>
     <Description>Ghpr.Core: Core package for test run reporter (NUnit, SpecFlow, MSTest, MSTestV2)</Description>
     <PackageTags>.NET QA package HTML report reporting testing tool framework NUnit SpecFlow MSTest MSTestV2 DotNet</PackageTags>
   </PropertyGroup>

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Ghpr.Core</id>
-    <version>0.9.10</version>
+    <version>0.9.12</version>
     <title>Ghpr.Core</title>
     <authors>Evgeniy Kosjakov</authors>
     <owners>Evgeniy Kosjakov</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Ghpr.Core: Core package for test run reporter (NUnit, SpecFlow, MSTest, MSTestV2)</description>
     <releaseNotes>https://github.com/GHPReporter/Ghpr.Core/blob/master/RELEASE_NOTES.md</releaseNotes>
-    <copyright>Copyright Evgeniy Kosjakov © 2016-2019</copyright>
+    <copyright>Copyright Evgeniy Kosjakov © 2016-2020</copyright>
     <tags>.NET QA package HTML report reporting testing tool framework NUnit SpecFlow MSTest MSTestV2 testfx BDD</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="12.0.3" />
