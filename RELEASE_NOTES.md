@@ -1,5 +1,12 @@
 # Release notes
 
+ ## v0.9.12
+
+Includes some bug fixes`Ghpr.NUnit`, `Ghpr.Core`:
+
+ - Screenshots are duplicated for `Ghpr.Core`, UI fixed: [Bug](https://github.com/GHPReporter/Ghpr.NUnit/issues/61)
+ - Screenshots are duplicated for `Ghpr.NUnit`, screenshots logic fixed: [Bug](https://github.com/GHPReporter/Ghpr.NUnit/issues/61)
+ 
  ## v0.9.11
 
 Includes some minor bug fixes and improvements for `Ghpr.NUnit`, `Ghpr.MSTestV2` and `Ghpr.Console`:
