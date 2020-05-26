@@ -24,6 +24,7 @@ namespace Ghpr.Core.Common
                 Start = default(DateTime),
                 Finish = default(DateTime)
             };
+            Duration = .0;
             Name = name;
             FullName = fullName;
             Description = "";
