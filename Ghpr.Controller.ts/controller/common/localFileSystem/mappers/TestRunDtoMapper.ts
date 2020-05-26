@@ -37,7 +37,9 @@ class TestRunDtoMapper {
         testRunDto.name = testRun.name;
         testRunDto.categories = testRun.categories;
         testRunDto.description = testRun.description;
-        testRunDto.duration = testRun.duration;
+        const diffTime = testRun.testInfo.finish.valueOf() - testRun.testInfo.start.valueOf();
+        const diffSecs = Math.round(((diffTime / 1000) + Number.EPSILON) * 100) / 100;
+        testRunDto.duration = diffSecs;
         testRunDto.events = eventDtos;
         testRunDto.fullName = testRun.fullName;
         testRunDto.output = SimpleItemInfoDtoMapper.map(testRun.output);

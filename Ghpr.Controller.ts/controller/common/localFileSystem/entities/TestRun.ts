@@ -8,7 +8,6 @@ class TestRun {
     name: string;
     fullName: string;
     description: string;
-    duration: number;
     testInfo: ItemInfo;
     testStackTrace: string;
     testMessage: string;
