@@ -6,6 +6,7 @@ Includes some bug fixes`Ghpr.NUnit`, `Ghpr.Core`:
 
  - Screenshots are duplicated for `Ghpr.Core`, UI fixed: [Bug](https://github.com/GHPReporter/Ghpr.NUnit/issues/61)
  - Screenshots are duplicated for `Ghpr.NUnit`, screenshots logic fixed: [Bug](https://github.com/GHPReporter/Ghpr.NUnit/issues/61)
+ - Screenshots issue fixed for `Ghpr.MSTestV2`
  
  ## v0.9.11
 
