@@ -181,9 +181,14 @@ class TestRunDtoMapper {
         testRunDto.name = testRun.name;
         testRunDto.categories = testRun.categories;
         testRunDto.description = testRun.description;
-        const diffTime = testRun.testInfo.finish.valueOf() - testRun.testInfo.start.valueOf();
-        const diffSecs = Math.ceil(diffTime / 1000);
-        testRunDto.duration = diffSecs;
+        if (testRun.duration !== undefined && testRun.duration !== 0) {
+            testRunDto.duration = testRun.duration;
+        }
+        else {
+            const diffTime = testRun.testInfo.finish.valueOf() - testRun.testInfo.start.valueOf();
+            const diffSecs = Math.round(((diffTime / 1000) + Number.EPSILON) * 100) / 100;
+            testRunDto.duration = diffSecs;
+        }
         testRunDto.events = eventDtos;
         testRunDto.fullName = testRun.fullName;
         testRunDto.output = SimpleItemInfoDtoMapper.map(testRun.output);
