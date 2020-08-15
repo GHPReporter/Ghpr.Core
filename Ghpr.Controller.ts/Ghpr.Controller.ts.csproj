@@ -43,538 +43,601 @@
     <Content Include="report\src\logo.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\alert.svg">
+    <Content Include="report\src\octicons\alert-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\archive.svg">
+    <Content Include="report\src\octicons\archive-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\arrow-both.svg">
+    <Content Include="report\src\octicons\arrow-both-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\arrow-down.svg">
+    <Content Include="report\src\octicons\arrow-down-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\arrow-left.svg">
+    <Content Include="report\src\octicons\arrow-left-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\arrow-right.svg">
+    <Content Include="report\src\octicons\arrow-right-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\arrow-small-down.svg">
+    <Content Include="report\src\octicons\arrow-up-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\arrow-small-left.svg">
+    <Content Include="report\src\octicons\beaker-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\arrow-small-right.svg">
+    <Content Include="report\src\octicons\bell-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\arrow-small-up.svg">
+    <Content Include="report\src\octicons\bell-slash-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\arrow-up.svg">
+    <Content Include="report\src\octicons\bold-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\beaker.svg">
+    <Content Include="report\src\octicons\book-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\bell.svg">
+    <Content Include="report\src\octicons\bookmark-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\bold.svg">
+    <Content Include="report\src\octicons\bookmark-slash-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\book.svg">
+    <Content Include="report\src\octicons\briefcase-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\bookmark.svg">
+    <Content Include="report\src\octicons\broadcast-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\briefcase.svg">
+    <Content Include="report\src\octicons\browser-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\broadcast.svg">
+    <Content Include="report\src\octicons\bug-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\browser.svg">
+    <Content Include="report\src\octicons\calendar-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\bug.svg">
+    <Content Include="report\src\octicons\check-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\calendar.svg">
+    <Content Include="report\src\octicons\check-circle-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\check.svg">
+    <Content Include="report\src\octicons\check-circle-fill-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\checklist.svg">
+    <Content Include="report\src\octicons\checklist-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\chevron-down.svg">
+    <Content Include="report\src\octicons\chevron-down-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\chevron-left.svg">
+    <Content Include="report\src\octicons\chevron-left-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\chevron-right.svg">
+    <Content Include="report\src\octicons\chevron-right-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\chevron-up.svg">
+    <Content Include="report\src\octicons\chevron-up-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\circle-slash.svg">
+    <Content Include="report\src\octicons\circle-slash-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\circuit-board.svg">
+    <Content Include="report\src\octicons\clippy-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\clippy.svg">
+    <Content Include="report\src\octicons\clock-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\clock.svg">
+    <Content Include="report\src\octicons\code-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\cloud-download.svg">
+    <Content Include="report\src\octicons\code-review-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\cloud-upload.svg">
+    <Content Include="report\src\octicons\code-square-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\code.svg">
+    <Content Include="report\src\octicons\comment-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\comment-discussion.svg">
+    <Content Include="report\src\octicons\comment-discussion-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\comment.svg">
+    <Content Include="report\src\octicons\cpu-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\credit-card.svg">
+    <Content Include="report\src\octicons\credit-card-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\dash.svg">
+    <Content Include="report\src\octicons\cross-reference-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\dashboard.svg">
+    <Content Include="report\src\octicons\dash-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\database.svg">
+    <Content Include="report\src\octicons\database-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\desktop-download.svg">
+    <Content Include="report\src\octicons\desktop-download-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\device-camera-video.svg">
+    <Content Include="report\src\octicons\device-camera-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\device-camera.svg">
+    <Content Include="report\src\octicons\device-camera-video-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\device-desktop.svg">
+    <Content Include="report\src\octicons\device-desktop-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\device-mobile.svg">
+    <Content Include="report\src\octicons\device-mobile-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\diff-added.svg">
+    <Content Include="report\src\octicons\diff-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\diff-ignored.svg">
+    <Content Include="report\src\octicons\diff-added-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\diff-modified.svg">
+    <Content Include="report\src\octicons\diff-ignored-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\diff-removed.svg">
+    <Content Include="report\src\octicons\diff-modified-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\diff-renamed.svg">
+    <Content Include="report\src\octicons\diff-removed-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\diff.svg">
+    <Content Include="report\src\octicons\diff-renamed-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\ellipsis.svg">
+    <Content Include="report\src\octicons\dot-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\eye.svg">
+    <Content Include="report\src\octicons\dot-fill-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\file-binary.svg">
+    <Content Include="report\src\octicons\download-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\file-code.svg">
+    <Content Include="report\src\octicons\ellipsis-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\file-directory.svg">
+    <Content Include="report\src\octicons\eye-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\file-media.svg">
+    <Content Include="report\src\octicons\eye-closed-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\file-pdf.svg">
+    <Content Include="report\src\octicons\file-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\file-submodule.svg">
+    <Content Include="report\src\octicons\file-binary-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\file-symlink-directory.svg">
+    <Content Include="report\src\octicons\file-code-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\file-symlink-file.svg">
+    <Content Include="report\src\octicons\file-diff-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\file-zip.svg">
+    <Content Include="report\src\octicons\file-directory-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\file.svg">
+    <Content Include="report\src\octicons\file-submodule-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\flame.svg">
+    <Content Include="report\src\octicons\file-symlink-file-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\fold.svg">
+    <Content Include="report\src\octicons\file-zip-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\gear.svg">
+    <Content Include="report\src\octicons\filter-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\gift.svg">
+    <Content Include="report\src\octicons\flame-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\gist-secret.svg">
+    <Content Include="report\src\octicons\fold-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\gist.svg">
+    <Content Include="report\src\octicons\fold-down-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\git-branch.svg">
+    <Content Include="report\src\octicons\fold-up-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\git-commit.svg">
+    <Content Include="report\src\octicons\gear-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\git-compare.svg">
+    <Content Include="report\src\octicons\gift-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\git-merge.svg">
+    <Content Include="report\src\octicons\git-branch-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\git-pull-request.svg">
+    <Content Include="report\src\octicons\git-commit-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\globe.svg">
+    <Content Include="report\src\octicons\git-compare-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\grabber.svg">
+    <Content Include="report\src\octicons\git-merge-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\graph.svg">
+    <Content Include="report\src\octicons\git-pull-request-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\heart.svg">
+    <Content Include="report\src\octicons\globe-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\history.svg">
+    <Content Include="report\src\octicons\grabber-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\home.svg">
+    <Content Include="report\src\octicons\graph-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\horizontal-rule.svg">
+    <Content Include="report\src\octicons\heading-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\hubot.svg">
+    <Content Include="report\src\octicons\heart-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\inbox.svg">
+    <Content Include="report\src\octicons\heart-fill-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\info.svg">
+    <Content Include="report\src\octicons\history-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\issue-closed.svg">
+    <Content Include="report\src\octicons\home-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\issue-opened.svg">
+    <Content Include="report\src\octicons\horizontal-rule-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\issue-reopened.svg">
+    <Content Include="report\src\octicons\hourglass-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\italic.svg">
+    <Content Include="report\src\octicons\hubot-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\jersey.svg">
+    <Content Include="report\src\octicons\image-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\kebab-horizontal.svg">
+    <Content Include="report\src\octicons\inbox-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\kebab-vertical.svg">
+    <Content Include="report\src\octicons\infinity-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\key.svg">
+    <Content Include="report\src\octicons\info-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\keyboard.svg">
+    <Content Include="report\src\octicons\issue-closed-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\law.svg">
+    <Content Include="report\src\octicons\issue-opened-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\light-bulb.svg">
+    <Content Include="report\src\octicons\issue-reopened-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\link-external.svg">
+    <Content Include="report\src\octicons\italic-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\link.svg">
+    <Content Include="report\src\octicons\kebab-horizontal-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\list-ordered.svg">
+    <Content Include="report\src\octicons\key-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\list-unordered.svg">
+    <Content Include="report\src\octicons\law-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\location.svg">
+    <Content Include="report\src\octicons\light-bulb-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\lock.svg">
+    <Content Include="report\src\octicons\link-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\logo-gist.svg">
+    <Content Include="report\src\octicons\link-external-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\logo-github.svg">
+    <Content Include="report\src\octicons\list-ordered-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\mail-read.svg">
+    <Content Include="report\src\octicons\list-unordered-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\mail.svg">
+    <Content Include="report\src\octicons\location-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\mark-github.svg">
+    <Content Include="report\src\octicons\lock-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\markdown.svg">
+    <Content Include="report\src\octicons\logo-gist-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\megaphone.svg">
+    <Content Include="report\src\octicons\logo-github-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\mention.svg">
+    <Content Include="report\src\octicons\mail-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\milestone.svg">
+    <Content Include="report\src\octicons\mark-github-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\mirror.svg">
+    <Content Include="report\src\octicons\markdown-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\mortar-board.svg">
+    <Content Include="report\src\octicons\megaphone-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\mute.svg">
+    <Content Include="report\src\octicons\mention-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\no-newline.svg">
+    <Content Include="report\src\octicons\meter-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\note.svg">
+    <Content Include="report\src\octicons\milestone-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\octoface.svg">
+    <Content Include="report\src\octicons\mirror-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\organization.svg">
+    <Content Include="report\src\octicons\moon-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\package.svg">
+    <Content Include="report\src\octicons\mortar-board-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\paintcan.svg">
+    <Content Include="report\src\octicons\mute-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\pencil.svg">
+    <Content Include="report\src\octicons\no-entry-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\person.svg">
+    <Content Include="report\src\octicons\north-star-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\pin.svg">
+    <Content Include="report\src\octicons\note-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\plug.svg">
+    <Content Include="report\src\octicons\octoface-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\plus-small.svg">
+    <Content Include="report\src\octicons\organization-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\plus.svg">
+    <Content Include="report\src\octicons\package-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\primitive-dot.svg">
+    <Content Include="report\src\octicons\package-dependencies-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\primitive-square.svg">
+    <Content Include="report\src\octicons\package-dependents-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\project.svg">
+    <Content Include="report\src\octicons\paintbrush-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\pulse.svg">
+    <Content Include="report\src\octicons\paper-airplane-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\question.svg">
+    <Content Include="report\src\octicons\pencil-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\quote.svg">
+    <Content Include="report\src\octicons\people-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\radio-tower.svg">
+    <Content Include="report\src\octicons\person-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\reply.svg">
+    <Content Include="report\src\octicons\pin-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\repo-clone.svg">
+    <Content Include="report\src\octicons\play-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\repo-force-push.svg">
+    <Content Include="report\src\octicons\plug-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\repo-forked.svg">
+    <Content Include="report\src\octicons\plus-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\repo-pull.svg">
+    <Content Include="report\src\octicons\plus-circle-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\repo-push.svg">
+    <Content Include="report\src\octicons\project-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\repo.svg">
+    <Content Include="report\src\octicons\pulse-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\report.svg">
+    <Content Include="report\src\octicons\question-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\rocket.svg">
+    <Content Include="report\src\octicons\quote-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\rss.svg">
+    <Content Include="report\src\octicons\reply-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\ruby.svg">
+    <Content Include="report\src\octicons\repo-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\screen-full.svg">
+    <Content Include="report\src\octicons\repo-clone-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\screen-normal.svg">
+    <Content Include="report\src\octicons\repo-forked-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\search.svg">
+    <Content Include="report\src\octicons\repo-pull-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\server.svg">
+    <Content Include="report\src\octicons\repo-push-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\settings.svg">
+    <Content Include="report\src\octicons\repo-template-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\shield.svg">
+    <Content Include="report\src\octicons\report-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\sign-in.svg">
+    <Content Include="report\src\octicons\rocket-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\sign-out.svg">
+    <Content Include="report\src\octicons\rss-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\smiley.svg">
+    <Content Include="report\src\octicons\ruby-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\squirrel.svg">
+    <Content Include="report\src\octicons\screen-full-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\star.svg">
+    <Content Include="report\src\octicons\screen-normal-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\stop.svg">
+    <Content Include="report\src\octicons\search-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\sync.svg">
+    <Content Include="report\src\octicons\server-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\tag.svg">
+    <Content Include="report\src\octicons\share-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\tasklist.svg">
+    <Content Include="report\src\octicons\share-android-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\telescope.svg">
+    <Content Include="report\src\octicons\shield-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\terminal.svg">
+    <Content Include="report\src\octicons\shield-check-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\text-size.svg">
+    <Content Include="report\src\octicons\shield-lock-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\three-bars.svg">
+    <Content Include="report\src\octicons\shield-x-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\thumbsdown.svg">
+    <Content Include="report\src\octicons\sign-in-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\thumbsup.svg">
+    <Content Include="report\src\octicons\sign-out-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\tools.svg">
+    <Content Include="report\src\octicons\skip-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\trashcan.svg">
+    <Content Include="report\src\octicons\smiley-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\triangle-down.svg">
+    <Content Include="report\src\octicons\square-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\triangle-left.svg">
+    <Content Include="report\src\octicons\square-fill-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\triangle-right.svg">
+    <Content Include="report\src\octicons\squirrel-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\triangle-up.svg">
+    <Content Include="report\src\octicons\star-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\unfold.svg">
+    <Content Include="report\src\octicons\star-fill-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\unmute.svg">
+    <Content Include="report\src\octicons\stop-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\unverified.svg">
+    <Content Include="report\src\octicons\stopwatch-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\verified.svg">
+    <Content Include="report\src\octicons\sun-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\versions.svg">
+    <Content Include="report\src\octicons\sync-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\watch.svg">
+    <Content Include="report\src\octicons\tag-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\x.svg">
+    <Content Include="report\src\octicons\tasklist-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="report\src\octicons\zap.svg">
+    <Content Include="report\src\octicons\telescope-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\terminal-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\three-bars-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\thumbsdown-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\thumbsup-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\tools-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\trashcan-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\triangle-down-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\triangle-left-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\triangle-right-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\triangle-up-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\typography-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\unfold-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\unlock-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\unmute-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\unverified-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\upload-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\verified-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\versions-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\workflow-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\x-16.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="report\src\octicons\zap-16.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="report\src\style\build.css">
