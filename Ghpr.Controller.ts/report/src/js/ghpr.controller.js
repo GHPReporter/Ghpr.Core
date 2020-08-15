@@ -1662,7 +1662,7 @@ class ReportPageUpdater {
             const bb = i === c - 1 ? "" : "border-bottom";
             let passed = r.summary.success === r.summary.total;
             const status = passed ? "All tests passed" : "Some errors detected";
-            const statusIconPath = passed ? "./src/octicons/check.svg" : "./src/octicons/alert.svg";
+            const statusIconPath = passed ? "./src/octicons/check-16.svg" : "./src/octicons/alert-16.svg";
             runsResultsList += `<div class="mx-4 py-2 my-2 ${bb}"><div class="mb-3">
                     <a class="f6 text-bold link-gray-dark d-flex no-underline wb-break-all">${r.name}</a>
                     <p class="f6 text-gray mb-2"><img src="${statusIconPath}" class="ghpr-tabicon" alt=""/>
